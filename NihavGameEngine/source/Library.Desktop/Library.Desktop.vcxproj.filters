@@ -2,14 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Foo.h" />
     <ClInclude Include="SList.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Foo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SList.inl" />
+    <None Include="Vector.inl" />
   </ItemGroup>
 </Project>

@@ -10,8 +10,10 @@
 
 #include <exception>
 #include <iostream>
+#include <cstdint>
 #include "Foo.h"
 #include "SList.h"
+#include "Vector.h"
 
 #ifndef UNREFERENCED_PARAMETER
 #define UNREFERENCED_PARAMETER(P)          (P)

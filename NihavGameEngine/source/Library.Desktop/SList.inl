@@ -1,113 +1,93 @@
 #include "pch.h"
 #include "SList.h"
 
-template <class T>
-SList<T>::SList() :
-	mFront(nullptr), mBack(nullptr), mSize(0)
+namespace Library
 {
-}
-
-template<class T>
-SList<T>::SList(const SList<T>& rhs) : 
-	mFront(nullptr), mBack(nullptr), mSize(0)
-{
-	if (rhs.isEmpty() == false)
-	{		
-		Node* iterator = rhs.mFront;
-		Node* newNode;
-		while (iterator != nullptr)
-		{
-			newNode = new Node(iterator->GetData());
-			if (mSize == 0)
-			{
-				mBack = newNode;
-				mFront = newNode;
-			}
-			else
-			{
-				mBack->Next = newNode;
-				mBack = mBack->Next;
-			}
-			iterator = iterator->Next;
-			mSize++;
-		}
-	}
-}
-
-
-template <class T>
-SList<T>::~SList()
-{
-	Clear();
-	mFront = nullptr;
-	mBack = nullptr;
-}
-
-template<class T>
-SList<T>& SList<T>::operator=(SList<T>& rhs)
-{
-	if (this != &rhs)
+	template <typename T>
+	SList<T>::SList() :
+		mFront(nullptr), mBack(nullptr), mSize(0)
 	{
-		// clear the list corresponding to the this object
+	}
+
+	template<typename T>
+	SList<T>::SList(const SList<T>& rhs) :
+		SList()
+	{
+		operator=(rhs);
+	}
+
+	template<typename T>
+	SList<T>::SList(SList<T>&& rhs) :
+		mSize(rhs.mSize), mFront(rhs.mFront), mBack(rhs.mBack)
+	{
+		rhs.mSize = 0;
+		rhs.mBack = nullptr;
+		rhs.mFront = nullptr;
+	}
+
+	template<typename T>
+	SList<T>& SList<T>::operator=(SList<T>&& rhs)
+	{
+		if (this != &rhs)
+		{
+			Clear();
+			mSize = rhs.mSize;
+			mFront = rhs.mFront;
+			mBack = rhs.mBack;
+
+			rhs.mSize = 0;
+			rhs.mBack = nullptr;
+			rhs.mFront = nullptr;
+		}
+		return *this;
+	}
+
+
+	template <typename T>
+	SList<T>::~SList()
+	{
 		Clear();
+	}
 
-		// deep copy the rhs list
-		if (rhs.isEmpty() == false)
+	template<typename T>
+	SList<T>& SList<T>::operator=(const SList<T>& rhs)
+	{
+		if (this != &rhs)
 		{
-			Node* iterator = rhs.mFront;
-			Node* newNode;
-			while (iterator != nullptr)
+			// clear the list corresponding to the this object
+			Clear();
+
+			// deep copy the rhs list
+			SList<T>::Iterator itr = rhs.begin();
+			for (; itr != rhs.end(); ++itr)
 			{
-				newNode = new Node(iterator->GetData());
-				if (mSize == 0)
-				{
-					mBack = newNode;
-					mFront = newNode;
-				}
-				else
-				{
-					mBack->Next = newNode;
-					mBack = mBack->Next;
-				}
-				iterator = iterator->Next;
-				mSize++;
+				PushBack(*itr);
 			}
 		}
+		return *this;
 	}
 
-	return *this;
-}
+	template <typename T>
+	void SList<T>::PushFront(const T& item)
+	{
+		mFront = new Node(item, mFront);
+		// if this is the first item in the list
+		if (isEmpty())
+		{
+			mBack = mFront;
+		}
+		mSize++;
+	}
 
-template <class T>
-void SList<T>::PushFront(const T& item)
-{
-	// if this is the first item in the list
-	if (mFront == nullptr)
+	template <typename T>
+	void SList<T>::PopFront()
 	{
-		mFront = new Node(item);
-		mBack = mFront;
-	}
-	// otherwise add it to the front of the list and update the Front pointers
-	else
-	{
-		Node* temp = new Node(item);
-		temp->Next = mFront;
-		mFront = temp;
-	}
-	mSize++;
-}
-
-template <class T>
-void SList<T>::PopFront()
-{
-	// if the list is empty, throw an exception
-	if (isEmpty())
-	{
-		throw std::exception("Invalid operation. List is empty.");
-	}
-	// delete the Front node and update the Front pointer to the next Node in the list
-	else
-	{
+		// if the list is empty, throw an exception
+		if (isEmpty())
+		{
+			throw std::exception("Invalid operation. List is empty.");
+		}
+		// delete the Front node and update the Front pointer to the next Node in the list
 		Node* temp = mFront->Next;
 
 		delete mFront;
@@ -119,93 +99,264 @@ void SList<T>::PopFront()
 			mBack = nullptr;
 		}
 	}
-}
 
-template <class T>
-void SList<T>::PushBack(const T& item)
-{
-	// if this is the first item in the list
-	if (mBack == nullptr)
-	{
-		mBack = new Node(item);
-		mFront = mBack;
-	}
-	// otherwise add it to the front of the list and update the Back pointer
-	else
+	template <typename T>
+	void SList<T>::PushBack(const T& item)
 	{
 		Node* temp = new Node(item);
-		mBack->Next = temp;
-		mBack = temp;
+		if (isEmpty())
+		{
+			mBack = temp;
+			mFront = mBack;
+		}
+		else
+		{
+			mBack->Next = temp;
+			mBack = mBack->Next;
+		}
+		mSize++;
 	}
-	mSize++;
-}
 
-template <class T>
-bool SList<T>::isEmpty() const
-{
-	bool returnVal;
-	if (mSize == 0)
+	template <typename T>
+	bool SList<T>::isEmpty() const
 	{
-		returnVal = true;
+		return (mSize == 0);
 	}
-	else
+
+	template <typename T>
+	T& SList<T>::Front()
 	{
-		returnVal = false;
+		if (mFront == nullptr)
+		{
+			throw std::exception("Invalid operation. List is empty.");
+		}
+		return mFront->mData;
 	}
-	return returnVal;
-}
 
-template <class T>
-const T& SList<T>::Front() const
-{
-	if (mFront == nullptr)
+	template <typename T>
+	T& SList<T>::Back()
 	{
-		// throw eception
-		throw std::exception("Invalid operation. List is empty.");
+		if (mBack == nullptr)
+		{
+			throw std::exception("Invalid operation. List is empty.");
+		}
+		return mBack->mData;
 	}
-	return mFront->GetData();
-}
 
-template <class T>
-const T& SList<T>::Back() const
-{
-	if (mBack == nullptr)
+	template <typename T>
+	uint32_t SList<T>::Size() const
 	{
-		throw std::exception("Invalid operation. List is empty.");
+		return mSize;
 	}
-	return mBack->GetData();
-}
 
-template <class T>
-int SList<T>::Size() const
-{
-	return mSize;
-}
-
-template <class T>
-void SList<T>::Clear()
-{
-	Node* temp = mFront;
-	Node* referenceToNextNode = nullptr;
-	while (temp != nullptr)
+	template <typename T>
+	void SList<T>::Clear()
 	{
-		referenceToNextNode = temp->Next;
-		delete temp;
-		temp = referenceToNextNode;
-		mSize--;
+		while (!isEmpty())
+		{
+			PopFront();
+		}
+		mFront = nullptr;
+		mBack = nullptr;
 	}
-	mFront = nullptr;
-	mBack = nullptr;
-}
 
-template <class T>
-SList<T>::Node::Node(const T& data) :
-	mData(data), Next(nullptr)
-{
-}
+	template<typename T>
+	typename SList<T>::Iterator SList<T>::begin() const
+	{
+		SList<T>::Iterator itr(mFront, this);
+		return itr;
+	}
 
-template <class T>
-const T& SList<T>::Node::GetData() const
-{
-	return mData;
+	template<typename T>
+	typename SList<T>::Iterator SList<T>::end() const
+	{
+		SList<T>::Iterator itr(nullptr, this);
+		return itr;
+	}
+
+	template<typename T>
+	typename void SList<T>::InsertAfter(const T& dataToInsert, const Iterator& itr)
+	{
+		if (itr.mOwnerList != this)
+		{
+			throw std::exception("Argument Iterator does not belong to the invoked SList.");
+		}
+		if (itr.mCurrentNode == nullptr)
+		{
+			PushBack(dataToInsert);
+		}
+		else
+		{
+			Node* nodeToInsert = new Node(dataToInsert);
+			nodeToInsert->Next = itr.mCurrentNode->Next;
+			itr.mCurrentNode->Next = nodeToInsert;
+		}
+	}
+
+	template<typename T>
+	typename SList<T>::Iterator SList<T>::Find(const T& dataToFind) const
+	{
+		SList<T>::Iterator itr = begin();
+		for (; itr != end(); ++itr)
+		{
+			if (*itr == dataToFind)
+			{
+				break;
+			}
+		}
+		return itr;
+		//return FindWithPrevious(dataToFind, nullptr);
+	}
+
+	template<typename T>
+	typename void SList<T>::Remove(const T& dataToRemove)
+	{
+		SList<T>::Iterator itrToRemove = begin();
+		if (!isEmpty())
+		{
+			// if the first element of the list has to be removed
+			if (*itrToRemove == dataToRemove)
+			{
+				PopFront();
+			}
+			else
+			{
+				++itrToRemove;
+				SList<T>::Iterator previousItr = begin();
+				for (; itrToRemove != end(); ++itrToRemove)
+				{
+					if (*itrToRemove == dataToRemove)
+					{
+						(previousItr.mCurrentNode)->Next = (itrToRemove.mCurrentNode)->Next;
+						if (itrToRemove.mCurrentNode == mBack)
+						{
+							mBack = previousItr.mCurrentNode;
+						}
+						mSize--;
+						delete itrToRemove.mCurrentNode;
+
+						break;
+					}
+					++previousItr;
+				}
+			}
+
+		}
+	}
+
+	template <typename T>
+	SList<T>::Node::Node(const T& data, Node* nextNode) :
+		mData(data), Next(nextNode)
+	{
+	}
+
+#pragma region Iterator
+
+	template <typename T>
+	SList<T>::Iterator::Iterator() :
+		mCurrentNode(nullptr), mOwnerList(nullptr)
+	{}
+
+	template <typename T>
+	SList<T>::Iterator::Iterator(Node* currentNode, const SList<T>* ownerList) :
+		mCurrentNode(currentNode), mOwnerList(ownerList)
+	{
+
+	}
+
+	template<typename T>
+	SList<T>::Iterator::Iterator(const Iterator& rhs) :
+		mCurrentNode(rhs.mCurrentNode), mOwnerList(rhs.mOwnerList)
+	{
+	}
+
+	template<typename T>
+	typename SList<T>::Iterator& SList<T>::Iterator::operator=(const Iterator& rhs)
+	{
+		if (this != &rhs)
+		{
+			mCurrentNode = rhs.mCurrentNode;
+			mOwnerList = rhs.mOwnerList;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	SList<T>::Iterator::Iterator(Iterator && rhs) :
+		mCurrentNode(rhs.mCurrentNode), mOwnerList(rhs.mOwnerList)
+	{
+		rhs.mCurrentNode = nullptr;
+		rhs.mOwnerList = nullptr;
+	}
+
+
+	template<typename T>
+	typename SList<T>::Iterator& SList<T>::Iterator::operator=(Iterator&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mCurrentNode = rhs.mCurrentNode;
+			mOwnerList = rhs.mOwnerList;
+			rhs.mCurrentNode = nullptr;
+			rhs.mOwnerList = nullptr;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	bool SList<T>::Iterator::operator==(const Iterator& rhs) const
+	{
+		bool isIteratorEqual = true;
+		if (mOwnerList == nullptr || rhs.mOwnerList == nullptr)
+			isIteratorEqual = false;
+		else if (mCurrentNode != rhs.mCurrentNode)
+			isIteratorEqual = false;
+		return isIteratorEqual;
+	}
+
+	template<typename T>
+	bool SList<T>::Iterator::operator!=(const Iterator & rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+	template<typename T>
+	typename SList<T>::Iterator& SList<T>::Iterator::operator++()
+	{
+		if (mOwnerList == nullptr)
+		{
+			throw std::exception("Non hosted Iterator. Iterator not attached to a valid SList.");
+		}
+		if (mCurrentNode == nullptr)
+		{
+			throw std::exception("Null pointer exception. Iterator points to end of SList");
+		}
+		mCurrentNode = mCurrentNode->Next;
+		return *this;
+	}
+
+	template<typename T>
+	typename SList<T>::Iterator SList<T>::Iterator::operator++(int)
+	{
+		Iterator it = *this;
+		operator++();
+		return it;
+	}
+
+	template<typename T>
+	T& SList<T>::Iterator::operator*() const
+	{
+		if (mOwnerList == nullptr)
+		{
+			throw std::exception("Non hosted Iterator. Iterator not attached to a valid SList.");
+		}
+		if (mCurrentNode == nullptr)
+		{
+			throw std::exception("Null pointer exception. Iterator points to end of SList");
+		}
+		return mCurrentNode->mData;
+	}
+
+#pragma endregion
+
 }

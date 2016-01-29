@@ -21,8 +21,6 @@
 #define DeleteObjects(objects) if((objects) != nullptr) { delete[] objects; objects = nullptr; }
 #define ReleaseObject(object) if((object) != nullptr) { object->Release(); object = nullptr; }
 
-
-#include "Foo.h"
 #include "GameException.h"
 
 namespace Library
