@@ -1,36 +1,25 @@
 #pragma once
 
+#include "DefaultReserveStrategy.h"
+
 namespace Library
 {
 
 	/**
 	 *	Template class for a vector
 	 */
-	template <class T>
+	template <class T, typename F = DefaultReserveStrategy>
 	class Vector
 	{
 
 		private:
-			/**
-			 *	Functor class to define the default reserve strategy to be used by this Vector
-			 */
-			class DefaultReserveStrategy
-			{
-				public:
-					/**
-					 *	Operaror () override for functor
-					 *	@param unsigned integer representinf current size of the vector
-					 *	@param unsigned integer representing current capacity of the vector
-					 *	@return unsigned integer representing new capacity for the vector
-					 */
-					uint32_t operator()(uint32_t size, uint32_t capacity) const;
-			};
-			uint32_t mCapacity;
-			uint32_t mSize;
+			std::uint32_t mCapacity;
+			std::uint32_t mSize;
 
 			T* mDataArray;
 
-			static const uint32_t DEFAULT_CAPACITY = 4;
+			static const std::uint32_t DEFAULT_CAPACITY = 4;
+			static const F ReserveStrategyFunctor;
 
 		public:
 
@@ -102,22 +91,27 @@ namespace Library
 					 *	Dereference operator overload for Iterator
 					 *	@return reference to the data pointed to by the Iterator
 					 */
-					T& operator*() const;
+					T& operator*();
 
+					/**
+					 *	const overload for the dereference operator of Iterator
+					 *	@return reference to the data pointed to by the Iterator
+					 */
+					const T& operator*() const;
 				private:
 					/**
 					 *	Parametarized constructor for iterator, can only be invoked from inside this class or from Vector<T>
 					 */
-					Iterator(uint32_t currentIndex, const Vector<T>* ownerVector);
+					Iterator(std::uint32_t currentIndex, const Vector* ownerVector);
 
-					uint32_t mCurrentIndex;
-					const Vector<T>* mOwnerVector;
+					std::uint32_t mCurrentIndex;
+					const Vector<T, F>* mOwnerVector;
 			};
 
 			/**
 			 *	Parameterless constructor to create an empty vector
 			 */
-			Vector();
+			explicit Vector(std::uint32_t defaultCapacity = DEFAULT_CAPACITY, bool fixedSize = false);
 
 			/**
 			 *	Copy constructor for Vector
@@ -154,14 +148,14 @@ namespace Library
 			 *	@param unsigned integer index position for the requested data stored in Vector
 			 *	@return reference to the data stored at the given index
 			 */
-			T& operator[](uint32_t index);
+			T& operator[](std::uint32_t index);
 
 			/**
 			 *	Subscript operator overload for Vector, throws std::exception if index is more than size of vector
 			 *	@param unsigned integer index position for the requested data stored in Vector
 			 *	@return reference to the data stored at the given index
 			 */
-			const T& operator[](uint32_t index) const;
+			const T& operator[](std::uint32_t index) const;
 			
 			/**
 			 *	remove the last element of the vector
@@ -171,11 +165,10 @@ namespace Library
 			/**
 			 *	Add a copy of the given data to the end of the vector
 			 *	@param reference to data to push
-			 *	@param functor to define the reserve strategy to be used in case capacity is full - Functor definition - uint32_t operator()(uint32_t size, uint32_t capacity) const;
+			 *	@param functor to define the reserve strategy to be used in case capacity is full - Functor definition - std::uint32_t operator()(uint32_t size, uint32_t capacity) const;
 			 *	@return Iterator to the newly added data
 			 */
-			template <typename F = DefaultReserveStrategy>
-			Iterator PushBack(const T& dataToPush, F reserveStrategyFunctor = DefaultReserveStrategy());
+			Iterator PushBack(const T& dataToPush);
 
 			/**
 			 *	Return the first element of the Vector
@@ -206,13 +199,13 @@ namespace Library
 			 *	@param unsigned integer index of the data stored in vector
 			 *	@return reference to the data stored at the given index of the vector
 			 */
-			T& At(uint32_t index);
+			T& At(std::uint32_t index);
 
 			/**
 			 *	Reserves space for the given number of elements if it is more than the current capacity
 			 *	@param new capacity for the vector
 			 */
-			void Reserve(uint32_t newCapacity);
+			void Reserve(std::uint32_t newCapacity, bool fixedSize = false);
 
 			/**
 			 *	Destructivly clears the Vector - release all memory
@@ -236,7 +229,7 @@ namespace Library
 			 *	Removes the data represented by the given Iterator
 			 *	@param iterator whose data has to be removed
 			 */
-			void Remove(Iterator itr);
+			void Remove(const Iterator& itr);
 
 			/**
 			 *	Removes a range of data from the vector, from param1 to less than param2
@@ -255,13 +248,13 @@ namespace Library
 			 *	Gets the number of elemets currently stored in the vector
 			 *	@return size of the vector
 			 */
-			uint32_t Size() const;
+			std::uint32_t Size() const;
 
 			/**
 			 *	Gets the number of elements for which memory has been reserved by this vector
 			 *	@return capacity of the vector
 			 */
-			uint32_t Capacity() const;
+			std::uint32_t Capacity() const;
 
 			/**
 			 *	Gets the iterator poitning to the first element of the vector
@@ -274,7 +267,6 @@ namespace Library
 		 	 *	@return Iterator
 			 */
 			Iterator end() const;
-			friend Iterator;
 	};
 
 }

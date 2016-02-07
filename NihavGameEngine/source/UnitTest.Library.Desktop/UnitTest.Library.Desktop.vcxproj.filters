@@ -6,6 +6,8 @@
     <ClCompile Include="SListTest.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="VectorTest.cpp" />
+    <ClCompile Include="StackTest.cpp" />
+    <ClCompile Include="HashmapTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

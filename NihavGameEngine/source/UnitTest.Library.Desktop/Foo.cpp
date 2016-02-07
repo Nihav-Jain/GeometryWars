@@ -30,7 +30,7 @@ Foo& Foo::operator=(const Foo& rhs)
 	return *this;
 }
 
-bool Foo::operator==(const Foo & rhs)
+bool Foo::operator==(const Foo & rhs) const
 {
 	bool returnVal = true;
 	if (mData != rhs.mData)
@@ -44,7 +44,7 @@ bool Foo::operator==(const Foo & rhs)
 	return returnVal;
 }
 
-bool Foo::operator!=(const Foo & rhs)
+bool Foo::operator!=(const Foo & rhs) const
 {
 	return !(*this == rhs);
 }

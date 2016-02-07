@@ -31,6 +31,25 @@ namespace UnitTestLibraryDesktop
 	{
 	public:
 
+#if defined(DEBUG) | defined(_DEBUG)
+		TEST_METHOD_INITIALIZE(Initialize)
+		{
+			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF);
+			_CrtMemCheckpoint(&sStartMemState);
+		}
+
+		TEST_METHOD_CLEANUP(Cleanup)
+		{
+			_CrtMemState endMemState, diffMemState;
+			_CrtMemCheckpoint(&endMemState);
+			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
+			{
+				_CrtMemDumpStatistics(&diffMemState);
+				Assert::Fail(L"Memory Leaks!");
+			}
+		}
+#endif
+
 #pragma region VectorTests
 
 		TEST_METHOD(VectorTestCtor)
@@ -283,6 +302,11 @@ namespace UnitTestLibraryDesktop
 
 				vectorOfInts[1] = 30;
 				Assert::AreEqual(30, vectorOfInts[1]);
+
+				const Vector<int> constVectorOfInts = vectorOfInts;
+				Assert::AreEqual(10, constVectorOfInts[0]);
+				auto expression2 = [&] {int a = constVectorOfInts[2]; UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression2);
 			}
 
 			{
@@ -301,6 +325,11 @@ namespace UnitTestLibraryDesktop
 				int c = 30;
 				vectorOfIntPtrs[1] = &c;
 				Assert::AreEqual(&c, vectorOfIntPtrs[1]);
+				
+				const Vector<int*> constVectorOfInts = vectorOfIntPtrs;
+				Assert::AreEqual(&a, constVectorOfInts[0]);
+				auto expression2 = [&] {int* a = constVectorOfInts[2]; UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression2);
 			}
 
 			{
@@ -319,6 +348,11 @@ namespace UnitTestLibraryDesktop
 				Foo c(30);
 				vectorOfFoos[1] = c;
 				Assert::IsTrue(c == vectorOfFoos[1]);
+
+				const Vector<Foo> constVectorOfInts = vectorOfFoos;
+				Assert::IsTrue(a == constVectorOfInts[0]);
+				auto expression2 = [&] {Foo a = constVectorOfInts[2]; UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression2);			
 			}
 
 		}
@@ -376,7 +410,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(VectorTestPushBack)
 		{
 			{
-				Vector<int> vectorOfInts;
+				Vector<int, BadReserveStrategy> vectorOfInts;
 				vectorOfInts.PushBack(10);
 				vectorOfInts.PushBack(20);
 
@@ -386,24 +420,36 @@ namespace UnitTestLibraryDesktop
 				vectorOfInts.PushBack(30);
 				vectorOfInts.PushBack(40);
 
-				auto expression = [&] {vectorOfInts.PushBack(50, BadReserveStrategy()); };
+				auto expression = [&] {vectorOfInts.PushBack(50); };
 				Assert::ExpectException<std::exception>(expression);
+			}
+			{
 
-				vectorOfInts.PushBack(50, ReserveStrategy());
+				Vector<int, ReserveStrategy> vectorOfInts;
+				vectorOfInts.PushBack(10);
+				vectorOfInts.PushBack(20);
+
+				Assert::AreEqual(10, vectorOfInts[0]);
+				Assert::AreEqual(20, vectorOfInts[1]);
+
+				vectorOfInts.PushBack(30);
+				vectorOfInts.PushBack(40);
+
+				vectorOfInts.PushBack(50);
 
 				Assert::AreEqual(6U, vectorOfInts.Capacity());
 				Assert::AreEqual(50, vectorOfInts[4]);
 				
 				vectorOfInts.PushBack(60);
 				vectorOfInts.PushBack(70);
-				Assert::AreEqual(13U, vectorOfInts.Capacity());
+				Assert::AreEqual(8U, vectorOfInts.Capacity());
 				Assert::AreEqual(70, vectorOfInts.Back());
 			}
 
 			{
 				int a = 10;
 				int b = 20;
-				Vector<int*> vectorOfIntPtrs;
+				Vector<int*, BadReserveStrategy> vectorOfIntPtrs;
 				vectorOfIntPtrs.PushBack(&a);
 				vectorOfIntPtrs.PushBack(&b);
 
@@ -416,10 +462,27 @@ namespace UnitTestLibraryDesktop
 				vectorOfIntPtrs.PushBack(&c);
 				vectorOfIntPtrs.PushBack(&d);
 
-				auto expression = [&] {vectorOfIntPtrs.PushBack(&e, BadReserveStrategy()); };
+				auto expression = [&] {vectorOfIntPtrs.PushBack(&e); };
 				Assert::ExpectException<std::exception>(expression);
+			}
+			{
 
-				vectorOfIntPtrs.PushBack(&e, ReserveStrategy());
+				int a = 10;
+				int b = 20;
+				Vector<int*, ReserveStrategy> vectorOfIntPtrs;
+				vectorOfIntPtrs.PushBack(&a);
+				vectorOfIntPtrs.PushBack(&b);
+
+				Assert::AreEqual(&a, vectorOfIntPtrs[0]);
+				Assert::AreEqual(&b, vectorOfIntPtrs[1]);
+
+				int c = 30;
+				int d = 40;
+				int e = 50;
+				vectorOfIntPtrs.PushBack(&c);
+				vectorOfIntPtrs.PushBack(&d);
+
+				vectorOfIntPtrs.PushBack(&e);
 
 				Assert::AreEqual(6U, vectorOfIntPtrs.Capacity());
 				Assert::AreEqual(&e, vectorOfIntPtrs[4]);
@@ -428,14 +491,14 @@ namespace UnitTestLibraryDesktop
 				int g = 70;
 				vectorOfIntPtrs.PushBack(&f);
 				vectorOfIntPtrs.PushBack(&g);
-				Assert::AreEqual(13U, vectorOfIntPtrs.Capacity());
+				Assert::AreEqual(8U, vectorOfIntPtrs.Capacity());
 				Assert::AreEqual(&g, vectorOfIntPtrs.Back());
 			}
 
 			{
 				Foo a(10);
 				Foo b(20);
-				Vector<Foo> vectorOfFoos;
+				Vector<Foo, BadReserveStrategy> vectorOfFoos;
 				vectorOfFoos.PushBack(a);
 				vectorOfFoos.PushBack(b);
 
@@ -448,10 +511,27 @@ namespace UnitTestLibraryDesktop
 				vectorOfFoos.PushBack(c);
 				vectorOfFoos.PushBack(d);
 
-				auto expression = [&] {vectorOfFoos.PushBack(e, BadReserveStrategy()); };
+				auto expression = [&] {vectorOfFoos.PushBack(e); };
 				Assert::ExpectException<std::exception>(expression);
+			}
+			{
 
-				vectorOfFoos.PushBack(e, ReserveStrategy());
+				Foo a(10);
+				Foo b(20);
+				Vector<Foo, ReserveStrategy> vectorOfFoos;
+				vectorOfFoos.PushBack(a);
+				vectorOfFoos.PushBack(b);
+
+				Assert::IsTrue(a == vectorOfFoos[0]);
+				Assert::IsTrue(b == vectorOfFoos[1]);
+
+				Foo c(30);
+				Foo d(40);
+				Foo e(50);
+				vectorOfFoos.PushBack(c);
+				vectorOfFoos.PushBack(d);
+
+				vectorOfFoos.PushBack(e);
 
 				Assert::AreEqual(6U, vectorOfFoos.Capacity());
 				Assert::IsTrue(e == vectorOfFoos[4]);
@@ -460,7 +540,7 @@ namespace UnitTestLibraryDesktop
 				Foo g(70);
 				vectorOfFoos.PushBack(f);
 				vectorOfFoos.PushBack(g);
-				Assert::AreEqual(13U, vectorOfFoos.Capacity());
+				Assert::AreEqual(8U, vectorOfFoos.Capacity());
 				Assert::IsTrue(g == vectorOfFoos.Back());
 			}
 		}
@@ -479,6 +559,13 @@ namespace UnitTestLibraryDesktop
 				int& a = vectorOfInts.Front();
 				a = 30;
 				Assert::AreEqual(30, vectorOfInts.Front());
+
+				const Vector<int> constVectorOfInts;
+				auto expression2 = [&] { constVectorOfInts.Front(); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<int> constAnotherVectorOfInts = vectorOfInts;
+				Assert::AreEqual(30, constAnotherVectorOfInts.Front());
 			}
 
 			{
@@ -491,6 +578,13 @@ namespace UnitTestLibraryDesktop
 				vectorOfIntPtrs.PushBack(&a);
 				vectorOfIntPtrs.PushBack(&b);
 				Assert::AreEqual(&a, vectorOfIntPtrs.Front());
+
+				const Vector<int*> constVectorOfInts;
+				auto expression2 = [&] { constVectorOfInts.Front(); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<int*> constAnotherVectorOfInts = vectorOfIntPtrs;
+				Assert::AreEqual(&a, constAnotherVectorOfInts.Front());
 			}
 
 			{
@@ -503,6 +597,13 @@ namespace UnitTestLibraryDesktop
 				vectorOfFoo.PushBack(a);
 				vectorOfFoo.PushBack(b);
 				Assert::IsTrue(a == vectorOfFoo.Front());
+
+				const Vector<Foo> constVectorOfInts;
+				auto expression2 = [&] { constVectorOfInts.Front(); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<Foo> constAnotherVectorOfInts = vectorOfFoo;
+				Assert::IsTrue(a == constAnotherVectorOfInts.Front());
 			}
 		}
 
@@ -520,6 +621,13 @@ namespace UnitTestLibraryDesktop
 				int& a = vectorOfInts.Back();
 				a = 30;
 				Assert::AreEqual(30, vectorOfInts.Back());
+
+				const Vector<int> constVectorOfInts;
+				auto expression2 = [&] { constVectorOfInts.Back(); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<int> constAnotherVectorOfInts = vectorOfInts;
+				Assert::AreEqual(30, constAnotherVectorOfInts.Back());
 			}
 
 			{
@@ -532,6 +640,13 @@ namespace UnitTestLibraryDesktop
 				vectorOfIntPtrs.PushBack(&a);
 				vectorOfIntPtrs.PushBack(&b);
 				Assert::AreEqual(&b, vectorOfIntPtrs.Back());
+
+				const Vector<int*> constVectorOfInts;
+				auto expression2 = [&] { constVectorOfInts.Back(); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<int*> constAnotherVectorOfInts = vectorOfIntPtrs;
+				Assert::AreEqual(&b, constAnotherVectorOfInts.Back());			
 			}
 
 			{
@@ -544,6 +659,13 @@ namespace UnitTestLibraryDesktop
 				vectorOfFoos.PushBack(a);
 				vectorOfFoos.PushBack(b);
 				Assert::IsTrue(b == vectorOfFoos.Back());
+
+				const Vector<Foo> constVectorOfInts;
+				auto expression2 = [&] { constVectorOfInts.Back(); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<Foo> constAnotherVectorOfInts = vectorOfFoos;
+				Assert::IsTrue(b == constAnotherVectorOfInts.Back());
 			}
 
 		}
@@ -823,6 +945,8 @@ namespace UnitTestLibraryDesktop
 				vectorOfInts.Remove(10);
 				Assert::IsTrue(vectorOfInts.IsEmpty());
 
+
+
 				// last element
 				vectorOfInts.PushBack(10);
 				vectorOfInts.Remove(10);
@@ -837,6 +961,10 @@ namespace UnitTestLibraryDesktop
 				Assert::AreEqual(2, (int)vectorOfInts.Size());
 				Assert::AreEqual(10, vectorOfInts.Front());
 				Assert::AreEqual(30, vectorOfInts.Back());
+
+				//Vector<int>::Iterator itr;
+				//auto expression = [&] { vectorOfInts.Remove(itr); };
+				//Assert::ExpectException<std::exception>(expression);
 
 				// remove last element
 				vectorOfInts.Remove(30);
@@ -1248,7 +1376,7 @@ namespace UnitTestLibraryDesktop
 
 				Vector<int>::Iterator itr;
 				Vector<int>::Iterator itr2;
-				Assert::IsFalse(itr == itr2);
+				Assert::IsTrue(itr == itr2);
 				
 				itr = vectorOfInts.begin();
 				Assert::IsFalse(itr == itr2);
@@ -1278,7 +1406,7 @@ namespace UnitTestLibraryDesktop
 
 				Vector<int*>::Iterator itr;
 				Vector<int*>::Iterator itr2;
-				Assert::IsFalse(itr == itr2);
+				Assert::IsTrue(itr == itr2);
 
 				itr = vectorOfIntPtrs.begin();
 				Assert::IsFalse(itr == itr2);
@@ -1308,7 +1436,7 @@ namespace UnitTestLibraryDesktop
 
 				Vector<Foo>::Iterator itr;
 				Vector<Foo>::Iterator itr2;
-				Assert::IsFalse(itr == itr2);
+				Assert::IsFalse(itr != itr2);
 
 				itr = vectorOfFoos.begin();
 				Assert::IsFalse(itr == itr2);
@@ -1481,7 +1609,89 @@ namespace UnitTestLibraryDesktop
 
 		}
 
+		TEST_METHOD(VectorIteratorTestDereferenceOperator)
+		{
+			{
+				Vector<int> vectorOfInts;
+				vectorOfInts.PushBack(10);
+				vectorOfInts.PushBack(20);
+
+				Vector<int>::Iterator itr;
+				auto expression = [&] {int a = *itr; UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression);
+
+				itr = vectorOfInts.end();
+				auto expression2 = [&] {int a = *itr;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<int>::Iterator itr2;
+				auto expression3 = [&] {const int a = *itr2;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression3);
+
+				const Vector<int>::Iterator itr3 = vectorOfInts.end();
+				auto expression4 = [&] {const int a = *itr3;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression4);
+			}
+
+			{
+				int a = 10;
+				int b = 20;
+				Vector<int*> vectorOfInts;
+				vectorOfInts.PushBack(&a);
+				vectorOfInts.PushBack(&b);
+
+				Vector<int*>::Iterator itr;
+				auto expression = [&] {int* a = *itr; UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression);
+
+				itr = vectorOfInts.end();
+				auto expression2 = [&] {int* a = *itr;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<int*>::Iterator itr2;
+				auto expression3 = [&] {const int* a = *itr2;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression3);
+
+				const Vector<int*>::Iterator itr3 = vectorOfInts.end();
+				auto expression4 = [&] {const int* a = *itr3;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression4);
+			}
+
+			{
+				Foo a(10);
+				Foo b(20);
+				Vector<Foo> vectorOfInts;
+				vectorOfInts.PushBack(a);
+				vectorOfInts.PushBack(b);
+
+				Vector<Foo>::Iterator itr;
+				auto expression = [&] {Foo a = *itr; UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression);
+
+				itr = vectorOfInts.end();
+				auto expression2 = [&] {Foo a = *itr;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression2);
+
+				const Vector<Foo>::Iterator itr2;
+				auto expression3 = [&] {const Foo a = *itr2;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression3);
+
+				const Vector<Foo>::Iterator itr3 = vectorOfInts.end();
+				auto expression4 = [&] {const Foo a = *itr3;  UNREFERENCED_PARAMETER(a); };
+				Assert::ExpectException<std::exception>(expression4);
+			}
+		}
+
 #pragma endregion
 
+#if defined(DEBUG) | defined(_DEBUG)
+		static _CrtMemState sStartMemState;
+#endif
 	};
+
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtMemState VectorTest::sStartMemState;
+#endif
 }
+
+

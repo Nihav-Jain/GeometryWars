@@ -35,14 +35,14 @@ public:
 	 *	@param reference to the right hand side variable
 	 *	@return boolean
 	 */
-	bool operator== (const Foo& rhs);
+	bool operator== (const Foo& rhs) const;
 
 	/**
 	 *	Not Equals operator override
 	 *	@param reference to the right hand side variable
 	 *	@return boolean
 	 */
-	bool operator!= (const Foo& rhs);
+	bool operator!= (const Foo& rhs) const;
 
 	/**
 	 *	Getter for the member variable Data

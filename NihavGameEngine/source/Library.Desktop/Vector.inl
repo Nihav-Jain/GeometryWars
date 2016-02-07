@@ -3,38 +3,44 @@
 
 namespace Library
 {
+	template <typename T, typename F>
+	const F Vector<T, F>::ReserveStrategyFunctor;
+
 #pragma region Vector
 
-	template<typename T>
-	Vector<T>::Vector() :
+	template<typename T, typename F>
+	Vector<T, F>::Vector(std::uint32_t defaultCapacity, bool fixedSize) :
 		mCapacity(0), mSize(0), mDataArray(nullptr)
 	{
-		Reserve(Vector::DEFAULT_CAPACITY);
+		Reserve(defaultCapacity, fixedSize);
 	}
 
-	template <typename T>
-	Vector<T>::Vector(const Vector<T>& rhs) :
-		Vector()
+	template<typename T, typename F>
+	Vector<T, F>::Vector(const Vector<T, F>& rhs) :
+		Vector(rhs.Capacity())
 	{
-		operator=(rhs);
+		for (auto& itr : rhs)
+		{
+			PushBack(itr);
+		}
 	}
 
-	template <typename T>
-	Vector<T>::Vector(Vector&& rhs) :
-		mSize(rhs.mSize), mCapacity(rhs.mCapacity), mDataArray(rhs.mDataArray)
+	template<typename T, typename F>
+	Vector<T, F>::Vector(Vector&& rhs) :
+		mSize(rhs.mSize), mCapacity(rhs.mCapacity), mDataArray(std::move(rhs.mDataArray))
 	{
 		rhs.mSize = 0;
 		rhs.mCapacity = 0;
-		rhs.mDataArray = nullptr;
 	}
 
-	template <typename T>
-	Vector<T>& Vector<T>::operator=(const Vector<T>& rhs)
+	template<typename T, typename F>
+	Vector<T, F>& Vector<T, F>::operator=(const Vector<T, F>& rhs)
 	{
 		if (this != &rhs)
 		{
 			Clear();
-			Vector<T>::Iterator itr = rhs.begin();
+			Reserve(rhs.Capacity());
+			Vector<T, F>::Iterator itr = rhs.begin();
 			for (; itr != rhs.end();++itr)
 			{
 				PushBack(*itr);
@@ -43,31 +49,30 @@ namespace Library
 		return *this;
 	}
 
-	template <typename T>
-	Vector<T>& Vector<T>::operator=(Vector&& rhs)
+	template<typename T, typename F>
+	Vector<T, F>& Vector<T, F>::operator=(Vector&& rhs)
 	{
 		if (this != &rhs)
 		{
 			Clear();
 			mSize = rhs.mSize;
 			mCapacity = rhs.mCapacity;
-			mDataArray = rhs.mDataArray;
+			mDataArray = std::move(rhs.mDataArray);
 
 			rhs.mSize = 0;
 			rhs.mCapacity = 0;
-			rhs.mDataArray = nullptr;
 		}
 		return *this;
 	}
 
-	template <typename T>
-	Vector<T>::~Vector()
+	template<typename T, typename F>
+	Vector<T, F>::~Vector()
 	{
 		Clear();
 	}
 
-	template <typename T>
-	T& Vector<T>::operator[](uint32_t index)
+	template<typename T, typename F>
+	T& Vector<T, F>::operator[](std::uint32_t index)
 	{
 		if (index >= mSize)
 		{
@@ -76,8 +81,8 @@ namespace Library
 		return mDataArray[index];
 	}
 
-	template <typename T>
-	const T& Vector<T>::operator[](uint32_t index) const
+	template<typename T, typename F>
+	const T& Vector<T, F>::operator[](std::uint32_t index) const
 	{
 		if (index >= mSize)
 		{
@@ -86,8 +91,8 @@ namespace Library
 		return mDataArray[index];
 	}
 
-	template <typename T>
-	void Vector<T>::PopBack()
+	template<typename T, typename F>
+	void Vector<T, F>::PopBack()
 	{
 		if (IsEmpty())
 		{
@@ -98,8 +103,8 @@ namespace Library
 		mSize--;
 	}
 
-	template <typename T>
-	T& Vector<T>::Front()
+	template<typename T, typename F>
+	T& Vector<T, F>::Front()
 	{
 		if (IsEmpty())
 		{
@@ -108,8 +113,8 @@ namespace Library
 		return mDataArray[0];
 	}
 
-	template <typename T>
-	const T& Vector<T>::Front() const
+	template<typename T, typename F>
+	const T& Vector<T, F>::Front() const
 	{
 		if (IsEmpty())
 		{
@@ -118,8 +123,8 @@ namespace Library
 		return mDataArray[0];
 	}
 
-	template <typename T>
-	T& Vector<T>::Back()
+	template<typename T, typename F>
+	T& Vector<T, F>::Back()
 	{
 		if (IsEmpty())
 		{
@@ -128,8 +133,8 @@ namespace Library
 		return mDataArray[mSize-1];
 	}
 
-	template <typename T>
-	const T& Vector<T>::Back() const
+	template<typename T, typename F>
+	const T& Vector<T, F>::Back() const
 	{
 		if (IsEmpty())
 		{
@@ -138,14 +143,13 @@ namespace Library
 		return mDataArray[mSize - 1];
 	}
 
-	template <typename T>
-	template <typename F>
-	typename Vector<T>::Iterator Vector<T>::PushBack(const T& dataToPush, F reserveStrategyFunctor)
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator Vector<T, F>::PushBack(const T& dataToPush)
 	{
 		// if list is full
 		if (mSize == mCapacity)
 		{
-			uint32_t newCapacityValue = reserveStrategyFunctor(mSize, mCapacity);
+			std::uint32_t newCapacityValue = ReserveStrategyFunctor(mSize, mCapacity);
 			if (newCapacityValue <= mCapacity)
 			{
 				throw std::exception("Bad reserve strategy.");
@@ -158,39 +162,40 @@ namespace Library
 		return Iterator(mSize, this);
 	}
 
-	template<typename T>
-	bool Vector<T>::IsEmpty() const
+	template<typename T, typename F>
+	bool Vector<T, F>::IsEmpty() const
 	{
 		return (0 == mSize);	// yoda statement
 	}
 
-	template <typename T>
-	T& Vector<T>::At(uint32_t index)
+	template<typename T, typename F>
+	T& Vector<T, F>::At(std::uint32_t index)
 	{
 		return operator[](index);
 	}
 
-	template <typename T>
-	void Vector<T>::Reserve(uint32_t newCapacity)
+	template<typename T, typename F>
+	void Vector<T, F>::Reserve(std::uint32_t newCapacity, bool fixedSize)
 	{
 		if (newCapacity > mCapacity)
 		{
-			if (mDataArray == nullptr)
-			{
-				mDataArray = (T*)malloc(newCapacity * sizeof(T));
-			}
-			else
-			{
-				mDataArray = (T*)realloc(mDataArray, newCapacity * sizeof(T));
-			}
+			mDataArray = (T*)realloc(mDataArray, newCapacity * sizeof(T));
 			mCapacity = newCapacity;
+			if (fixedSize)
+			{
+				for (std::uint32_t i = mSize; i < newCapacity; i++)
+				{
+					new (mDataArray + i)T();
+				}
+				mSize = newCapacity;
+			}
 		}
 	}
 
-	template <typename T>
-	void Vector<T>::Clear()
+	template<typename T, typename F>
+	void Vector<T, F>::Clear()
 	{
-		for (uint32_t i = 0; i < mSize; i++)
+		for (std::uint32_t i = 0; i < mSize; i++)
 		{
 			mDataArray[i].~T();
 		}
@@ -203,10 +208,10 @@ namespace Library
 		mDataArray = nullptr;
 	}
 
-	template <typename T>
-	typename Vector<T>::Iterator Vector<T>::Find(const T& dataToFind) const
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator Vector<T, F>::Find(const T& dataToFind) const
 	{
-		Vector<T>::Iterator itr = begin();
+		Vector<T, F>::Iterator itr = begin();
 		for (; itr != end(); ++itr)
 		{
 			if (*itr == dataToFind)
@@ -217,96 +222,74 @@ namespace Library
 		return itr;
 	}
 
-	template <typename T>
-	typename void Vector<T>::Remove(const T& dataToRemove)
+	template<typename T, typename F>
+	typename void Vector<T, F>::Remove(const T& dataToRemove)
 	{
 		Remove(Find(dataToRemove));
 	}
 
-	template <typename T>
-	typename void Vector<T>::Remove(Iterator itr)
+	template<typename T, typename F>
+	typename void Vector<T, F>::Remove(const Iterator& itr)
 	{
 		if (itr.mOwnerVector != this)
 		{
 			throw new std::exception("Iterator does not belong to this Vector");
 		}
-		if (itr.mCurrentIndex == 0)
-		{
-			throw new std::exception("Invalid Iterator");
-		}
 
 		if (itr != end())
 		{
-			Vector<T>::Iterator previousItr = itr;
-			++itr;
-			for (; itr != end(); ++itr)
-			{
-				*previousItr = *itr;
-				++previousItr;
-			}
-			(*previousItr).~T();
+			(*itr).~T();
+			// Note: mCurrentIndex of iterator is a 1 based index instead of being 0 based
+			std::memmove(mDataArray + itr.mCurrentIndex - 1, mDataArray + itr.mCurrentIndex, sizeof(T) * (mSize - itr.mCurrentIndex));
 			mSize--;
 		}
-
 	}
 
-	template <typename T>
-	typename void Vector<T>::Remove(Iterator itrBegin, Iterator itrEnd)
+	template<typename T, typename F>
+	typename void Vector<T, F>::Remove(Iterator itrBegin, Iterator itrEnd)
 	{
 		if (itrBegin.mOwnerVector != this || itrEnd.mOwnerVector != this)
 		{
 			throw new std::exception("Iterator does not belong to this Vector");
-		}
-		if (itrBegin.mCurrentIndex == 0 || itrEnd.mCurrentIndex == 0)
-		{
-			throw new std::exception("Invalid Iterator");
 		}
 		if (itrBegin.mCurrentIndex > itrEnd.mCurrentIndex)
 		{
 			throw new std::exception("Invalid range. Param 1 should be be less than Param 2");
 		}
 
-		Iterator itr = itrEnd;
-		for (; itr != end() && itrBegin != itrEnd; ++itr)
+		Iterator itr = itrBegin;
+		for (; itr != itrEnd; ++itr)
 		{
-			*itrBegin = *itr;
-			++itrBegin;
+			(*itr).~T();
 		}
-		while (itr != end())
-		{
-			*itrBegin = *itr;
-			++itr;
-			++itrBegin;
-		}
-		while (itrBegin != end())
-		{
-			PopBack();
-		}
+
+		std::memmove(mDataArray + itrBegin.mCurrentIndex - 1, mDataArray + itrEnd.mCurrentIndex - 1, sizeof(T) * (mSize - itrEnd.mCurrentIndex + 1));
+		mSize = mSize - (itrEnd.mCurrentIndex - itrBegin.mCurrentIndex);
 	}
 	
-	template <typename T>
-	uint32_t Vector<T>::Size() const
+	template<typename T, typename F>
+	std::uint32_t Vector<T, F>::Size() const
 	{
 		return mSize;
 	}
 
-	template <typename T>
-	uint32_t Vector<T>::Capacity() const
+	template<typename T, typename F>
+	std::uint32_t Vector<T, F>::Capacity() const
 	{
 		return mCapacity;
 	}
 
-	template <typename T>
-	typename Vector<T>::Iterator Vector<T>::begin() const
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator Vector<T, F>::begin() const
 	{
-		Vector<T>::Iterator itr(1, this);
+		Vector<T, F>::Iterator itr(1, this);
 		return itr;
 	}
 
-	template <typename T>
-	typename Vector<T>::Iterator Vector<T>::end() const
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator Vector<T, F>::end() const
 	{
-		Vector<T>::Iterator itr(mSize + 1, this);
+		Vector<T, F>::Iterator itr(mSize + 1, this);
 		return itr;
 	}
 
@@ -314,31 +297,31 @@ namespace Library
 
 #pragma region Iterator
 
-	template <typename T>
-	Vector<T>::Iterator::Iterator() :
+	template<typename T, typename F>
+	Vector<T, F>::Iterator::Iterator() :
 		mCurrentIndex(0), mOwnerVector(nullptr)
 	{}
 
-	template <typename T>
-	Vector<T>::Iterator::Iterator(uint32_t currentIndex, const Vector<T>* ownerVector) :
+	template<typename T, typename F>
+	Vector<T, F>::Iterator::Iterator(std::uint32_t currentIndex, const Vector* ownerVector) :
 		mCurrentIndex(currentIndex), mOwnerVector(ownerVector)
 	{}
 
-	template<typename T>
-	Vector<T>::Iterator::Iterator(const Iterator& rhs) :
+	template<typename T, typename F>
+	Vector<T, F>::Iterator::Iterator(const Iterator& rhs) :
 		mCurrentIndex(rhs.mCurrentIndex), mOwnerVector(rhs.mOwnerVector)
 	{}
 
-	template <typename T>
-	Vector<T>::Iterator::Iterator(Iterator&& rhs) :
+	template<typename T, typename F>
+	Vector<T, F>::Iterator::Iterator(Iterator&& rhs) :
 		mCurrentIndex(rhs.mCurrentIndex), mOwnerVector(rhs.mOwnerVector)
 	{
 		rhs.mCurrentIndex = 0;
 		rhs.mOwnerVector = nullptr;
 	}
 
-	template<typename T>
-	typename Vector<T>::Iterator& Vector<T>::Iterator::operator=(const Iterator& rhs)
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator& Vector<T, F>::Iterator::operator=(const Iterator& rhs)
 	{
 		if (this != &rhs)
 		{
@@ -348,8 +331,8 @@ namespace Library
 		return *this;
 	}
 
-	template <typename T>
-	typename Vector<T>::Iterator& Vector<T>::Iterator::operator=(Iterator&& rhs)
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator& Vector<T, F>::Iterator::operator=(Iterator&& rhs)
 	{
 		if (this != &rhs)
 		{
@@ -362,27 +345,20 @@ namespace Library
 		return *this;
 	}
 
-	template<typename T>
-	bool Vector<T>::Iterator::operator==(const Iterator& rhs) const
+	template<typename T, typename F>
+	bool Vector<T, F>::Iterator::operator==(const Iterator& rhs) const
 	{
-		bool isIteratorEqual = true;
-		if (mOwnerVector == nullptr || rhs.mOwnerVector == nullptr)
-			isIteratorEqual = false;
-		else if (mOwnerVector != rhs.mOwnerVector)
-			isIteratorEqual = false;
-		else if (mCurrentIndex != rhs.mCurrentIndex)
-			isIteratorEqual = false;
-		return isIteratorEqual;
+		return (mOwnerVector == rhs.mOwnerVector) && (mCurrentIndex == rhs.mCurrentIndex);
 	}
 
-	template<typename T>
-	bool Vector<T>::Iterator::operator!=(const Iterator & rhs) const
+	template<typename T, typename F>
+	bool Vector<T, F>::Iterator::operator!=(const Iterator & rhs) const
 	{
 		return !(*this == rhs);
 	}
 
-	template<typename T>
-	typename Vector<T>::Iterator& Vector<T>::Iterator::operator++()
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator& Vector<T, F>::Iterator::operator++()
 	{
 		if (mOwnerVector == nullptr)
 		{
@@ -396,16 +372,16 @@ namespace Library
 		return *this;
 	}
 
-	template<typename T>
-	typename Vector<T>::Iterator Vector<T>::Iterator::operator++(int)
+	template<typename T, typename F>
+	typename Vector<T, F>::Iterator Vector<T, F>::Iterator::operator++(int)
 	{
 		Iterator it = *this;
 		operator++();
 		return it;
 	}
 
-	template<typename T>
-	T& Vector<T>::Iterator::operator*() const
+	template<typename T, typename F>
+	T& Vector<T, F>::Iterator::operator*()
 	{
 		if (mOwnerVector == nullptr)
 		{
@@ -417,13 +393,21 @@ namespace Library
 		}
 		return mOwnerVector->mDataArray[mCurrentIndex - 1];
 	}
-#pragma endregion
 
-	template <typename T>
-	uint32_t Vector<T>::DefaultReserveStrategy::operator()(uint32_t size, uint32_t capacity) const
+	template<typename T, typename F>
+	const T& Vector<T, F>::Iterator::operator*() const
 	{
-		UNREFERENCED_PARAMETER(size);
-		return 2 * capacity + 1;
+		if (mOwnerVector == nullptr)
+		{
+			throw std::exception("Non hosted Iterator. Iterator not attached to a valid SList.");
+		}
+		if (mCurrentIndex == 0 || mCurrentIndex > mOwnerVector->Size())
+		{
+			throw std::exception("vector index out of bounds");
+		}
+		return mOwnerVector->mDataArray[mCurrentIndex - 1];
 	}
+
+#pragma endregion
 
 }

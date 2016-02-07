@@ -164,11 +164,17 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DefaultHash.h" />
+    <ClInclude Include="DefaultReserveStrategy.h" />
+    <ClInclude Include="Hashmap.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SList.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DefaultHash.cpp" />
+    <ClCompile Include="DefaultReserveStrategy.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -177,7 +183,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Hashmap.inl" />
     <None Include="SList.inl" />
+    <None Include="Stack.inl" />
     <None Include="Vector.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

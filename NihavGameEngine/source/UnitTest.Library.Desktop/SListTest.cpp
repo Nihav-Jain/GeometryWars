@@ -15,6 +15,10 @@ namespace UnitTestLibraryDesktop
 		 */
 		TEST_METHOD_INITIALIZE(SListTestInit)
 		{
+#if defined(DEBUG) | defined(_DEBUG)
+			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF);
+			_CrtMemCheckpoint(&sStartMemState);
+#endif
 			listOfIntegers = new SList<int>();
 			listOfIntegerPtrs = new SList<int*>();
 			listOfFoos = new SList<Foo>();
@@ -28,6 +32,16 @@ namespace UnitTestLibraryDesktop
 			delete listOfIntegers;
 			delete listOfIntegerPtrs;
 			delete listOfFoos;
+
+#if defined(DEBUG) | defined(_DEBUG)
+			_CrtMemState endMemState, diffMemState;
+			_CrtMemCheckpoint(&endMemState);
+			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
+			{
+				_CrtMemDumpStatistics(&diffMemState);
+				Assert::Fail(L"Memory Leaks!");
+			}
+#endif
 		}
 
 		/********************************* Tests for list of integers ************************************/
@@ -38,7 +52,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(SListTestCtor)
 		{
 			// the constructor of SList must initialize an empty list
-			Assert::IsTrue(listOfIntegers->isEmpty());
+			Assert::IsTrue(listOfIntegers->IsEmpty());
 		}
 
 		/**
@@ -79,7 +93,7 @@ namespace UnitTestLibraryDesktop
 			// push 1 elemennt and pop it back, results in an empty list
 			listOfIntegers->PushFront(10);
 			listOfIntegers->PopFront();
-			Assert::IsTrue(listOfIntegers->isEmpty());
+			Assert::IsTrue(listOfIntegers->IsEmpty());
 
 			// Back should be reset to nullptr if PopFront causes list to become empty
 			// Calling Back() on an empty list raises an exception
@@ -139,7 +153,7 @@ namespace UnitTestLibraryDesktop
 			listOfIntegers->PushBack(20);
 			listOfIntegers->PushBack(30);
 			listOfIntegers->Clear();
-			Assert::IsTrue(listOfIntegers->isEmpty());
+			Assert::IsTrue(listOfIntegers->IsEmpty());
 		}
 
 		/**
@@ -304,12 +318,12 @@ namespace UnitTestLibraryDesktop
 		{
 			// empty list
 			listOfIntegers->Remove(10);
-			Assert::IsTrue(listOfIntegers->isEmpty());
+			Assert::IsTrue(listOfIntegers->IsEmpty());
 
 			// last element
 			listOfIntegers->PushBack(10);
 			listOfIntegers->Remove(10);
-			Assert::IsTrue(listOfIntegers->isEmpty());
+			Assert::IsTrue(listOfIntegers->IsEmpty());
 
 			// remove middle element
 			listOfIntegers->PushBack(10);
@@ -334,7 +348,7 @@ namespace UnitTestLibraryDesktop
 				listOfIntegers->PushBack(10);
 
 				SList<int> list = std::move(*listOfIntegers);
-				Assert::IsTrue(listOfIntegers->isEmpty());
+				Assert::IsTrue(listOfIntegers->IsEmpty());
 				Assert::AreEqual(3U, list.Size());
 			}
 
@@ -345,7 +359,7 @@ namespace UnitTestLibraryDesktop
 				listOfIntegerPtrs->PushBack(&a);
 
 				SList<int*> list = std::move(*listOfIntegerPtrs);
-				Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+				Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 				Assert::AreEqual(3U, list.Size());
 			}
 
@@ -356,7 +370,7 @@ namespace UnitTestLibraryDesktop
 				listOfFoos->PushBack(a);
 
 				SList<Foo> list = std::move(*listOfFoos);
-				Assert::IsTrue(listOfFoos->isEmpty());
+				Assert::IsTrue(listOfFoos->IsEmpty());
 				Assert::AreEqual(3U, list.Size());
 			}
 
@@ -373,7 +387,7 @@ namespace UnitTestLibraryDesktop
 				list.PushBack(20);
 
 				list = std::move(*listOfIntegers);
-				Assert::IsTrue(listOfIntegers->isEmpty());
+				Assert::IsTrue(listOfIntegers->IsEmpty());
 				Assert::AreEqual(3U, list.Size());
 			}
 
@@ -388,7 +402,7 @@ namespace UnitTestLibraryDesktop
 				list.PushBack(&b);
 				
 				list = std::move(*listOfIntegerPtrs);
-				Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+				Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 				Assert::AreEqual(3U, list.Size());
 			}
 
@@ -403,7 +417,7 @@ namespace UnitTestLibraryDesktop
 				list.PushBack(b);
 				
 				list = std::move(*listOfFoos);
-				Assert::IsTrue(listOfFoos->isEmpty());
+				Assert::IsTrue(listOfFoos->IsEmpty());
 				Assert::AreEqual(3U, list.Size());
 			}
 		}
@@ -782,7 +796,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(SListIntegerPointerTestCtor)
 		{
-			Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+			Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 		}
 
 		TEST_METHOD(SListIntegerPointerTestPushFront)
@@ -816,7 +830,7 @@ namespace UnitTestLibraryDesktop
 			int a = 10;
 			listOfIntegerPtrs->PushFront(&a);
 			listOfIntegerPtrs->PopFront();
-			Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+			Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 			try
 			{
 				int* back = listOfIntegerPtrs->Back();
@@ -875,7 +889,7 @@ namespace UnitTestLibraryDesktop
 			listOfIntegerPtrs->PushBack(&b);
 			listOfIntegerPtrs->PushBack(&c);
 			listOfIntegerPtrs->Clear();
-			Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+			Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 		}
 
 		TEST_METHOD(SListIntegerPointerTestCopyCtor)
@@ -1064,12 +1078,12 @@ namespace UnitTestLibraryDesktop
 
 			// empty list
 			listOfIntegerPtrs->Remove(&a);
-			Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+			Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 
 			// last element
 			listOfIntegerPtrs->PushBack(&a);
 			listOfIntegerPtrs->Remove(&a);
-			Assert::IsTrue(listOfIntegerPtrs->isEmpty());
+			Assert::IsTrue(listOfIntegerPtrs->IsEmpty());
 
 			// remove middle element
 			listOfIntegerPtrs->PushBack(&a);
@@ -1090,7 +1104,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(SListFooTestCtor)
 		{
-			Assert::IsTrue(listOfFoos->isEmpty());
+			Assert::IsTrue(listOfFoos->IsEmpty());
 		}
 
 		TEST_METHOD(SListFooTestPushFront)
@@ -1124,7 +1138,7 @@ namespace UnitTestLibraryDesktop
 			Foo a(10);
 			listOfFoos->PushFront(a);
 			listOfFoos->PopFront();
-			Assert::IsTrue(listOfFoos->isEmpty());
+			Assert::IsTrue(listOfFoos->IsEmpty());
 			try
 			{
 				const Foo& back = listOfFoos->Back();
@@ -1175,7 +1189,7 @@ namespace UnitTestLibraryDesktop
 			listOfFoos->PushBack(Foo(20));
 			listOfFoos->PushBack(Foo(30));
 			listOfFoos->Clear();
-			Assert::IsTrue(listOfFoos->isEmpty());
+			Assert::IsTrue(listOfFoos->IsEmpty());
 		}
 
 		TEST_METHOD(SListFooTestCopyCtor)
@@ -1184,7 +1198,7 @@ namespace UnitTestLibraryDesktop
 			Foo b(2);
 			Foo c(3);
 			Foo d(4);
-			Assert::IsTrue(listOfFoos->isEmpty());
+			Assert::IsTrue(listOfFoos->IsEmpty());
 			listOfFoos->PushBack(a);
 			listOfFoos->PushBack(b);
 			listOfFoos->PushBack(c);
@@ -1370,12 +1384,12 @@ namespace UnitTestLibraryDesktop
 
 			// empty list
 			listOfFoos->Remove(a);
-			Assert::IsTrue(listOfFoos->isEmpty());
+			Assert::IsTrue(listOfFoos->IsEmpty());
 
 			// last element
 			listOfFoos->PushBack(a);
 			listOfFoos->Remove(a);
-			Assert::IsTrue(listOfFoos->isEmpty());
+			Assert::IsTrue(listOfFoos->IsEmpty());
 
 			// remove middle element
 			listOfFoos->PushBack(a);
@@ -1397,5 +1411,12 @@ namespace UnitTestLibraryDesktop
 		SList<int*>* listOfIntegerPtrs;
 		SList<Foo>* listOfFoos;
 
+#if defined(DEBUG) | defined(_DEBUG)
+		static _CrtMemState sStartMemState;
+#endif
 	};
+
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtMemState SListTest::sStartMemState;
+#endif
 }

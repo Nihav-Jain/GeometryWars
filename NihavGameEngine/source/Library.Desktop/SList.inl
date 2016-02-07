@@ -68,22 +68,23 @@ namespace Library
 	}
 
 	template <typename T>
-	void SList<T>::PushFront(const T& item)
+	typename SList<T>::Iterator SList<T>::PushFront(const T& item)
 	{
 		mFront = new Node(item, mFront);
 		// if this is the first item in the list
-		if (isEmpty())
+		if (IsEmpty())
 		{
 			mBack = mFront;
 		}
 		mSize++;
+		return Iterator(mFront, this);
 	}
 
 	template <typename T>
 	void SList<T>::PopFront()
 	{
 		// if the list is empty, throw an exception
-		if (isEmpty())
+		if (IsEmpty())
 		{
 			throw std::exception("Invalid operation. List is empty.");
 		}
@@ -94,17 +95,17 @@ namespace Library
 		mFront = temp;
 		mSize--;
 
-		if (isEmpty())
+		if (IsEmpty())
 		{
 			mBack = nullptr;
 		}
 	}
 
 	template <typename T>
-	void SList<T>::PushBack(const T& item)
+	typename SList<T>::Iterator SList<T>::PushBack(const T& item)
 	{
 		Node* temp = new Node(item);
-		if (isEmpty())
+		if (IsEmpty())
 		{
 			mBack = temp;
 			mFront = mBack;
@@ -115,16 +116,27 @@ namespace Library
 			mBack = mBack->Next;
 		}
 		mSize++;
+		return Iterator(mBack, this);
 	}
 
 	template <typename T>
-	bool SList<T>::isEmpty() const
+	bool SList<T>::IsEmpty() const
 	{
 		return (mSize == 0);
 	}
 
 	template <typename T>
 	T& SList<T>::Front()
+	{
+		if (mFront == nullptr)
+		{
+			throw std::exception("Invalid operation. List is empty.");
+		}
+		return mFront->mData;
+	}
+
+	template <typename T>
+	const T& SList<T>::Front() const
 	{
 		if (mFront == nullptr)
 		{
@@ -144,7 +156,18 @@ namespace Library
 	}
 
 	template <typename T>
-	uint32_t SList<T>::Size() const
+	const T& SList<T>::Back() const
+	{
+		if (mBack == nullptr)
+		{
+			throw std::exception("Invalid operation. List is empty.");
+		}
+		return mBack->mData;
+	}
+
+
+	template <typename T>
+	std::uint32_t SList<T>::Size() const
 	{
 		return mSize;
 	}
@@ -152,7 +175,7 @@ namespace Library
 	template <typename T>
 	void SList<T>::Clear()
 	{
-		while (!isEmpty())
+		while (!IsEmpty())
 		{
 			PopFront();
 		}
@@ -190,6 +213,7 @@ namespace Library
 			Node* nodeToInsert = new Node(dataToInsert);
 			nodeToInsert->Next = itr.mCurrentNode->Next;
 			itr.mCurrentNode->Next = nodeToInsert;
+			mSize++;
 		}
 	}
 
@@ -205,14 +229,13 @@ namespace Library
 			}
 		}
 		return itr;
-		//return FindWithPrevious(dataToFind, nullptr);
 	}
 
 	template<typename T>
 	typename void SList<T>::Remove(const T& dataToRemove)
 	{
 		SList<T>::Iterator itrToRemove = begin();
-		if (!isEmpty())
+		if (!IsEmpty())
 		{
 			// if the first element of the list has to be removed
 			if (*itrToRemove == dataToRemove)

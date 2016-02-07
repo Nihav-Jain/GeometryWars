@@ -4,12 +4,20 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Hashmap.h" />
+    <ClInclude Include="DefaultReserveStrategy.h" />
+    <ClInclude Include="DefaultHash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="DefaultReserveStrategy.cpp" />
+    <ClCompile Include="DefaultHash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SList.inl" />
     <None Include="Vector.inl" />
+    <None Include="Stack.inl" />
+    <None Include="Hashmap.inl" />
   </ItemGroup>
 </Project>
