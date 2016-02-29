@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Datum.h"
+#include "glm\gtx\string_cast.hpp"
+#include "Scope.h"
 
 namespace Library
 {
@@ -14,9 +16,13 @@ namespace Library
 	}
 
 	Datum::Datum(Datum&& rhs) : 
-		Datum(rhs)
+		mType(rhs.mType), mSize(rhs.mSize), mCapacity(rhs.mCapacity), mStorageType(rhs.mStorageType), mData(std::move(rhs.mData))
 	{
-		rhs.Clear();
+		rhs.mType = DatumType::UNKNOWN;
+		rhs.mStorageType = DatumStorageType::UNKNOWN;
+		rhs.mSize = 0;
+		rhs.mCapacity = 0;
+		rhs.mData.mInt = nullptr;
 	}
 
 
@@ -66,6 +72,10 @@ namespace Library
 						Set(rhs.mData.mRttiPtr[i], i);
 						break;
 
+					case DatumType::TABLE:
+						Set(*rhs.mData.mScopePtr[i], i);
+						break;
+
 					default:
 						break;
 					}
@@ -88,8 +98,17 @@ namespace Library
 	{
 		if (this != &rhs)
 		{
-			operator=(rhs);
-			rhs.Clear();
+			mType = rhs.mType;
+			mSize = rhs.mSize;
+			mCapacity = rhs.mCapacity;
+			mStorageType = rhs.mStorageType;
+			mData = std::move(rhs.mData);
+
+			rhs.mType = DatumType::UNKNOWN;
+			rhs.mStorageType = DatumStorageType::UNKNOWN;
+			rhs.mSize = 0;
+			rhs.mCapacity = 0;
+			rhs.mData.mInt = nullptr;
 		}
 		return *this;
 	}
@@ -129,6 +148,13 @@ namespace Library
 		Set(rhs);
 		return *this;
 	}
+
+	Datum& Datum::operator=(Scope& rhs)
+	{
+		Set(rhs);
+		return *this;
+	}
+
 
 #pragma endregion
 
@@ -183,20 +209,29 @@ namespace Library
 				case DatumType::INTEGER:
 					new (mData.mInt + mSize)std::int32_t();
 					break;
+
 				case DatumType::FLOAT:
 					new (mData.mFloat + mSize)std::float_t();
 					break;
+
 				case DatumType::STRING:
 					new (mData.mString + mSize)std::string();
 					break;
+
 				case DatumType::VECTOR4:
 					new (mData.mVec4 + mSize)glm::vec4();
 					break;
+
 				case DatumType::MATRIX4x4:
 					new (mData.mMat4x4 + mSize)glm::mat4x4();
 					break;
+
 				case DatumType::POINTER:
 					new (mData.mRttiPtr + mSize)RTTI*(nullptr);
+					break;
+
+				case DatumType::TABLE:
+					new (mData.mScopePtr + mSize)Scope*(nullptr);
 					break;
 
 				default:
@@ -230,8 +265,9 @@ namespace Library
 					break;
 
 				case DatumType::POINTER:
-					if(mData.mRttiPtr[mSize] != nullptr)
-						(*mData.mRttiPtr[mSize]).~RTTI();
+					break;
+
+				case DatumType::TABLE:
 					break;
 
 				default:
@@ -280,15 +316,15 @@ namespace Library
 					mData.mRttiPtr = reinterpret_cast<RTTI**>(realloc(mData.mRttiPtr, newCapacity * sizeof(RTTI*)));
 					break;
 
+				case DatumType::TABLE:
+					mData.mScopePtr = reinterpret_cast<Scope**>(realloc(mData.mScopePtr, newCapacity * sizeof(Scope*)));
+					break;
+
 				default:
 					throw std::exception("Invalid data type");
 					break;
 			}
 			mCapacity = newCapacity;
-		}
-		else if(newCapacity < mCapacity)
-		{
-			throw std::exception("Cannot shrink capacity");
 		}
 	}
 
@@ -325,12 +361,11 @@ namespace Library
 				break;
 
 			case DatumType::POINTER:
-				for (std::uint32_t i = 0; i < mSize; i++)
-				{
-					if(mData.mRttiPtr[i] != nullptr)
-						(*mData.mRttiPtr[i]).~RTTI();
-				}
 				free(mData.mRttiPtr);
+				break;
+
+			case DatumType::TABLE:
+				free(mData.mScopePtr);
 				break;
 
 			default:
@@ -458,6 +493,15 @@ namespace Library
 						break;
 					}
 					break;
+
+				case DatumType::TABLE:
+					if (*mData.mScopePtr[i] != *rhs.mData.mScopePtr[i])
+					{
+						areEqual = false;
+						break;
+					}
+					break;
+
 				default:
 					throw std::exception("Invalid data type");
 					break;
@@ -470,44 +514,37 @@ namespace Library
 
 	bool Datum::operator==(const std::int32_t& rhs) const
 	{
-		CurrentTypeCheck(DatumType::INTEGER);
-		OutOfBoundsCheck(0);
-		return (*mData.mInt == rhs);
+		return (mType == DatumType::INTEGER && mSize > 0 && *mData.mInt == rhs);
 	}
 
 	bool Datum::operator==(const std::float_t& rhs) const
 	{
-		CurrentTypeCheck(DatumType::FLOAT);
-		OutOfBoundsCheck(0);
-		return (*mData.mFloat == rhs);
+		return (mType == DatumType::FLOAT && mSize > 0 && *mData.mFloat == rhs);
 	}
 
 	bool Datum::operator==(const std::string & rhs) const
 	{
-		CurrentTypeCheck(DatumType::STRING);
-		OutOfBoundsCheck(0);
-		return (rhs.compare(*mData.mString) == 0);
+		return (mType == DatumType::STRING && mSize > 0 && rhs.compare(*mData.mString) == 0);
 	}
 
 	bool Datum::operator==(const glm::vec4& rhs) const
 	{
-		CurrentTypeCheck(DatumType::VECTOR4);
-		OutOfBoundsCheck(0);
-		return *mData.mVec4 == rhs;
+		return (mType == DatumType::VECTOR4 && mSize > 0 && *mData.mVec4 == rhs);
 	}
 
 	bool Datum::operator==(const glm::mat4x4& rhs) const
 	{
-		CurrentTypeCheck(DatumType::MATRIX4x4);
-		OutOfBoundsCheck(0);
-		return *mData.mMat4x4 == rhs;
+		return (mType == DatumType::MATRIX4x4 && mSize > 0 && *mData.mMat4x4 == rhs);
 	}
 
 	bool Datum::operator==(const RTTI* rhs) const
 	{
-		CurrentTypeCheck(DatumType::POINTER);
-		OutOfBoundsCheck(0);
-		return ((**mData.mRttiPtr).Equals(rhs));
+		return (mType == DatumType::POINTER && mSize > 0 && (**mData.mRttiPtr).Equals(rhs));
+	}
+
+	bool Datum::operator==(const Scope* rhs) const
+	{
+		return (mType == DatumType::TABLE && mSize > 0 && (**mData.mScopePtr) == *rhs);
 	}
 
 
@@ -542,6 +579,11 @@ namespace Library
 	}
 
 	bool Datum::operator!=(const RTTI* rhs) const
+	{
+		return !(operator==(rhs));
+	}
+
+	bool Datum::operator!=(const Scope* rhs) const
 	{
 		return !(operator==(rhs));
 	}
@@ -604,6 +646,54 @@ namespace Library
 		mData.mRttiPtr[index] = value;
 	}
 
+	void Datum::Set(Scope& value, std::uint32_t index)
+	{
+		Set(DatumType::TABLE, index);
+		mData.mScopePtr[index] = &value;
+	}
+
+	void Datum::Remove(std::uint32_t index)
+	{
+		if (mStorageType == DatumStorageType::EXTERNAL)
+			throw std::exception("Cannot modify Datum with external storage");
+
+		if (index < mSize)
+		{
+			uint32_t sizeOfType = 0;
+			switch (mType)
+			{
+			case DatumType::INTEGER:
+				sizeOfType = sizeof(std::int32_t);
+				break;
+			case DatumType::FLOAT:
+				sizeOfType = sizeof(std::float_t);
+				break;
+			case DatumType::VECTOR4:
+				mData.mVec4[index].glm::vec4::~vec4();
+				sizeOfType = sizeof(glm::vec4);
+				break;
+			case DatumType::MATRIX4x4:
+				mData.mMat4x4[index].glm::mat4::~mat4();
+				sizeOfType = sizeof(glm::mat4);
+				break;
+			case DatumType::STRING:
+				mData.mString[index].std::string::~string();
+				sizeOfType = sizeof(std::string);
+				break;
+			case DatumType::POINTER:
+				sizeOfType = sizeof(RTTI*);
+				break;
+			case DatumType::TABLE:
+				sizeOfType = sizeof(Scope*);
+			default:
+				break;
+			}
+
+			std::memmove(mData.mInt + index, mData.mInt + index + 1, sizeOfType * (mSize - index - 1));
+			mSize--;
+		}
+	}
+
 #pragma endregion
 
 #pragma region Get
@@ -656,12 +746,27 @@ namespace Library
 		return mData.mRttiPtr[index];
 	}
 
+	template<>
+	Scope*& Datum::Get<Scope*>(std::uint32_t index) const
+	{
+		CurrentTypeCheck(DatumType::TABLE);
+		OutOfBoundsCheck(index);
+		return mData.mScopePtr[index];
+	}
+
 #pragma endregion
+
+	Scope& Datum::operator[](std::uint32_t index) const
+	{
+		return *Get<Scope*>(index);
+	}
 
 	void Datum::SetFromString(const std::string& inputString, std::uint32_t index)
 	{
 		if (mType == DatumType::UNKNOWN)
 			throw std::exception("Invalid operation. Datum type not set.");
+		glm::vec4 fvec;
+		glm::mat4 mat;
 		switch (mType)
 		{
 			case DatumType::INTEGER:
@@ -681,30 +786,25 @@ namespace Library
 				break;
 
 			case DatumType::VECTOR4:
-				std::float_t fVec1, fVec2, fVec3, fVec4;
-				sscanf_s(inputString.c_str(), "(%f, %f, %f, %f)", &fVec1, &fVec2, &fVec3, &fVec4);
-				Set(glm::vec4(fVec1, fVec2, fVec3, fVec4), index);
+				sscanf_s(inputString.c_str(), "vec4(%f, %f, %f, %f)", &fvec[0], &fvec[1], &fvec[2], &fvec[3]);
+				Set(fvec, index);
 				break;
 
 			case DatumType::MATRIX4x4:
-				std::float_t fMatX1, fMatY1, fMatZ1, fMatW1;
-				std::float_t fMatX2, fMatY2, fMatZ2, fMatW2;
-				std::float_t fMatX3, fMatY3, fMatZ3, fMatW3;
-				std::float_t fMatX4, fMatY4, fMatZ4, fMatW4;
-				sscanf_s(inputString.c_str(), "{{%f, %f, %f, %f}, {%f, %f, %f, %f}, {%f, %f, %f, %f}, {%f, %f, %f, %f}}", 
-					&fMatX1, &fMatY1, &fMatZ1, &fMatW1,
-					&fMatX2, &fMatY2, &fMatZ2, &fMatW2,
-					&fMatX3, &fMatY3, &fMatZ3, &fMatW3,
-					&fMatX4, &fMatY4, &fMatZ4, &fMatW4);
-				Set(glm::mat4x4(
-					fMatX1, fMatY1, fMatZ1, fMatW1,
-					fMatX2, fMatY2, fMatZ2, fMatW2,
-					fMatX3, fMatY3, fMatZ3, fMatW3,
-					fMatX4, fMatY4, fMatZ4, fMatW4), index);
+				sscanf_s(inputString.c_str(), "mat4x4((%f, %f, %f, %f), (%f, %f, %f, %f), (%f, %f, %f, %f), (%f, %f, %f, %f))", 
+					&mat[0][0], &mat[0][1], &mat[0][2], &mat[0][3],
+					&mat[1][0], &mat[1][1], &mat[1][2], &mat[1][3],
+					&mat[2][0], &mat[2][1], &mat[2][2], &mat[2][3],
+					&mat[3][0], &mat[3][1], &mat[3][2], &mat[3][3]);
+				Set(mat, index);
 				break;
 
 			case DatumType::POINTER:
 				throw std::exception("Invalid operation. Cannot set RTTI pointer from string.");
+				break;
+
+			case DatumType::TABLE:
+				throw std::exception("Invalid operation. Cannot set Scope pointer from string.");
 				break;
 
 			default:
@@ -736,36 +836,19 @@ namespace Library
 			break;
 
 		case DatumType::VECTOR4:
-			toString.append("(");
-			for (std::uint32_t i = 0; i < 4; i++)
-			{
-				toString.append(std::to_string(mData.mVec4[index].data[i]));
-				if (i < 3)
-					toString.append(", ");
-			}
-			toString.append(")");
+			toString = glm::to_string(mData.mVec4[index]);
 			break;
 
 		case DatumType::MATRIX4x4:
-			toString.append("{");
-			for (std::uint32_t i = 0; i < 4; i++)
-			{
-				toString.append("{");
-				for (std::uint32_t j = 0; j < 4; j++)
-				{
-					toString.append(std::to_string(mData.mMat4x4[index][i].data[j]));
-					if(j < 3)
-						toString.append(", ");
-				}
-				toString.append("}");
-				if (i < 3)
-					toString.append(", ");
-			}
-			toString.append("}");
+			toString = glm::to_string(mData.mMat4x4[index]);
 			break;
 
 		case DatumType::POINTER:
 			toString = (*mData.mRttiPtr[index]).ToString();
+			break;
+
+		case DatumType::TABLE:
+			toString = "Scope";	//(*mData.mScopePtr[index]).ToString();
 			break;
 
 		default:

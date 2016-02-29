@@ -43,7 +43,7 @@ namespace Library
 	template <typename T>
 	Stack<T>::~Stack()
 	{
-		mDataList.~SList<T>();
+		Clear();
 	}
 
 	template <typename T>

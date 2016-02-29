@@ -26,6 +26,7 @@
 #include "Hashmap.h"
 
 #include "Datum.h"
+#include "Scope.h"
 
 #include "Foo.h"
 #include "FooRTTI.h"

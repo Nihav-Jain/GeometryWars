@@ -1,9 +1,11 @@
 #pragma once
+
 #include "glm\mat4x4.hpp"
 #include "glm\vec4.hpp"
 
 namespace Library
 {
+	class Scope;
 	/**
 	 *	Defines a run-time polymorphic data type
 	 */
@@ -84,6 +86,7 @@ namespace Library
 			Datum& operator=(const glm::vec4& rhs);
 			Datum& operator=(const glm::mat4x4& rhs);
 			Datum& operator=(RTTI* rhs);
+			Datum& operator=(Scope& rhs);
 
 			/**
 			 *	Gets the DatumType of this Datum
@@ -165,6 +168,7 @@ namespace Library
 			bool operator==(const glm::vec4& rhs) const;
 			bool operator==(const glm::mat4x4& rhs) const;
 			bool operator==(const RTTI* rhs) const;
+			bool operator==(const Scope* rhs) const;
 
 			/**
 			 *	Not-Equals operator overloads
@@ -178,6 +182,7 @@ namespace Library
 			bool operator!=(const glm::vec4& rhs) const;
 			bool operator!=(const glm::mat4x4& rhs) const;
 			bool operator!=(const RTTI* rhs) const;
+			bool operator!=(const Scope* rhs) const;
 
 			/**
 			 *	Sets the given data type value to the given index
@@ -191,6 +196,9 @@ namespace Library
 			void Set(const glm::vec4& value, std::uint32_t index = 0);
 			void Set(const glm::mat4x4& value, std::uint32_t index = 0);
 			void Set(RTTI* value, std::uint32_t index = 0);
+			void Set(Scope& value, std::uint32_t index = 0);
+
+			void Remove(std::uint32_t index);
 
 			/**
 			 *	Gets the data type value at the given index
@@ -199,6 +207,9 @@ namespace Library
 			 */
 			template <typename T>
 			T& Get(std::uint32_t index = 0) const;
+
+			Scope& operator[](std::uint32_t index) const;
+
 
 			/**
 			 *	Parses the given string with a specified format and assignes the value to the given index
@@ -230,6 +241,7 @@ namespace Library
 				glm::vec4* mVec4;
 				glm::mat4x4* mMat4x4;
 				RTTI** mRttiPtr;
+				Scope** mScopePtr;
 			};
 			Data mData;
 

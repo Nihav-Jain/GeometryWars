@@ -22,6 +22,7 @@ namespace Library
 			typedef Vector<ChainType> BucketType;
 			typedef typename ChainType::Iterator ChainIterator;
 
+			static const std::uint32_t DEFAULT_BUCKET_SIZE = 13;
 		public:
 			/**
 			 *	Iterator for the Hashmap
@@ -123,7 +124,7 @@ namespace Library
 			 *	constructs a Hashmap with the specified number of buckets
 			 *	@param initial number of buckets for the Hashmap to start with
 			 */
-			explicit Hashmap(std::uint32_t bucketSize);
+			explicit Hashmap(std::uint32_t bucketSize = DEFAULT_BUCKET_SIZE);
 
 			/**
 			 *	default copy contructor
@@ -169,6 +170,10 @@ namespace Library
 			 *	@return if key already exists, iterator pointing to that pair, else points to newly inserted pair
 			 */
 			Iterator Insert(const PairType& data);
+
+			Iterator Insert(const TKey& key, TData& data);
+
+			Iterator Insert(const PairType& data, bool& didNewInsert);
 
 			/**
 			 *	index operator - inserts the key if not already present

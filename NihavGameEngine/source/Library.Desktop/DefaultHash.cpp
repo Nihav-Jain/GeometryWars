@@ -5,25 +5,17 @@ namespace Library
 {
 	std::uint32_t DefaultHash<int>::operator()(const int& key) const
 	{
-		std::uint32_t hash = 0;
-		int number = key;
-		while (number != 0)
-		{
-			hash += (std::uint32_t)(number % 10);
-			number /= 10;
-		}
-		return hash;
+		return key;
 	}
 
 	std::uint32_t DefaultHash<int*>::operator()(int* key) const
 	{
 		std::uint32_t hash = 0;
-		unsigned char* arr = reinterpret_cast<unsigned char*>(key);
+		std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(key);
 		
-		while (*arr != '\0')
+		for (std::uint32_t i = 0; i < sizeof(key); i++)
 		{
-			hash += (std::uint32_t)(*arr);
-			arr = arr + 1;
+			hash += arr[i];
 		}
 
 		return hash;

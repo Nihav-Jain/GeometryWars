@@ -10,12 +10,14 @@
     <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="RTTI.h" />
+    <ClInclude Include="Scope.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="Datum.cpp" />
+    <ClCompile Include="Scope.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SList.inl" />

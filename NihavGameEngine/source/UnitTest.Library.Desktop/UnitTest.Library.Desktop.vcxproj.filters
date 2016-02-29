@@ -10,6 +10,7 @@
     <ClCompile Include="HashmapTest.cpp" />
     <ClCompile Include="DatumTest.cpp" />
     <ClCompile Include="FooRTTI.cpp" />
+    <ClCompile Include="ScopeTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

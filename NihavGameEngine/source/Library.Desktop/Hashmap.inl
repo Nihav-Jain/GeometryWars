@@ -9,9 +9,15 @@ namespace Library
 	const HashFunctor Hashmap<TKey, TData, HashFunctor>::mHashFunction;
 
 	template<typename TKey, typename TData, typename HashFunctor>
+	const std::uint32_t Hashmap<TKey, TData, HashFunctor>::DEFAULT_BUCKET_SIZE;
+
+	template<typename TKey, typename TData, typename HashFunctor>
 	Hashmap<TKey, TData, HashFunctor>::Hashmap(std::uint32_t bucketSize) :
 		buckets(bucketSize, true), mSize(0), mLowestUsedBucketIndex(bucketSize-1), mHighestUsedBucketIndex(0)
-	{}
+	{
+		if (bucketSize == 0)
+			throw std::exception("Cannot instantiate Hashmap with no buckets");
+	}
 
 	template<typename TKey, typename TData, typename HashFunctor>
 	Hashmap<TKey, TData, HashFunctor>& Hashmap<TKey, TData, HashFunctor>::operator=(Hashmap&& rhs)
@@ -40,12 +46,6 @@ namespace Library
 		rhs.mHighestUsedBucketIndex = 0;
 	}
 
-	//template<typename TKey, typename TData, typename HashFunctor>
-	//Hashmap<TKey, TData, HashFunctor>::~Hashmap()
-	//{
-	//	Clear();
-	//}
-
 	template<typename TKey, typename TData, typename HashFunctor>
 	typename Hashmap<TKey, TData, HashFunctor>::Iterator Hashmap<TKey, TData, HashFunctor>::Find(const TKey& index) const
 	{
@@ -64,10 +64,23 @@ namespace Library
 		return itr;
 	}
 
-	// refactor with ContainsKey()?
 	template<typename TKey, typename TData, typename HashFunctor>
 	typename Hashmap<TKey, TData, HashFunctor>::Iterator Hashmap<TKey, TData, HashFunctor>::Insert(const PairType& data)
 	{
+		bool didNewInsert;
+		return Insert(data, didNewInsert);
+	}
+
+	template<typename TKey, typename TData, typename HashFunctor>
+	typename Hashmap<TKey, TData, HashFunctor>::Iterator Hashmap<TKey, TData, HashFunctor>::Insert(const TKey& key, TData& data)
+	{
+		return Insert(PairType(key, data));
+	}
+
+	template<typename TKey, typename TData, typename HashFunctor>
+	typename Hashmap<TKey, TData, HashFunctor>::Iterator Hashmap<TKey, TData, HashFunctor>::Insert(const PairType& data, bool& didNewInsert)
+	{
+		didNewInsert = false;
 		Iterator itr = Find(data.first);
 		if (itr == end())
 		{
@@ -81,6 +94,7 @@ namespace Library
 				mHighestUsedBucketIndex = bucketIndex;
 
 			mSize++;
+			didNewInsert = true;
 		}
 		return itr;
 	}
@@ -120,7 +134,7 @@ namespace Library
 	template<typename TKey, typename TData, typename HashFunctor>
 	void Hashmap<TKey, TData, HashFunctor>::Clear()
 	{
-		buckets.~BucketType();
+		buckets.Clear();
 		mSize = 0;
 	}
 
@@ -154,6 +168,9 @@ namespace Library
 	template<typename TKey, typename TData, typename HashFunctor>
 	std::float_t Hashmap<TKey, TData, HashFunctor>::LoadFactor() const
 	{
+		if (buckets.IsEmpty())
+			return 0;
+
 		std::uint32_t occupiedBuckets = 0;
 
 		for (auto& itr : buckets)
@@ -170,9 +187,12 @@ namespace Library
 	{
 		Hashmap rehashedMap(numberOfBuckets);
 
-		for (Iterator itr = begin(); itr != end(); ++itr)
+		if (mSize > 0)
 		{
-			rehashedMap.Insert(*itr);
+			for (Iterator itr = begin(); itr != end(); ++itr)
+			{
+				rehashedMap.Insert(*itr);
+			}
 		}
 
 		*this = std::move(rehashedMap);

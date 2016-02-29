@@ -8,8 +8,14 @@ namespace Library
 		public:
 			std::uint32_t operator()(const TKey& key) const
 			{
-				UNREFERENCED_PARAMETER(key);
-				return 0;
+				std::uint32_t hash = 0;
+				std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(const_cast<TKey*>(&key));
+
+				for (std::uint32_t i = 0; i < sizeof(&key); i++)
+				{
+					hash += arr[i];
+				}
+				return hash;
 			}
 	};
 
@@ -19,8 +25,15 @@ namespace Library
 	public:
 		std::uint32_t operator()(TKeyPtr* key) const
 		{
-			UNREFERENCED_PARAMETER(key);
-			return 0;
+			std::uint32_t hash = 0;
+			std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(key);
+
+			for (std::uint32_t i = 0; i < sizeof(key); i++)
+			{
+				hash += arr[i];
+			}
+
+			return hash;
 		}
 	};
 

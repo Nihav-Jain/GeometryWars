@@ -18,6 +18,7 @@
 #include <string>
 
 #include "RTTI.h"
+#include "glm\glm.hpp"
 
 #pragma region Containers
 
@@ -29,4 +30,4 @@
 #pragma endregion
 
 #include "Datum.h"
-
+#include "Scope.h"
