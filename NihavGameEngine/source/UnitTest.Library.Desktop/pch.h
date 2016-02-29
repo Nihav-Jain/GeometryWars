@@ -18,11 +18,17 @@
 #include <iostream>
 #include <cstdint>
 
-#include "Foo.h"
+
+//#include "RTTI.h"
 #include "SList.h"
 #include "Vector.h"
 #include "Stack.h"
 #include "Hashmap.h"
+
+#include "Datum.h"
+
+#include "Foo.h"
+#include "FooRTTI.h"
 
 #ifndef UNREFERENCED_PARAMETER
 #define UNREFERENCED_PARAMETER(P)          (P)

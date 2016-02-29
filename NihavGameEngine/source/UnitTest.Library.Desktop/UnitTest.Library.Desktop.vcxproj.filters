@@ -8,9 +8,12 @@
     <ClCompile Include="VectorTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="HashmapTest.cpp" />
+    <ClCompile Include="DatumTest.cpp" />
+    <ClCompile Include="FooRTTI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Foo.h" />
+    <ClInclude Include="FooRTTI.h" />
   </ItemGroup>
 </Project>

@@ -17,8 +17,16 @@
 #include <utility>
 #include <string>
 
+#include "RTTI.h"
+
+#pragma region Containers
+
 #include "SList.h"
 #include "Vector.h"
 #include "Stack.h"
 #include "Hashmap.h"
+
+#pragma endregion
+
+#include "Datum.h"
 
