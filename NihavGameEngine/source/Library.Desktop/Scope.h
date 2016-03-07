@@ -126,12 +126,12 @@ namespace Library
 		 *	@param child scope to be searched
 		 *	@return name of Datum if found, empty string if gievn Scope if not a child of this Scope
 		 */
-		std::string FindName(const Scope* child) const;
+		std::string FindName(const Scope& child) const;
 
 		/**
 		 *	Destructive and recursive deletion of this Scope
 		 */
-		void Clear();
+		virtual void Clear();
 
 		/**
 		 *	Overriden from parent
@@ -146,7 +146,6 @@ namespace Library
 		 */
 		virtual bool Equals(const RTTI* rhs) const override;
 
-		std::string myName;
 	private:
 
 		/**
@@ -154,7 +153,7 @@ namespace Library
 		 *	@param pointer to Scope to be checked for ancestory
 		 *	@return true if given scope lies in the upward ancestory of the current Scope
 		 */
-		bool IsAncestor(Scope* child) const;
+		bool IsAncestor(const Scope* child) const;
 
 		/**
 		 *	Finds the datum in which the given scope resides
@@ -175,14 +174,14 @@ namespace Library
 		 *	@param Datum where the scope resides
 		 *	@param index of the scope in the Datum
 		 */
-		void RemoveChildScope(Datum* containerDatum, std::uint32_t index);
+		void RemoveChildScope(Datum& containerDatum, std::uint32_t index);
 
 		/**
 		 *	Overload used when we already know the Datum and index of the Scope to be orphaned in its parent
 		 *	@param Datum where the scope resides
 		 *	@param index of the scope in the Datum
 		 */
-		void Orphan(Datum* containerDatum, std::uint32_t index);
+		void Orphan(Datum& containerDatum, std::uint32_t index);
 
 		/**
 		 *	Overload used when we already already have allocated the scope we want to append
@@ -213,7 +212,6 @@ namespace Library
 		SymbolTable mSymbolTable;
 		SymbolList mSymbolList;
 
-		std::uint32_t mInitialSymbolTableSize;
 		static const std::uint32_t DEFAULT_TABLE_SIZE = 13;
 	};
 }

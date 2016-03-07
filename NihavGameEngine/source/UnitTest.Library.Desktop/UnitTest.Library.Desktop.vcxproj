@@ -103,7 +103,7 @@
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4091;4201;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4201;4099;4239;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,7 +126,7 @@
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4091;4201;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4201;4099;4239;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,7 +151,7 @@
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4091;4201;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4201;4099;4239;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -178,7 +178,7 @@
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4091;4201;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4201;4099;4239;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -194,11 +194,22 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AttributedExternalError.h" />
+    <ClInclude Include="AttributedFoo.h" />
+    <ClInclude Include="AttributedFooChild.h" />
+    <ClInclude Include="AttributedInternalError.h" />
+    <ClInclude Include="AttributedNative.h" />
     <ClInclude Include="Foo.h" />
     <ClInclude Include="FooRTTI.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttributedExternalError.cpp" />
+    <ClCompile Include="AttributedFoo.cpp" />
+    <ClCompile Include="AttributedFooChild.cpp" />
+    <ClCompile Include="AttributedInternalError.cpp" />
+    <ClCompile Include="AttributedNative.cpp" />
+    <ClCompile Include="AttributedTest.cpp" />
     <ClCompile Include="DatumTest.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooRTTI.cpp" />

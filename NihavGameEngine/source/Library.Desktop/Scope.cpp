@@ -8,21 +8,20 @@ namespace Library
 	const std::uint32_t Scope::DEFAULT_TABLE_SIZE;
 
 	Scope::Scope(std::uint32_t initialTableSize) :
-		mParent(nullptr), mSymbolTable(initialTableSize), mSymbolList(initialTableSize), mInitialSymbolTableSize(initialTableSize)
+		mParent(nullptr), mSymbolTable(), mSymbolList(initialTableSize)
 	{}
 
 	Scope::Scope(const Scope& rhs) :
-		mParent(nullptr), mSymbolTable(rhs.mInitialSymbolTableSize), mSymbolList(rhs.mSymbolTable.Size()), mInitialSymbolTableSize(rhs.mInitialSymbolTableSize)
+		mParent(nullptr), mSymbolTable(), mSymbolList(rhs.mSymbolList.Size())
 	{
 		RecursiveScopeChildrenCopy(rhs);
 	}
 
 	Scope::Scope(Scope&& rhs) :
-		mParent(rhs.mParent), mSymbolTable(std::move(rhs.mSymbolTable)), mSymbolList(std::move(rhs.mSymbolList)), mInitialSymbolTableSize(rhs.mInitialSymbolTableSize)
+		mParent(rhs.mParent), mSymbolTable(std::move(rhs.mSymbolTable)), mSymbolList(std::move(rhs.mSymbolList))
 	{
 		PointerFixupAfterMove(rhs);
 		rhs.mParent = nullptr;
-		rhs.mInitialSymbolTableSize = 0;
 	}
 
 	Scope::~Scope()
@@ -35,7 +34,7 @@ namespace Library
 		if (this != &rhs)
 		{
 			Clear();
-			mSymbolTable.Rehash(rhs.mInitialSymbolTableSize);
+			mSymbolTable.Rehash(rhs.DEFAULT_TABLE_SIZE);
 			mSymbolList.Reserve(rhs.mSymbolTable.Size());
 			RecursiveScopeChildrenCopy(rhs);
 		}
@@ -52,12 +51,10 @@ namespace Library
 			mParent = rhs.mParent;
 			mSymbolTable = std::move(rhs.mSymbolTable);
 			mSymbolList = std::move(rhs.mSymbolList);
-			mInitialSymbolTableSize = rhs.mInitialSymbolTableSize;
 
 			PointerFixupAfterMove(rhs);
 
 			rhs.mParent = nullptr;
-			rhs.mInitialSymbolTableSize = 0;
 		}
 
 		return *this;
@@ -66,7 +63,7 @@ namespace Library
 	Datum* Scope::Find(const std::string& name) const
 	{
 		if (name.empty())
-			throw std::exception("Cannot find Datum with empty name");
+			return nullptr;
 
 		SymbolTable::Iterator itr = mSymbolTable.Find(name);
 		if(itr == mSymbolTable.end())
@@ -85,7 +82,11 @@ namespace Library
 		}
 
 		if (mParent == nullptr)
+		{
+			if(owner != nullptr)
+				*owner = nullptr;
 			return nullptr;
+		}
 
 		return mParent->Search(name, owner);
 	}
@@ -207,19 +208,22 @@ namespace Library
 
 	bool Scope::operator==(const Scope& rhs) const
 	{
+		if (this == &rhs)
+			return true;
+
 		bool areEqual = false;
 		if (mSymbolList.Size() == rhs.mSymbolList.Size())
 		{
 			areEqual = true;
-			SymbolList::Iterator rhsItr = rhs.mSymbolList.begin();
-			for (auto& symbol : mSymbolList)
+			for (std::uint32_t i = 0; i < mSymbolList.Size(); ++i)
 			{
-				if (*symbol != **rhsItr)
+				if (mSymbolList[i]->first == "this")
+					continue;
+				if (*mSymbolList[i] != *rhs.mSymbolList[i])
 				{
 					areEqual = false;
 					break;
 				}
-				++rhsItr;
 			}
 		}
 		return areEqual;
@@ -230,24 +234,25 @@ namespace Library
 		return !operator==(rhs);
 	}
 
-	std::string Scope::FindName(const Scope* child) const
+	std::string Scope::FindName(const Scope& child) const
 	{
 		std::string childScopeName;
 		SymbolTable::Iterator itr = mSymbolTable.begin();
 		for (; itr != mSymbolTable.end(); ++itr)
 		{
-			if (itr->second.Type() == Datum::DatumType::TABLE)
+			Datum& datum = itr->second;
+			if (datum.Type() == Datum::DatumType::TABLE)
 			{
 				std::uint32_t i;
-				for (i = 0; i < itr->second.Size(); i++)
+				for (i = 0; i < datum.Size(); i++)
 				{
-					if (itr->second.Get<Scope*>(i) == child)
+					if (datum.Get<Scope*>(i) == &child)
 					{
 						childScopeName = itr->first;
 						break;
 					}
 				}
-				if (i < itr->second.Size())
+				if (i < datum.Size())
 					break;
 			}
 		}
@@ -267,7 +272,7 @@ namespace Library
 				{
 					while (symbol->second.Size() > 0U)
 					{
-						Orphan(&symbol->second, 0);
+						Orphan(symbol->second, 0);
 						delete symbol->second.Get<Scope*>();
 					}
 				}
@@ -290,7 +295,7 @@ namespace Library
 		return operator==(*rhs->As<Scope>());
 	}
 
-	bool Scope::IsAncestor(Scope* child) const
+	bool Scope::IsAncestor(const Scope* child) const
 	{
 		if (child == this)
 			return true;
@@ -331,15 +336,15 @@ namespace Library
 		{
 			throw std::exception("Given scope is not my child.");
 		}
-		RemoveChildScope(containerDatum, index);
+		RemoveChildScope(*containerDatum, index);
 	}
 
-	void Scope::RemoveChildScope(Datum* containerDatum, std::uint32_t index)
+	void Scope::RemoveChildScope(Datum& containerDatum, std::uint32_t index)
 	{
-		containerDatum->Remove(index);
+		containerDatum.Remove(index);
 	}
 
-	void Scope::Orphan(Datum* containerDatum, std::uint32_t index)
+	void Scope::Orphan(Datum& containerDatum, std::uint32_t index)
 	{
 		if (mParent != nullptr)
 			mParent->RemoveChildScope(containerDatum, index);

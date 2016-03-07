@@ -73,8 +73,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(ScopeTestFind)
 		{
 			Scope rootScope;
-			auto expression = [&] {rootScope.Find(""); };
-			Assert::ExpectException<std::exception>(expression);
+			Assert::IsNull(rootScope.Find(""));
 
 			Datum& datum1 = rootScope.Append("power");
 			Assert::IsTrue(&datum1 == rootScope.Find("power"));
@@ -220,10 +219,10 @@ namespace UnitTestLibraryDesktop
 
 			Scope& powerScope2 = rootScope.AppendScope("power");
 
-			Assert::IsTrue(rootScope.FindName(&powerScope2) == "power");
+			Assert::IsTrue(rootScope.FindName(powerScope2) == "power");
 
 			Scope randomScope;
-			Assert::IsTrue(rootScope.FindName(&randomScope).empty());
+			Assert::IsTrue(rootScope.FindName(randomScope).empty());
 		}
 
 		TEST_METHOD(ScopeTestClear)
@@ -242,7 +241,7 @@ namespace UnitTestLibraryDesktop
 
 			powerScope1.Clear();
 			Assert::IsNull(powerScope1.GetParent());
-			Assert::IsTrue(rootScope.FindName(&powerScope1).empty());
+			Assert::IsTrue(rootScope.FindName(powerScope1).empty());
 
 			delete &powerScope1;
 		}
@@ -297,28 +296,23 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(ScopeTestMoveCtor)
 		{
 			Scope rootScope;
-			rootScope.myName = "rootScope";
 			Datum& healthDatum = rootScope.Append("health");
 			healthDatum = 100;
 
 			Scope& powerScope1 = rootScope.AppendScope("power");
-			powerScope1.myName = "powerScope1";
 			Datum& attackPowerDatum = powerScope1.Append("attackPower");
 			attackPowerDatum = 1000;
 
 			Scope& firePowerScope = powerScope1.AppendScope("firePower");
-			firePowerScope.myName = "firePowerScope";
 			Datum& fireAttackPower = firePowerScope.Append("attackPower");
 			fireAttackPower = 10.2f;
 
 			Scope rootScope2 = std::move(rootScope);
-			rootScope2.myName = "rootScope2";
 			Assert::IsNull(rootScope2.GetParent());
 			Assert::IsNotNull(rootScope2.Find("health"));
 			Assert::IsTrue(rootScope2.Find("power")->Get<Scope*>() == &powerScope1);
 
 			Scope powerScope2 = std::move(powerScope1);
-			powerScope2.myName = "powerScope2";
 
 			delete &powerScope1;
 		}

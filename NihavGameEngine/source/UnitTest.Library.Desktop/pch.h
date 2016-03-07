@@ -17,7 +17,8 @@
 #include <exception>
 #include <iostream>
 #include <cstdint>
-
+#include <utility>
+#include <string>
 
 //#include "RTTI.h"
 #include "SList.h"
@@ -27,9 +28,13 @@
 
 #include "Datum.h"
 #include "Scope.h"
+#include "Attributed.h"
 
 #include "Foo.h"
 #include "FooRTTI.h"
+#include "AttributedFoo.h"
+#include "AttributedFooChild.h"
+#include "AttributedNative.h"
 
 #ifndef UNREFERENCED_PARAMETER
 #define UNREFERENCED_PARAMETER(P)          (P)

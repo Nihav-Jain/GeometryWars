@@ -4,17 +4,64 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="FooTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
-    <ClCompile Include="Foo.cpp" />
     <ClCompile Include="VectorTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="HashmapTest.cpp" />
     <ClCompile Include="DatumTest.cpp" />
-    <ClCompile Include="FooRTTI.cpp" />
     <ClCompile Include="ScopeTest.cpp" />
+    <ClCompile Include="AttributedTest.cpp" />
+    <ClCompile Include="AttributedExternalError.cpp">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedFoo.cpp">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedFooChild.cpp">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedInternalError.cpp">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedNative.cpp">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="FooRTTI.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Foo.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Foo.h" />
-    <ClInclude Include="FooRTTI.h" />
+    <ClInclude Include="AttributedExternalError.h">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedFoo.h">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedFooChild.h">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedInternalError.h">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedNative.h">
+      <Filter>TestHelpers\AttributedTestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="FooRTTI.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Foo.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TestHelpers">
+      <UniqueIdentifier>{208fc6d3-8635-472e-8296-2127b686e97c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestHelpers\AttributedTestHelpers">
+      <UniqueIdentifier>{b497aafa-4779-4a93-937c-6475163552b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
