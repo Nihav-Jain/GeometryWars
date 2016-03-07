@@ -182,6 +182,8 @@ namespace Library
 			 */
 			TData& operator[](const TKey& key);
 
+			TData& operator[](const TKey& key) const;
+
 			/**
 			 *	removed pair associated with given key, does nothing if key is not found
 			 *	@param Key for the data to be removed

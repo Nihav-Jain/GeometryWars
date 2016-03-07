@@ -32,3 +32,6 @@
 #include "Datum.h"
 #include "Scope.h"
 #include "Attributed.h"
+
+//#include "XmlParseMaster.h"
+//#include "IXmlParseHelper.h"

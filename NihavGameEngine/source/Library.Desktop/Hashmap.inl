@@ -107,6 +107,15 @@ namespace Library
 	}
 
 	template<typename TKey, typename TData, typename HashFunctor>
+	TData& Hashmap<TKey, TData, HashFunctor>::operator[](const TKey& index) const
+	{
+		Iterator itr = Find(index);
+		if (itr == end())
+			throw std::exception("Invalid index");
+		return (*itr).second;
+	}
+
+	template<typename TKey, typename TData, typename HashFunctor>
 	void Hashmap<TKey, TData, HashFunctor>::Remove(const TKey& index)
 	{
 		Iterator itr = Find(index);
@@ -134,7 +143,11 @@ namespace Library
 	template<typename TKey, typename TData, typename HashFunctor>
 	void Hashmap<TKey, TData, HashFunctor>::Clear()
 	{
-		buckets.Clear();
+		for (auto& chain : buckets)
+		{
+			chain.Clear();
+		}
+		//buckets.Clear();
 		mSize = 0;
 	}
 

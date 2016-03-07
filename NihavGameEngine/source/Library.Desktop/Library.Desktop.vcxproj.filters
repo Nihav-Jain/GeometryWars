@@ -2,29 +2,61 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SList.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="Stack.h" />
-    <ClInclude Include="Hashmap.h" />
-    <ClInclude Include="DefaultReserveStrategy.h" />
-    <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scope.h" />
     <ClInclude Include="Attributed.h" />
+    <ClInclude Include="Vector.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="SList.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Hashmap.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultReserveStrategy.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultHash.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="IXmlParseHelper.h" />
+    <ClInclude Include="XmlParseMaster.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="DefaultReserveStrategy.cpp" />
-    <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="Datum.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Attributed.cpp" />
+    <ClCompile Include="DefaultReserveStrategy.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultHash.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseMaster.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SList.inl" />
-    <None Include="Vector.inl" />
-    <None Include="Stack.inl" />
-    <None Include="Hashmap.inl" />
+    <None Include="Vector.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="Stack.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="SList.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="Hashmap.inl">
+      <Filter>Containers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{9200d2f2-c985-4c30-b54a-2eed345be36e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

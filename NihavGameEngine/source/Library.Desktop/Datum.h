@@ -16,7 +16,7 @@ namespace Library
 			/**
 			 *	Enumerated list of datatypes supported by Datum
 			 */
-			typedef enum class DatumType
+			enum class DatumType
 			{
 				UNKNOWN,
 				INTEGER,
@@ -32,7 +32,7 @@ namespace Library
 			/**
 			 *	Enumerated list of storage types supported by Datum
 			 */
-			typedef enum class DatumStorageType
+			enum class DatumStorageType
 			{
 				UNKNOWN,
 				INTERNAL,

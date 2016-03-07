@@ -31,6 +31,19 @@
     <ClCompile Include="Foo.cpp">
       <Filter>TestHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="XmlParseMasterTest.cpp" />
+    <ClCompile Include="AngryBirdsSharedData.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AngryBirdsXmlParseHelper.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelper.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="TestSharedData.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -53,6 +66,18 @@
       <Filter>TestHelpers</Filter>
     </ClInclude>
     <ClInclude Include="Foo.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AngryBirdsXmlParseHelper.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AngryBirdsSharedData.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelper.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSharedData.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
   </ItemGroup>
