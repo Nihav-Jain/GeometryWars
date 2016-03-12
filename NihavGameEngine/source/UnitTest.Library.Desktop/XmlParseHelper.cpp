@@ -24,11 +24,8 @@ bool XmlParseHelper::EndElementHandler(XmlParseMaster::SharedData& sharedData, c
 	return true;
 }
 
-bool XmlParseHelper::CharDataHandler(Library::XmlParseMaster::SharedData& sharedData, const std::string& charData, std::int32_t length)
+bool XmlParseHelper::CharDataHandler(Library::XmlParseMaster::SharedData& sharedData, const std::string& charData)
 {
-	UNREFERENCED_PARAMETER(charData);
-	UNREFERENCED_PARAMETER(length);
-
 	TestSharedData* data = sharedData.As<TestSharedData>();
 	if (data == nullptr)
 		return false;
@@ -38,7 +35,7 @@ bool XmlParseHelper::CharDataHandler(Library::XmlParseMaster::SharedData& shared
 	return true;
 }
 
-IXmlParseHelper* XmlParseHelper::Clone()
+IXmlParseHelper* XmlParseHelper::Clone() const
 {
 	return new XmlParseHelper();
 }

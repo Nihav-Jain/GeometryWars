@@ -74,7 +74,7 @@ bool AngryBirdsXmlParseHelper::EndElementHandler(XmlParseMaster::SharedData& sha
 	return true;
 }
 
-IXmlParseHelper* AngryBirdsXmlParseHelper::Clone()
+IXmlParseHelper* AngryBirdsXmlParseHelper::Clone() const
 {
 	return new AngryBirdsXmlParseHelper();
 }
@@ -101,8 +101,6 @@ bool AngryBirdsXmlParseHelper::ParseElement<AngryBirdsXmlParseHelper::ElementNam
 	Datum& angrybirds = sharedData.mAngryBirdsData["angrybirds"];
 	Scope& birds = angrybirds.Get<Scope*>()->AppendScope("birds");
 	
-	//Datum& src = birds.Append("src");
-	//src = attributes["src"];
 	birds["src"] = attributes["src"];
 	birds["imageWidth"] = std::stoi(attributes["imageWidth"]);
 	birds["imageHeight"] = std::stoi(attributes["imageHeight"]);

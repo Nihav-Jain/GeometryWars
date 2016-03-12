@@ -14,7 +14,7 @@ public:
 
 	AngryBirdsSharedData& operator=(const AngryBirdsSharedData& rhs) = delete;
 
-	virtual Library::XmlParseMaster::SharedData* Clone() override;
+	virtual Library::XmlParseMaster::SharedData* Clone() const override;
 	Library::Scope mAngryBirdsData;
 };
 

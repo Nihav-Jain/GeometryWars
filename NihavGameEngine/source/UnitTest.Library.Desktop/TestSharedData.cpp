@@ -9,7 +9,7 @@ TestSharedData::TestSharedData() :
 	mData(std::string())
 {}
 
-XmlParseMaster::SharedData* TestSharedData::Clone()
+XmlParseMaster::SharedData* TestSharedData::Clone() const
 {
 	return new TestSharedData();
 }

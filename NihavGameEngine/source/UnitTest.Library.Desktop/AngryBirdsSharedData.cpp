@@ -9,7 +9,7 @@ AngryBirdsSharedData::AngryBirdsSharedData() :
 	mAngryBirdsData(1)
 {}
 
-XmlParseMaster::SharedData* AngryBirdsSharedData::Clone()
+XmlParseMaster::SharedData* AngryBirdsSharedData::Clone() const
 {
 	return new AngryBirdsSharedData();
 }

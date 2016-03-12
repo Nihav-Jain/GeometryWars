@@ -5,10 +5,9 @@
 namespace Library
 {
 	XmlParseMaster::XmlParseMaster(SharedData& sharedData) :
-		mSharedData(&sharedData), mHelpers(), mLastClonedHelper(0), mIsCloned(false), mFileName(std::string()), mXmlParser(XML_ParserCreate(NULL))
+		mSharedData(&sharedData), mHelpers(), mLastClonedHelper(0), mIsCloned(false), mFileName(std::string()), mXmlParser(nullptr)
 	{
 		mSharedData->SetXmlParseMaster(this);
-		InitializeXmlParser();
 	}
 
 	XmlParseMaster::~XmlParseMaster()
@@ -25,7 +24,7 @@ namespace Library
 		XML_ParserFree(mXmlParser);
 	}
 
-	XmlParseMaster* XmlParseMaster::Clone()
+	XmlParseMaster* XmlParseMaster::Clone() const
 	{
 		SharedData* clonedSharedData = mSharedData->Clone();
 		XmlParseMaster* clonedParseMaster = new XmlParseMaster(*clonedSharedData);
@@ -50,11 +49,10 @@ namespace Library
 		mHelpers.Remove(mHelpers.Find(&helper));
 	}
 
-	bool XmlParseMaster::Parse(const char* document, std::int32_t length, bool isLastChunk, bool isFirstChunk)
+	bool XmlParseMaster::Parse(const char* document, std::int32_t length, bool isFirstChunk, bool isLastChunk)
 	{
 		if (isFirstChunk)
 		{
-			XML_ParserReset(mXmlParser, NULL);
 			InitializeXmlParser();
 
 			for (auto helper : mHelpers)
@@ -87,7 +85,7 @@ namespace Library
 
 			std::uint32_t fileLength = static_cast<std::uint32_t>(fileData.length());
 
-			if (!Parse(fileData.c_str(), fileLength, !fileInputStream.good(), isFirstChunk))
+			if (!Parse(fileData.c_str(), fileLength, isFirstChunk, !fileInputStream.good()))
 			{
 				fileInputStream.close();
 				return false;
@@ -110,8 +108,15 @@ namespace Library
 
 	void XmlParseMaster::SetSharedData(SharedData& sharedData)
 	{
+		if (mIsCloned)
+			delete mSharedData;
 		mSharedData = &sharedData;
 		mSharedData->SetXmlParseMaster(this);
+	}
+
+	const Vector<IXmlParseHelper*>& XmlParseMaster::Helpers() const
+	{
+		return mHelpers;
 	}
 
 	void XmlParseMaster::StartElementHandler(void* userData, const char* elementName, const char** attributes)
@@ -143,7 +148,6 @@ namespace Library
 		XmlParseMaster* xmlParseMaster = reinterpret_cast<XmlParseMaster*>(userData);
 		assert(xmlParseMaster != nullptr);
 
-		xmlParseMaster->GetSharedData()->DecrementDepth();
 		for (std::uint32_t i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
 		{
 			if (xmlParseMaster->mHelpers[i]->EndElementHandler(*xmlParseMaster->GetSharedData(), elementName))
@@ -151,6 +155,7 @@ namespace Library
 				break;
 			}
 		}
+		xmlParseMaster->GetSharedData()->DecrementDepth();
 	}
 
 	void XmlParseMaster::CharDataHandler(void* userData, const char* characterStream, int length)
@@ -158,16 +163,10 @@ namespace Library
 		XmlParseMaster* xmlParseMaster = reinterpret_cast<XmlParseMaster*>(userData);
 		assert(xmlParseMaster != nullptr);
 
-		std::string characterData;
-		characterData.reserve(length);
-		std::uint32_t i;
-		for (i = 0; i < (std::uint32_t)length; i++)
+		std::string characterData(characterStream, characterStream + length);
+		for (std::uint32_t i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
 		{
-			characterData.push_back(characterStream[i]);
-		}
-		for (i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
-		{
-			if (xmlParseMaster->mHelpers[i]->CharDataHandler(*xmlParseMaster->GetSharedData(), characterData, length))
+			if (xmlParseMaster->mHelpers[i]->CharDataHandler(*xmlParseMaster->GetSharedData(), characterData))
 			{
 				break;
 			}
@@ -176,6 +175,10 @@ namespace Library
 
 	void XmlParseMaster::InitializeXmlParser()
 	{
+		if (mXmlParser == nullptr)
+			mXmlParser = XML_ParserCreate(NULL);
+		else
+			XML_ParserReset(mXmlParser, NULL);
 		XML_SetElementHandler(mXmlParser, XmlParseMaster::StartElementHandler, XmlParseMaster::EndElementHandler);
 		XML_SetCharacterDataHandler(mXmlParser, XmlParseMaster::CharDataHandler);
 		XML_SetUserData(mXmlParser, this);
@@ -187,7 +190,7 @@ namespace Library
 		SharedData(nullptr, 0)
 	{}
 
-	XmlParseMaster::SharedData* XmlParseMaster::SharedData::Clone()
+	XmlParseMaster::SharedData* XmlParseMaster::SharedData::Clone() const
 	{
 		SharedData* clonedSharedData = new SharedData(mParseMaster, 0);
 

@@ -14,7 +14,7 @@ public:
 
 	TestSharedData& operator=(const TestSharedData& rhs) = delete;
 
-	virtual Library::XmlParseMaster::SharedData* Clone() override;
+	virtual Library::XmlParseMaster::SharedData* Clone() const override;
 	std::string mData;
 };
 

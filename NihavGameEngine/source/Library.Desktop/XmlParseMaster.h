@@ -16,7 +16,7 @@ namespace Library
 	/**
 	 *	Master XML parser class which wraps the Expat XML parser and conveys the parsed results to subscribed helpers for handling specific grammers
 	 */
-	class XmlParseMaster
+	class XmlParseMaster final
 	{
 	public:
 
@@ -27,7 +27,7 @@ namespace Library
 		{
 			RTTI_DECLARATIONS(SharedData, RTTI);
 		public:
-
+			friend XmlParseMaster;
 			/**
 			 *	Default parameterless constructor for SharedData
 			 */
@@ -55,19 +55,13 @@ namespace Library
 			 *	Default constructed SharedData
 			 *	@return pointer to the newly constructed SharedData
 			 */
-			virtual SharedData* Clone();
+			virtual SharedData* Clone() const;
 
 			/**
 			 *	Accessor for the parse master of this SharedData
 			 *	@return pointer to the parse master of this SharedData
 			 */
 			XmlParseMaster* GetXmlParseMaster() const;
-
-			/**
-			 *	Mutator for the parse master of this SharedData
-			 *	@param pointer to the parse master of this SharedData
-			 */
-			void SetXmlParseMaster(XmlParseMaster* parseMaster);
 
 			/**
 			 *	Increments the depth of this SharedData by 1
@@ -84,13 +78,19 @@ namespace Library
 			 *	@return depth
 			 */
 			std::uint32_t Depth() const;
-		protected:
 
+		protected:
 			/**
 			 *	Protected constructor, works as a helper
 			 */
 			SharedData(XmlParseMaster* parseMaster, std::uint32_t depth);
+
 		private:
+			/**
+			 * 	Mutator for the parse master of this SharedData
+			 *	@param pointer to the parse master of this SharedData
+			 */
+			void SetXmlParseMaster(XmlParseMaster* parseMaster);
 			XmlParseMaster* mParseMaster;
 			std::uint32_t mDepth;
 		};
@@ -99,7 +99,7 @@ namespace Library
 		 *	Constructor
 		 *	@param reference to the SharedData for this parse master
 		 */
-		XmlParseMaster(SharedData& sharedData);
+		explicit XmlParseMaster(SharedData& sharedData);
 
 		/**
 		 *	Copy Constructor
@@ -122,7 +122,7 @@ namespace Library
 		 *	Recreates a parse master with clones of its SharedData and all its helpers
 		 *	@return pointer to the newly cloned parse master
 		 */
-		XmlParseMaster* Clone();
+		XmlParseMaster* Clone() const;
 
 		/**
 		 *	Adds a parse helper to the list of helpers of this parse master
@@ -143,7 +143,7 @@ namespace Library
 		 *	@param boolean indicating whether the passed character stream is the last chunk of the XML document to be parsed
 		 *	@return true if parsing was successful, false if there was an error
 		 */
-		bool Parse(const char* document, std::int32_t length, bool isLastChunk, bool isFirstChunk = false);
+		bool Parse(const char* document, std::int32_t length, bool isFirstChunk = true, bool isLastChunk = true);
 
 		/**
 		 *	Parses the given character stream of XML
@@ -169,6 +169,12 @@ namespace Library
 		 *	@param reference to the shared data
 		 */
 		void SetSharedData(SharedData& sharedData);
+
+		/**
+		 *	Returns the list of all helpers for this Parse Master
+		 *	@return pointer to the shared data
+		 */
+		const Vector<IXmlParseHelper*>& Helpers() const;
 
 	private:
 

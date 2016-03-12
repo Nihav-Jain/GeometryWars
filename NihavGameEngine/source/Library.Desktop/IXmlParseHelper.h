@@ -13,17 +13,16 @@ namespace Library
 		virtual ~IXmlParseHelper() = default;
 		IXmlParseHelper& operator=(const IXmlParseHelper& rhs) = delete;
 
-		virtual void Initialize() = 0;
+		virtual void Initialize() {};
 		virtual bool StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes) = 0;
 		virtual bool EndElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName) = 0;
-		virtual bool CharDataHandler(XmlParseMaster::SharedData& sharedData, const std::string& charData, std::int32_t length) 
+		virtual bool CharDataHandler(XmlParseMaster::SharedData& sharedData, const std::string& charData) 
 		{ 
 			UNREFERENCED_PARAMETER(sharedData);
 			UNREFERENCED_PARAMETER(charData);
-			UNREFERENCED_PARAMETER(length);
 			return false; 
 		};
-		virtual IXmlParseHelper* Clone() = 0;
+		virtual IXmlParseHelper* Clone() const = 0;
 	};
 }
 

@@ -20,7 +20,7 @@ public:
 	virtual void Initialize() override;
 	virtual bool StartElementHandler(Library::XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Library::Hashmap<std::string, std::string>& attributes) override;
 	virtual bool EndElementHandler(Library::XmlParseMaster::SharedData& sharedData, const std::string& elementName) override;
-	virtual IXmlParseHelper* Clone() override;
+	virtual IXmlParseHelper* Clone() const override;
 
 	static void ClearElementParsers();
 

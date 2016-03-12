@@ -60,7 +60,7 @@ namespace UnitTestLibraryDesktop
 				AngryBirdsXmlParseHelper angrybirdsParseHelper;
 
 				angryBirdsParser.AddHelper(angrybirdsParseHelper);
-				Assert::IsTrue(angryBirdsParser.Parse(xml, static_cast<std::int32_t>(strlen(xml)), true, true));
+				Assert::IsTrue(angryBirdsParser.Parse(xml, static_cast<std::int32_t>(strlen(xml))));
 				Assert::AreEqual(0U, angryBirdsData.Depth());
 
 				Datum* angrybirds = angryBirdsData.mAngryBirdsData.Find("angrybirds");
@@ -146,7 +146,7 @@ namespace UnitTestLibraryDesktop
 
 			XmlParseMaster* clonedParseMaster = parseMaster.Clone();
 			const char* xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><angrybirds><birds src=\"Textures/SR_Regular_Birds-1.png\" imageWidth=\"1017\" imageHeight=\"1024\"/></angrybirds>";
-			Assert::IsTrue(clonedParseMaster->Parse(xml, static_cast<std::int32_t>(strlen(xml)), true, true));
+			Assert::IsTrue(clonedParseMaster->Parse(xml, static_cast<std::int32_t>(strlen(xml))));
 			Assert::AreEqual(0U, clonedParseMaster->GetSharedData()->Depth());
 
 			delete clonedParseMaster;
@@ -169,7 +169,7 @@ namespace UnitTestLibraryDesktop
 			parseMaster.AddHelper(helper);
 
 			const char* xml = "<first>Char Data</first>";
-			Assert::IsTrue(parseMaster.Parse(xml, static_cast<std::int32_t>(strlen(xml)), true, true));
+			Assert::IsTrue(parseMaster.Parse(xml, static_cast<std::int32_t>(strlen(xml))));
 			Assert::IsTrue(sharedData.mData == "Char Data");
 		}
 
