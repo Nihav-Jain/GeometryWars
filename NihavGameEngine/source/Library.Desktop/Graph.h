@@ -137,6 +137,7 @@ namespace Library
 
 		Traversor AddVertex(T& vertexData);
 		Traversor AddVertex(T& vertexData, Traversor& parentVertex);
+		void CreateEdge(Traversor& tailVertex, Traversor& headVertex);
 
 		Traversor Begin() const;
 
@@ -148,7 +149,6 @@ namespace Library
 
 		Vector<Vertex*> mVertexList;
 		Vector<Edge*> mEdgeList;
-		friend Traversor;
 	};
 
 }

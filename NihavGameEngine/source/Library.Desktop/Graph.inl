@@ -64,6 +64,13 @@ namespace Library
 	}
 
 	template<typename T>
+	void Graph<T>::CreateEdge(Traversor& tailVertex, Traversor& headVertex)
+	{
+		Vector<Edge*>::Iterator newEdge = mEdgeList.PushBack(new Edge(*(headVertex.mCurrentVertex), *(tailVertex.mCurrentVertex)));
+		tailVertex.mCurrentVertex->AddEdge(**newEdge);
+	}
+
+	template<typename T>
 	void Graph<T>::CreateEdge(Vertex& headVertex, Vertex& tailVertex)
 	{
 		Vector<Edge*>::Iterator newEdge = mEdgeList.PushBack(new Edge(headVertex, tailVertex));
