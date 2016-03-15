@@ -50,6 +50,8 @@ namespace Library
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END, true))
 			throw std::exception("Invalid script syntax");
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
+			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->ScopeStack.Pop();
 
@@ -75,6 +77,7 @@ namespace Library
 		if (ParserStateAutomata.IsEmpty())
 		{
 			ParserState root = ParserState::ROOT_STATE;
+			ParserState endRouter = ParserState::END_STATE_ROUTER;
 			ParserState scopeStart = ParserState::SCOPE_START;
 			ParserState scopeEnd = ParserState::SCOPE_END;
 			//ParserState intStart = ParserState::INTEGER_START;
@@ -84,10 +87,22 @@ namespace Library
 			//ParserState valueStart = ParserState::VALUE_START;
 			//ParserState valueEnd = ParserState::VALUE_END;
 
+			// root -> end_state_router
+			// root -> scope_start -> scope_end -> end_state_router
 			Graph<ParserState>::Traversor rootState = ParserStateAutomata.AddVertex(root);
 			Graph<ParserState>::Traversor scopeStartState = ParserStateAutomata.AddVertex(scopeStart, rootState);
+			Graph<ParserState>::Traversor endRouterState = ParserStateAutomata.AddVertex(endRouter, rootState);
 			Graph<ParserState>::Traversor scopeEndState = ParserStateAutomata.AddVertex(scopeEnd, scopeStartState);
-			ParserStateAutomata.AddVertex(scopeStart, scopeEndState);
+			ParserStateAutomata.CreateEdge(scopeEndState, endRouterState);
+
+			// scope_start -> int_start -> name_start -> name_end -> value_start -> value_end -> int_end
+			// int_end -> scope_end
+			// int_end -> end_state_router
+
+			// connect end_state_router to all possible start states
+			ParserStateAutomata.CreateEdge(endRouterState, scopeStartState);
+			// also connect end_state_router to the scope_end state
+			ParserStateAutomata.CreateEdge(endRouterState, scopeEndState);
 		}
 
 		StateTraversor = ParserStateAutomata.Begin();

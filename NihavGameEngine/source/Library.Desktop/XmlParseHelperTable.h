@@ -22,6 +22,7 @@ namespace Library
 			{
 				UNKNOWN,
 				ROOT_STATE,
+				END_STATE_ROUTER,
 				SCOPE_START,
 				SCOPE_END,
 				INTEGER_START,
