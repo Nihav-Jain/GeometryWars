@@ -25,6 +25,7 @@
 #include "Vector.h"
 #include "Stack.h"
 #include "Hashmap.h"
+#include "Graph.h"
 
 #include "Datum.h"
 #include "Scope.h"

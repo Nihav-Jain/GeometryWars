@@ -26,6 +26,7 @@
 #include "Vector.h"
 #include "Stack.h"
 #include "Hashmap.h"
+#include "Graph.h"
 
 #pragma endregion
 

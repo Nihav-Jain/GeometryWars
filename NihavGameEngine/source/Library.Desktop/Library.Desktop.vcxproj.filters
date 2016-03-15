@@ -26,6 +26,9 @@
     </ClInclude>
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="XmlParseMaster.h" />
+    <ClInclude Include="XmlParseHelperTable.h" />
+    <ClInclude Include="XmlParseHelperPrimitives.h" />
+    <ClInclude Include="Graph.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -39,6 +42,8 @@
       <Filter>Containers</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseMaster.cpp" />
+    <ClCompile Include="XmlParseHelperTable.cpp" />
+    <ClCompile Include="XmlParseHelperPrimitives.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -53,10 +58,14 @@
     <None Include="Hashmap.inl">
       <Filter>Containers</Filter>
     </None>
+    <None Include="Graph.inl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Containers">
       <UniqueIdentifier>{9200d2f2-c985-4c30-b54a-2eed345be36e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XmlParseHelpers">
+      <UniqueIdentifier>{5a96a001-e4a9-4694-9437-8c9cc16c73c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

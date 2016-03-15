@@ -44,6 +44,7 @@
     <ClCompile Include="TestSharedData.cpp">
       <Filter>TestHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="GraphTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

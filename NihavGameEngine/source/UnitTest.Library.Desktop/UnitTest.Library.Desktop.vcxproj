@@ -231,6 +231,7 @@
     <ClCompile Include="DatumTest.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooRTTI.cpp" />
+    <ClCompile Include="GraphTest.cpp" />
     <ClCompile Include="HashmapTest.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

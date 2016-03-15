@@ -204,6 +204,7 @@
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="DefaultReserveStrategy.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
@@ -212,7 +213,9 @@
     <ClInclude Include="SList.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseMaster.h" />
+    <ClInclude Include="XmlParseHelperTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Attributed.cpp" />
@@ -226,9 +229,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Scope.cpp" />
+    <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
+    <ClCompile Include="XmlParseHelperTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graph.inl" />
     <None Include="Hashmap.inl" />
     <None Include="SList.inl" />
     <None Include="Stack.inl" />
