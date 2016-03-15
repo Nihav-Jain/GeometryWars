@@ -140,6 +140,9 @@ namespace Library
 
 		Traversor Begin() const;
 
+		bool IsEmpty() const;
+		void Clear();
+
 	private:
 		void CreateEdge(Vertex& headVertex, Vertex& tailVertex);
 

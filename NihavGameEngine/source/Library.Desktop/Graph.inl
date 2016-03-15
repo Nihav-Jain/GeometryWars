@@ -15,14 +15,7 @@ namespace Library
 	template<typename T>
 	Graph<T>::~Graph()
 	{
-		for (Vertex* vertex : mVertexList)
-		{
-			delete vertex;
-		}
-		for (Edge* edge : mEdgeList)
-		{
-			delete edge;
-		}
+		Clear();
 	}
 
 	template<typename T>
@@ -47,6 +40,27 @@ namespace Library
 	{
 		Traversor rootTraversor(**(mVertexList.begin()), this);
 		return rootTraversor;
+	}
+
+	template<typename T>
+	bool Graph<T>::IsEmpty() const
+	{
+		return mVertexList.IsEmpty();
+	}
+
+	template<typename T>
+	void Graph<T>::Clear()
+	{
+		for (auto vertex : mVertexList)
+		{
+			delete vertex;
+		}
+		for (auto edge : mEdgeList)
+		{
+			delete edge;
+		}
+		mVertexList.Clear();
+		mEdgeList.Clear();
 	}
 
 	template<typename T>
