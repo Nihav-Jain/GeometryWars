@@ -238,6 +238,12 @@ namespace Library
 	}
 
 	template<typename T>
+	void Graph<T>::Traversor::ResetChildrenIterator()
+	{
+		mCurrentChildIndex = 0;
+	}
+
+	template<typename T>
 	Graph<T>::Traversor::Traversor(Vertex& currentVertex, const Graph* owner) :
 		mCurrentVertex(&currentVertex), mOwner(owner), mCurrentChildIndex(0)
 	{}

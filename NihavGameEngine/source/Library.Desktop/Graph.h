@@ -102,6 +102,7 @@ namespace Library
 			T& GetCurrentChildVertex() const;
 			bool MoveToNextChild();
 			bool TraverseToCurrentChild();
+			void ResetChildrenIterator();
 
 			T& operator*();
 		private:
