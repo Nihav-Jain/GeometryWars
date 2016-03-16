@@ -56,7 +56,14 @@ namespace Library
 
 			mCurrentDataName = attributes["name"];
 			Datum& primitiveDatum = sharedDataPtr->ScopeStack.Top()->Append(mCurrentDataName);
-			primitiveDatum = 0; // default value for integer
+
+			if (mCurrentDataName == "integer")
+				primitiveDatum = 0;
+			else if (mCurrentDataName == "float")
+				primitiveDatum = 0.0f;
+			else if (mCurrentDataName == "string")
+				primitiveDatum = "";
+
 			if (attributes.ContainsKey("value"))
 			{
 				if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_START))

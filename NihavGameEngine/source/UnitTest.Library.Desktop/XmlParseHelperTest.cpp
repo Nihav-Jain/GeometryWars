@@ -58,6 +58,8 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(firstChildScopeDatum != nullptr);
 
 			Scope& firstChildScope = *firstChildScopeDatum->Get<Scope*>();
+
+			// int
 			Datum* intvarDatum = firstChildScope.Find("intvar");
 			Assert::IsTrue(intvarDatum != nullptr);
 			Assert::IsTrue(*intvarDatum == 10);
@@ -69,6 +71,33 @@ namespace UnitTestLibraryDesktop
 			Datum* intvar3Datum = firstChildScope.Find("intvar3");
 			Assert::IsTrue(intvar3Datum != nullptr);
 			Assert::IsTrue(*intvar3Datum == 30);
+
+			// float
+			Datum* floatvarDatum = firstChildScope.Find("floatvar");
+			Assert::IsTrue(floatvarDatum != nullptr);
+			Assert::IsTrue(*floatvarDatum == 10.10f);
+
+			Datum* floatvar2Datum = firstChildScope.Find("floatvar2");
+			Assert::IsTrue(floatvar2Datum != nullptr);
+			Assert::IsTrue(*floatvar2Datum == 20.20f);
+
+			Datum* floatvar3Datum = firstChildScope.Find("floatvar3");
+			Assert::IsTrue(floatvar3Datum != nullptr);
+			Assert::IsTrue(*floatvar3Datum == 30.30f);
+
+			// string
+			// float
+			Datum* strvarDatum = firstChildScope.Find("stringvar");
+			Assert::IsTrue(strvarDatum != nullptr);
+			Assert::IsTrue(*strvarDatum == "stringvalue");
+
+			Datum* strvar2Datum = firstChildScope.Find("stringvar2");
+			Assert::IsTrue(strvar2Datum != nullptr);
+			Assert::IsTrue(*strvar2Datum == "stringvalue2");
+
+			Datum* strvar3Datum = firstChildScope.Find("stringvar3");
+			Assert::IsTrue(strvar3Datum != nullptr);
+			Assert::IsTrue(*strvar3Datum == "stringvalue3");
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
