@@ -1,4 +1,5 @@
 #pragma once
+#include "SList.h"
 
 namespace Library
 {

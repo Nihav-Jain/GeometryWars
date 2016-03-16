@@ -1,14 +1,18 @@
 #pragma once
 #include "IXmlParseHelper.h"
 #include "XmlParseHelperTable.h"
+#include "SharedDataTable.h"
 
 namespace Library
 {
+	/**
+	 *	Parser to handle <vector> element and convert it into a glm::vec4
+	 */
 	class XmlParseHelperVector : public IXmlParseHelper
 	{
 	public:
-		XmlParseHelperVector();
-		virtual ~XmlParseHelperVector();
+		XmlParseHelperVector() = default;
+		virtual ~XmlParseHelperVector() = default;
 		XmlParseHelperVector(const XmlParseHelperVector& rhs) = delete;
 
 		XmlParseHelperVector& operator=(const XmlParseHelperVector& rhs) = delete;

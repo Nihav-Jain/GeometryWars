@@ -3,18 +3,9 @@
 
 namespace Library
 {
-	XmlParseHelperMatrix::XmlParseHelperMatrix()
-	{
-	}
-
-
-	XmlParseHelperMatrix::~XmlParseHelperMatrix()
-	{
-	}
-
 	bool XmlParseHelperMatrix::StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
 		if (elementName != "matrix")
@@ -22,7 +13,7 @@ namespace Library
 		if (!attributes.ContainsKey("name"))
 			throw std::exception("Invalid script syntax. missing variable name.");
 
-		if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::MATRIX_START))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::MATRIX_START))
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->ParsedElements.Push(elementName);
@@ -53,15 +44,15 @@ namespace Library
 
 	bool XmlParseHelperMatrix::EndElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
 		if (elementName != "matrix")
 			return false;
 
-		if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::MATRIX_END))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::MATRIX_END))
 			throw std::exception("Invalid script syntax");
-		if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::END_STATE_ROUTER))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->ParsedElements.Pop();

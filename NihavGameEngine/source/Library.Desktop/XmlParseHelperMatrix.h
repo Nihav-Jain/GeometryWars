@@ -1,14 +1,18 @@
 #pragma once
 #include "IXmlParseHelper.h"
 #include "XmlParseHelperTable.h"
+#include "SharedDataTable.h"
 
 namespace Library
 {
+	/**
+	 *	Parser to handle <matrix> element and convert it into a glm::mat4
+	 */
 	class XmlParseHelperMatrix : public IXmlParseHelper
 	{
 	public:
-		XmlParseHelperMatrix();
-		virtual ~XmlParseHelperMatrix();
+		XmlParseHelperMatrix() = default;
+		virtual ~XmlParseHelperMatrix() = default;
 		XmlParseHelperMatrix(const XmlParseHelperMatrix& rhs) = delete;
 
 		XmlParseHelperMatrix& operator=(const XmlParseHelperMatrix& rhs) = delete;

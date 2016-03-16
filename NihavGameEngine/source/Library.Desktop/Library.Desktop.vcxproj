@@ -210,6 +210,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scope.h" />
+    <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
@@ -232,6 +233,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Scope.cpp" />
+    <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="XmlParseHelperMatrix.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />

@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "XmlParseMaster.h"
+#include "SharedDataTable.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
@@ -27,7 +28,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
-			XmlParseHelperTable::SharedDataTable::ClearStateGraph();
+			SharedDataTable::ClearStateGraph();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
@@ -42,7 +43,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(XmlParseTable)
 		{
-			XmlParseHelperTable::SharedDataTable sharedData;
+			SharedDataTable sharedData;
 			XmlParseMaster master(sharedData);
 			XmlParseHelperTable tableParser;
 			XmlParseHelperPrimitives primitivesParser;
@@ -117,6 +118,12 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(matDatum != nullptr);
 			Assert::IsTrue(*matDatum == sampleMat);
 
+			XmlParseMaster* clonedMaster = master.Clone();
+			auto expression = [&] {clonedMaster->ParseFromFile("Content/config/xml_invalid_table.xml"); };
+			Assert::ExpectException<std::exception>(expression);
+			
+			auto expression2 = [&] {clonedMaster->ParseFromFile("Content/config/xml_invalid_table_state.xml"); };
+			Assert::ExpectException<std::exception>(expression2);
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

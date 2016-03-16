@@ -15,11 +15,6 @@ namespace Library
 		}
 	}
 
-
-	XmlParseHelperNameValue::~XmlParseHelperNameValue()
-	{
-	}
-
 	void XmlParseHelperNameValue::Initialize()
 	{
 		mCharData = std::string();
@@ -29,7 +24,7 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(attributes);
 
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
 		if (mAcceptableElementNames.Find(elementName) == mAcceptableElementNames.end())
@@ -37,13 +32,13 @@ namespace Library
 
 		if (elementName == "name")
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::NAME_START))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_START))
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->ParsedElements.Push("name");
 		}
 		else if (elementName == "value")
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_START))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->ParsedElements.Push("value");
 		}
@@ -54,7 +49,7 @@ namespace Library
 
 	bool XmlParseHelperNameValue::EndElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
 		if (mAcceptableElementNames.Find(elementName) == mAcceptableElementNames.end())
@@ -63,7 +58,7 @@ namespace Library
 		// assigne the name and the value here
 		if (elementName == "name")
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::NAME_END))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_END))
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->DataName = mCharData;
 			sharedDataPtr->NameValueElementDataParsed = true;
@@ -71,7 +66,7 @@ namespace Library
 		}
 		else if (elementName == "value")
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_END))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->DataValue = mCharData;
 			sharedDataPtr->ParsedElements.Pop();
@@ -83,10 +78,10 @@ namespace Library
 
 	bool XmlParseHelperNameValue::CharDataHandler(XmlParseMaster::SharedData& sharedData, const std::string& charData)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
-		if (*(sharedDataPtr->StateTraversor) != XmlParseHelperTable::SharedDataTable::ParserState::NAME_START && *(sharedDataPtr->StateTraversor) != XmlParseHelperTable::SharedDataTable::ParserState::VALUE_START)
+		if (*(sharedDataPtr->StateTraversor) != SharedDataTable::ParserState::NAME_START && *(sharedDataPtr->StateTraversor) != SharedDataTable::ParserState::VALUE_START)
 			return false;
 
 		mCharData.append(charData);

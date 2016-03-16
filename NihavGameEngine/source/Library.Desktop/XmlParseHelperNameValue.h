@@ -8,11 +8,14 @@
 
 namespace Library
 {
+	/**
+	 *	Parser to handle <name> and <value> elements
+	 */
 	class XmlParseHelperNameValue : public IXmlParseHelper
 	{
 	public:
 		XmlParseHelperNameValue();
-		virtual ~XmlParseHelperNameValue();
+		virtual ~XmlParseHelperNameValue() = default;
 
 		XmlParseHelperNameValue(const XmlParseHelperNameValue& rhs) = delete;
 		XmlParseHelperNameValue& operator=(const XmlParseHelperNameValue& rhs) = delete;

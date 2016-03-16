@@ -4,31 +4,26 @@
 namespace Library
 {
 	Hashmap<std::string, XmlParseHelperPrimitives::ValueConvertor> XmlParseHelperPrimitives::mValueConvertors;
-	Hashmap<std::string, XmlParseHelperTable::SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseEndStates;
-	Hashmap<std::string, XmlParseHelperTable::SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseStartStates;
+	Hashmap<std::string, SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseEndStates;
+	Hashmap<std::string, SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseStartStates;
 
 	XmlParseHelperPrimitives::XmlParseHelperPrimitives() :
 		mCharData(), mCurrentDataName()
 	{
 		if (mValueConvertors.Size() == 0U)
 		{
-			mValueConvertors["integer"] = &XmlParseHelperPrimitives::ConvertValue<XmlParseHelperTable::SharedDataTable::ParserState::INTEGER_END>;
-			mValueConvertors["float"] = &XmlParseHelperPrimitives::ConvertValue<XmlParseHelperTable::SharedDataTable::ParserState::FLOAT_END>;
-			mValueConvertors["string"] = &XmlParseHelperPrimitives::ConvertValue<XmlParseHelperTable::SharedDataTable::ParserState::STRING_END>;
+			mValueConvertors["integer"] = &XmlParseHelperPrimitives::ConvertValue<SharedDataTable::ParserState::INTEGER_END>;
+			mValueConvertors["float"] = &XmlParseHelperPrimitives::ConvertValue<SharedDataTable::ParserState::FLOAT_END>;
+			mValueConvertors["string"] = &XmlParseHelperPrimitives::ConvertValue<SharedDataTable::ParserState::STRING_END>;
 
-			mElementParseEndStates["integer"] = XmlParseHelperTable::SharedDataTable::ParserState::INTEGER_END;
-			mElementParseEndStates["float"] = XmlParseHelperTable::SharedDataTable::ParserState::FLOAT_END;
-			mElementParseEndStates["string"] = XmlParseHelperTable::SharedDataTable::ParserState::STRING_END;
+			mElementParseEndStates["integer"] = SharedDataTable::ParserState::INTEGER_END;
+			mElementParseEndStates["float"] = SharedDataTable::ParserState::FLOAT_END;
+			mElementParseEndStates["string"] = SharedDataTable::ParserState::STRING_END;
 
-			mElementParseStartStates["integer"] = XmlParseHelperTable::SharedDataTable::ParserState::INTEGER_START;
-			mElementParseStartStates["float"] = XmlParseHelperTable::SharedDataTable::ParserState::FLOAT_START;
-			mElementParseStartStates["string"] = XmlParseHelperTable::SharedDataTable::ParserState::STRING_START;
+			mElementParseStartStates["integer"] = SharedDataTable::ParserState::INTEGER_START;
+			mElementParseStartStates["float"] = SharedDataTable::ParserState::FLOAT_START;
+			mElementParseStartStates["string"] = SharedDataTable::ParserState::STRING_START;
 		}
-	}
-
-
-	XmlParseHelperPrimitives::~XmlParseHelperPrimitives()
-	{
 	}
 
 	void XmlParseHelperPrimitives::Initialize()
@@ -38,7 +33,7 @@ namespace Library
 
 	bool XmlParseHelperPrimitives::StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
 		if (!mValueConvertors.ContainsKey(elementName))
@@ -47,11 +42,12 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(mElementParseStartStates[elementName]))
 			throw std::exception("Invalid script syntax");
 		sharedDataPtr->ParsedElements.Push(elementName);
+		// <integer name="variableName">
 		if (attributes.ContainsKey("name"))
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::NAME_START))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_START))
 				throw std::exception("Invalid script syntax");
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::NAME_END))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_END))
 				throw std::exception("Invalid script syntax");
 
 			mCurrentDataName = attributes["name"];
@@ -64,11 +60,12 @@ namespace Library
 			else if (mCurrentDataName == "string")
 				primitiveDatum = "";
 
+			// <integer name="variableName" value="variableValue"/>
 			if (attributes.ContainsKey("value"))
 			{
-				if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_START))
+				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
 					throw std::exception("Invalid script syntax");
-				if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_END))
+				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
 
 				(this->*mValueConvertors[elementName])(*sharedDataPtr, mCurrentDataName, attributes["value"]);
@@ -81,7 +78,7 @@ namespace Library
 
 	bool XmlParseHelperPrimitives::EndElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;		
 		if (!mValueConvertors.ContainsKey(elementName))
@@ -90,7 +87,7 @@ namespace Library
 		// <integer name="varname">10</integer>
 		if (!mCharData.empty())
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_END))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			(this->*mValueConvertors[elementName])(*sharedDataPtr, mCurrentDataName, mCharData);
 		}
@@ -105,7 +102,7 @@ namespace Library
 
 		if (!sharedDataPtr->CheckStateTransition(mElementParseEndStates[elementName]))
 			throw std::exception("Invalid script syntax");
-		if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::END_STATE_ROUTER))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->ParsedElements.Pop();
@@ -117,14 +114,14 @@ namespace Library
 
 	bool XmlParseHelperPrimitives::CharDataHandler(XmlParseMaster::SharedData& sharedData, const std::string& charData)
 	{
-		XmlParseHelperTable::SharedDataTable* sharedDataPtr = sharedData.As<XmlParseHelperTable::SharedDataTable>();
+		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
 		if (!mValueConvertors.ContainsKey(sharedDataPtr->ParsedElements.Top()))
 			return false;
 		if (mCharData.empty() && !charData.empty())
 		{
-			if (!sharedDataPtr->CheckStateTransition(XmlParseHelperTable::SharedDataTable::ParserState::VALUE_START))
+			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
 				return false;
 		}
 		mCharData.append(charData);
@@ -139,19 +136,19 @@ namespace Library
 #pragma region ValueConvertors
 
 	template<>
-	void XmlParseHelperPrimitives::ConvertValue<XmlParseHelperTable::SharedDataTable::ParserState::INTEGER_END>(XmlParseHelperTable::SharedDataTable& sharedData, const std::string& name, const std::string& valueStr)
+	void XmlParseHelperPrimitives::ConvertValue<SharedDataTable::ParserState::INTEGER_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr)
 	{
 		sharedData.ScopeStack.Top()->operator[](name) = std::stoi(valueStr);
 	}
 
 	template<>
-	void XmlParseHelperPrimitives::ConvertValue<XmlParseHelperTable::SharedDataTable::ParserState::FLOAT_END>(XmlParseHelperTable::SharedDataTable& sharedData, const std::string& name, const std::string& valueStr)
+	void XmlParseHelperPrimitives::ConvertValue<SharedDataTable::ParserState::FLOAT_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr)
 	{
 		sharedData.ScopeStack.Top()->operator[](name) = std::stof(valueStr);
 	}
 
 	template<>
-	void XmlParseHelperPrimitives::ConvertValue<XmlParseHelperTable::SharedDataTable::ParserState::STRING_END>(XmlParseHelperTable::SharedDataTable& sharedData, const std::string& name, const std::string& valueStr)
+	void XmlParseHelperPrimitives::ConvertValue<SharedDataTable::ParserState::STRING_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr)
 	{
 		sharedData.ScopeStack.Top()->operator[](name) = valueStr;
 	}

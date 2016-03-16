@@ -203,9 +203,26 @@ namespace Library
 
 		void InitializeXmlParser();
 
-		std::string& trim_right_inplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
-		std::string& trim_left_inplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
-		std::string& trim_inplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+		/**
+		 *	trims the delimiter string from the end of given string
+		 *	@param string to trim
+		 * 	@param delimiter to trim, default value is a string containing all whitespace characters
+		 */
+		std::string& TrimRightInplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+
+		/**
+		 *	trims the delimiter string from the start of given string
+		 *	@param string to trim
+		 * 	@param delimiter to trim, default value is a string containing all whitespace characters
+		 */
+		std::string& TrimLeftInplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+
+		/**
+		 *	trims the given string based on the delimiter string
+		 *	@param string to trim
+		 * 	@param delimiter to trim, default value is a string containing all whitespace characters
+		 */
+		std::string& TrimInplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
 
 		SharedData* mSharedData;
 		Vector<IXmlParseHelper*> mHelpers;
