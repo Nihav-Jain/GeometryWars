@@ -18,5 +18,6 @@
 			<name>stringvar3</name>
 			<value>stringvalue3</value>
 		</string>
+		<vector name="position" x="10" y="20" z="30" w="1"/>
 	</scope>
 </scope>

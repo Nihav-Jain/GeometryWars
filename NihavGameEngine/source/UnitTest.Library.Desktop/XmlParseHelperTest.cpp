@@ -5,6 +5,7 @@
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
+#include "XmlParseHelperVector.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -45,9 +46,12 @@ namespace UnitTestLibraryDesktop
 			XmlParseHelperTable tableParser;
 			XmlParseHelperPrimitives primitivesParser;
 			XmlParseHelperNameValue nameValueParser;
+			XmlParseHelperVector vectorParser;
+
 			master.AddHelper(tableParser);
 			master.AddHelper(primitivesParser);
 			master.AddHelper(nameValueParser);
+			master.AddHelper(vectorParser);
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xmltabletest.xml"));
 			
@@ -86,7 +90,6 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(*floatvar3Datum == 30.30f);
 
 			// string
-			// float
 			Datum* strvarDatum = firstChildScope.Find("stringvar");
 			Assert::IsTrue(strvarDatum != nullptr);
 			Assert::IsTrue(*strvarDatum == "stringvalue");
@@ -98,6 +101,11 @@ namespace UnitTestLibraryDesktop
 			Datum* strvar3Datum = firstChildScope.Find("stringvar3");
 			Assert::IsTrue(strvar3Datum != nullptr);
 			Assert::IsTrue(*strvar3Datum == "stringvalue3");
+
+			// vector
+			Datum* vecvarDatum = firstChildScope.Find("position");
+			Assert::IsTrue(vecvarDatum != nullptr);
+			Assert::IsTrue(*vecvarDatum == glm::vec4(10, 20, 30, 1));
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

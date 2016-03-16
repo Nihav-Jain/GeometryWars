@@ -215,6 +215,7 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
+    <ClInclude Include="XmlParseHelperVector.h" />
     <ClInclude Include="XmlParseMaster.h" />
     <ClInclude Include="XmlParseHelperTable.h" />
   </ItemGroup>
@@ -232,6 +233,7 @@
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
+    <ClCompile Include="XmlParseHelperVector.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp" />
   </ItemGroup>
