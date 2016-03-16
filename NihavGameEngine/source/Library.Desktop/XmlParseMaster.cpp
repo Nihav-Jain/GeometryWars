@@ -164,6 +164,7 @@ namespace Library
 		assert(xmlParseMaster != nullptr);
 
 		std::string characterData(characterStream, characterStream + length);
+		characterData = xmlParseMaster->trim_inplace(characterData);
 		for (std::uint32_t i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
 		{
 			if (xmlParseMaster->mHelpers[i]->CharDataHandler(*xmlParseMaster->GetSharedData(), characterData))
@@ -182,6 +183,22 @@ namespace Library
 		XML_SetElementHandler(mXmlParser, XmlParseMaster::StartElementHandler, XmlParseMaster::EndElementHandler);
 		XML_SetCharacterDataHandler(mXmlParser, XmlParseMaster::CharDataHandler);
 		XML_SetUserData(mXmlParser, this);
+	}
+
+
+	std::string& XmlParseMaster::trim_right_inplace(std::string& s, const std::string& delimiters)
+	{
+		return s.erase(s.find_last_not_of(delimiters) + 1);
+	}
+
+	std::string& XmlParseMaster::trim_left_inplace(std::string& s, const std::string& delimiters)
+	{
+		return s.erase(0, s.find_first_not_of(delimiters));
+	}
+
+	std::string& XmlParseMaster::trim_inplace(std::string& s, const std::string& delimiters)
+	{
+		return trim_left_inplace(trim_right_inplace(s, delimiters), delimiters);
 	}
 
 #pragma region SharedData

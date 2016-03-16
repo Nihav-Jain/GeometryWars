@@ -203,6 +203,10 @@ namespace Library
 
 		void InitializeXmlParser();
 
+		std::string& trim_right_inplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+		std::string& trim_left_inplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+		std::string& trim_inplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+
 		SharedData* mSharedData;
 		Vector<IXmlParseHelper*> mHelpers;
 
