@@ -6,6 +6,7 @@
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
 #include "XmlParseHelperVector.h"
+#include "XmlParseHelperMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -47,11 +48,13 @@ namespace UnitTestLibraryDesktop
 			XmlParseHelperPrimitives primitivesParser;
 			XmlParseHelperNameValue nameValueParser;
 			XmlParseHelperVector vectorParser;
+			XmlParseHelperMatrix matrixParser;
 
 			master.AddHelper(tableParser);
 			master.AddHelper(primitivesParser);
 			master.AddHelper(nameValueParser);
 			master.AddHelper(vectorParser);
+			master.AddHelper(matrixParser);
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xmltabletest.xml"));
 			
@@ -106,6 +109,14 @@ namespace UnitTestLibraryDesktop
 			Datum* vecvarDatum = firstChildScope.Find("position");
 			Assert::IsTrue(vecvarDatum != nullptr);
 			Assert::IsTrue(*vecvarDatum == glm::vec4(10, 20, 30, 1));
+
+			glm::mat4 sampleMat = glm::mat4(10);
+
+			// matrix
+			Datum* matDatum = firstChildScope.Find("transform");
+			Assert::IsTrue(matDatum != nullptr);
+			Assert::IsTrue(*matDatum == sampleMat);
+
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

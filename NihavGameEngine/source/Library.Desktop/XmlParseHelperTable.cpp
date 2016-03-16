@@ -94,6 +94,8 @@ namespace Library
 			ParserState stringEnd = ParserState::STRING_END;
 			ParserState vectorStart = ParserState::VECTOR_START;
 			ParserState vectorEnd = ParserState::VECTOR_END;
+			ParserState matStart = ParserState::MATRIX_START;
+			ParserState matEnd = ParserState::MATRIX_END;
 
 
 			// root -> end_state_router
@@ -140,12 +142,19 @@ namespace Library
 			Graph<ParserState>::Traversor vectorEndState = ParserStateAutomata.AddVertex(vectorEnd, vectorStartState);
 			ParserStateAutomata.CreateEdge(vectorEndState, endRouterState);
 
+			// scope_start -> vector_start -> vector_end
+			// vector_end -> end_state_router
+			Graph<ParserState>::Traversor matStartState = ParserStateAutomata.AddVertex(matStart, scopeStartState);
+			Graph<ParserState>::Traversor matEndState = ParserStateAutomata.AddVertex(matEnd, matStartState);
+			ParserStateAutomata.CreateEdge(matEndState, endRouterState);
+
 			// connect end_state_router to all possible start states
 			ParserStateAutomata.CreateEdge(endRouterState, scopeStartState);
 			ParserStateAutomata.CreateEdge(endRouterState, intStartState);
 			ParserStateAutomata.CreateEdge(endRouterState, floatStartState);
 			ParserStateAutomata.CreateEdge(endRouterState, stringStartState);
 			ParserStateAutomata.CreateEdge(endRouterState, vectorStartState);
+			ParserStateAutomata.CreateEdge(endRouterState, matStartState);
 
 			// also connect end_state_router to the scope_end state
 			ParserStateAutomata.CreateEdge(endRouterState, scopeEndState);

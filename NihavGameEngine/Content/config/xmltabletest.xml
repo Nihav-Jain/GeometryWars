@@ -19,5 +19,6 @@
 			<value>stringvalue3</value>
 		</string>
 		<vector name="position" x="10" y="20" z="30" w="1"/>
+		<matrix name="transform" x0="10" y1="10" z2="10" w3="10" />
 	</scope>
 </scope>
