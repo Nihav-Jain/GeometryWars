@@ -213,6 +213,7 @@
     <ClInclude Include="SList.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseMaster.h" />
     <ClInclude Include="XmlParseHelperTable.h" />
@@ -229,6 +230,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Scope.cpp" />
+    <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp" />

@@ -1,3 +1,10 @@
 <scope name="rootscope">
-	<scope name="firstchildscope"></scope>
+	<scope name="firstchildscope">
+		<integer name="intvar" value="10"/>
+		<integer name="intvar2">20</integer>
+		<integer>
+			<name>intvar3</name>
+			<value>30</value>
+		</integer>
+	</scope>
 </scope>

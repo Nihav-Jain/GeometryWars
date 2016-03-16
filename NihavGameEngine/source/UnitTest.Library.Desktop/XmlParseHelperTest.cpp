@@ -3,6 +3,8 @@
 
 #include "XmlParseMaster.h"
 #include "XmlParseHelperTable.h"
+#include "XmlParseHelperPrimitives.h"
+#include "XmlParseHelperNameValue.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -41,7 +43,11 @@ namespace UnitTestLibraryDesktop
 			XmlParseHelperTable::SharedDataTable sharedData;
 			XmlParseMaster master(sharedData);
 			XmlParseHelperTable tableParser;
+			XmlParseHelperPrimitives primitivesParser;
+			XmlParseHelperNameValue nameValueParser;
 			master.AddHelper(tableParser);
+			master.AddHelper(primitivesParser);
+			master.AddHelper(nameValueParser);
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xmltabletest.xml"));
 			
@@ -51,7 +57,18 @@ namespace UnitTestLibraryDesktop
 			Datum* firstChildScopeDatum = rootScopeDatum->Get<Scope*>()->Find("firstchildscope");
 			Assert::IsTrue(firstChildScopeDatum != nullptr);
 
+			Scope& firstChildScope = *firstChildScopeDatum->Get<Scope*>();
+			Datum* intvarDatum = firstChildScope.Find("intvar");
+			Assert::IsTrue(intvarDatum != nullptr);
+			Assert::IsTrue(*intvarDatum == 10);
 
+			Datum* intvar2Datum = firstChildScope.Find("intvar2");
+			Assert::IsTrue(intvar2Datum != nullptr);
+			Assert::IsTrue(*intvar2Datum == 20);
+
+			Datum* intvar3Datum = firstChildScope.Find("intvar3");
+			Assert::IsTrue(intvar3Datum != nullptr);
+			Assert::IsTrue(*intvar3Datum == 30);
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

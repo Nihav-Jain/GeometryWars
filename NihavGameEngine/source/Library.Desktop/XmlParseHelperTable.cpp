@@ -36,6 +36,7 @@ namespace Library
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->ScopeStack.Push(&(sharedDataPtr->ScopeStack.Top()->AppendScope(attributes["name"])));
+		sharedDataPtr->ParsedElements.Push(elementName);
 
 		return true;
 	}
@@ -54,6 +55,7 @@ namespace Library
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->ScopeStack.Pop();
+		sharedDataPtr->ParsedElements.Pop();
 
 		return true;
 	}
@@ -69,7 +71,7 @@ namespace Library
 	RTTI_DEFINITIONS(XmlParseHelperTable::SharedDataTable);
 
 	XmlParseHelperTable::SharedDataTable::SharedDataTable() :
-		RootScope(), ScopeStack(), ParsedElements()
+		RootScope(), ScopeStack(), ParsedElements(), DataName(), DataValue(), NameValueElementDataParsed(false)
 	{
 		ScopeStack.Push(&RootScope);
 
@@ -80,12 +82,12 @@ namespace Library
 			ParserState endRouter = ParserState::END_STATE_ROUTER;
 			ParserState scopeStart = ParserState::SCOPE_START;
 			ParserState scopeEnd = ParserState::SCOPE_END;
-			//ParserState intStart = ParserState::INTEGER_START;
-			//ParserState intEnd = ParserState::INTEGER_END;
-			//ParserState nameStart = ParserState::NAME_START;
-			//ParserState nameEnd = ParserState::NAME_END;
-			//ParserState valueStart = ParserState::VALUE_START;
-			//ParserState valueEnd = ParserState::VALUE_END;
+			ParserState intStart = ParserState::INTEGER_START;
+			ParserState intEnd = ParserState::INTEGER_END;
+			ParserState nameStart = ParserState::NAME_START;
+			ParserState nameEnd = ParserState::NAME_END;
+			ParserState valueStart = ParserState::VALUE_START;
+			ParserState valueEnd = ParserState::VALUE_END;
 
 			// root -> end_state_router
 			// root -> scope_start -> scope_end -> end_state_router
@@ -96,13 +98,22 @@ namespace Library
 			ParserStateAutomata.CreateEdge(scopeEndState, endRouterState);
 
 			// scope_start -> int_start -> name_start -> name_end -> value_start -> value_end -> int_end
-			// int_end -> scope_end
 			// int_end -> end_state_router
+			Graph<ParserState>::Traversor intStartState = ParserStateAutomata.AddVertex(intStart, scopeStartState);
+			Graph<ParserState>::Traversor nameStartState = ParserStateAutomata.AddVertex(nameStart, intStartState);
+			Graph<ParserState>::Traversor nameEndState = ParserStateAutomata.AddVertex(nameEnd, nameStartState);
+			Graph<ParserState>::Traversor valueStartState = ParserStateAutomata.AddVertex(valueStart, nameEndState);
+			Graph<ParserState>::Traversor valueEndState = ParserStateAutomata.AddVertex(valueEnd, valueStartState);
+			Graph<ParserState>::Traversor intEndState = ParserStateAutomata.AddVertex(intEnd, valueEndState);
+			ParserStateAutomata.CreateEdge(intEndState, endRouterState);
 
 			// connect end_state_router to all possible start states
 			ParserStateAutomata.CreateEdge(endRouterState, scopeStartState);
+			ParserStateAutomata.CreateEdge(endRouterState, intStartState);
+
 			// also connect end_state_router to the scope_end state
 			ParserStateAutomata.CreateEdge(endRouterState, scopeEndState);
+
 		}
 
 		StateTraversor = ParserStateAutomata.Begin();
@@ -133,6 +144,7 @@ namespace Library
 				return true;
 			}
 		}
+		StateTraversor.ResetChildrenIterator();
 		while (StateTraversor.HasMoreChildren())
 		{
 			if (StateTraversor.GetCurrentChildVertex() == expectedState)

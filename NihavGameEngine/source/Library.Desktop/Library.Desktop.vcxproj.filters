@@ -29,6 +29,7 @@
     <ClInclude Include="XmlParseHelperTable.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="XmlParseHelperNameValue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -44,6 +45,7 @@
     <ClCompile Include="XmlParseMaster.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
+    <ClCompile Include="XmlParseHelperNameValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

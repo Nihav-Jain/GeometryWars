@@ -58,6 +58,11 @@ namespace Library
 			static Graph<ParserState> ParserStateAutomata;
 			Graph<ParserState>::Traversor StateTraversor;
 			Scope RootScope;
+
+			std::string DataName;
+			std::string DataValue;
+			bool NameValueElementDataParsed;
+
 		private:
 
 		};
