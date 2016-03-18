@@ -3,6 +3,8 @@
 
 namespace Library
 {
+	Hashmap<std::string, XmlParseHelperPrimitives::MetaData> XmlParseHelperPrimitives::mElementMetaData;
+
 	XmlParseHelperPrimitives::XmlParseHelperPrimitives() :
 		mCharData(), mCurrentDataName()
 	{
@@ -135,6 +137,7 @@ namespace Library
 
 	void XmlParseHelperPrimitives::ClearStaticMembers()
 	{
+		mElementMetaData.Clear();
 	}
 
 }
