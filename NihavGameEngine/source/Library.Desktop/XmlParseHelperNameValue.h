@@ -26,9 +26,10 @@ namespace Library
 		virtual bool CharDataHandler(XmlParseMaster::SharedData& sharedData, const std::string& charData);
 		virtual IXmlParseHelper* Clone() const;
 
+		static void ClearStaticMembers();
 	private:
 		std::string mCharData;
-		static Vector<std::string> mAcceptableElementNames;
+		Vector<std::string> mAcceptableElementNames;
 	};
 }
 

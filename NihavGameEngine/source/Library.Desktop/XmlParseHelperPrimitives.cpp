@@ -3,9 +3,9 @@
 
 namespace Library
 {
-	Hashmap<std::string, XmlParseHelperPrimitives::ValueConvertor> XmlParseHelperPrimitives::mValueConvertors;
-	Hashmap<std::string, SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseEndStates;
-	Hashmap<std::string, SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseStartStates;
+	//Hashmap<std::string, XmlParseHelperPrimitives::ValueConvertor> XmlParseHelperPrimitives::mValueConvertors;
+	//Hashmap<std::string, SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseEndStates;
+	//Hashmap<std::string, SharedDataTable::ParserState> XmlParseHelperPrimitives::mElementParseStartStates;
 
 	XmlParseHelperPrimitives::XmlParseHelperPrimitives() :
 		mCharData(), mCurrentDataName()
@@ -131,6 +131,13 @@ namespace Library
 	IXmlParseHelper* XmlParseHelperPrimitives::Clone() const
 	{
 		return new XmlParseHelperPrimitives();
+	}
+
+	void XmlParseHelperPrimitives::ClearStaticMembers()
+	{
+		//mValueConvertors.Clear();
+		//mElementParseStartStates.Clear();
+		//mElementParseEndStates.Clear();
 	}
 
 #pragma region ValueConvertors

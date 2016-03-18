@@ -89,7 +89,7 @@ namespace Library
 		/**
 		 *	A graph to maintain the parsing state diagram
 		 */
-		static Graph<ParserState> ParserStateAutomata;
+		Graph<ParserState> ParserStateAutomata;
 
 		/**
 		 *	Traversor to manage the current vertex and possible transitions of the state diagram

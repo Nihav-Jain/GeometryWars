@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	Vector<std::string> XmlParseHelperNameValue::mAcceptableElementNames(2);
+	//Vector<std::string> XmlParseHelperNameValue::mAcceptableElementNames(2);
 
 	XmlParseHelperNameValue::XmlParseHelperNameValue() :
 		mCharData()
@@ -55,7 +55,6 @@ namespace Library
 		if (mAcceptableElementNames.Find(elementName) == mAcceptableElementNames.end())
 			return false;
 
-		// assigne the name and the value here
 		if (elementName == "name")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_END))
@@ -91,6 +90,11 @@ namespace Library
 	IXmlParseHelper* XmlParseHelperNameValue::Clone() const
 	{
 		return new XmlParseHelperNameValue();
+	}
+
+	void XmlParseHelperNameValue::ClearStaticMembers()
+	{
+		//mAcceptableElementNames.Clear();
 	}
 
 

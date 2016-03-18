@@ -42,6 +42,7 @@ namespace Library
 		virtual bool CharDataHandler(XmlParseMaster::SharedData& sharedData, const std::string& charData) override;
 		virtual IXmlParseHelper* Clone() const override;
 
+		static void ClearStaticMembers();
 	private:
 
 		template <SharedDataTable::ParserState T>
@@ -54,9 +55,9 @@ namespace Library
 		void ConvertValue<SharedDataTable::ParserState::STRING_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr);
 
 		typedef void (XmlParseHelperPrimitives::*ValueConvertor)(SharedDataTable&, const std::string&, const std::string&);
-		static Hashmap<std::string, ValueConvertor> mValueConvertors;
-		static Hashmap<std::string, SharedDataTable::ParserState> mElementParseEndStates;
-		static Hashmap<std::string, SharedDataTable::ParserState> mElementParseStartStates;
+		Hashmap<std::string, ValueConvertor> mValueConvertors;
+		Hashmap<std::string, SharedDataTable::ParserState> mElementParseEndStates;
+		Hashmap<std::string, SharedDataTable::ParserState> mElementParseStartStates;
 
 		std::string mCharData;
 		std::string mCurrentDataName;

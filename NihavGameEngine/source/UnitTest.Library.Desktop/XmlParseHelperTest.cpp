@@ -29,13 +29,15 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
 			SharedDataTable::ClearStateGraph();
+			XmlParseHelperPrimitives::ClearStaticMembers();
+			XmlParseHelperNameValue::ClearStaticMembers();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
 			{
 				_CrtMemDumpStatistics(&diffMemState);
-				//Assert::Fail(L"Memory Leaks!");
+				Assert::Fail(L"Memory Leaks!");
 			}
 		}
 #endif
@@ -124,6 +126,8 @@ namespace UnitTestLibraryDesktop
 			
 			auto expression2 = [&] {clonedMaster->ParseFromFile("Content/config/xml_invalid_table_state.xml"); };
 			Assert::ExpectException<std::exception>(expression2);
+
+			delete clonedMaster;
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
