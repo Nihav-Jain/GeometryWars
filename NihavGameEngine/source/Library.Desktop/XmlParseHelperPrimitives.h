@@ -45,19 +45,14 @@ namespace Library
 		static void ClearStaticMembers();
 	private:
 
-		template <SharedDataTable::ParserState T>
-		void ConvertValue(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr);
-		template<>
-		void ConvertValue<SharedDataTable::ParserState::INTEGER_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr);
-		template<>
-		void ConvertValue<SharedDataTable::ParserState::FLOAT_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr);
-		template<>
-		void ConvertValue<SharedDataTable::ParserState::STRING_END>(SharedDataTable& sharedData, const std::string& name, const std::string& valueStr);
+		struct MetaData
+		{
+			SharedDataTable::ParserState mStartState;
+			SharedDataTable::ParserState mEndState;
+			Datum::DatumType mType;
+		};
 
-		typedef void (XmlParseHelperPrimitives::*ValueConvertor)(SharedDataTable&, const std::string&, const std::string&);
-		Hashmap<std::string, ValueConvertor> mValueConvertors;
-		Hashmap<std::string, SharedDataTable::ParserState> mElementParseEndStates;
-		Hashmap<std::string, SharedDataTable::ParserState> mElementParseStartStates;
+		Hashmap<std::string, MetaData> mElementMetaData;
 
 		std::string mCharData;
 		std::string mCurrentDataName;
