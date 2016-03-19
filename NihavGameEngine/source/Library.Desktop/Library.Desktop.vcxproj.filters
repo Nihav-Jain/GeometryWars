@@ -30,8 +30,6 @@
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
-    <ClInclude Include="XmlParseHelperVector.h" />
-    <ClInclude Include="XmlParseHelperMatrix.h" />
     <ClInclude Include="SharedDataTable.h" />
   </ItemGroup>
   <ItemGroup>
@@ -49,8 +47,6 @@
     <ClCompile Include="XmlParseHelperTable.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
-    <ClCompile Include="XmlParseHelperVector.cpp" />
-    <ClCompile Include="XmlParseHelperMatrix.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
   </ItemGroup>
   <ItemGroup>

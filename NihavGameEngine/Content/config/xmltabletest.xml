@@ -19,6 +19,16 @@
 			<value>stringvalue3</value>
 		</string>
 		<vector name="position" value="vec4(10, 20, 30, 1)"/>
+		<vector name="enemy_position">vec4(100, 200, 300, 10)</vector>
+		<vector>
+			<name>target_position</name>
+			<value>vec4(1, 2, 3, 4)</value>
+		</vector>
 		<matrix name="transform" value="mat4x4((10, 0, 0, 0), (0, 10, 0, 0), (0, 0, 10, 0), (0, 0, 0, 10))"/>
+		<matrix name="enemy_transform">mat4x4((100, 0, 0, 0), (0, 100, 0, 0), (0, 0, 100, 0), (0, 0, 0, 100))</matrix>
+		<matrix>
+			<name>target_transform</name>
+			<value>mat4x4((2, 0, 0, 0), (0, 2, 0, 0), (0, 0, 2, 0), (0, 0, 0, 2))</value>
+		</matrix>
 	</scope>
 </scope>
