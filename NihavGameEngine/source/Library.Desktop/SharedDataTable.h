@@ -82,20 +82,12 @@ namespace Library
 		 */
 		const Graph<ParserState>::Traversor& StateTraversor() const;
 
-		/**
-		 *	Stack to keep track of the current scope among the nested scope heirarchy
-		 */
-		Stack<Scope*> ScopeStack;
+		Scope& RootScope();
 
 		/**
 		 *	Stack to keep track of the element currently being parsed
 		 */
 		Stack<std::string> ParsedElements;
-
-		/**
-		 *	Root (parent) of the scope table heirarchy
-		 */
-		Scope RootScope;
 
 		/**
 		 *	string to store the name of the datum variable when the xml syntax is of the form <name>variableName</name>
@@ -114,6 +106,11 @@ namespace Library
 
 	private:
 		/**
+		 *	Root (parent) of the scope table heirarchy
+		 */
+		Scope mRootScope;
+
+		/**
 		 *	A graph to maintain the parsing state diagram
 		 */
 		Graph<ParserState> ParserStateAutomata;
@@ -122,6 +119,13 @@ namespace Library
 		 *	Traversor to manage the current vertex and possible transitions of the state diagram
 		 */
 		Graph<ParserState>::Traversor mStateTraversor;
+
+	public:
+		/**
+		 *	Declared after RootScope because it is initialized with the pointer of RootScope and 
+		 *	the constructors initialization line runs in the order of declaration
+		 */
+		Scope* CurrentScopePtr;
 	};
 
 }

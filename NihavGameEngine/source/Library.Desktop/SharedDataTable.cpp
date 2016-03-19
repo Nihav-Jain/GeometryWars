@@ -9,9 +9,8 @@ namespace Library
 	//Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
 
 	SharedDataTable::SharedDataTable() :
-		RootScope(), ScopeStack(), ParsedElements(), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
+		mRootScope(), CurrentScopePtr(&mRootScope), ParsedElements(), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
 	{
-		ScopeStack.Push(&RootScope);
 
 		// prepare the state diagram graph here
 		if (ParserStateAutomata.IsEmpty())
@@ -148,6 +147,11 @@ namespace Library
 	const Graph<SharedDataTable::ParserState>::Traversor & SharedDataTable::StateTraversor() const
 	{
 		return mStateTraversor;
+	}
+
+	Scope& SharedDataTable::RootScope()
+	{
+		return mRootScope;
 	}
 
 }

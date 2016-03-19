@@ -19,7 +19,7 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_START, true))
 			throw std::exception("Invalid script syntax");
 
-		sharedDataPtr->ScopeStack.Push(&(sharedDataPtr->ScopeStack.Top()->AppendScope(attributes["name"])));
+		sharedDataPtr->CurrentScopePtr =  &(sharedDataPtr->CurrentScopePtr->AppendScope(attributes["name"]));
 		sharedDataPtr->ParsedElements.Push(elementName);
 
 		return true;
@@ -38,9 +38,8 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
 			throw std::exception("Invalid script syntax");
 
-		sharedDataPtr->ScopeStack.Pop();
 		sharedDataPtr->ParsedElements.Pop();
-
+		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 		return true;
 	}
 
