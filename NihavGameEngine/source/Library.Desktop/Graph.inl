@@ -238,6 +238,15 @@ namespace Library
 	}
 
 	template<typename T>
+	const T& Graph<T>::Traversor::operator*() const
+	{
+		if (mCurrentVertex == nullptr || mOwner == nullptr)
+			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+		return mCurrentVertex->Data();
+	}
+
+
+	template<typename T>
 	void Graph<T>::Traversor::ResetChildrenIterator()
 	{
 		mCurrentChildIndex = 0;

@@ -105,6 +105,8 @@ namespace Library
 			void ResetChildrenIterator();
 
 			T& operator*();
+			const T& operator*() const;
+
 		private:
 			Traversor(Vertex& currentVertex, const Graph* owner);
 

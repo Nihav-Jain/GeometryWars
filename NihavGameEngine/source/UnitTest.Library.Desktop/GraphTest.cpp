@@ -75,6 +75,9 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(rootTraversor.TraverseToCurrentChild());
 			Assert::IsTrue(*rootTraversor == GraphTestEnum::ENUM5);
 			Assert::IsFalse(rootTraversor.HasMoreChildren());
+
+			const Graph<GraphTestEnum>::Traversor constTraversor = rootTraversor;
+			Assert::IsTrue(*constTraversor == GraphTestEnum::ENUM5);
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
