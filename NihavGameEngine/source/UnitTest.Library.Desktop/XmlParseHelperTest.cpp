@@ -6,8 +6,6 @@
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
-#include "XmlParseHelperVector.h"
-#include "XmlParseHelperMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -50,14 +48,10 @@ namespace UnitTestLibraryDesktop
 			XmlParseHelperTable tableParser;
 			XmlParseHelperPrimitives primitivesParser;
 			XmlParseHelperNameValue nameValueParser;
-			XmlParseHelperVector vectorParser;
-			XmlParseHelperMatrix matrixParser;
 
 			master.AddHelper(tableParser);
 			master.AddHelper(primitivesParser);
 			master.AddHelper(nameValueParser);
-			master.AddHelper(vectorParser);
-			master.AddHelper(matrixParser);
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xmltabletest.xml"));
 			
@@ -113,12 +107,26 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(vecvarDatum != nullptr);
 			Assert::IsTrue(*vecvarDatum == glm::vec4(10, 20, 30, 1));
 
-			glm::mat4 sampleMat = glm::mat4(10);
+			Datum* enemyPositionDatum = firstChildScope.Find("enemy_position");
+			Assert::IsTrue(enemyPositionDatum != nullptr);
+			Assert::IsTrue(*enemyPositionDatum == glm::vec4(100, 200, 300, 10));
+
+			Datum* targetPositionDatum = firstChildScope.Find("target_position");
+			Assert::IsTrue(targetPositionDatum != nullptr);
+			Assert::IsTrue(*targetPositionDatum == glm::vec4(1, 2, 3, 4));
 
 			// matrix
 			Datum* matDatum = firstChildScope.Find("transform");
 			Assert::IsTrue(matDatum != nullptr);
-			Assert::IsTrue(*matDatum == sampleMat);
+			Assert::IsTrue(*matDatum == glm::mat4(10));
+
+			Datum* enemyMatDatum = firstChildScope.Find("enemy_transform");
+			Assert::IsTrue(enemyMatDatum != nullptr);
+			Assert::IsTrue(*enemyMatDatum == glm::mat4(100));
+
+			Datum* targetMatDatum = firstChildScope.Find("target_transform");
+			Assert::IsTrue(targetMatDatum != nullptr);
+			Assert::IsTrue(*targetMatDatum == glm::mat4(2));
 
 			XmlParseMaster* clonedMaster = master.Clone();
 			auto expression = [&] {clonedMaster->ParseFromFile("Content/config/xml_invalid_table.xml"); };
