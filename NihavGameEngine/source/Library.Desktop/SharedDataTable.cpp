@@ -9,7 +9,7 @@ namespace Library
 	//Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
 
 	SharedDataTable::SharedDataTable() :
-		mRootScope(), CurrentScopePtr(&mRootScope), ParsedElements(), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
+		mRootScope(), CurrentScopePtr(&mRootScope), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
 	{
 
 		// prepare the state diagram graph here

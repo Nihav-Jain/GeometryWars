@@ -34,13 +34,11 @@ namespace Library
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_START))
 				throw std::exception("Invalid script syntax");
-			sharedDataPtr->ParsedElements.Push("name");
 		}
 		else if (elementName == "value")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
 				throw std::exception("Invalid script syntax");
-			sharedDataPtr->ParsedElements.Push("value");
 		}
 
 
@@ -61,14 +59,12 @@ namespace Library
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->DataName = mCharData;
 			sharedDataPtr->NameValueElementDataParsed = true;
-			sharedDataPtr->ParsedElements.Pop();
 		}
 		else if (elementName == "value")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->DataValue = mCharData;
-			sharedDataPtr->ParsedElements.Pop();
 		}
 		
 		mCharData = "";

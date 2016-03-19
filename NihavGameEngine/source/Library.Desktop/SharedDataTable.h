@@ -85,11 +85,6 @@ namespace Library
 		Scope& RootScope();
 
 		/**
-		 *	Stack to keep track of the element currently being parsed
-		 */
-		Stack<std::string> ParsedElements;
-
-		/**
 		 *	string to store the name of the datum variable when the xml syntax is of the form <name>variableName</name>
 		 */
 		std::string DataName;
