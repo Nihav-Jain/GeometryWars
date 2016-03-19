@@ -28,7 +28,6 @@ namespace UnitTestLibraryDesktop
 		{
 			SharedDataTable::ClearStateGraph();
 			XmlParseHelperPrimitives::ClearStaticMembers();
-			XmlParseHelperNameValue::ClearStaticMembers();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);

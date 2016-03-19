@@ -82,6 +82,10 @@ namespace Library
 		 */
 		const Graph<ParserState>::Traversor& StateTraversor() const;
 
+		/**
+		 *	Getter for root scope, the parent container of the parsed table
+		 *	@return reference to a scope
+		 */
 		Scope& RootScope();
 
 		/**

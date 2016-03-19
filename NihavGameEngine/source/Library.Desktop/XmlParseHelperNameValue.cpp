@@ -3,17 +3,9 @@
 
 namespace Library
 {
-	//Vector<std::string> XmlParseHelperNameValue::mAcceptableElementNames(2);
-
 	XmlParseHelperNameValue::XmlParseHelperNameValue() :
 		mCharData()
-	{
-		if (mAcceptableElementNames.IsEmpty())
-		{
-			mAcceptableElementNames.PushBack("name");
-			mAcceptableElementNames.PushBack("value");
-		}
-	}
+	{}
 
 	void XmlParseHelperNameValue::Initialize()
 	{
@@ -27,8 +19,6 @@ namespace Library
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
-		if (mAcceptableElementNames.Find(elementName) == mAcceptableElementNames.end())
-			return false;
 
 		if (elementName == "name")
 		{
@@ -40,6 +30,10 @@ namespace Library
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
 				throw std::exception("Invalid script syntax");
 		}
+		else
+		{
+			return false;
+		}
 
 
 		return true;
@@ -49,8 +43,6 @@ namespace Library
 	{
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
-			return false;
-		if (mAcceptableElementNames.Find(elementName) == mAcceptableElementNames.end())
 			return false;
 
 		if (elementName == "name")
@@ -65,6 +57,10 @@ namespace Library
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			sharedDataPtr->DataValue = mCharData;
+		}
+		else
+		{
+			return false;
 		}
 		
 		mCharData = "";
@@ -87,11 +83,5 @@ namespace Library
 	{
 		return new XmlParseHelperNameValue();
 	}
-
-	void XmlParseHelperNameValue::ClearStaticMembers()
-	{
-		//mAcceptableElementNames.Clear();
-	}
-
 
 }
