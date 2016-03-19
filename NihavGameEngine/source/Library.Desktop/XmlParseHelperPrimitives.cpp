@@ -21,6 +21,14 @@ namespace Library
 			mElementMetaData["string"].mType = Datum::DatumType::STRING;
 			mElementMetaData["string"].mStartState = SharedDataTable::ParserState::STRING_START;
 			mElementMetaData["string"].mEndState = SharedDataTable::ParserState::STRING_END;
+
+			mElementMetaData["vector"].mType = Datum::DatumType::VECTOR4;
+			mElementMetaData["vector"].mStartState = SharedDataTable::ParserState::VECTOR_START;
+			mElementMetaData["vector"].mEndState = SharedDataTable::ParserState::VECTOR_END;
+
+			mElementMetaData["matrix"].mType = Datum::DatumType::MATRIX4x4;
+			mElementMetaData["matrix"].mStartState = SharedDataTable::ParserState::MATRIX_START;
+			mElementMetaData["matrix"].mEndState = SharedDataTable::ParserState::MATRIX_END;
 		}
 	}
 

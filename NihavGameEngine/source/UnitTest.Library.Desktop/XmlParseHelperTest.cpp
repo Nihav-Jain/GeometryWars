@@ -6,8 +6,6 @@
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
-#include "XmlParseHelperVector.h"
-#include "XmlParseHelperMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -50,14 +48,10 @@ namespace UnitTestLibraryDesktop
 			XmlParseHelperTable tableParser;
 			XmlParseHelperPrimitives primitivesParser;
 			XmlParseHelperNameValue nameValueParser;
-			XmlParseHelperVector vectorParser;
-			XmlParseHelperMatrix matrixParser;
 
 			master.AddHelper(tableParser);
 			master.AddHelper(primitivesParser);
 			master.AddHelper(nameValueParser);
-			master.AddHelper(vectorParser);
-			master.AddHelper(matrixParser);
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xmltabletest.xml"));
 			

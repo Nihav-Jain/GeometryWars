@@ -77,13 +77,21 @@ namespace Library
 			// scope_start -> vector_start -> vector_end
 			// vector_end -> end_state_router
 			Graph<ParserState>::Traversor vectorStartState = ParserStateAutomata.AddVertex(vectorStart, scopeStartState);
-			Graph<ParserState>::Traversor vectorEndState = ParserStateAutomata.AddVertex(vectorEnd, vectorStartState);
+			Graph<ParserState>::Traversor vnameStartState = ParserStateAutomata.AddVertex(nameStart, vectorStartState);
+			Graph<ParserState>::Traversor vnameEndState = ParserStateAutomata.AddVertex(nameEnd, vnameStartState);
+			Graph<ParserState>::Traversor vvalueStartState = ParserStateAutomata.AddVertex(valueStart, vnameEndState);
+			Graph<ParserState>::Traversor vvalueEndState = ParserStateAutomata.AddVertex(valueEnd, vvalueStartState);
+			Graph<ParserState>::Traversor vectorEndState = ParserStateAutomata.AddVertex(vectorEnd, vvalueEndState);
 			ParserStateAutomata.CreateEdge(vectorEndState, endRouterState);
 
 			// scope_start -> vector_start -> vector_end
 			// vector_end -> end_state_router
 			Graph<ParserState>::Traversor matStartState = ParserStateAutomata.AddVertex(matStart, scopeStartState);
-			Graph<ParserState>::Traversor matEndState = ParserStateAutomata.AddVertex(matEnd, matStartState);
+			Graph<ParserState>::Traversor mnameStartState = ParserStateAutomata.AddVertex(nameStart, matStartState);
+			Graph<ParserState>::Traversor mnameEndState = ParserStateAutomata.AddVertex(nameEnd, mnameStartState);
+			Graph<ParserState>::Traversor mvalueStartState = ParserStateAutomata.AddVertex(valueStart, mnameEndState);
+			Graph<ParserState>::Traversor mvalueEndState = ParserStateAutomata.AddVertex(valueEnd, mvalueStartState);
+			Graph<ParserState>::Traversor matEndState = ParserStateAutomata.AddVertex(matEnd, mvalueEndState);
 			ParserStateAutomata.CreateEdge(matEndState, endRouterState);
 
 			// connect end_state_router to all possible start states
