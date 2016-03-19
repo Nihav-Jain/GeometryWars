@@ -77,6 +77,12 @@ namespace Library
 		bool CheckStateTransition(ParserState expectedState, bool selfTransitionAllowed = false);
 
 		/**
+		 *	Getter for the parser state graph traversor
+		 *	@return constant reference to the state graph traversor
+		 */
+		const Graph<ParserState>::Traversor& StateTraversor() const;
+
+		/**
 		 *	Stack to keep track of the current scope among the nested scope heirarchy
 		 */
 		Stack<Scope*> ScopeStack;
@@ -85,16 +91,6 @@ namespace Library
 		 *	Stack to keep track of the element currently being parsed
 		 */
 		Stack<std::string> ParsedElements;
-
-		/**
-		 *	A graph to maintain the parsing state diagram
-		 */
-		Graph<ParserState> ParserStateAutomata;
-
-		/**
-		 *	Traversor to manage the current vertex and possible transitions of the state diagram
-		 */
-		Graph<ParserState>::Traversor StateTraversor;
 
 		/**
 		 *	Root (parent) of the scope table heirarchy
@@ -115,6 +111,17 @@ namespace Library
 		 *	boolean to indicate if the xml syntax contained <name> or <value> tag
 		 */
 		bool NameValueElementDataParsed;
+
+	private:
+		/**
+		 *	A graph to maintain the parsing state diagram
+		 */
+		Graph<ParserState> ParserStateAutomata;
+
+		/**
+		 *	Traversor to manage the current vertex and possible transitions of the state diagram
+		 */
+		Graph<ParserState>::Traversor mStateTraversor;
 	};
 
 }

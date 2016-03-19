@@ -9,7 +9,7 @@ namespace Library
 	//Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
 
 	SharedDataTable::SharedDataTable() :
-		RootScope(), ScopeStack(), ParsedElements(), DataName(), DataValue(), NameValueElementDataParsed(false)
+		RootScope(), ScopeStack(), ParsedElements(), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
 	{
 		ScopeStack.Push(&RootScope);
 
@@ -107,7 +107,7 @@ namespace Library
 
 		}
 
-		StateTraversor = ParserStateAutomata.Begin();
+		mStateTraversor = ParserStateAutomata.Begin();
 	}
 
 	XmlParseMaster::SharedData* SharedDataTable::Clone() const
@@ -126,23 +126,28 @@ namespace Library
 
 		if (selfTransitionAllowed)
 		{
-			if (*StateTraversor == expectedState)
+			if (*mStateTraversor == expectedState)
 			{
 				return true;
 			}
 		}
-		StateTraversor.ResetChildrenIterator();
-		while (StateTraversor.HasMoreChildren())
+		mStateTraversor.ResetChildrenIterator();
+		while (mStateTraversor.HasMoreChildren())
 		{
-			if (StateTraversor.GetCurrentChildVertex() == expectedState)
+			if (mStateTraversor.GetCurrentChildVertex() == expectedState)
 			{
 				hasValidStateTransition = true;
-				StateTraversor.TraverseToCurrentChild();
+				mStateTraversor.TraverseToCurrentChild();
 				break;
 			}
-			StateTraversor.MoveToNextChild();
+			mStateTraversor.MoveToNextChild();
 		}
 		return hasValidStateTransition;
+	}
+
+	const Graph<SharedDataTable::ParserState>::Traversor & SharedDataTable::StateTraversor() const
+	{
+		return mStateTraversor;
 	}
 
 }

@@ -80,7 +80,7 @@ namespace Library
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
-		if (*(sharedDataPtr->StateTraversor) != SharedDataTable::ParserState::NAME_START && *(sharedDataPtr->StateTraversor) != SharedDataTable::ParserState::VALUE_START)
+		if (*(sharedDataPtr->StateTraversor()) != SharedDataTable::ParserState::NAME_START && *(sharedDataPtr->StateTraversor()) != SharedDataTable::ParserState::VALUE_START)
 			return false;
 
 		mCharData.append(charData);
