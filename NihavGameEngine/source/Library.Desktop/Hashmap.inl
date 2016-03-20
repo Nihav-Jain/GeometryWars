@@ -147,7 +147,6 @@ namespace Library
 		{
 			chain.Clear();
 		}
-		//buckets.Clear();
 		mSize = 0;
 	}
 
