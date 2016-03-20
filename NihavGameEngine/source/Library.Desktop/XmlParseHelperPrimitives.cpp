@@ -47,7 +47,7 @@ namespace Library
 
 		if (!sharedDataPtr->CheckStateTransition(mElementMetaData[elementName].mStartState))
 			throw std::exception("Invalid script syntax");
-		sharedDataPtr->ParsedElements.Push(elementName);
+
 		// <integer name="variableName">
 		if (attributes.ContainsKey("name"))
 		{
@@ -57,7 +57,7 @@ namespace Library
 				throw std::exception("Invalid script syntax");
 
 			mCurrentDataName = attributes["name"];
-			Datum& primitiveDatum = sharedDataPtr->ScopeStack.Top()->Append(mCurrentDataName);
+			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(mCurrentDataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
 
 			if (mCurrentDataName == "integer")
@@ -96,7 +96,7 @@ namespace Library
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
-			sharedDataPtr->ScopeStack.Top()->operator[](mCurrentDataName).SetFromString(mCharData);
+			sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName).SetFromString(mCharData);
 		}
 
 		// <integer>
@@ -105,7 +105,7 @@ namespace Library
 		// </integer>
 		else if (sharedDataPtr->NameValueElementDataParsed)
 		{
-			Datum& primitiveDatum = sharedDataPtr->ScopeStack.Top()->Append(sharedDataPtr->DataName);
+			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(sharedDataPtr->DataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
 			primitiveDatum.SetFromString(sharedDataPtr->DataValue);
 		}
@@ -115,7 +115,6 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
 			throw std::exception("Invalid script syntax");
 
-		sharedDataPtr->ParsedElements.Pop();
 		sharedDataPtr->NameValueElementDataParsed = false;
 		mCurrentDataName = "";
 		mCharData = "";
@@ -127,9 +126,7 @@ namespace Library
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
-		if (!mElementMetaData.ContainsKey(sharedDataPtr->ParsedElements.Top()))
-			return false;
-		if (mCharData.empty() && !charData.empty())
+		if (mCharData.empty())
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
 				return false;

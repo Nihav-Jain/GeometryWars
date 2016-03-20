@@ -9,14 +9,14 @@ namespace Library
 	{
 	}
 
-	template<typename T>
+	template <typename T>
 	SList<T>::SList(const SList<T>& rhs) :
 		SList()
 	{
 		operator=(rhs);
 	}
 
-	template<typename T>
+	template <typename T>
 	SList<T>::SList(SList<T>&& rhs) :
 		mSize(rhs.mSize), mFront(rhs.mFront), mBack(rhs.mBack)
 	{
@@ -25,7 +25,7 @@ namespace Library
 		rhs.mFront = nullptr;
 	}
 
-	template<typename T>
+	template <typename T>
 	SList<T>& SList<T>::operator=(SList<T>&& rhs)
 	{
 		if (this != &rhs)
@@ -49,7 +49,7 @@ namespace Library
 		Clear();
 	}
 
-	template<typename T>
+	template <typename T>
 	SList<T>& SList<T>::operator=(const SList<T>& rhs)
 	{
 		if (this != &rhs)
@@ -183,21 +183,21 @@ namespace Library
 		mBack = nullptr;
 	}
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator SList<T>::begin() const
 	{
 		SList<T>::Iterator itr(mFront, this);
 		return itr;
 	}
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator SList<T>::end() const
 	{
 		SList<T>::Iterator itr(nullptr, this);
 		return itr;
 	}
 
-	template<typename T>
+	template <typename T>
 	typename void SList<T>::InsertAfter(const T& dataToInsert, const Iterator& itr)
 	{
 		if (itr.mOwnerList != this)
@@ -217,7 +217,7 @@ namespace Library
 		}
 	}
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator SList<T>::Find(const T& dataToFind) const
 	{
 		SList<T>::Iterator itr = begin();
@@ -231,7 +231,7 @@ namespace Library
 		return itr;
 	}
 
-	template<typename T>
+	template <typename T>
 	typename void SList<T>::Remove(const T& dataToRemove)
 	{
 		SList<T>::Iterator itrToRemove = begin();
@@ -270,8 +270,7 @@ namespace Library
 	template <typename T>
 	SList<T>::Node::Node(const T& data, Node* nextNode) :
 		mData(data), Next(nextNode)
-	{
-	}
+	{}
 
 #pragma region Iterator
 
@@ -283,17 +282,14 @@ namespace Library
 	template <typename T>
 	SList<T>::Iterator::Iterator(Node* currentNode, const SList<T>* ownerList) :
 		mCurrentNode(currentNode), mOwnerList(ownerList)
-	{
+	{}
 
-	}
-
-	template<typename T>
+	template <typename T>
 	SList<T>::Iterator::Iterator(const Iterator& rhs) :
 		mCurrentNode(rhs.mCurrentNode), mOwnerList(rhs.mOwnerList)
-	{
-	}
+	{}
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator& SList<T>::Iterator::operator=(const Iterator& rhs)
 	{
 		if (this != &rhs)
@@ -304,8 +300,8 @@ namespace Library
 		return *this;
 	}
 
-	template<typename T>
-	SList<T>::Iterator::Iterator(Iterator && rhs) :
+	template <typename T>
+	SList<T>::Iterator::Iterator(Iterator&& rhs) :
 		mCurrentNode(rhs.mCurrentNode), mOwnerList(rhs.mOwnerList)
 	{
 		rhs.mCurrentNode = nullptr;
@@ -313,7 +309,7 @@ namespace Library
 	}
 
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator& SList<T>::Iterator::operator=(Iterator&& rhs)
 	{
 		if (this != &rhs)
@@ -326,24 +322,19 @@ namespace Library
 		return *this;
 	}
 
-	template<typename T>
+	template <typename T>
 	bool SList<T>::Iterator::operator==(const Iterator& rhs) const
 	{
-		bool isIteratorEqual = true;
-		if (mOwnerList == nullptr || rhs.mOwnerList == nullptr)
-			isIteratorEqual = false;
-		else if (mCurrentNode != rhs.mCurrentNode)
-			isIteratorEqual = false;
-		return isIteratorEqual;
+		return (mOwnerList == rhs.mOwnerList) && (mCurrentNode == rhs.mCurrentNode);
 	}
 
-	template<typename T>
-	bool SList<T>::Iterator::operator!=(const Iterator & rhs) const
+	template <typename T>
+	bool SList<T>::Iterator::operator!=(const Iterator& rhs) const
 	{
 		return !(*this == rhs);
 	}
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator& SList<T>::Iterator::operator++()
 	{
 		if (mOwnerList == nullptr)
@@ -358,7 +349,7 @@ namespace Library
 		return *this;
 	}
 
-	template<typename T>
+	template <typename T>
 	typename SList<T>::Iterator SList<T>::Iterator::operator++(int)
 	{
 		Iterator it = *this;
@@ -366,7 +357,7 @@ namespace Library
 		return it;
 	}
 
-	template<typename T>
+	template <typename T>
 	T& SList<T>::Iterator::operator*() const
 	{
 		if (mOwnerList == nullptr)

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace Library
 {
@@ -6,9 +7,10 @@ namespace Library
 	/**
 	 *	Template class for a singly linked list
 	 */
-	template <class T>
-	class SList
+	template <typename T>
+	class SList final
 	{
+
 	private:
 		/**
 		 *	Auxiliary class Node, represents individual elements of the list
@@ -16,9 +18,10 @@ namespace Library
 		class Node
 		{
 		public:
-			Node(const T& data, Node* nextNode = nullptr);
+			explicit Node(const T& data, Node* nextNode = nullptr);
 			Node(const Node& rhs) = delete;
 			Node& operator=(const Node& rhs) = delete;
+			~Node() = default;
 
 			Node* Next;
 			T mData;
@@ -65,12 +68,13 @@ namespace Library
 			/**
 			 *	Move assignement operator for SList::Iterator
 			 *	@param R value reference to be moved into this instance of the iterator
+			 *	@return reference to the current Iterator with the data moved from the provided iterator
 			 */
 			Iterator& operator=(Iterator&& rhs);
 
 			/**
-			 *	Compares two iterators based on their host list and current node
-			 *	@return equality
+			 *	Compares two iterators based on their host list and current node they are pointing to
+			 *	@return true if the owner and the current node ptr of both the iterators is the same
 			 */
 			bool operator==(const Iterator& rhs) const;
 
@@ -83,6 +87,7 @@ namespace Library
 			/**
 			 *	Prefix increment operator, moves the iterator to the next element in the list
 			 *	@return reference to the current updated Iterator
+			 *	@exception thrown if the owner or the current node of the iterator is null
 			 */
 			Iterator& operator++();
 
@@ -90,12 +95,14 @@ namespace Library
 			 *	Postfix increment operator, moves the iterator to the next element in the list
 			 *	@param just a placeholder to differentiate with the prefix operator
 			 *	@return copy of current value of Iterator (postfix operator uses the current value then updates it)
+			 *	@exception thrown if the owner or the current node of the iterator is null
 			 */
 			Iterator operator++(int);
 
 			/**
 			 *	Dereference operator
 			 *	@return the element stored in the list at the current position of the iterator
+			 *	@exception thrown if the owner or the current node of the iterator is null
 			 */
 			T& operator*() const;
 
@@ -107,10 +114,10 @@ namespace Library
 			 *	@param current node this iterator points to
 			 *	@param owner list of this iterator
 			 */
-			Iterator(Node* currentNode, const SList<T>* ownerList);
+			Iterator(Node* currentNode, const SList* ownerList);
 
 			Node* mCurrentNode;
-			const SList<T>* mOwnerList;
+			const SList* mOwnerList;
 		};
 
 		/**
@@ -119,30 +126,30 @@ namespace Library
 		SList();
 
 		/**
-		 *	Copy constructor for SList
+		 *	Copy constructor for SList, deep copies the SList
 		 *	@param reference to the right hand side variable
 		 */
-		SList(const SList<T>& rhs);
+		SList(const SList& rhs);
 
 		/**
-		*	Assignment operator overload for SList
-		*	@param reference to the right hand side variable
-		*	@return reference to the resultant SList
-		*/
-		SList<T>& operator= (const SList<T>& rhs);
+		 *	Assignment operator overload for SList, deep copies the SList
+		 *	@param reference to the right hand side variable
+		 *	@return reference to the resultant SList
+		 */
+		SList& operator=(const SList& rhs);
 
 		/**
 		 *	Move constructor for SList
 		 *	@param R value reference to be moved into this instance of SList
 		 */
-		SList(SList<T>&& rhs);
+		SList(SList&& rhs);
 
 		/**
 		 *	Move assignment operator for SList
 		 *	@param R value reference to be moved into this instance of SList
 		 *	@return reference to the newly moved list
 		 */
-		SList<T>& operator= (SList<T>&& rhs);
+		SList& operator=(SList&& rhs);
 
 		/**
 		 *	Destructor for SList
@@ -150,19 +157,22 @@ namespace Library
 		~SList();
 
 		/**
-		 *	Pushes the given element on the front of the list
+		 *	Pushes a copy of the given element on the front of the list
 		 *	@param reference to the element to be pushed
+		 *	@return Iterator pointing to the newly added element
 		 */
 		Iterator PushFront(const T& item);
 
 		/**
-		 *	Pops out the frontmost element of the list
+		 *	Removes the frontmost element of the list
+		 *	@exception thrown if the list is empty
 		 */
 		void PopFront();
 
 		/**
-		 *	Pushes the given element in the back (end) of the list
+		 *	Pushes a copy of the given element at the end of the list
 		 *	@param reference to the element to be pushed
+		 *	@return Iterator pointing to the newly added element
 		 */
 		Iterator PushBack(const T& item);
 
@@ -175,12 +185,14 @@ namespace Library
 		/**
 		 *	Frontmost element of the list
 		 *	@return reference of the template type
+		 *	@exception thrown if the list is empty
 		 */
 		T& Front();
 
 		/**
 		 *	constant overload of Front()
 		 *	@return constant reference of the template type
+		 *	@exception thrown if the list is empty
 		 */
 		const T& Front() const;
 
@@ -188,12 +200,14 @@ namespace Library
 		/**
 		 *	Last element of the list
 		 *	@return reference of the template type
+		 *	@exception thrown if the list is empty
 		 */
 		T& Back();
 
 		/**
 		 *	constant overload of Front()
 		 *	@return constant reference of the template type
+		 *	@exception thrown if the list is empty
 		 */
 		const T& Back() const;
 
@@ -204,7 +218,7 @@ namespace Library
 		std::uint32_t Size() const;
 
 		/**
-		 *	Deletes all the elements of the list
+		 *	Destructive deletion of the list, resets list to its empty initial state
 		 */
 		void Clear();
 
@@ -221,14 +235,15 @@ namespace Library
 		Iterator end() const;
 
 		/**
-		 *	Insert the given value after the element pointed to by the Iterator
+		 *	Inserts a copy of the given value after the element pointed to by the Iterator
 		 *	@param the value to be inserted
-		 *	@param the element after which the value is to be inserted
+		 *	@param iterator to the element after which the value is to be inserted
+		 *	@exception thrown if the provided iterator does not belong to this instance of the SList
 		 */
 		void InsertAfter(const T& dataToInsert, const Iterator& itr);
 
 		/**
-		 *	finds the given value in the list
+		 *	checks if the given value is in the list
 		 *	@param the value to be searched
 		 *	@return Iterator pointing to the element to be searched, points to end of list if the element is not found
 		 */

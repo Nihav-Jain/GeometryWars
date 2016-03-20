@@ -72,7 +72,7 @@ namespace Library
 	}
 
 	template<typename TKey, typename TData, typename HashFunctor>
-	typename Hashmap<TKey, TData, HashFunctor>::Iterator Hashmap<TKey, TData, HashFunctor>::Insert(const TKey& key, TData& data)
+	typename Hashmap<TKey, TData, HashFunctor>::Iterator Hashmap<TKey, TData, HashFunctor>::Insert(const TKey& key, const TData& data)
 	{
 		return Insert(PairType(key, data));
 	}
@@ -147,7 +147,6 @@ namespace Library
 		{
 			chain.Clear();
 		}
-		//buckets.Clear();
 		mSize = 0;
 	}
 
@@ -331,11 +330,32 @@ namespace Library
 	}
 
 	template<typename TKey, typename TData, typename HashFunctor>
+	const typename Hashmap<TKey, TData, HashFunctor>::PairType& Hashmap<TKey, TData, HashFunctor>::Iterator::operator*() const
+	{
+		if (mOwner == nullptr)
+		{
+			throw std::exception("Invalid operation. Cannot dereference a non-hosted Iterator.");
+		}
+		if (mCurrentPair == (mOwner->buckets[mCurrentBucketIndex]).end())
+		{
+			throw std::exception("Invalid operation. Cannot dereference Iterator pointing to end.");
+		}
+
+		return *mCurrentPair;
+	}
+
+
+	template<typename TKey, typename TData, typename HashFunctor>
 	typename Hashmap<TKey, TData, HashFunctor>::PairType* Hashmap<TKey, TData, HashFunctor>::Iterator::operator->()
 	{
 		return &(operator*());
 	}
 
+	template<typename TKey, typename TData, typename HashFunctor>
+	const typename Hashmap<TKey, TData, HashFunctor>::PairType* Hashmap<TKey, TData, HashFunctor>::Iterator::operator->() const
+	{
+		return &(operator*());
+	}
 
 #pragma endregion
 

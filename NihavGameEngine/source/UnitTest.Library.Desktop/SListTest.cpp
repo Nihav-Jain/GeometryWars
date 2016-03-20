@@ -537,7 +537,7 @@ namespace UnitTestLibraryDesktop
 				SList<int>::Iterator itr;
 				SList<int>::Iterator itr2;
 
-				Assert::IsFalse(itr == itr2);
+				Assert::IsTrue(itr == itr2);
 
 				itr = listOfIntegers->begin();
 				Assert::IsFalse(itr == itr2);
@@ -560,7 +560,7 @@ namespace UnitTestLibraryDesktop
 				SList<int*>::Iterator itr;
 				SList<int*>::Iterator itr2;
 
-				Assert::IsFalse(itr == itr2);
+				Assert::IsTrue(itr == itr2);
 
 				itr = listOfIntegerPtrs->begin();
 				Assert::IsFalse(itr == itr2);
@@ -583,7 +583,7 @@ namespace UnitTestLibraryDesktop
 				SList<Foo>::Iterator itr;
 				SList<Foo>::Iterator itr2;
 
-				Assert::IsFalse(itr == itr2);
+				Assert::IsTrue(itr == itr2);
 
 				itr = listOfFoos->begin();
 				Assert::IsFalse(itr == itr2);

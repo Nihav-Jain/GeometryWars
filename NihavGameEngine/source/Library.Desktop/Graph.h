@@ -23,14 +23,18 @@ namespace Library
 			*	Copy constructor for SList
 			*	@param reference to the right hand side variable
 			*/
-			Edge(const Edge& rhs) = delete;
+			Edge(const Edge& rhs);
+
+			Edge(Edge&& rhs);
 
 			/**
 			*	Assignment operator overload for SList
 			*	@param reference to the right hand side variable
 			*	@return reference to the resultant SList
 			*/
-			Edge& operator=(const Edge& rhs) = delete;
+			Edge& operator=(const Edge& rhs);
+
+			Edge& operator=(Edge&& rhs);
 
 			/**
 			*	Destructor for SList
@@ -54,17 +58,21 @@ namespace Library
 			Vertex(T& vertexData);
 
 			/**
-			*	Copy constructor for SList
-			*	@param reference to the right hand side variable
-			*/
-			Vertex(const Vertex& rhs) = delete;
+			 *	Copy constructor for SList
+			 *	@param reference to the right hand side variable
+			 */
+			Vertex(const Vertex& rhs);
+
+			Vertex(Vertex&& rhs);
 
 			/**
 			*	Assignment operator overload for SList
 			*	@param reference to the right hand side variable
 			*	@return reference to the resultant SList
 			*/
-			Vertex& operator=(const Vertex& rhs) = delete;
+			Vertex& operator=(const Vertex& rhs);
+
+			Vertex& operator=(Vertex&& rhs);
 
 			/**
 			*	Destructor for SList
@@ -105,6 +113,8 @@ namespace Library
 			void ResetChildrenIterator();
 
 			T& operator*();
+			const T& operator*() const;
+
 		private:
 			Traversor(Vertex& currentVertex, const Graph* owner);
 

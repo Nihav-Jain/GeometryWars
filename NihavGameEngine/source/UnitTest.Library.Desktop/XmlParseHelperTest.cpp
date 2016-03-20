@@ -28,7 +28,6 @@ namespace UnitTestLibraryDesktop
 		{
 			SharedDataTable::ClearStateGraph();
 			XmlParseHelperPrimitives::ClearStaticMembers();
-			XmlParseHelperNameValue::ClearStaticMembers();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
@@ -55,9 +54,9 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xmltabletest.xml"));
 			
-			Datum* rootScopeDatum = sharedData.RootScope.Find("rootscope");
+			Datum* rootScopeDatum = sharedData.RootScope().Find("rootscope");
 			Assert::IsTrue(rootScopeDatum != nullptr);
-			Assert::IsTrue(sharedData.RootScope.Find("assac") == nullptr);
+			Assert::IsTrue(sharedData.RootScope().Find("assac") == nullptr);
 			Datum* firstChildScopeDatum = rootScopeDatum->Get<Scope*>()->Find("firstchildscope");
 			Assert::IsTrue(firstChildScopeDatum != nullptr);
 

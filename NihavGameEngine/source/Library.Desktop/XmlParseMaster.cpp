@@ -165,11 +165,14 @@ namespace Library
 
 		std::string characterData(characterStream, characterStream + length);
 		characterData = xmlParseMaster->TrimInplace(characterData);
-		for (std::uint32_t i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
+		if (!characterData.empty())
 		{
-			if (xmlParseMaster->mHelpers[i]->CharDataHandler(*xmlParseMaster->GetSharedData(), characterData))
+			for (std::uint32_t i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
 			{
-				break;
+				if (xmlParseMaster->mHelpers[i]->CharDataHandler(*xmlParseMaster->GetSharedData(), characterData))
+				{
+					break;
+				}
 			}
 		}
 	}

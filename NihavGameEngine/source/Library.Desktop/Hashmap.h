@@ -1,19 +1,24 @@
 #pragma once
+#include <cstdint>
+#include <utility>
 
 #include "DefaultHash.h"
 
 namespace Library
 {
 	/**
-	 *	Templated class for a Hashmap
+	 *	Templated class for an associated container
+	 *	TKey is the data type of the key to be used to store the data
+	 *	TData is the data type of data to be stored in this container
+	 *	(optional) HashFunctor is the functor type which defines the default hash functions
 	 */
 	template <typename TKey, typename TData, typename HashFunctor = DefaultHash<TKey>>
-	class Hashmap
+	class Hashmap final
 	{
 		
 		public:
 			/**
-			 *	Key-Value pair
+			 *	typedef for the Key-Value pair
 			 */
 			typedef std::pair<TKey, TData> PairType;
 
@@ -32,7 +37,7 @@ namespace Library
 				friend Hashmap;
 			public:
 				/**
-				 *	constructs a default Iterator, pointing nowhere
+				 *	constructs a default non-hosted Iterator, pointing nowhere
 				 */
 				Iterator();
 
@@ -70,6 +75,7 @@ namespace Library
 				/**
 				 *	Pre-fix Increment operator
 				 *	@return reference to the incremented Iterator
+				 *	@exception thrown if this Iterator is non-hosted or it points to an invalid element
 				 */
 				Iterator& operator++();
 
@@ -77,6 +83,7 @@ namespace Library
 				 *	Post-fix Increment operator
 				 *	@param dummy parameter to differentiate between prefix and postforx operators
 				 *	@return copy of Iterator before increment
+				 *	@exception thrown if this Iterator is non-hosted or it points to an invalid element
 				 */
 				Iterator operator++(int);
 
@@ -97,14 +104,31 @@ namespace Library
 				/**
 				 *	Dereference operator
 				 *	@return reference to the Key-Value pair pointed by the current Iterator
+				 *	@exception thrown if this Iterator is non-hosted or it points to an invalid element
 				 */
 				PairType& operator*();
 
 				/**
+				 *	const overload of the dereference operator
+				 *	@return constant reference to the Key-Value pair pointed by the current Iterator
+				 *	@exception thrown if this Iterator is non-hosted or it points to an invalid element
+				 */
+				const PairType& operator*() const;
+
+				/**
 				 *	Dereference(arrow) operator
 				 *	@return pointer to the Key-Value pair pointed by the current Iterator
+				 *	@exception thrown if this Iterator is non-hosted or it points to an invalid element
 				 */
 				PairType* operator->();
+
+				/**
+				 *	const overload of the dereference(arrow) operator
+				 *	@return pointer to the constant Key-Value pair pointed by the current Iterator
+				 *	@exception thrown if this Iterator is non-hosted or it points to an invalid element
+				 */
+				const PairType* operator->() const;
+
 
 			private:
 				/**
@@ -171,8 +195,20 @@ namespace Library
 			 */
 			Iterator Insert(const PairType& data);
 
-			Iterator Insert(const TKey& key, TData& data);
+			/**
+			 *	overload - inserts the given key value pair in the Hashmap; if the key already exists, do nothing
+			 *	@param key to be inserted
+			 *	@param value to be inserted
+			 *	@return if key already exists, iterator pointing to that pair, else points to newly inserted pair
+			 */
+			Iterator Insert(const TKey& key, const TData& data);
 
+			/**
+			 *	overload - inserts the given pair in the Hashmap; if the key already exists, do nothing
+			 *	@param pair to be inserted
+			 *	@param output parameter - boolean to indicate if the pair was inserted or not
+			 *	@return if key already exists, iterator pointing to that pair, else points to newly inserted pair
+			 */
 			Iterator Insert(const PairType& data, bool& didNewInsert);
 
 			/**
@@ -182,6 +218,11 @@ namespace Library
 			 */
 			TData& operator[](const TKey& key);
 
+			/**
+			 *	const overload of the index operator
+			 *	@param Key
+			 *	@return reference to data associated with the given key
+			 */
 			TData& operator[](const TKey& key) const;
 
 			/**
@@ -191,7 +232,7 @@ namespace Library
 			void Remove(const TKey& key);
 
 			/**
-			 *	deleted all data of the Hashmap
+			 *	deletes all data of the Hashmap, resets it to its initial empty state
 			 */
 			void Clear();
 

@@ -77,29 +77,16 @@ namespace Library
 		bool CheckStateTransition(ParserState expectedState, bool selfTransitionAllowed = false);
 
 		/**
-		 *	Stack to keep track of the current scope among the nested scope heirarchy
+		 *	Getter for the parser state graph traversor
+		 *	@return constant reference to the state graph traversor
 		 */
-		Stack<Scope*> ScopeStack;
+		const Graph<ParserState>::Traversor& StateTraversor() const;
 
 		/**
-		 *	Stack to keep track of the element currently being parsed
+		 *	Getter for root scope, the parent container of the parsed table
+		 *	@return reference to a scope
 		 */
-		Stack<std::string> ParsedElements;
-
-		/**
-		 *	A graph to maintain the parsing state diagram
-		 */
-		Graph<ParserState> ParserStateAutomata;
-
-		/**
-		 *	Traversor to manage the current vertex and possible transitions of the state diagram
-		 */
-		Graph<ParserState>::Traversor StateTraversor;
-
-		/**
-		 *	Root (parent) of the scope table heirarchy
-		 */
-		Scope RootScope;
+		Scope& RootScope();
 
 		/**
 		 *	string to store the name of the datum variable when the xml syntax is of the form <name>variableName</name>
@@ -115,6 +102,29 @@ namespace Library
 		 *	boolean to indicate if the xml syntax contained <name> or <value> tag
 		 */
 		bool NameValueElementDataParsed;
+
+	private:
+		/**
+		 *	Root (parent) of the scope table heirarchy
+		 */
+		Scope mRootScope;
+
+		/**
+		 *	A graph to maintain the parsing state diagram
+		 */
+		Graph<ParserState> ParserStateAutomata;
+
+		/**
+		 *	Traversor to manage the current vertex and possible transitions of the state diagram
+		 */
+		Graph<ParserState>::Traversor mStateTraversor;
+
+	public:
+		/**
+		 *	Declared after RootScope because it is initialized with the pointer of RootScope and 
+		 *	the constructors initialization line runs in the order of declaration
+		 */
+		Scope* CurrentScopePtr;
 	};
 
 }

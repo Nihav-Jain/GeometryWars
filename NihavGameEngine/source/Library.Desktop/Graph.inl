@@ -9,8 +9,7 @@ namespace Library
 	template<typename T>
 	Graph<T>::Graph() :
 		mVertexList(), mEdgeList()
-	{
-	}
+	{}
 
 	template<typename T>
 	Graph<T>::~Graph()
@@ -86,6 +85,39 @@ namespace Library
 	{}
 
 	template<typename T>
+	Graph<T>::Vertex::Vertex(const Vertex& rhs) :
+		mEdgeList(rhs.mEdgeList), mData(rhs.mData)
+	{}
+
+	template<typename T>
+	Graph<T>::Vertex::Vertex(Vertex&& rhs) :
+		mEdgeList(std::move(rhs.mEdgeList)), mData(std::move(rhs.mData))
+	{}
+
+	template <typename T>
+	typename Graph<T>::Vertex& Graph<T>::Vertex::operator=(const Vertex& rhs)
+	{
+		if (this != &rhs)
+		{
+			mEdgeList = rhs.mEdgeList;
+			mData = rhs.mData;
+		}
+
+		return *this;
+	}
+
+	template <typename T>
+	typename Graph<T>::Vertex& Graph<T>::Vertex::operator=(Vertex&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mEdgeList = std::move(rhs.mEdgeList);
+			mData = std::move(rhs.mData);
+		}
+		return *this;
+	}
+
+	template<typename T>
 	void Graph<T>::Vertex::AddEdge(Edge& newEdge)
 	{
 		mEdgeList.PushBack(&newEdge);
@@ -111,6 +143,47 @@ namespace Library
 	Graph<T>::Edge::Edge(Vertex& headVertex, Vertex& tailVertex) :
 		mHead(&headVertex), mTail(&tailVertex)
 	{}
+
+	template<typename T>
+	Graph<T>::Edge::Edge(const Edge& rhs) :
+		mHead(rhs.mHead), mTail(rhs.mTail)
+	{}
+
+	template<typename T>
+	Graph<T>::Edge::Edge(Edge&& rhs) :
+		mHead(rhs.mHead), mTail(rhs.mTail)
+	{
+		rhs.mHead = nullptr;
+		rhs.mTail = nullptr;
+	}
+
+	template <typename T>
+	typename Graph<T>::Edge& Graph<T>::Edge::operator=(const Edge& rhs)
+	{
+		if (this != &rhs)
+		{
+			mHead = rhs.mHead;
+			mTail = rhs.mTail;
+		}
+
+		return *this;
+	}
+
+	template <typename T>
+	typename Graph<T>::Edge& Graph<T>::Edge::operator=(Edge&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mHead = rhs.mHead;
+			mTail = rhs.mTail;
+
+			rhs.mHead = nullptr;
+			rhs.mTail = nullptr;
+		}
+
+		return *this;
+	}
+
 
 	template<typename T>
 	typename Graph<T>::Vertex* Graph<T>::Edge::GetHead() const
@@ -236,6 +309,15 @@ namespace Library
 			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
 		return mCurrentVertex->Data();
 	}
+
+	template<typename T>
+	const T& Graph<T>::Traversor::operator*() const
+	{
+		if (mCurrentVertex == nullptr || mOwner == nullptr)
+			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+		return mCurrentVertex->Data();
+	}
+
 
 	template<typename T>
 	void Graph<T>::Traversor::ResetChildrenIterator()
