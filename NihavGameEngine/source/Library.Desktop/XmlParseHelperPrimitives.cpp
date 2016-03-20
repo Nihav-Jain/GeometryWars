@@ -60,13 +60,6 @@ namespace Library
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(mCurrentDataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
 
-			if (mCurrentDataName == "integer")
-				primitiveDatum = 0;
-			else if (mCurrentDataName == "float")
-				primitiveDatum = 0.0f;
-			else if (mCurrentDataName == "string")
-				primitiveDatum = "";
-
 			// <integer name="variableName" value="variableValue"/>
 			if (attributes.ContainsKey("value"))
 			{
@@ -75,7 +68,7 @@ namespace Library
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
 
-				primitiveDatum.SetFromString(attributes["value"]);
+				primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
 				mCurrentDataName = "";
 			}
 		}
@@ -96,7 +89,8 @@ namespace Library
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
-			sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName).SetFromString(mCharData);
+			Datum& datum = sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName);
+			datum.SetFromString(mCharData, datum.Size());
 		}
 
 		// <integer>
@@ -107,7 +101,7 @@ namespace Library
 		{
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(sharedDataPtr->DataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
-			primitiveDatum.SetFromString(sharedDataPtr->DataValue);
+			primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
 		}
 
 		if (!sharedDataPtr->CheckStateTransition(mElementMetaData[elementName].mEndState))
