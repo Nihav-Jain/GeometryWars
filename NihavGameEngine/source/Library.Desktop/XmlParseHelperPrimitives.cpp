@@ -59,18 +59,6 @@ namespace Library
 			mCurrentDataName = attributes["name"];
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(mCurrentDataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
-			std::uint32_t currentDatumSize = primitiveDatum.Size();
-
-			if (elementName == "integer")
-				primitiveDatum.Set(0, currentDatumSize);
-			else if (elementName == "float")
-				primitiveDatum.Set(0.0f, currentDatumSize);
-			else if (elementName == "string")
-				primitiveDatum.Set("", currentDatumSize);
-			else if (elementName == "vector")
-				primitiveDatum.Set(glm::vec4(0), currentDatumSize);
-			else if (elementName == "matrix")
-				primitiveDatum.Set(glm::mat4(0), currentDatumSize);
 
 			// <integer name="variableName" value="variableValue"/>
 			if (attributes.ContainsKey("value"))
@@ -80,7 +68,7 @@ namespace Library
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
 
-				primitiveDatum.SetFromString(attributes["value"], currentDatumSize);
+				primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
 				mCurrentDataName = "";
 			}
 		}
@@ -102,7 +90,7 @@ namespace Library
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			Datum& datum = sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName);
-			datum.SetFromString(mCharData, datum.Size() - 1);
+			datum.SetFromString(mCharData, datum.Size());
 		}
 
 		// <integer>
