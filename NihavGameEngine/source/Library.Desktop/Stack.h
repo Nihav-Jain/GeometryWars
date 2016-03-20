@@ -7,13 +7,13 @@ namespace Library
 	 *	Template class for Stack data structure (LIFO)
 	 */
 	template <typename T>
-	class Stack
+	class Stack final
 	{
 		public:
 			/**
 			 *	Default constructor, initializes an empty stack
 			 */
-			Stack();
+			Stack() = default;
 
 			/**
 			 *	Copy constructor for Stack

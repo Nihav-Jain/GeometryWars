@@ -3,11 +3,7 @@
 
 namespace Library
 {
-	template<typename T>
-	Stack<T>::Stack()
-	{}
-
-	template<typename T>
+	template <typename T>
 	Stack<T>::Stack(const Stack& rhs) :
 		mDataList(rhs.mDataList)
 	{}
