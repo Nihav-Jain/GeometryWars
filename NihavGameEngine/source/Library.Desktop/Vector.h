@@ -6,10 +6,12 @@ namespace Library
 {
 
 	/**
-	 *	Template class for a vector
+	 *	Template class for a contigous list of elements
+	 *	T is type of data to be stored
+	 *	(optional) F is the functor type which defines the reserve strategy for the Vector
 	 */
-	template <class T, typename F = DefaultReserveStrategy>
-	class Vector
+	template <typename T, typename F = DefaultReserveStrategy>
+	class Vector final
 	{
 
 		private:
@@ -31,7 +33,7 @@ namespace Library
 				friend Vector;
 				public:
 					/**
-					 *	Parameterless constructor for Iterator
+					 *	Parameterless constructor for Iterator, makes a non-hosted Iterator
 					 */
 					Iterator();
 
@@ -62,7 +64,7 @@ namespace Library
 
 					/**
 					 *	Equality operator overload for Iterator
-					 *	@param reference to the right hand side variable
+					 *	@param reference to the Iterator to be comapred with
 					 *	@return true if the owner vector and the current index of both iterators is same, false otherwise
 					 */
 					bool operator==(const Iterator& rhs) const;
@@ -77,6 +79,7 @@ namespace Library
 					/**
 					 *	Prefix incerment operator overload for Iterator
 					 *	@return reference to the incremented iterator
+					 *	@exception thrown if the Iterator is non-hosted (owner is null) or it points to an invalid element
 					 */
 					Iterator& operator++();
 
@@ -84,23 +87,27 @@ namespace Library
 					 *	Postfix incerment operator overload for Iterator
 					 *	@param dummy integer to differntiate function declaration with the prefix operator
 					 *	@return copy of Iterator before incrementing it
+					 *	@exception thrown if the Iterator is non-hosted (owner is null) or it points to an invalid element
 					 */
 					Iterator operator++(int);
 
 					/**
 					 *	Dereference operator overload for Iterator
 					 *	@return reference to the data pointed to by the Iterator
+					 *	@exception thrown if the Iterator is non-hosted (owner is null) or it points to an invalid element
 					 */
 					T& operator*();
 
 					/**
 					 *	const overload for the dereference operator of Iterator
 					 *	@return reference to the data pointed to by the Iterator
+					 *	@exception thrown if the Iterator is non-hosted (owner is null) or it points to an invalid element
 					 */
 					const T& operator*() const;
+
 				private:
 					/**
-					 *	Parametarized constructor for iterator, can only be invoked from inside this class or from Vector<T>
+					 *	Parametarized constructor for iterator, can only be invoked from inside this class or from Vector
 					 */
 					Iterator(std::uint32_t currentIndex, const Vector* ownerVector);
 
@@ -135,6 +142,7 @@ namespace Library
 			/**
 			 *	Move assignment operator for Vector
 			 *	@param reference to R value Vector to be moved to this instance
+			 *	@return reference to this Vector
 			 */
 			Vector& operator=(Vector&& rhs);
 
@@ -144,9 +152,10 @@ namespace Library
 			~Vector();
 
 			/**
-			 *	Subscript operator overload for Vector, throws std::exception if index is more than size of vector
+			 *	Subscript operator overload for Vector
 			 *	@param unsigned integer index position for the requested data stored in Vector
 			 *	@return reference to the data stored at the given index
+			 *	@exception thrown if index is more than or equal to size of vector
 			 */
 			T& operator[](std::uint32_t index);
 
@@ -154,43 +163,49 @@ namespace Library
 			 *	Subscript operator overload for Vector, throws std::exception if index is more than size of vector
 			 *	@param unsigned integer index position for the requested data stored in Vector
 			 *	@return reference to the data stored at the given index
+			 *	@exception thrown if index is more than or equal to size of vector
 			 */
 			const T& operator[](std::uint32_t index) const;
 			
 			/**
-			 *	remove the last element of the vector
+			 *	Remove the last element of the vector
+			 *	@exception thrown if vector is empty
 			 */
 			void PopBack();
 
 			/**
-			 *	Add a copy of the given data to the end of the vector
+			 *	Adds a copy of the given data to the end of the vector
 			 *	@param reference to data to push
-			 *	@param functor to define the reserve strategy to be used in case capacity is full - Functor definition - std::uint32_t operator()(uint32_t size, uint32_t capacity) const;
 			 *	@return Iterator to the newly added data
+			 *	@exception thrown if the reserve stategy returns the new capacity which less than, or equal to the old capacity
 			 */
 			Iterator PushBack(const T& dataToPush);
 
 			/**
 			 *	Return the first element of the Vector
 			 *	@return reference to the data stored at the front of the vector
+			 *	@exception thrown if vector is empty
 			 */
 			T& Front();
 
 			/**
 			 *	Return the first element of the Vector
 			 *	@return reference to the data stored at the front of the vector
+			 *	@exception thrown if vector is empty
 			 */
 			const T& Front() const;
 
 			/**
 			 *	Return the last element of the Vector
 			 *	@return reference to the data stored at the end of the vector
+			 *	@exception thrown if vector is empty
 			 */
 			T& Back();
 
 			/**
 			 *	Return the last element of the Vector
 			 *	@return reference to the data stored at the end of the vector
+			 *	@exception thrown if vector is empty
 			 */
 			const T& Back() const;
 
@@ -198,17 +213,19 @@ namespace Library
 			 *	Gets the reference to the element stored at the given index
 			 *	@param unsigned integer index of the data stored in vector
 			 *	@return reference to the data stored at the given index of the vector
+			 *	@exception thrown if index is more than or equal to size of vector
 			 */
 			T& At(std::uint32_t index);
 
 			/**
 			 *	Reserves space for the given number of elements if it is more than the current capacity
 			 *	@param new capacity for the vector
+			 *	@param boolean to indicate if the newly allocated memory should be default constructed or not
 			 */
 			void Reserve(std::uint32_t newCapacity, bool fixedSize = false);
 
 			/**
-			 *	Destructivly clears the Vector - release all memory
+			 *	Destructively clears the Vector, resets the vector to be in its initial empty state
 			 */
 			void Clear();
 
@@ -228,13 +245,16 @@ namespace Library
 			/**
 			 *	Removes the data represented by the given Iterator
 			 *	@param iterator whose data has to be removed
+			 *	@exception thrown if the provided Iterator does not belong to this instance of the Vector
 			 */
 			void Remove(const Iterator& itr);
 
 			/**
-			 *	Removes a range of data from the vector, from param1 to less than param2
+			 *	Removes a range of data from the vector, from param1 to one less than param2
 			 *	@param iterator from which removal has to begin
 			 *	@param iterator pointing to one past the last data to be removed
+			 *	@exception thrown if either of the provided Iterators does not belong to this instance of the Vector
+			 *	@exception thrown if param1 points to an element which comes after the element pointed to by param2
 			 */
 			void Remove(Iterator itrBegin, Iterator itrEnd);
 

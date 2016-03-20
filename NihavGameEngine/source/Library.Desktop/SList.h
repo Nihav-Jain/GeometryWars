@@ -7,7 +7,7 @@ namespace Library
 	 *	Template class for a singly linked list
 	 */
 	template <typename T>
-	class SList
+	class SList final
 	{
 
 	private:
@@ -17,7 +17,7 @@ namespace Library
 		class Node
 		{
 		public:
-			Node(const T& data, Node* nextNode = nullptr);
+			explicit Node(const T& data, Node* nextNode = nullptr);
 			Node(const Node& rhs) = delete;
 			Node& operator=(const Node& rhs) = delete;
 			~Node() = default;
