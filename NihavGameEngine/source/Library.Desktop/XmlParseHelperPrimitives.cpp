@@ -59,13 +59,18 @@ namespace Library
 			mCurrentDataName = attributes["name"];
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(mCurrentDataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
+			std::uint32_t currentDatumSize = primitiveDatum.Size();
 
-			if (mCurrentDataName == "integer")
-				primitiveDatum = 0;
-			else if (mCurrentDataName == "float")
-				primitiveDatum = 0.0f;
-			else if (mCurrentDataName == "string")
-				primitiveDatum = "";
+			if (elementName == "integer")
+				primitiveDatum.Set(0, currentDatumSize);
+			else if (elementName == "float")
+				primitiveDatum.Set(0.0f, currentDatumSize);
+			else if (elementName == "string")
+				primitiveDatum.Set("", currentDatumSize);
+			else if (elementName == "vector")
+				primitiveDatum.Set(glm::vec4(0), currentDatumSize);
+			else if (elementName == "matrix")
+				primitiveDatum.Set(glm::mat4(0), currentDatumSize);
 
 			// <integer name="variableName" value="variableValue"/>
 			if (attributes.ContainsKey("value"))
@@ -75,7 +80,7 @@ namespace Library
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
 
-				primitiveDatum.SetFromString(attributes["value"]);
+				primitiveDatum.SetFromString(attributes["value"], currentDatumSize);
 				mCurrentDataName = "";
 			}
 		}
@@ -96,7 +101,8 @@ namespace Library
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
-			sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName).SetFromString(mCharData);
+			Datum& datum = sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName);
+			datum.SetFromString(mCharData, datum.Size() - 1);
 		}
 
 		// <integer>
@@ -107,7 +113,7 @@ namespace Library
 		{
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(sharedDataPtr->DataName);
 			primitiveDatum.SetType(mElementMetaData[elementName].mType);
-			primitiveDatum.SetFromString(sharedDataPtr->DataValue);
+			primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
 		}
 
 		if (!sharedDataPtr->CheckStateTransition(mElementMetaData[elementName].mEndState))
