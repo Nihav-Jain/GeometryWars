@@ -229,6 +229,7 @@
     <ClCompile Include="AttributedNative.cpp" />
     <ClCompile Include="AttributedTest.cpp" />
     <ClCompile Include="DatumTest.cpp" />
+    <ClCompile Include="FactoryTest.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooRTTI.cpp" />
     <ClCompile Include="GraphTest.cpp" />

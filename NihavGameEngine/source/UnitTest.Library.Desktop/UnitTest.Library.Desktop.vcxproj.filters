@@ -46,6 +46,7 @@
     </ClCompile>
     <ClCompile Include="GraphTest.cpp" />
     <ClCompile Include="XmlParseHelperTest.cpp" />
+    <ClCompile Include="FactoryTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

@@ -204,6 +204,7 @@
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="DefaultReserveStrategy.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IXmlParseHelper.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="XmlParseHelperTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Factory.inl" />
     <None Include="Graph.inl" />
     <None Include="Hashmap.inl" />
     <None Include="SList.inl" />

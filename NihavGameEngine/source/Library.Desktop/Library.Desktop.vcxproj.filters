@@ -31,6 +31,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="SharedDataTable.h" />
+    <ClInclude Include="Factory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -63,6 +64,7 @@
       <Filter>Containers</Filter>
     </None>
     <None Include="Graph.inl" />
+    <None Include="Factory.inl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Containers">
