@@ -16,7 +16,7 @@ namespace Library
 		if (!attributes.ContainsKey("name"))
 			throw std::exception("Invalid syntax for <scope>. Missing attribute: name");
 
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_START, true))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_START))
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->CurrentScopePtr =  &(sharedDataPtr->CurrentScopePtr->AppendScope(attributes["name"]));
@@ -32,7 +32,7 @@ namespace Library
 		if (elementName != "scope")
 			return false;
 
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END, true))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END))
 			throw std::exception("Invalid script syntax");
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
 			throw std::exception("Invalid script syntax");

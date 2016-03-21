@@ -42,6 +42,7 @@ namespace Library
 			Graph<ParserState>::Traversor endRouterState = ParserStateAutomata.AddVertex(endRouter, rootState);
 			Graph<ParserState>::Traversor scopeEndState = ParserStateAutomata.AddVertex(scopeEnd, scopeStartState);
 			ParserStateAutomata.CreateEdge(scopeEndState, endRouterState);
+			ParserStateAutomata.CreateEdge(scopeStartState, scopeStartState);
 
 			// scope_start -> int_start -> name_start -> name_end -> value_start -> value_end -> int_end
 			// int_end -> end_state_router
@@ -119,17 +120,10 @@ namespace Library
 		//ParserStateAutomata.Clear();
 	}
 
-	bool SharedDataTable::CheckStateTransition(ParserState expectedState, bool selfTransitionAllowed)
+	bool SharedDataTable::CheckStateTransition(ParserState expectedState)
 	{
 		bool hasValidStateTransition = false;
 
-		if (selfTransitionAllowed)
-		{
-			if (*mStateTraversor == expectedState)
-			{
-				return true;
-			}
-		}
 		mStateTraversor.ResetChildrenIterator();
 		while (mStateTraversor.HasMoreChildren())
 		{
