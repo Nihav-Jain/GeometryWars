@@ -32,10 +32,8 @@ namespace Library
 		if (elementName != "scope")
 			return false;
 
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END))
-			throw std::exception("Invalid script syntax");
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
-			throw std::exception("Invalid script syntax");
+		assert(sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END));
+		assert(sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER));
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 		return true;
