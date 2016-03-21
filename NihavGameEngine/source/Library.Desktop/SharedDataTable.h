@@ -71,10 +71,9 @@ namespace Library
 		/**
 		 *	Checks if given state is a child state of current graph vertex, makes the transition to that state if true
 		 *	@param state to which transition has to be made
-		 *	@param boolean to indicate if this given state can transition to itself or not
 		 *	@return true if the transition was made, false if no such transition is possible
 		 */
-		bool CheckStateTransition(ParserState expectedState, bool selfTransitionAllowed = false);
+		bool CheckStateTransition(ParserState expectedState);
 
 		/**
 		 *	Getter for the parser state graph traversor
