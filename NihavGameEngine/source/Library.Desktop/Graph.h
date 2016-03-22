@@ -1,5 +1,7 @@
 #pragma once
 #include "Vector.h"
+#include "SList.h"
+#include "Hashmap.h"
 
 namespace Library
 {
@@ -15,30 +17,30 @@ namespace Library
 		{
 		public:
 			/**
-			*	Constructor for SList, initializes an empty list
-			*/
+			 *	Constructor for SList, initializes an empty list
+			 */
 			Edge(Vertex& headVertex, Vertex& tailVertex);
 
 			/**
-			*	Copy constructor for SList
-			*	@param reference to the right hand side variable
-			*/
+			 *	Copy constructor for SList
+			 *	@param reference to the right hand side variable
+			 */
 			Edge(const Edge& rhs);
 
 			Edge(Edge&& rhs);
 
 			/**
-			*	Assignment operator overload for SList
-			*	@param reference to the right hand side variable
-			*	@return reference to the resultant SList
-			*/
+			 *	Assignment operator overload for SList
+			 *	@param reference to the right hand side variable
+			 *	@return reference to the resultant SList
+			 */
 			Edge& operator=(const Edge& rhs);
 
 			Edge& operator=(Edge&& rhs);
 
 			/**
-			*	Destructor for SList
-			*/
+			 *	Destructor for SList
+			 */
 			~Edge() = default;
 
 			Vertex* GetHead() const;
@@ -53,8 +55,8 @@ namespace Library
 		{
 		public:
 			/**
-			*	Constructor for SList, initializes an empty list
-			*/
+			 *	Constructor for SList, initializes an empty list
+			 */
 			Vertex(T& vertexData);
 
 			/**
@@ -66,17 +68,17 @@ namespace Library
 			Vertex(Vertex&& rhs);
 
 			/**
-			*	Assignment operator overload for SList
-			*	@param reference to the right hand side variable
-			*	@return reference to the resultant SList
-			*/
+			 *	Assignment operator overload for SList
+			 *	@param reference to the right hand side variable
+			 *	@return reference to the resultant SList
+			 */
 			Vertex& operator=(const Vertex& rhs);
 
 			Vertex& operator=(Vertex&& rhs);
 
 			/**
-			*	Destructor for SList
-			*/
+			 *	Destructor for SList
+			 */
 			~Vertex() = default;
 
 			void AddEdge(Edge& newEdge);
@@ -123,6 +125,32 @@ namespace Library
 			std::uint32_t mCurrentChildIndex;
 		};
 
+		class BreadthFirstTraversor
+		{
+			friend Graph;
+		public:
+			BreadthFirstTraversor();
+			BreadthFirstTraversor(const BreadthFirstTraversor& rhs);
+			BreadthFirstTraversor(BreadthFirstTraversor&& rhs);
+			~BreadthFirstTraversor() = default;
+
+			BreadthFirstTraversor& operator=(const BreadthFirstTraversor& rhs);
+			BreadthFirstTraversor& operator=(BreadthFirstTraversor&& rhs);
+
+			bool HasMoreVertices() const;
+			void MoveToNext();
+			const T& CheckUpcomingVertex() const;
+			T& operator*();
+			const T& operator*() const;
+
+		private:
+			BreadthFirstTraversor(Vertex& currentVertex, const Graph* owner);
+
+			const Graph* mOwner;
+			SList<Vertex*> mQueue;
+			Hashmap<Vertex*, bool> mVertexVisitedData;
+		};
+
 		/**
 		 *	Constructor for SList, initializes an empty list
 		 */
@@ -135,10 +163,10 @@ namespace Library
 		Graph(const Graph& rhs) = delete;
 
 		/**
-		*	Assignment operator overload for SList
-		*	@param reference to the right hand side variable
-		*	@return reference to the resultant SList
-		*/
+		 *	Assignment operator overload for SList
+		 *	@param reference to the right hand side variable
+		 *	@return reference to the resultant SList
+		 */
 		Graph<T>& operator=(const Graph& rhs) = delete;
 
 		/**
@@ -151,6 +179,7 @@ namespace Library
 		void CreateEdge(Traversor& tailVertex, Traversor& headVertex);
 
 		Traversor Begin() const;
+		BreadthFirstTraversor BeginBreadthFirstTraversal() const;
 
 		bool IsEmpty() const;
 		void Clear();

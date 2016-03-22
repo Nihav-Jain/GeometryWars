@@ -80,6 +80,54 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(*constTraversor == GraphTestEnum::ENUM5);
 		}
 
+		TEST_METHOD(GraphTestBFTraversor)
+		{
+			Graph<char> graph;
+			char A = 'A';
+			char B = 'B';
+			char C = 'C';
+			char D = 'D';
+			char E = 'E';
+			char F = 'F';
+			char G = 'G';
+			char H = 'H';
+
+			Graph<char>::Traversor vertexA = graph.AddVertex(A);
+
+			Graph<char>::Traversor vertexF = graph.AddVertex(F, vertexA);
+			Graph<char>::Traversor vertexB = graph.AddVertex(B, vertexA);
+			Graph<char>::Traversor vertexC = graph.AddVertex(C, vertexA);
+			Graph<char>::Traversor vertexG = graph.AddVertex(G, vertexA);
+
+			Graph<char>::Traversor vertexD = graph.AddVertex(D, vertexF);
+			Graph<char>::Traversor vertexE = graph.AddVertex(E, vertexF);
+			graph.CreateEdge(vertexD, vertexE);
+
+			graph.CreateEdge(vertexE, vertexG);
+			Graph<char>::Traversor vertexH = graph.AddVertex(H, vertexE);
+
+			Graph<char>::BreadthFirstTraversor bfs = graph.BeginBreadthFirstTraversal();
+			Assert::AreEqual('A', *bfs);
+			
+			bfs.MoveToNext();
+			Assert::AreEqual('F', *bfs);
+			bfs.MoveToNext();
+			Assert::AreEqual('B', *bfs);
+			bfs.MoveToNext();
+			Assert::AreEqual('C', *bfs);
+			bfs.MoveToNext();
+			Assert::AreEqual('G', *bfs);
+			bfs.MoveToNext();
+			Assert::AreEqual('D', *bfs);
+			bfs.MoveToNext();
+			Assert::AreEqual('E', *bfs);
+			bfs.MoveToNext();
+			Assert::AreEqual('H', *bfs);
+			Assert::IsTrue(bfs.HasMoreVertices());
+			bfs.MoveToNext();
+			Assert::IsFalse(bfs.HasMoreVertices());
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

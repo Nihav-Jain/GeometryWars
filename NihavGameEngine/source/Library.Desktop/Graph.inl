@@ -42,6 +42,12 @@ namespace Library
 	}
 
 	template<typename T>
+	typename Graph<T>::BreadthFirstTraversor Graph<T>::BeginBreadthFirstTraversal() const
+	{
+		return BreadthFirstTraversor(**(mVertexList.begin()), this);
+	}
+
+	template<typename T>
 	bool Graph<T>::IsEmpty() const
 	{
 		return mVertexList.IsEmpty();
@@ -329,6 +335,126 @@ namespace Library
 	Graph<T>::Traversor::Traversor(Vertex& currentVertex, const Graph* owner) :
 		mCurrentVertex(&currentVertex), mOwner(owner), mCurrentChildIndex(0)
 	{}
+
+#pragma endregion
+
+#pragma region BreadthFirstTraversor
+
+	template<typename T>
+	Graph<T>::BreadthFirstTraversor::BreadthFirstTraversor() :
+		mOwner(nullptr), mQueue(), mVertexVisitedData()
+	{}
+	
+	template<typename T>
+	Graph<T>::BreadthFirstTraversor::BreadthFirstTraversor(const BreadthFirstTraversor& rhs) :
+		mOwner(rhs.mOwner), mQueue(rhs.mQueue), mVertexVisitedData(rhs.mVertexVisitedData)
+	{}
+
+	template<typename T>
+	Graph<T>::BreadthFirstTraversor::BreadthFirstTraversor(BreadthFirstTraversor&& rhs) :
+		mOwner(rhs.mOwner), mQueue(std::move(rhs.mQueue)), mVertexVisitedData(std::move(rhs.mVertexVisitedData))
+	{
+		rhs.mOwner = nullptr;
+		mCurrentVertex = nullptr;
+	}
+
+	template<typename T>
+	typename Graph<T>::BreadthFirstTraversor& Graph<T>::BreadthFirstTraversor::operator=(const BreadthFirstTraversor& rhs)
+	{
+		if (this != &rhs)
+		{
+			mOwner = rhs.mOwner;
+			mQueue = rhs.mQueue;
+			mVertexVisitedData = rhs.mVertexVisitedData;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	typename Graph<T>::BreadthFirstTraversor& Graph<T>::BreadthFirstTraversor::operator=(BreadthFirstTraversor&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mOwner = rhs.mOwner;
+			mQueue = std::move(rhs.mQueue);
+			mVertexVisitedData = std::move(rhs.mVertexVisitedData);
+
+			mOwner = nullptr;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	bool Graph<T>::BreadthFirstTraversor::HasMoreVertices() const
+	{
+		return !mQueue.IsEmpty();
+	}
+
+	template<typename T>
+	void Graph<T>::BreadthFirstTraversor::MoveToNext()
+	{
+		if (mQueue.IsEmpty())
+			throw std::exception("All vertices already traversed.");
+
+		Vertex* currentVertex = mQueue.Front();
+		
+		for (auto& edge : currentVertex->EdgeList())
+		{
+			if (!mVertexVisitedData.ContainsKey(edge->GetHead())) // || !mVertexVisitedData[edge->GetHead()])
+			{
+				mQueue.PushBack(edge->GetHead());
+				mVertexVisitedData[edge->GetHead()] = false;
+			}
+		}
+
+		mQueue.PopFront();
+
+		if(!mQueue.IsEmpty())
+			mVertexVisitedData[mQueue.Front()] = true;
+	}
+
+	template<typename T>
+	const T& Graph<T>::BreadthFirstTraversor::CheckUpcomingVertex() const
+	{
+		if (mQueue.Size() > 1U)
+		{
+			SList<Vertex*>::Iterator itr = mQueue.begin();
+			++itr;
+			return *itr;
+		}
+		else
+		{
+			throw std::exception("No more vertices left to traverse after the current one.");
+		}
+	}
+
+	template<typename T>
+	T& Graph<T>::BreadthFirstTraversor::operator*()
+	{
+		if (mOwner == nullptr)
+			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+		if(mQueue.IsEmpty())
+			throw std::exception("Invalid operation. Cannot dereference empty Traversor.");
+		return mQueue.Front()->Data();
+	}
+
+	template<typename T>
+	const T& Graph<T>::BreadthFirstTraversor::operator*() const
+	{
+		if (mOwner == nullptr)
+			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+		if (mQueue.IsEmpty())
+			throw std::exception("Invalid operation. Cannot dereference empty Traversor.");
+		return mQueue.Front()->Data();
+	}
+
+	template<typename T>
+	Graph<T>::BreadthFirstTraversor::BreadthFirstTraversor(Vertex& currentVertex, const Graph* owner) :
+		mOwner(owner), mQueue(), mVertexVisitedData()
+	{
+		mQueue.PushBack(&currentVertex);
+		mVertexVisitedData.Insert(&currentVertex, true);
+	}
 
 #pragma endregion
 }
