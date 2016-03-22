@@ -2,6 +2,7 @@
 #include "Vector.h"
 #include "SList.h"
 #include "Hashmap.h"
+#include "Stack.h"
 
 namespace Library
 {
@@ -151,6 +152,32 @@ namespace Library
 			Hashmap<Vertex*, bool> mVertexVisitedData;
 		};
 
+		class DepthFirstTraversor
+		{
+			friend Graph;
+		public:
+			DepthFirstTraversor();
+			DepthFirstTraversor(const DepthFirstTraversor& rhs);
+			DepthFirstTraversor(DepthFirstTraversor&& rhs);
+			~DepthFirstTraversor() = default;
+
+			DepthFirstTraversor& operator=(const DepthFirstTraversor& rhs);
+			DepthFirstTraversor& operator=(DepthFirstTraversor&& rhs);
+
+			bool HasMoreVertices() const;
+			void MoveToNext();
+			//const T& CheckUpcomingVertex() const;
+			T& operator*();
+			const T& operator*() const;
+
+		private:
+			DepthFirstTraversor(Vertex& currentVertex, const Graph* owner);
+
+			const Graph* mOwner;
+			Stack<Vertex*> mVertexStack;
+			Hashmap<Vertex*, bool> mVertexVisitedData;
+		};
+
 		/**
 		 *	Constructor for SList, initializes an empty list
 		 */
@@ -180,6 +207,7 @@ namespace Library
 
 		Traversor Begin() const;
 		BreadthFirstTraversor BeginBreadthFirstTraversal() const;
+		DepthFirstTraversor BeginDepthFirstTraversal() const;
 
 		bool IsEmpty() const;
 		void Clear();

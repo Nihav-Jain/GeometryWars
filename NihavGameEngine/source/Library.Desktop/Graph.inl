@@ -48,6 +48,12 @@ namespace Library
 	}
 
 	template<typename T>
+	typename Graph<T>::DepthFirstTraversor Graph<T>::BeginDepthFirstTraversal() const
+	{
+		return DepthFirstTraversor(**(mVertexList.begin()), this);
+	}
+
+	template<typename T>
 	bool Graph<T>::IsEmpty() const
 	{
 		return mVertexList.IsEmpty();
@@ -400,7 +406,7 @@ namespace Library
 		
 		for (auto& edge : currentVertex->EdgeList())
 		{
-			if (!mVertexVisitedData.ContainsKey(edge->GetHead())) // || !mVertexVisitedData[edge->GetHead()])
+			if (!mVertexVisitedData.ContainsKey(edge->GetHead()))
 			{
 				mQueue.PushBack(edge->GetHead());
 				mVertexVisitedData[edge->GetHead()] = false;
@@ -457,4 +463,116 @@ namespace Library
 	}
 
 #pragma endregion
+
+#pragma region DepthFirstTraversor
+
+	template<typename T>
+	Graph<T>::DepthFirstTraversor::DepthFirstTraversor() :
+		mOwner(nullptr), mVertexStack(), mVertexVisitedData()
+	{}
+
+	template<typename T>
+	Graph<T>::DepthFirstTraversor::DepthFirstTraversor(const DepthFirstTraversor& rhs) :
+		mOwner(rhs.mOwner), mVertexStack(rhs.mVertexStack), mVertexVisitedData(rhs.mVertexVisitedData)
+	{}
+
+	template<typename T>
+	Graph<T>::DepthFirstTraversor::DepthFirstTraversor(DepthFirstTraversor&& rhs) :
+		mOwner(rhs.mOwner), mVertexStack(std::move(rhs.mVertexStack)), mVertexVisitedData(std::move(rhs.mVertexVisitedData))
+	{
+		rhs.mOwner = nullptr;
+		mCurrentVertex = nullptr;
+	}
+
+	template<typename T>
+	typename Graph<T>::DepthFirstTraversor& Graph<T>::DepthFirstTraversor::operator=(const DepthFirstTraversor& rhs)
+	{
+		if (this != &rhs)
+		{
+			mOwner = rhs.mOwner;
+			mVertexStack = rhs.mVertexStack;
+			mVertexVisitedData = rhs.mVertexVisitedData;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	typename Graph<T>::DepthFirstTraversor& Graph<T>::DepthFirstTraversor::operator=(DepthFirstTraversor&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mOwner = rhs.mOwner;
+			mVertexStack = std::move(rhs.mVertexStack);
+			mVertexVisitedData = std::move(rhs.mVertexVisitedData);
+
+			mOwner = nullptr;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	bool Graph<T>::DepthFirstTraversor::HasMoreVertices() const
+	{
+		return !mVertexStack.IsEmpty();
+	}
+
+	template<typename T>
+	void Graph<T>::DepthFirstTraversor::MoveToNext()
+	{
+		if (mVertexStack.IsEmpty())
+			throw std::exception("Invalid operation. Traversal already completed.");
+
+		Vertex* currentVertex = mVertexStack.Top();
+
+		Stack<Vertex*> tempStack;
+		for (auto& edge : currentVertex->EdgeList())
+		{
+			if (!mVertexVisitedData.ContainsKey(edge->GetHead()))
+			{
+				tempStack.Push(edge->GetHead());
+				mVertexVisitedData[edge->GetHead()] = false;
+			}
+		}
+
+		mVertexStack.Pop();
+		while (!tempStack.IsEmpty())
+		{
+			mVertexStack.Push(tempStack.Top());
+			tempStack.Pop();
+		}
+
+		if (!mVertexStack.IsEmpty())
+			mVertexVisitedData[mVertexStack.Top()] = true;
+	}
+
+	template<typename T>
+	T& Graph<T>::DepthFirstTraversor::operator*()
+	{
+		if (mOwner == nullptr)
+			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor");
+		if(mVertexStack.IsEmpty())
+			throw std::exception("Invalid operation. Cannot dereference empty Traversor");
+		return mVertexStack.Top()->Data();
+	}
+
+	template<typename T>
+	const T& Graph<T>::DepthFirstTraversor::operator*() const
+	{
+		if (mOwner == nullptr)
+			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor");
+		if (mVertexStack.IsEmpty())
+			throw std::exception("Invalid operation. Cannot dereference empty Traversor");
+		return mVertexStack.Top()->Data();
+	}
+
+	template<typename T>
+	Graph<T>::DepthFirstTraversor::DepthFirstTraversor(Vertex& currentVertex, const Graph* owner) :
+		mOwner(owner), mVertexStack(), mVertexVisitedData()
+	{
+		mVertexStack.Push(&currentVertex);
+		mVertexVisitedData.Insert(&currentVertex, true);
+	}
+
+#pragma endregion
+
 }

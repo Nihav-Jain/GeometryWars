@@ -128,6 +128,52 @@ namespace UnitTestLibraryDesktop
 			Assert::IsFalse(bfs.HasMoreVertices());
 		}
 
+		TEST_METHOD(GraphTestDFTraversor)
+		{
+			Graph<char> graph;
+			char A = 'A';
+			char B = 'B';
+			char C = 'C';
+			char D = 'D';
+			char E = 'E';
+			char F = 'F';
+			char G = 'G';
+			char H = 'H';
+
+			Graph<char>::Traversor vertexA = graph.AddVertex(A);
+
+			Graph<char>::Traversor vertexF = graph.AddVertex(F, vertexA);
+			Graph<char>::Traversor vertexB = graph.AddVertex(B, vertexA);
+			Graph<char>::Traversor vertexC = graph.AddVertex(C, vertexA);
+			Graph<char>::Traversor vertexG = graph.AddVertex(G, vertexA);
+
+			Graph<char>::Traversor vertexD = graph.AddVertex(D, vertexF);
+			Graph<char>::Traversor vertexE = graph.AddVertex(E, vertexF);
+			graph.CreateEdge(vertexD, vertexE);
+
+			graph.CreateEdge(vertexE, vertexG);
+			Graph<char>::Traversor vertexH = graph.AddVertex(H, vertexE);
+
+			Graph<char>::DepthFirstTraversor dfs = graph.BeginDepthFirstTraversal();
+			Assert::AreEqual('A', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('F', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('D', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('E', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('H', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('B', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('C', *dfs);
+			dfs.MoveToNext();
+			Assert::AreEqual('G', *dfs);
+			dfs.MoveToNext();
+			Assert::IsFalse(dfs.HasMoreVertices());
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif
