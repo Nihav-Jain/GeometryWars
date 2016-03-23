@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+#include <sstream>
+
 #include "Attributed.h"
 #include "Entity.h"
 #include "WorldState.h"

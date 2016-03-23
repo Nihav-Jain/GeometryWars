@@ -70,7 +70,13 @@ namespace Library
 		Datum& entities = Entities();
 		
 		EntityFactory entityFactory;
-		Entity* entity = entityFactory.Create()->As<Entity>();
+		if (Factory<RTTI>::Find(entityClassName) == nullptr)
+		{
+			std::stringstream str;
+			str << "Class name " << entityClassName << " not found.";
+			throw std::exception(str.str().c_str());
+		}
+		Entity* entity = Factory<RTTI>::Create(entityClassName)->As<Entity>();
 
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
