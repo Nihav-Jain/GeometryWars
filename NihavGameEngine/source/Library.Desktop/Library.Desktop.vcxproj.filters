@@ -34,6 +34,8 @@
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Sector.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="WorldState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -53,6 +55,8 @@
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Sector.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

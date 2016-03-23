@@ -75,8 +75,9 @@ namespace Library
 		parent.Adopt(mName, *this);
 	}
 
-	void Entity::Update()
+	void Entity::Update(WorldState& worldState)
 	{
+		UNREFERENCED_PARAMETER(worldState);
 	}
 
 	void Entity::DefinePrescribedAttributes()

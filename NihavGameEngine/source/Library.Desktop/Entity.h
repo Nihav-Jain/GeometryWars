@@ -2,6 +2,7 @@
 #include "RTTI.h"
 #include "Attributed.h"
 #include "Factory.h"
+#include "WorldState.h"
 
 namespace Library
 {
@@ -26,7 +27,7 @@ namespace Library
 		Sector* GetSector() const;
 		void SetSector(Sector& parent);
 
-		void Update();
+		void Update(WorldState& worldState);
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;

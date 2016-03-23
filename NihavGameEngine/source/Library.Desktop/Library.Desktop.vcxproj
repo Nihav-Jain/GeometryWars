@@ -217,6 +217,8 @@
     <ClInclude Include="SList.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="WorldState.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseMaster.h" />
@@ -237,6 +239,8 @@
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />

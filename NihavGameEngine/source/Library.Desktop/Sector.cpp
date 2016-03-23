@@ -93,8 +93,16 @@ namespace Library
 		parent.Adopt(ATTRIBUTE_NAME_NAME, *this);
 	}
 
-	void Sector::Update()
+	void Sector::Update(WorldState& worldState)
 	{
+		Datum& entities = Entities();
+		std::uint32_t i;
+		for (i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope*>(i)->As<Entity>();
+			worldState.entity = entity;
+			entity->Update(worldState);
+		}
 	}
 
 	void Sector::DefinePrescribedAttributes()

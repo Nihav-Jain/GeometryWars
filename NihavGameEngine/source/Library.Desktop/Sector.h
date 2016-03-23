@@ -1,6 +1,7 @@
 #pragma once
 #include "Attributed.h"
 #include "Entity.h"
+#include "WorldState.h"
 
 namespace Library
 {
@@ -28,7 +29,7 @@ namespace Library
 		World* GetWorld() const;
 		void SetWorld(World& parent);
 
-		void Update();
+		void Update(WorldState& worldState);
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;
