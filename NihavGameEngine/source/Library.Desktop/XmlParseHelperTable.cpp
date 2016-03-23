@@ -10,16 +10,16 @@ namespace Library
 		if (sharedDataPtr == nullptr)
 			return false;
 
-		if (elementName != "scope")
+		if (elementName != ELEMENT_SCOPE)
 			return false;
 
-		if (!attributes.ContainsKey("name"))
+		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
 			throw std::exception("Invalid syntax for <scope>. Missing attribute: name");
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_START))
 			throw std::exception("Invalid script syntax");
 
-		sharedDataPtr->CurrentScopePtr =  &(sharedDataPtr->CurrentScopePtr->AppendScope(attributes["name"]));
+		sharedDataPtr->CurrentScopePtr =  &(sharedDataPtr->CurrentScopePtr->AppendScope(attributes[ATTRIBUTE_NAME]));
 
 		return true;
 	}
@@ -29,7 +29,7 @@ namespace Library
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
-		if (elementName != "scope")
+		if (elementName != ELEMENT_SCOPE)
 			return false;
 
 		assert(sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END));

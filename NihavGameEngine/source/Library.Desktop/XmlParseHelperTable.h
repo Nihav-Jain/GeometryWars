@@ -40,6 +40,10 @@ namespace Library
 		virtual bool StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes) override;
 		virtual bool EndElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName) override;
 		virtual IXmlParseHelper* Clone() const override;
+
+	private:
+		const std::string ELEMENT_SCOPE = "scope";
+		const std::string ATTRIBUTE_NAME = "name";
 	};
 }
 
