@@ -206,6 +206,8 @@
     <ClInclude Include="DefaultReserveStrategy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="GameClock.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IXmlParseHelper.h" />
@@ -230,6 +232,8 @@
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameClock.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
