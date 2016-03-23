@@ -32,6 +32,8 @@
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Sector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -49,6 +51,8 @@
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Sector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
