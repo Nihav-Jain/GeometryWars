@@ -1,14 +1,43 @@
 #pragma once
 #include "Attributed.h"
+#include "Entity.h"
 
 namespace Library
 {
+	class World;
+
 	class Sector : public Attributed
 	{
 		RTTI_DECLARATIONS(Sector, Attributed);
 	public:
 		Sector();
+		Sector(const Sector& rhs);
+		Sector(Sector&& rhs);
+
 		virtual ~Sector();
+
+		Sector& operator=(const Sector& rhs);
+		Sector& operator=(Sector&& rhs);
+
+		std::string Name() const;
+		void SetName(const std::string& name);
+
+		Datum& Entities();
+		Entity& CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName);
+
+		World* GetWorld() const;
+		void SetWorld(World& parent);
+
+		void Update();
+
+	protected:
+		virtual void DefinePrescribedAttributes() override;
+
+	private:
+		std::string mName;
+
+		const std::string ATTRIBUTE_NAME_NAME = "name";
+		const std::string ATTRIBUTE_NAME_ENTITY = "entities";
 	};
 
 }
