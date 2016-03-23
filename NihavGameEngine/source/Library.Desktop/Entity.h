@@ -1,5 +1,7 @@
 #pragma once
+#include "RTTI.h"
 #include "Attributed.h"
+#include "Factory.h"
 
 namespace Library
 {
@@ -31,7 +33,9 @@ namespace Library
 
 	private:
 		std::string mName;
+		const std::string NAME = "name";
 	};
 
+	CONCRETE_FACTORY(Entity, RTTI);
 }
 
