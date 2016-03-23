@@ -18,7 +18,7 @@ namespace Library
 		World& operator=(const World& rhs);
 		World& operator=(World&& rhs);
 
-		std::string Name() const;
+		const std::string& Name() const;
 		void SetName(const std::string& name);
 
 		Datum& Sectors();

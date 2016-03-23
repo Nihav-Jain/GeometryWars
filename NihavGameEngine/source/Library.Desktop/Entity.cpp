@@ -34,7 +34,7 @@ namespace Library
 			mName = rhs.mName;
 			Attributed::operator=(rhs);
 
-			(*this)[NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 		}
 		return *this;
 	}
@@ -46,13 +46,13 @@ namespace Library
 			mName = std::move(rhs.mName);
 			Attributed::operator=(std::move(rhs));
 
-			(*this)[NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 		}
 
 		return *this;
 	}
 
-	std::string Entity::Name() const
+	const std::string& Entity::Name() const
 	{
 		return mName;
 	}
@@ -82,6 +82,6 @@ namespace Library
 
 	void Entity::DefinePrescribedAttributes()
 	{
-		AddExternalAttribute(NAME, 1, &mName);
+		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 	}
 }

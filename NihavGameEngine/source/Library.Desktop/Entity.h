@@ -21,7 +21,7 @@ namespace Library
 		Entity& operator=(const Entity& rhs);
 		Entity& operator=(Entity&& rhs);
 
-		std::string Name() const;
+		const std::string& Name() const;
 		void SetName(const std::string& name);
 
 		Sector* GetSector() const;
@@ -34,7 +34,7 @@ namespace Library
 
 	private:
 		std::string mName;
-		const std::string NAME = "name";
+		const std::string ATTRIBUTE_NAME = "name";
 	};
 
 	CONCRETE_FACTORY(Entity, RTTI);

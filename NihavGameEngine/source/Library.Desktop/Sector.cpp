@@ -32,7 +32,7 @@ namespace Library
 			mName = rhs.mName;
 			Attributed::operator=(rhs);
 
-			(*this)[ATTRIBUTE_NAME_NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 		}
 		return *this;
 	}
@@ -44,13 +44,13 @@ namespace Library
 			mName = std::move(rhs.mName);
 			Attributed::operator=(std::move(rhs));
 
-			(*this)[ATTRIBUTE_NAME_NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 		}
 
 		return *this;
 	}
 	
-	std::string Sector::Name() const
+	const std::string& Sector::Name() const
 	{
 		return mName;
 	}
@@ -62,14 +62,13 @@ namespace Library
 
 	Datum& Sector::Entities()
 	{
-		return Append(ATTRIBUTE_NAME_ENTITY);
+		return operator[](ATTRIBUTE_ENTITIES);
 	}
 
 	Entity& Sector::CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName)
 	{
 		Datum& entities = Entities();
 		
-		EntityFactory entityFactory;
 		if (Factory<RTTI>::Find(entityClassName) == nullptr)
 		{
 			std::stringstream str;
@@ -96,7 +95,7 @@ namespace Library
 
 	void Sector::SetWorld(World& parent)
 	{
-		parent.Adopt(ATTRIBUTE_NAME_NAME, *this);
+		parent.Adopt(ATTRIBUTE_NAME, *this);
 	}
 
 	void Sector::Update(WorldState& worldState)
@@ -106,6 +105,7 @@ namespace Library
 		for (i = 0; i < entities.Size(); i++)
 		{
 			Entity* entity = entities.Get<Scope*>(i)->As<Entity>();
+			assert(entity != nullptr);
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}
@@ -113,6 +113,7 @@ namespace Library
 
 	void Sector::DefinePrescribedAttributes()
 	{
-		AddExternalAttribute(ATTRIBUTE_NAME_NAME, 1, &mName);
+		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddNestedScope(ATTRIBUTE_ENTITIES);
 	}
 }

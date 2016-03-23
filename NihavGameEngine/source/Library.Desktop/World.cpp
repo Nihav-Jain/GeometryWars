@@ -57,7 +57,7 @@ namespace Library
 		return *this;
 	}
 
-	std::string World::Name() const
+	const std::string& World::Name() const
 	{
 		return mName;
 	}
@@ -69,7 +69,7 @@ namespace Library
 
 	Datum& World::Sectors()
 	{
-		return Append(ATTRIBUTE_NAME_SECTOR);
+		return operator[](ATTRIBUTE_NAME_SECTOR);
 	}
 
 	Sector& World::CreateSector(const std::string& sectorName)
@@ -91,6 +91,7 @@ namespace Library
 		for (i = 0; i < sectors.Size(); i++)
 		{
 			Sector* sector = sectors.Get<Scope*>(i)->As<Sector>();
+			assert(sector != nullptr);
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);
 		}
@@ -99,6 +100,7 @@ namespace Library
 	void World::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME_NAME, 1, &mName);
+		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 	}
 
 }

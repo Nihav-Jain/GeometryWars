@@ -23,7 +23,7 @@ namespace Library
 		Sector& operator=(const Sector& rhs);
 		Sector& operator=(Sector&& rhs);
 
-		std::string Name() const;
+		const std::string& Name() const;
 		void SetName(const std::string& name);
 
 		Datum& Entities();
@@ -40,8 +40,8 @@ namespace Library
 	private:
 		std::string mName;
 
-		const std::string ATTRIBUTE_NAME_NAME = "name";
-		const std::string ATTRIBUTE_NAME_ENTITY = "entities";
+		const std::string ATTRIBUTE_NAME = "name";
+		const std::string ATTRIBUTE_ENTITIES = "entities";
 	};
 
 }
