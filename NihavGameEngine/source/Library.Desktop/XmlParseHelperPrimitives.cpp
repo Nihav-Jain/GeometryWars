@@ -3,32 +3,18 @@
 
 namespace Library
 {
-	Hashmap<std::string, XmlParseHelperPrimitives::MetaData> XmlParseHelperPrimitives::mElementMetaData;
+	Hashmap<std::string, Datum::DatumType> XmlParseHelperPrimitives::mElementMetaData;
 
 	XmlParseHelperPrimitives::XmlParseHelperPrimitives() :
-		mCharData(), mCurrentDataName()
+		mCharData(), mCurrentDataName(), mStartState(SharedDataTable::ParserState::PRIMITIVE_START), mEndState(SharedDataTable::ParserState::PRIMITIVE_END)
 	{
 		if (mElementMetaData.Size() == 0U)
 		{
-			mElementMetaData["integer"].mType = Datum::DatumType::INTEGER;
-			mElementMetaData["integer"].mStartState = SharedDataTable::ParserState::INTEGER_START;
-			mElementMetaData["integer"].mEndState = SharedDataTable::ParserState::INTEGER_END;
-
-			mElementMetaData["float"].mType = Datum::DatumType::FLOAT;
-			mElementMetaData["float"].mStartState = SharedDataTable::ParserState::FLOAT_START;
-			mElementMetaData["float"].mEndState = SharedDataTable::ParserState::FLOAT_END;
-
-			mElementMetaData["string"].mType = Datum::DatumType::STRING;
-			mElementMetaData["string"].mStartState = SharedDataTable::ParserState::STRING_START;
-			mElementMetaData["string"].mEndState = SharedDataTable::ParserState::STRING_END;
-
-			mElementMetaData["vector"].mType = Datum::DatumType::VECTOR4;
-			mElementMetaData["vector"].mStartState = SharedDataTable::ParserState::VECTOR_START;
-			mElementMetaData["vector"].mEndState = SharedDataTable::ParserState::VECTOR_END;
-
-			mElementMetaData["matrix"].mType = Datum::DatumType::MATRIX4x4;
-			mElementMetaData["matrix"].mStartState = SharedDataTable::ParserState::MATRIX_START;
-			mElementMetaData["matrix"].mEndState = SharedDataTable::ParserState::MATRIX_END;
+			mElementMetaData["integer"] = Datum::DatumType::INTEGER;
+			mElementMetaData["float"] = Datum::DatumType::FLOAT;
+			mElementMetaData["string"] = Datum::DatumType::STRING;
+			mElementMetaData["vector"] = Datum::DatumType::VECTOR4;
+			mElementMetaData["matrix"] = Datum::DatumType::MATRIX4x4;
 		}
 	}
 
@@ -45,7 +31,7 @@ namespace Library
 		if (!mElementMetaData.ContainsKey(elementName))
 			return false;
 
-		if (!sharedDataPtr->CheckStateTransition(mElementMetaData[elementName].mStartState))
+		if (!sharedDataPtr->CheckStateTransition(mStartState))
 			throw std::exception("Invalid script syntax");
 
 		// <integer name="variableName">
@@ -58,7 +44,7 @@ namespace Library
 
 			mCurrentDataName = attributes["name"];
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(mCurrentDataName);
-			primitiveDatum.SetType(mElementMetaData[elementName].mType);
+			primitiveDatum.SetType(mElementMetaData[elementName]);
 
 			// <integer name="variableName" value="variableValue"/>
 			if (attributes.ContainsKey("value"))
@@ -100,11 +86,11 @@ namespace Library
 		else if (sharedDataPtr->NameValueElementDataParsed)
 		{
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(sharedDataPtr->DataName);
-			primitiveDatum.SetType(mElementMetaData[elementName].mType);
+			primitiveDatum.SetType(mElementMetaData[elementName]);
 			primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
 		}
 
-		if (!sharedDataPtr->CheckStateTransition(mElementMetaData[elementName].mEndState))
+		if (!sharedDataPtr->CheckStateTransition(mEndState))
 			throw std::exception("Invalid script syntax");
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
 			throw std::exception("Invalid script syntax");

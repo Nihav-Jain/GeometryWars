@@ -52,9 +52,12 @@ namespace Library
 			Datum::DatumType mType;
 		};
 
-		static Hashmap<std::string, MetaData> mElementMetaData;
+		static Hashmap<std::string, Datum::DatumType> mElementMetaData;
 
 		std::string mCharData;
 		std::string mCurrentDataName;
+
+		SharedDataTable::ParserState mStartState;
+		SharedDataTable::ParserState mEndState;
 	};
 }
