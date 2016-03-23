@@ -26,16 +26,22 @@
     </ClInclude>
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="XmlParseMaster.h" />
-    <ClInclude Include="XmlParseHelperTable.h" />
-    <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="Graph.h" />
-    <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Sector.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldState.h" />
+    <ClInclude Include="XmlParseHelperTable.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperPrimitives.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperNameValue.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -49,14 +55,20 @@
       <Filter>Containers</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseMaster.cpp" />
-    <ClCompile Include="XmlParseHelperTable.cpp" />
-    <ClCompile Include="XmlParseHelperPrimitives.cpp" />
-    <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
+    <ClCompile Include="XmlParseHelperTable.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperPrimitives.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperNameValue.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
