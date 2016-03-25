@@ -18,7 +18,7 @@ namespace Library
 		{
 			UNKNOWN,
 			ROOT_STATE,
-			END_STATE_ROUTER,
+			STATE_ROUTER,
 			WORLD_START,
 			WORLD_END,
 			SECTOR_START,
@@ -85,6 +85,8 @@ namespace Library
 		 */
 		Scope& RootScope();
 
+		void SetRootScope(Scope& rootScope);
+
 		/**
 		 *	string to store the name of the datum variable when the xml syntax is of the form <name>variableName</name>
 		 */
@@ -104,7 +106,7 @@ namespace Library
 		/**
 		 *	Root (parent) of the scope table heirarchy
 		 */
-		Scope mRootScope;
+		Scope* mRootScope;
 
 		/**
 		 *	A graph to maintain the parsing state diagram
