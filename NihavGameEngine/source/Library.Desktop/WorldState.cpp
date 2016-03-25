@@ -31,6 +31,16 @@ namespace Library
 		return *this;
 	}
 
+	const GameTime & WorldState::GetGameTime() const
+	{
+		return *mGameTime;
+	}
+
+	void WorldState::SetGameTime(const GameTime& gameTime)
+	{
+		mGameTime = &gameTime;
+	}
+
 
 
 }

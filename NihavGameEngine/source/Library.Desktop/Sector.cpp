@@ -68,12 +68,13 @@ namespace Library
 	Entity& Sector::CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName)
 	{
 		Entity* entity = Factory<Entity>::Create(entityClassName);
-		if(entity == nullptr)
-		{
-			std::stringstream str;
-			str << "Class name " << entityClassName << " not found.";
-			throw std::exception(str.str().c_str());
-		}
+		//if(entity == nullptr)
+		//{
+		//	std::stringstream str;
+		//	str << "Class name " << entityClassName << " not found.";
+		//	throw std::exception(str.str().c_str());
+		//}
+		assert(entity != nullptr);
 
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
