@@ -31,7 +31,7 @@ namespace Library
 		if (!mElementMetaData.ContainsKey(elementName))
 			return false;
 
-		if (!sharedDataPtr->CheckStateTransition(mStartState))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::PRIMITIVE_START))
 			throw std::exception("Invalid script syntax");
 
 		// <integer name="variableName">
@@ -90,9 +90,9 @@ namespace Library
 			primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
 		}
 
-		if (!sharedDataPtr->CheckStateTransition(mEndState))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::PRIMITIVE_END))
 			throw std::exception("Invalid script syntax");
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::END_STATE_ROUTER))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER))
 			throw std::exception("Invalid script syntax");
 
 		sharedDataPtr->NameValueElementDataParsed = false;
