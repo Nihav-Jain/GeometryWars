@@ -67,20 +67,18 @@ namespace Library
 
 	Entity& Sector::CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName)
 	{
-		Datum& entities = Entities();
-		
-		if (Factory<RTTI>::Find(entityClassName) == nullptr)
+		Entity* entity = Factory<Entity>::Create(entityClassName);
+		if(entity == nullptr)
 		{
 			std::stringstream str;
 			str << "Class name " << entityClassName << " not found.";
 			throw std::exception(str.str().c_str());
 		}
-		Entity* entity = Factory<RTTI>::Create(entityClassName)->As<Entity>();
 
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		entities.Set(*entity, entities.Size());
+		Adopt(ATTRIBUTE_ENTITIES, *entity);
 
 		return *entity;
 	}
@@ -114,6 +112,6 @@ namespace Library
 	void Sector::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_ENTITIES);
+		AddNestedScope(ATTRIBUTE_ENTITIES, Scope(), 0);
 	}
 }

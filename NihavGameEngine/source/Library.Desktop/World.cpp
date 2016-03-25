@@ -74,11 +74,10 @@ namespace Library
 
 	Sector& World::CreateSector(const std::string& sectorName)
 	{
-		Datum& sectors = Sectors();
-
 		Sector* sector = new Sector();
 		sector->SetName(sectorName);
-		sectors.Set(*sector, sectors.Size());
+
+		Adopt(ATTRIBUTE_NAME_SECTOR, *sector);
 
 		return *sector;
 	}
@@ -100,7 +99,7 @@ namespace Library
 	void World::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
+		AddNestedScope(ATTRIBUTE_NAME_SECTOR, Scope(), 0);
 	}
 
 }

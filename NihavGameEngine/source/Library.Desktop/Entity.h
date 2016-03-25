@@ -37,6 +37,6 @@ namespace Library
 		const std::string ATTRIBUTE_NAME = "name";
 	};
 
-	CONCRETE_FACTORY(Entity, RTTI);
+	CONCRETE_FACTORY(Entity, Entity);
 }
 
