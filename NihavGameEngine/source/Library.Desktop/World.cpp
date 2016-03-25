@@ -5,6 +5,9 @@ namespace Library
 {
 	RTTI_DEFINITIONS(World);
 
+	const std::string World::ATTRIBUTE_NAME_SECTOR = "sectors";
+	const std::string World::ATTRIBUTE_NAME_NAME = "name";
+
 	World::World() :
 		mName(), mWorldState()
 	{
@@ -76,8 +79,7 @@ namespace Library
 	{
 		Sector* sector = new Sector();
 		sector->SetName(sectorName);
-
-		Adopt(ATTRIBUTE_NAME_SECTOR, *sector);
+		sector->SetWorld(*this);
 
 		return *sector;
 	}
@@ -94,6 +96,15 @@ namespace Library
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);
 		}
+	}
+
+	World& World::CreateWorld(const std::string& name, Scope& parentScope)
+	{
+		World* world = new World();
+		world->SetName(name);
+		parentScope.Adopt("world", *world);
+
+		return *world;
 	}
 
 	void World::DefinePrescribedAttributes()

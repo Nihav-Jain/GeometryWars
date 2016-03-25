@@ -27,7 +27,7 @@ namespace Library
 		Sector* GetSector() const;
 		void SetSector(Sector& parent);
 
-		void Update(WorldState& worldState);
+		virtual void Update(WorldState& worldState);
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;

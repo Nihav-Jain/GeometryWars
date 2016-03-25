@@ -221,8 +221,11 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldState.h" />
+    <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
+    <ClInclude Include="XmlParseHelperSector.h" />
+    <ClInclude Include="XmlParseHelperWorld.h" />
     <ClInclude Include="XmlParseMaster.h" />
     <ClInclude Include="XmlParseHelperTable.h" />
   </ItemGroup>
@@ -245,8 +248,11 @@
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
+    <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
+    <ClCompile Include="XmlParseHelperSector.cpp" />
+    <ClCompile Include="XmlParseHelperWorld.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp" />
   </ItemGroup>

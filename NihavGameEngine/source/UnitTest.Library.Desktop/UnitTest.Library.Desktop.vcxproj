@@ -206,6 +206,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActorEntity.h" />
     <ClInclude Include="AngryBirdsSharedData.h" />
     <ClInclude Include="AngryBirdsXmlParseHelper.h" />
     <ClInclude Include="AttributedExternalError.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="XmlParseHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActorEntity.cpp" />
     <ClCompile Include="AngryBirdsSharedData.cpp" />
     <ClCompile Include="AngryBirdsXmlParseHelper.cpp" />
     <ClCompile Include="AttributedExternalError.cpp" />

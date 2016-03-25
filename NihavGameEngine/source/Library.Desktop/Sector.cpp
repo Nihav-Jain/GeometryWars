@@ -6,10 +6,13 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Sector);
 
+	const std::string Sector::ATTRIBUTE_ENTITIES = "entities";
+
 	Sector::Sector() :
 		mName()
 	{
 		Populate();
+
 	}
 
 	Sector::Sector(const Sector& rhs) :
@@ -79,8 +82,6 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		Adopt(ATTRIBUTE_ENTITIES, *entity);
-
 		return *entity;
 	}
 
@@ -94,7 +95,7 @@ namespace Library
 
 	void Sector::SetWorld(World& parent)
 	{
-		parent.Adopt(ATTRIBUTE_NAME, *this);
+		parent.Adopt(World::ATTRIBUTE_NAME_SECTOR, *this);
 	}
 
 	void Sector::Update(WorldState& worldState)

@@ -34,6 +34,8 @@ namespace Library
 
 		void Update(WorldState& worldState);
 
+		static const std::string ATTRIBUTE_ENTITIES;
+
 	protected:
 		virtual void DefinePrescribedAttributes() override;
 
@@ -41,7 +43,6 @@ namespace Library
 		std::string mName;
 
 		const std::string ATTRIBUTE_NAME = "name";
-		const std::string ATTRIBUTE_ENTITIES = "entities";
 	};
 
 }

@@ -26,6 +26,9 @@ namespace Library
 
 		void Update();
 
+		static World& CreateWorld(const std::string& name, Scope& parentScope);
+		static const std::string ATTRIBUTE_NAME_SECTOR;
+
 	protected:
 		virtual void DefinePrescribedAttributes() override;
 
@@ -33,8 +36,8 @@ namespace Library
 		std::string mName;
 		WorldState mWorldState;
 
-		const std::string ATTRIBUTE_NAME_NAME = "name";
-		const std::string ATTRIBUTE_NAME_SECTOR = "sectors";
+		static const std::string ATTRIBUTE_NAME_NAME;
+
 	};
 }
 

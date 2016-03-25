@@ -48,6 +48,7 @@
     <ClCompile Include="XmlParseHelperTest.cpp" />
     <ClCompile Include="FactoryTest.cpp" />
     <ClCompile Include="EntityTest.cpp" />
+    <ClCompile Include="ActorEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="TestSharedData.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="ActorEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestHelpers">

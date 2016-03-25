@@ -1,0 +1,42 @@
+<world name="NihavWorld">
+	<integer name="worldInt1" value="10" />
+	<integer name="worldInt2">20</integer>
+	<integer>
+		<name>worldInt3</name>
+		<value>30</value>
+	</integer>
+	<scope name="worldScope">
+		<float name="worldScopeFloat" value="10.10" />
+		<string name="worldScopeString">scopestring</string>
+		<vector>
+			<name>worldScopeVector</name>
+			<value>vec4(10, 20, 30, 40)</value>
+		</vector>
+	</scope>
+
+	<sector name="worldSector1">
+		<scope name="sector1Scope">
+			<integer name="sector1Int" value="5"/>
+		</scope>
+		
+		<entity class="Entity" name="sector1Entity1">
+			<string name="entity1Str" value="stringvalue" />
+			<scope name="entity1Scope">
+				<integer name="entity1Int" value="50"/>
+			</scope>
+		</entity>
+
+		<matrix name="sector1Mat">mat4x4((10, 0, 0, 0), (0, 10, 0, 0), (0, 0, 10, 0), (0, 0, 0, 10))</matrix>
+		
+		<entity class="ActorEntity" name="actor">
+			<integer name="positionIteration" value="3"/>
+		</entity>
+	</sector>
+	
+	<sector name="worldSector2">
+		<entity class="ActorEntity" name="actor">
+			<integer name="positionIteration" value="5"/>
+		</entity>
+	</sector>
+	
+</world>

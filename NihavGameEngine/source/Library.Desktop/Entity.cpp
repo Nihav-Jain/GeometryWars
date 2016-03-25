@@ -72,7 +72,7 @@ namespace Library
 
 	void Entity::SetSector(Sector& parent)
 	{
-		parent.Adopt(mName, *this);
+		parent.Adopt(Sector::ATTRIBUTE_ENTITIES, *this);
 	}
 
 	void Entity::Update(WorldState& worldState)

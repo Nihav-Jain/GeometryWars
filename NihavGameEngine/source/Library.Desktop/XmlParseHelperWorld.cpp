@@ -13,16 +13,15 @@ namespace Library
 			return false;
 
 		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
-			throw std::exception("Invalid syntax for <scope>. Missing attribute: name");
+			throw std::exception("Invalid syntax for <world>. Missing attribute: name");
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::WORLD_START))
 			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		assert(transitionToStateRouter);
 
-		World* world = new World();
-		sharedDataPtr->CurrentScopePtr->Adopt(attributes[ATTRIBUTE_NAME], *world);
-		sharedDataPtr->CurrentScopePtr = world;
+		World& world = World::CreateWorld(attributes[ATTRIBUTE_NAME], *(sharedDataPtr->CurrentScopePtr));
+		sharedDataPtr->CurrentScopePtr = &world;
 
 		return true;
 	}
