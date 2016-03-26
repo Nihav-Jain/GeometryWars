@@ -134,6 +134,13 @@ namespace Library
 		virtual void Clear();
 
 		/**
+		 *	acts as a virtual copy constructor
+		 *	@param constant reference to the Scope to be copied / cloned
+		 *	@return pointer to the newly instantiated Scope
+		 */
+		virtual Scope* Clone(const Scope& rhs) const;
+
+		/**
 		 *	Overriden from parent
 		 *	@return name of class
 		 */

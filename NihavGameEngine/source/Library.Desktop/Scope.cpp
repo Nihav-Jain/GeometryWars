@@ -144,7 +144,7 @@ namespace Library
 			{
 				for (std::uint32_t i = 0U; i < orderedSymbol->second.Size(); ++i)
 				{
-					Scope* newScopeCopy = new Scope(*orderedSymbol->second.Get<Scope*>(i));
+					Scope* newScopeCopy = orderedSymbol->second.Get<Scope*>(i)->Clone(*orderedSymbol->second.Get<Scope*>(i)); // new Scope(*orderedSymbol->second.Get<Scope*>(i));
 					AppendScope(orderedSymbol->first, *newScopeCopy);
 				}
 			}
@@ -281,6 +281,11 @@ namespace Library
 
 		mSymbolList.Clear();
 		mSymbolTable.Clear();
+	}
+
+	Scope* Scope::Clone(const Scope& rhs) const
+	{
+		return new Scope(rhs);
 	}
 
 	std::string Scope::ToString() const

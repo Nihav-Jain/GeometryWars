@@ -45,7 +45,6 @@
       <Filter>TestHelpers</Filter>
     </ClCompile>
     <ClCompile Include="GraphTest.cpp" />
-    <ClCompile Include="XmlParseHelperTest.cpp" />
     <ClCompile Include="FactoryTest.cpp" />
     <ClCompile Include="EntityTest.cpp" />
     <ClCompile Include="ActorEntity.cpp" />

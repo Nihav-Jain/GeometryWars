@@ -19,6 +19,7 @@ namespace Library
 		mName(rhs.mName), mWorldState(rhs.mWorldState), Attributed(rhs)
 	{
 		mWorldState.world = this;
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 	}
 
 	World::World(World&& rhs) :
@@ -124,6 +125,13 @@ namespace Library
 		parentScope.Adopt("world", *world);
 
 		return *world;
+	}
+
+	Scope* World::Clone(const Scope& rhs) const
+	{
+		if (!rhs.Is(World::TypeIdClass()))
+			throw std::exception("Given Scope reference is not a World.");
+		return new World(*(rhs.As<World>()));
 	}
 
 	void World::DefinePrescribedAttributes()

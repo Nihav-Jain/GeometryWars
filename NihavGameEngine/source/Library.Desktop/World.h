@@ -110,6 +110,13 @@ namespace Library
 		 */
 		static World& CreateWorld(const std::string& name, Scope& parentScope);
 
+		/**
+		 *	acts as a virtual copy constructor
+		 *	@param constant reference to the World to be copied / cloned
+		 *	@return pointer to the newly instantiated World
+		 */
+		virtual Scope* Clone(const Scope& rhs) const override;
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 
 	protected:

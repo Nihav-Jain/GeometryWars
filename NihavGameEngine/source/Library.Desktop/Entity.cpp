@@ -7,6 +7,7 @@ namespace Library
 	RTTI_DEFINITIONS(Entity);
 
 	const std::uint32_t Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
+	const std::string Entity::ATTRIBUTE_NAME = "name";
 
 	Entity::Entity() :
 		mName()
@@ -17,11 +18,14 @@ namespace Library
 	Entity::Entity(const Entity& rhs) :
 		mName(rhs.mName), Attributed(rhs)
 	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 	}
 
 	Entity::Entity(Entity&& rhs) :
 		mName(std::move(rhs.mName)), Attributed(std::move(rhs))
-	{}
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+	}
 
 
 	Entity::~Entity()
@@ -79,6 +83,13 @@ namespace Library
 	void Entity::Update(WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
+	}
+
+	Scope* Entity::Clone(const Scope& rhs) const
+	{
+		if (!rhs.Is(Entity::TypeIdClass()))
+			throw std::exception("Given Scope reference is not an Entity.");
+		return new Entity(*(rhs.As<Entity>()));
 	}
 
 	void Entity::DefinePrescribedAttributes()

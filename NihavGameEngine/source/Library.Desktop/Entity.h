@@ -87,14 +87,21 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState);
 
+		/**
+		 *	acts as a virtual copy constructor
+		 *	@param constant reference to the Entity to be copied / cloned
+		 *	@return pointer to the newly instantiated Entity
+		 */
+		virtual Scope* Clone(const Scope& rhs) const override;
+
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
+		static const std::string ATTRIBUTE_NAME;
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;
 
 	private:
 		std::string mName;
-		const std::string ATTRIBUTE_NAME = "name";
 	};
 
 	CONCRETE_FACTORY(Entity, Entity);

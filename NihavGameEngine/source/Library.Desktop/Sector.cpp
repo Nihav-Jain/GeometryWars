@@ -7,22 +7,25 @@ namespace Library
 	RTTI_DEFINITIONS(Sector);
 
 	const std::string Sector::ATTRIBUTE_ENTITIES = "entities";
+	const std::string Sector::ATTRIBUTE_NAME = "name";
 
 	Sector::Sector() :
 		mName()
 	{
 		Populate();
-
 	}
 
 	Sector::Sector(const Sector& rhs) :
 		mName(rhs.mName), Attributed(rhs)
 	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
 	}
 
 	Sector::Sector(Sector&& rhs) :
 		mName(std::move(rhs.mName)), Attributed(std::move(rhs))
-	{}
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+	}
 
 	Sector::~Sector()
 	{}
@@ -121,6 +124,13 @@ namespace Library
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}
+	}
+
+	Scope* Sector::Clone(const Scope& rhs) const
+	{
+		if (!rhs.Is(Sector::TypeIdClass()))
+			throw std::exception("Given Scope reference is not a Sector.");
+		return new Sector(*(rhs.As<Sector>()));
 	}
 
 	void Sector::DefinePrescribedAttributes()

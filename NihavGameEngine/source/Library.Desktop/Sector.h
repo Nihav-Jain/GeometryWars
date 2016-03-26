@@ -114,15 +114,21 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 
+		/**
+		 *	acts as a virtual copy constructor
+		 *	@param constant reference to the Sector to be copied / cloned
+		 *	@return pointer to the newly instantiated Sector
+		 */
+		virtual Scope* Clone(const Scope& rhs) const override;
+
 		static const std::string ATTRIBUTE_ENTITIES;
+		static const std::string ATTRIBUTE_NAME;
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;
 
 	private:
 		std::string mName;
-
-		const std::string ATTRIBUTE_NAME = "name";
 	};
 
 }
