@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+
+#include "GameClock.h"
+#include "GameTime.h"
 #include "Factory.h"
 #include "RTTI.h"
 #include "Entity.h"
@@ -53,9 +56,14 @@ namespace UnitTestLibraryDesktop
 		{
 			EntityFactory entityFactory;
 
+			GameClock gameClock;
+			gameClock.Reset();
+			GameTime gameTime;
+
 			std::string worldName = "World";
 			World world;
 			world.SetName("World");
+			world.SetGameTime(gameTime);
 
 			Assert::AreEqual(worldName, world.Name());
 			Assert::AreEqual(worldName, world["name"].Get<std::string>());
@@ -95,6 +103,25 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(&sector1 == entity11.GetSector());
 			Assert::IsTrue(&sector2 == entity21.GetSector());
+
+			gameClock.UpdateGameTime(gameTime);
+			world.Update();
+
+			Assert::IsTrue(world.FindSector("sector1") == &sector1);
+			Assert::IsTrue(world.FindSector("sector1")->FindEntity("entity12") == &entity12);
+
+			World anotherWorld = world;
+			anotherWorld.SetName("anotherWorld");
+
+			Assert::IsTrue(world.Name() == "World");
+			Assert::IsTrue(anotherWorld.Name() == "anotherWorld");
+			Datum& anotherWorldSectors = anotherWorld.Sectors();
+			Assert::AreEqual(2U, anotherWorldSectors.Size());
+			Assert::IsFalse(anotherWorldSectors.Get<Scope*>(0) == worldSectors.Get<Scope*>(0));
+			Assert::IsTrue(anotherWorld.IsPrescribedAttribute("sectors"));
+			
+			//Sector* anotherSector1 = anotherWorldSectors.Get<Scope*>(0)->As<Sector>();
+			Assert::IsTrue(anotherWorldSectors.Get<Scope*>(0)->Is(Scope::TypeIdClass()));
 		}
 
 		TEST_METHOD(EntityTestXML)
