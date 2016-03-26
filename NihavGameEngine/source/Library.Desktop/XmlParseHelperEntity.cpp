@@ -42,7 +42,19 @@ namespace Library
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		assert(transitionToStateRouter);
 
+		Entity* currentEntity = sharedDataPtr->CurrentScopePtr->As<Entity>();
+
 		// test for entity prescribed attributes.
+		std::uint32_t numReservedPrescribedAttributes = Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
+		for (std::uint32_t i = numReservedPrescribedAttributes; i < currentEntity->AuxiliaryBegin(); i++)
+		{
+			if (currentEntity->operator[](i).Size() < 1)
+			{
+				std::stringstream str;
+				str << "Prescribed Attribute #" << i << " of instance " << currentEntity->Name() << " not initialized.";
+				throw std::exception(str.str().c_str());
+			}
+		}
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 
