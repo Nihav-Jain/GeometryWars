@@ -18,6 +18,7 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::WORLD_START))
 			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
 		World& world = World::CreateWorld(attributes[ATTRIBUTE_NAME], *(sharedDataPtr->CurrentScopePtr));
@@ -35,6 +36,7 @@ namespace Library
 			return false;
 
 		bool transitionToWorldEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::WORLD_END);
+		UNREFERENCED_PARAMETER(transitionToWorldEnd);
 		assert(transitionToWorldEnd);
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();

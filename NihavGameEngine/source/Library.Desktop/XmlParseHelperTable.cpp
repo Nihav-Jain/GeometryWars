@@ -19,6 +19,7 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_START))
 			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
 		sharedDataPtr->CurrentScopePtr =  &(sharedDataPtr->CurrentScopePtr->AppendScope(attributes[ATTRIBUTE_NAME]));
@@ -35,8 +36,10 @@ namespace Library
 			return false;
 
 		bool transitionToScopeEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_END);
+		UNREFERENCED_PARAMETER(transitionToScopeEnd);
 		assert(transitionToScopeEnd);
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();

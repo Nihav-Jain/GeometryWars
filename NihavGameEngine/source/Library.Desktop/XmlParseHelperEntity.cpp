@@ -20,6 +20,7 @@ namespace Library
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_START))
 			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
 		assert(sharedDataPtr->CurrentScopePtr->Is(Sector::TypeIdClass()));
@@ -38,8 +39,10 @@ namespace Library
 			return false;
 
 		bool transitionToEntityEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_END);
+		UNREFERENCED_PARAMETER(transitionToEntityEnd);
 		assert(transitionToEntityEnd);
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
 		Entity* currentEntity = sharedDataPtr->CurrentScopePtr->As<Entity>();
