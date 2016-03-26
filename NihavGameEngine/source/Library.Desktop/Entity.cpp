@@ -6,6 +6,8 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Entity);
 
+	const std::uint32_t Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
+
 	Entity::Entity() :
 		mName()
 	{
@@ -13,9 +15,8 @@ namespace Library
 	}
 
 	Entity::Entity(const Entity& rhs) :
-		mName(rhs.mName)
+		mName(rhs.mName), Attributed(rhs)
 	{
-		Populate();
 	}
 
 	Entity::Entity(Entity&& rhs) :

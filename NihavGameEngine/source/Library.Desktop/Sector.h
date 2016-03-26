@@ -109,7 +109,7 @@ namespace Library
 		void SetWorld(World& parent);
 
 		/**
-		 *	Calls the update method on all of its child Entities, called the parent World's Update method
+		 *	Calls the update method on all of its child Entities, called by the parent World's Update method
 		 *	@param reference to the WorldState
 		 */
 		void Update(WorldState& worldState);

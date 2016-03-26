@@ -6,8 +6,9 @@
 namespace Library
 {
 	/**
-	 *	Defines the top-most container of all game related entitites.
+	 *	Defines the container of Sectors (Levels / Scenes)
 	 *	Has 2 prescribed attributes - name (STRING) and sectors (TABLE)
+	 *	requires XmlParseHelperWorld to being created via XML
 	 *	@inherits Attributed
 	 */
 	class World final : public Attributed
