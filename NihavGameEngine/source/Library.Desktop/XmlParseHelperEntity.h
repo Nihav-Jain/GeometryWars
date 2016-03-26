@@ -4,6 +4,9 @@
 
 namespace Library
 {
+	/**
+	 *	Helper to parse Entity from the XML
+	 */
 	class XmlParseHelperEntity : public IXmlParseHelper
 	{
 	public:
@@ -18,12 +21,12 @@ namespace Library
 		virtual ~XmlParseHelperEntity() = default;
 
 		/**
-		 *	disallow copy construction of XmlParseHelperTable
+		 *	disallow copy construction of XmlParseHelperEntity
 		 */
 		XmlParseHelperEntity(const XmlParseHelperEntity& rhs) = delete;
 
 		/**
-		 *	disallow copy assignment of XmlParseHelperTable
+		 *	disallow copy assignment of XmlParseHelperEntity
 		 */
 		XmlParseHelperEntity& operator=(const XmlParseHelperEntity& rhs) = delete;
 

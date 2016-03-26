@@ -4,6 +4,9 @@
 
 namespace Library
 {
+	/**
+	 *	Helper to parse Sectors from the XML
+	 */
 	class XmlParseHelperSector : public IXmlParseHelper
 	{
 	public:
@@ -18,12 +21,12 @@ namespace Library
 		virtual ~XmlParseHelperSector() = default;
 
 		/**
-		*	disallow copy construction of XmlParseHelperTable
+		*	disallow copy construction of XmlParseHelperSector
 		*/
 		XmlParseHelperSector(const XmlParseHelperSector& rhs) = delete;
 
 		/**
-		*	disallow copy assignment of XmlParseHelperTable
+		*	disallow copy assignment of XmlParseHelperSector
 		*/
 		XmlParseHelperSector& operator=(const XmlParseHelperSector& rhs) = delete;
 

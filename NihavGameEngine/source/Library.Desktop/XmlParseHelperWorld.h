@@ -4,6 +4,9 @@
 
 namespace Library
 {
+	/**
+	 *	Helper to parse and create World from the XML
+	 */
 	class XmlParseHelperWorld : public IXmlParseHelper
 	{
 	public:
@@ -18,12 +21,12 @@ namespace Library
 		virtual ~XmlParseHelperWorld() = default;
 
 		/**
-		 *	disallow copy construction of XmlParseHelperTable
+		 *	disallow copy construction of XmlParseHelperWorld
 		 */
 		XmlParseHelperWorld(const XmlParseHelperWorld& rhs) = delete;
 
 		/**
-		 *	disallow copy assignment of XmlParseHelperTable
+		 *	disallow copy assignment of XmlParseHelperWorld
 		 */
 		XmlParseHelperWorld& operator=(const XmlParseHelperWorld& rhs) = delete;
 
