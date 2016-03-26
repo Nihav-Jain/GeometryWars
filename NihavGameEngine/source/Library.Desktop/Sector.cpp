@@ -16,9 +16,8 @@ namespace Library
 	}
 
 	Sector::Sector(const Sector& rhs) :
-		mName(rhs.mName)
+		mName(rhs.mName), Attributed(rhs)
 	{
-		Populate();
 	}
 
 	Sector::Sector(Sector&& rhs) :
@@ -68,21 +67,34 @@ namespace Library
 		return operator[](ATTRIBUTE_ENTITIES);
 	}
 
+	const Datum& Sector::Entities() const
+	{
+		return *Find(ATTRIBUTE_ENTITIES);
+	}
+
 	Entity& Sector::CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName)
 	{
 		Entity* entity = Factory<Entity>::Create(entityClassName);
-		//if(entity == nullptr)
-		//{
-		//	std::stringstream str;
-		//	str << "Class name " << entityClassName << " not found.";
-		//	throw std::exception(str.str().c_str());
-		//}
+
 		assert(entity != nullptr);
 
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
 		return *entity;
+	}
+
+	Entity* Sector::FindEntity(const std::string& entityName) const
+	{
+		const Datum& entities = Entities();
+		for (std::uint32_t i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope*>(i)->As<Entity>();
+			assert(entity != nullptr);
+			if (entity->Name() == entityName)
+				return entity;
+		}
+		return nullptr;
 	}
 
 	World* Sector::GetWorld() const
