@@ -1,0 +1,7 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+			<action class="ActionList" name="actionList" />
+		</entity>
+	</sector>	
+</world>

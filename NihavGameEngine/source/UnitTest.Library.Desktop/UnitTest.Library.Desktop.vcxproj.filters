@@ -48,6 +48,7 @@
     <ClCompile Include="FactoryTest.cpp" />
     <ClCompile Include="EntityTest.cpp" />
     <ClCompile Include="ActorEntity.cpp" />
+    <ClCompile Include="ActionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

@@ -221,6 +221,7 @@
     <ClInclude Include="XmlParseHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActionTest.cpp" />
     <ClCompile Include="ActorEntity.cpp" />
     <ClCompile Include="AngryBirdsSharedData.cpp" />
     <ClCompile Include="AngryBirdsXmlParseHelper.cpp" />
