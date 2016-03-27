@@ -2,10 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Datum.h" />
     <ClInclude Include="RTTI.h" />
-    <ClInclude Include="Scope.h" />
-    <ClInclude Include="Attributed.h" />
     <ClInclude Include="Vector.h">
       <Filter>Containers</Filter>
     </ClInclude>
@@ -26,13 +23,7 @@
     </ClInclude>
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="XmlParseMaster.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="Factory.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Sector.h" />
-    <ClInclude Include="World.h" />
-    <ClInclude Include="WorldState.h" />
     <ClInclude Include="XmlParseHelperTable.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -42,8 +33,6 @@
     <ClInclude Include="XmlParseHelperNameValue.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="GameClock.h" />
-    <ClInclude Include="GameTime.h" />
     <ClInclude Include="XmlParseHelperWorld.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -53,18 +42,54 @@
     <ClInclude Include="XmlParseHelperEntity.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="Action.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="XmlParseHelperAction.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="ActionList.h" />
+    <ClInclude Include="Datum.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Attributed.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Scope.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionList.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClock.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedDataTable.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Datum.cpp" />
-    <ClCompile Include="Scope.cpp" />
-    <ClCompile Include="Attributed.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp">
       <Filter>Containers</Filter>
     </ClCompile>
@@ -72,11 +97,6 @@
       <Filter>Containers</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseMaster.cpp" />
-    <ClCompile Include="SharedDataTable.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Sector.cpp" />
-    <ClCompile Include="World.cpp" />
-    <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
@@ -86,8 +106,6 @@
     <ClCompile Include="XmlParseHelperNameValue.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="GameClock.cpp" />
-    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="XmlParseHelperWorld.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
@@ -97,12 +115,48 @@
     <ClCompile Include="XmlParseHelperEntity.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="Action.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="XmlParseHelperAction.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="ActionList.cpp" />
+    <ClCompile Include="Datum.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Attributed.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Scope.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Sector.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldState.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionList.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClock.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedDataTable.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -117,8 +171,10 @@
     <None Include="Hashmap.inl">
       <Filter>Containers</Filter>
     </None>
-    <None Include="Graph.inl" />
     <None Include="Factory.inl" />
+    <None Include="Graph.inl">
+      <Filter>Containers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Containers">
@@ -126,6 +182,15 @@
     </Filter>
     <Filter Include="XmlParseHelpers">
       <UniqueIdentifier>{5a96a001-e4a9-4694-9437-8c9cc16c73c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel">
+      <UniqueIdentifier>{2033ed55-8f3b-4ec8-bb52-925fe9fb8498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Actions">
+      <UniqueIdentifier>{4a675d0f-1bc5-41bd-b87b-7d54457da1e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{1a8892a5-8c0e-4ec2-9d05-78b2304d8d38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
