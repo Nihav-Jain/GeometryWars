@@ -73,6 +73,8 @@ namespace Library
 				{
 					Adopt(signature.Name(), *signature.SignatureDatum().Get<Scope*>(j));
 				}
+				if(signature.SignatureDatum().Size() == 0)
+					Append(signature.Name());
 			}
 			else
 			{
