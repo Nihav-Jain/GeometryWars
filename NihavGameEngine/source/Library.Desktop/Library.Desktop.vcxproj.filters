@@ -54,6 +54,10 @@
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="XmlParseHelperAction.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -93,6 +97,10 @@
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="Action.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="XmlParseHelperAction.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

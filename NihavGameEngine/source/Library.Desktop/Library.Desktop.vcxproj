@@ -207,6 +207,7 @@
     <ClInclude Include="DefaultReserveStrategy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Graph.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldState.h" />
+    <ClInclude Include="XmlParseHelperAction.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
@@ -237,6 +239,7 @@
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="pch.cpp">
@@ -250,6 +253,7 @@
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
+    <ClCompile Include="XmlParseHelperAction.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
