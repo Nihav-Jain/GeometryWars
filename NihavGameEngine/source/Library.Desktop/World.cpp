@@ -101,6 +101,10 @@ namespace Library
 
 	void World::Update()
 	{
+		mWorldState.sector = nullptr;
+		mWorldState.entity = nullptr;
+		mWorldState.action = nullptr;
+
 		std::uint32_t i;
 
 		Datum& sectors = Sectors();
