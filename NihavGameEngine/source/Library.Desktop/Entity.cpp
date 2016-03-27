@@ -118,7 +118,15 @@ namespace Library
 
 	void Entity::Update(WorldState& worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
+		Datum& actions = Actions();
+		std::uint32_t i;
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope*>(i)->As<Action>();
+			assert(action != nullptr);
+			worldState.action = action;
+			action->Update(worldState);
+		}
 	}
 
 	Scope* Entity::Clone(const Scope& rhs) const

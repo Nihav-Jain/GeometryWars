@@ -21,6 +21,7 @@ namespace Library
 		class World* world;
 		class Sector* sector;
 		class Entity* entity;
+		class Action* action;
 	private:
 		const GameTime* mGameTime;
 	};
