@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "XmlParseHelperAction.h"
+#include "Entity.h"
+#include "ActionList.h"
 
 namespace Library
 {
@@ -28,10 +30,16 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		assert(sharedDataPtr->CurrentScopePtr->Is(Entity::TypeIdClass()));
-		Entity* entity = static_cast<Entity*>(sharedDataPtr->CurrentScopePtr);
-
-		sharedDataPtr->CurrentScopePtr = &(entity->CreateAction(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]));
+		if (sharedDataPtr->CurrentScopePtr->Is(Entity::TypeIdClass()))
+		{
+			Entity* entity = static_cast<Entity*>(sharedDataPtr->CurrentScopePtr);
+			sharedDataPtr->CurrentScopePtr = &(entity->CreateAction(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]));
+		}
+		else if(sharedDataPtr->CurrentScopePtr->Is(ActionList::TypeIdClass()))
+		{
+			ActionList* actionList = static_cast<ActionList*>(sharedDataPtr->CurrentScopePtr);
+			sharedDataPtr->CurrentScopePtr = &(actionList->CreateAction(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]));
+		}
 		return true;
 	}
 

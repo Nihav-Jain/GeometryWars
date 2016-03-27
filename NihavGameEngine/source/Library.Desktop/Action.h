@@ -1,5 +1,6 @@
 #pragma once
 #include "Attributed.h"
+#include "WorldState.h"
 
 namespace Library
 {
