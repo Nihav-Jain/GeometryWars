@@ -17,5 +17,5 @@ protected:
 
 namespace Library
 {
-	CONCRETE_FACTORY(ActorEntity, Entity);
+	CONCRETE_ENTITY_FACTORY(ActorEntity);
 }

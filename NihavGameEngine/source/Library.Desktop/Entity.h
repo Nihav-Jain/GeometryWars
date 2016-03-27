@@ -104,6 +104,8 @@ namespace Library
 		std::string mName;
 	};
 
-	CONCRETE_FACTORY(Entity, Entity);
+#define CONCRETE_ENTITY_FACTORY(ConcreteEntityType) CONCRETE_FACTORY(ConcreteEntityType, Entity);
+
+	CONCRETE_ENTITY_FACTORY(Entity);
 }
 

@@ -151,20 +151,6 @@ namespace UnitTestLibraryDesktop
 				Assert::AreEqual(2U, worldassignSectors.Size());
 				Assert::IsFalse(worldassignSectors.Get<Scope*>(0) == worldSectors.Get<Scope*>(0));
 				Assert::IsTrue(worldassign.IsPrescribedAttribute("sectors"));
-
-				Sector sec;
-				sec = sector1;
-
-				Entity en;
-				en = entity11;
-
-				/*en = std::move(entity21);
-				sec = std::move(sector2);
-
-				Sector movedSector(std::move(sector1));
-				Entity movedEntity(std::move(entity22));
-
-				World w(std::move(anotherWorld));*/
 			}
 		
 		}
