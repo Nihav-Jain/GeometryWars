@@ -58,17 +58,17 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		Action* currentEntity = sharedDataPtr->CurrentScopePtr->As<Action>();
+		Action* currentAction = sharedDataPtr->CurrentScopePtr->As<Action>();
 
-		// test for action prescribed attributes.
+		 //test for action prescribed attributes.
 		std::uint32_t numReservedPrescribedAttributes = Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
-		for (std::uint32_t i = numReservedPrescribedAttributes; i < currentEntity->AuxiliaryBegin(); i++)
+		for (std::uint32_t i = numReservedPrescribedAttributes; i < currentAction->AuxiliaryBegin(); i++)
 		{
-			if (currentEntity->operator[](i).Size() < 1)
+			if (currentAction->operator[](i).Size() < 1 )
 			{
-				std::stringstream str;
-				str << "Prescribed Attribute #" << i << " of instance " << currentEntity->Name() << " not initialized.";
-				throw std::exception(str.str().c_str());
+				//std::stringstream str;
+				//str << "Prescribed Attribute #" << i << " of instance " << currentAction->Name() << " not initialized.";
+				//throw std::exception(str.str().c_str());
 			}
 		}
 
