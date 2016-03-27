@@ -31,8 +31,9 @@ namespace Library
 
 		void SetWorld(World& world);
 		World& GetWorld();
+		void AddXmlParseHelper(IXmlParseHelper& helper);
+		bool ParseFromFile(const std::string& fileName);
 
-		GameTime& GetGameTime();
 		void Start();
 		void Update();
 

@@ -47,9 +47,14 @@ namespace Library
 		return *mWorld;
 	}
 
-	GameTime& Game::GetGameTime()
+	void Game::AddXmlParseHelper(IXmlParseHelper& helper)
 	{
-		return mGameTime;
+		mParseMaster.AddHelper(helper);
+	}
+
+	bool Game::ParseFromFile(const std::string& fileName)
+	{
+		return mParseMaster.ParseFromFile(fileName);
 	}
 
 	void Game::Start()
