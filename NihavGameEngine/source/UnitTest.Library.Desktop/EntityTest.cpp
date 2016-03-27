@@ -19,6 +19,7 @@
 #include "XmlParseHelperNameValue.h"
 
 #include "ActorEntity.h"
+#include "Game.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -282,6 +283,7 @@ namespace UnitTestLibraryDesktop
 			}
 			Assert::IsTrue(sector2Entity->operator[]("position").Get<glm::vec4>() == glm::vec4(50, 0, 0, 0));
 
+			delete &Game::Instance();
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

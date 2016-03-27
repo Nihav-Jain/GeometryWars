@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "XmlParseHelperWorld.h"
+#include "Game.h"
 
 namespace Library
 {
@@ -23,6 +24,8 @@ namespace Library
 
 		World& world = World::CreateWorld(attributes[ATTRIBUTE_NAME], *(sharedDataPtr->CurrentScopePtr));
 		sharedDataPtr->CurrentScopePtr = &world;
+		
+		Game::Instance().SetWorld(world);
 
 		return true;
 	}
