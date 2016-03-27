@@ -5,6 +5,10 @@
 
 #include "Scope.h"
 #include "World.h"
+#include "Sector.h"
+#include "Entity.h"
+#include "Action.h"
+#include "ActionList.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"

@@ -25,6 +25,8 @@ namespace Library
 
 	Game::~Game()
 	{
+		SharedDataTable::ClearStateGraph();
+		XmlParseHelperPrimitives::ClearStaticMembers();
 	}
 
 	Game& Game::Instance()
