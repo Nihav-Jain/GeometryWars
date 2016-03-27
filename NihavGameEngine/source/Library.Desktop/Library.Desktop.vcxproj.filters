@@ -53,6 +53,7 @@
     <ClInclude Include="XmlParseHelperEntity.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="Action.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="XmlParseHelperEntity.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="Action.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

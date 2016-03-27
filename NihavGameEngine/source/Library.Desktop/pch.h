@@ -36,6 +36,3 @@
 #include "Entity.h"
 #include "Sector.h"
 #include "World.h"
-
-//#include "XmlParseMaster.h"
-//#include "IXmlParseHelper.h"

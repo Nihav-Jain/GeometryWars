@@ -3,6 +3,7 @@
 #include "Attributed.h"
 #include "Factory.h"
 #include "WorldState.h"
+#include "Action.h"
 
 namespace Library
 {
@@ -10,7 +11,7 @@ namespace Library
 
 	/**
 	 *	Defines a game entity
-	 *	Implement the CONCRETE_FACTORY macro with the attributes (<ChildClassName>, Entity) to create a factory for your derived Entity class
+	 *	Implement the CONCRETE_ENTITY_FACTORY macro with the attribute <ChildClassName> to create a factory for your derived Entity class
 	 *	Has 1 prescribed attribute - name (STRING)
 	 *	requires XmlParseHelperEntity to being created via XML
 	 *	@inherits Attributed
@@ -69,6 +70,33 @@ namespace Library
 		void SetName(const std::string& name);
 
 		/**
+		 *	Getter for the Datum which contains the array of Entities of this Sector
+		 *	@return reference to the Datum
+		 */
+		Datum& Actions();
+
+		/**
+		 *	const override for the Getter for the Datum which contains the array of Entities of this Sector
+		 *	@return constant reference to the Datum
+		 */
+		const Datum& Actions() const;
+
+		/**
+		 *	Adds an Entity of the given name to this Sector
+		 *	@param name of the derived Entity class which is to be created
+		 *	@param  instance name of the Entity
+		 *	@return reference to the newly created Entity
+		 */
+		Action& CreateAction(const std::string& actionClassName, const std::string& actionInstanceName);
+
+		/**
+		 *	Searches for the Entity of the given name in this Sector
+		 *	@param name of the Entity to be searched
+		 *	@return pointer to the Entity if found, nullptr if there is no sector of this name
+		 */
+		Action* FindAction(const std::string& actionName) const;
+
+		/**
 		 *	Getter for the Sector which contains this Entity
 		 *	@return pointer to the Sector
 		 */
@@ -96,6 +124,7 @@ namespace Library
 
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
+		static const std::string ATTRIBUTE_ACTIONS;
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;

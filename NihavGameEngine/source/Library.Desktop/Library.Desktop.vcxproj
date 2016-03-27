@@ -200,6 +200,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="Attributed.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
@@ -230,6 +231,7 @@
     <ClInclude Include="XmlParseHelperTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="Attributed.cpp" />
     <ClCompile Include="Datum.cpp" />
     <ClCompile Include="DefaultHash.cpp" />
