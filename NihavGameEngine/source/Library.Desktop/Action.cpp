@@ -65,6 +65,9 @@ namespace Library
 		mName = name;
 	}
 
+	void Action::PostParsingProcess()
+	{}
+
 	void Action::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
