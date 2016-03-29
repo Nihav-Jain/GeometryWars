@@ -2,6 +2,11 @@
 #include "CppUnitTest.h"
 
 #include "Game.h"
+#include "Action.h"
+#include "ActionList.h"
+#include "ActionListSwitch.h"
+
+#include "XmlParseHelperActionSwitch.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -38,6 +43,15 @@ namespace UnitTestLibraryDesktop
 		{
 			EntityFactory entityFactory;
 			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+
+
+			XmlParseHelperActionSwitch switchParseHelper;
+			XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase caseParseHelper;
+
+			Game::Instance().AddXmlParseHelper(switchParseHelper);
+			Game::Instance().AddXmlParseHelper(caseParseHelper);
 
 			Assert::IsTrue(Game::Instance().ParseFromFile("Content/config/xml_action_test.xml"));
 			Game::Instance().Start();

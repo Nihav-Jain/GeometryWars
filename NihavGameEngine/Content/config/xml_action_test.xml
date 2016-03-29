@@ -4,18 +4,21 @@
 			<integer name="switchInteger" value="15" />
 			<action class="ActionList" name="actionList"/>
 
-			<!--<switch name="switch1">
+			<switch name="switch1">
 				<string name="switchValue" value="switchInteger" />
-				<case value="10">
+				<case name="case1">
+					<string name="caseValue" value="10" />
 					<action class="ActionList" name="case1"/>
 				</case>
-				<case value="15">
+				<case name="case2">
+					<string name="caseValue" value="15" />
 					<action class="ActionList" name="case2"/>
 				</case>
-				<case value="20">
+				<case name="case3">
+					<string name="caseValue" value="20" />
 					<action class="ActionList" name="case3"/>
 				</case>
-			</switch>-->
+			</switch>
 			
 		</entity>
 	</sector>	

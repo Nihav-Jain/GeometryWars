@@ -47,8 +47,10 @@
     <ClCompile Include="GraphTest.cpp" />
     <ClCompile Include="FactoryTest.cpp" />
     <ClCompile Include="EntityTest.cpp" />
-    <ClCompile Include="ActorEntity.cpp" />
     <ClCompile Include="ActionTest.cpp" />
+    <ClCompile Include="ActorEntity.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -85,7 +87,9 @@
     <ClInclude Include="TestSharedData.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="ActorEntity.h" />
+    <ClInclude Include="ActorEntity.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestHelpers">
