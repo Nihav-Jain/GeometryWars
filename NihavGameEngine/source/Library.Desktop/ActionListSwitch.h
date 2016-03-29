@@ -12,7 +12,7 @@ namespace Library
 
 		class ActionListSwitchCase : public ActionList
 		{
-			RTTI_DECLARATIONS(ActionListSwitch, ActionList);
+			RTTI_DECLARATIONS(ActionListSwitchCase, ActionList);
 
 		public:
 			ActionListSwitchCase();

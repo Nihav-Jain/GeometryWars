@@ -93,7 +93,7 @@ namespace Library
 
 	void ActionListSwitch::DefinePrescribedAttributes()
 	{
-		AddInternalAttribute(ATTRIBUTE_SWITCH_VALUE, "", 1);
+		AddInternalAttribute(ATTRIBUTE_SWITCH_VALUE, "");
 	}
 
 #pragma endregion
@@ -103,7 +103,7 @@ namespace Library
 
 	RTTI_DEFINITIONS(ActionListSwitch::ActionListSwitchCase);
 
-	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_CASE_VALUE = "value";
+	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_CASE_VALUE = "caseValue";
 
 	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase()
 	{
@@ -112,7 +112,7 @@ namespace Library
 
 	void ActionListSwitch::ActionListSwitchCase::DefinePrescribedAttributes()
 	{
-		AddInternalAttribute(ATTRIBUTE_CASE_VALUE, "", 0);
+		AddInternalAttribute(ATTRIBUTE_CASE_VALUE, "");
 	}
 
 #pragma endregion
