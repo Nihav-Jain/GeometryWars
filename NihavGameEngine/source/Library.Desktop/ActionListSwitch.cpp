@@ -23,9 +23,12 @@ namespace Library
 	}
 
 	ActionListSwitch::ActionListSwitch(ActionListSwitch&& rhs) :
-		mCaseMap(std::move(rhs.mCaseMap)), ActionList(std::move(rhs))
-	{}
-
+		mCaseMap(nullptr), ActionList(std::move(rhs))
+	{
+		if (rhs.mCaseMap != nullptr)
+			*mCaseMap = std::move(*rhs.mCaseMap);
+		rhs.mCaseMap = nullptr;
+	}
 
 	ActionListSwitch::~ActionListSwitch()
 	{
@@ -50,7 +53,9 @@ namespace Library
 		if (this != &rhs)
 		{
 			ActionList::operator=(std::move(rhs));
-			mCaseMap = std::move(mCaseMap);
+			if (rhs.mCaseMap != nullptr)
+				*mCaseMap = std::move(*rhs.mCaseMap);
+			rhs.mCaseMap = nullptr;
 		}
 		return *this;
 	}
@@ -70,6 +75,11 @@ namespace Library
 		}
 	}
 
+	void ActionListSwitch::PostParsingProcess()
+	{
+		GenerateCaseMap();
+	}
+
 	void ActionListSwitch::Update(WorldState& worldState)
 	{
 		if (mCaseMap == nullptr)
@@ -87,8 +97,16 @@ namespace Library
 		{
 			// TODO: handle break and fall through
 			ActionListSwitchCase* matchingCase = (*caseIterator).second;
+			worldState.action = matchingCase;
 			matchingCase->Update(worldState);
 		}
+	}
+
+	Scope* ActionListSwitch::Clone(const Scope& rhs) const
+	{
+		if (!rhs.Is(ActionListSwitch::TypeIdClass()))
+			throw std::exception("Given Scope reference is not an ActionListSwitch.");
+		return new ActionListSwitch(*(rhs.As<ActionListSwitch>()));
 	}
 
 	void ActionListSwitch::DefinePrescribedAttributes()

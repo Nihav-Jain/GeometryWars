@@ -22,7 +22,6 @@ namespace Library
 			virtual ~ActionListSwitchCase() = default;
 
 			static const std::string ATTRIBUTE_CASE_VALUE;
-
 		protected:
 			virtual void DefinePrescribedAttributes();
 		private:
@@ -39,15 +38,17 @@ namespace Library
 		ActionListSwitch& operator=(const ActionListSwitch& rhs);
 		ActionListSwitch& operator=(ActionListSwitch&& rhs);
 
-		void GenerateCaseMap();
+		virtual void PostParsingProcess() override;
 		virtual void Update(WorldState& worldState) override;
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 	protected:
 		virtual void DefinePrescribedAttributes() override;
 
 	private:
-		static const std::string ATTRIBUTE_SWITCH_VALUE;
+		void GenerateCaseMap();
 
+		static const std::string ATTRIBUTE_SWITCH_VALUE;
 		Hashmap<std::string, ActionListSwitchCase*>* mCaseMap;
 	};
 
