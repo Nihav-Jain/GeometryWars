@@ -282,8 +282,6 @@ namespace UnitTestLibraryDesktop
 				positionIteration2--;
 			}
 			Assert::IsTrue(sector2Entity->operator[]("position").Get<glm::vec4>() == glm::vec4(50, 0, 0, 0));
-
-			delete &Game::Instance();
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
