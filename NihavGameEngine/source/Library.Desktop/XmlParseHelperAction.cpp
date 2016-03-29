@@ -86,8 +86,8 @@ namespace Library
 				//throw std::exception(str.str().c_str());
 			}
 		}
-
-		PostActionParsing(*currentAction);
+		
+		currentAction->PostParsingProcess();
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 
@@ -97,10 +97,5 @@ namespace Library
 	IXmlParseHelper* XmlParseHelperAction::Clone() const
 	{
 		return new XmlParseHelperAction();
-	}
-
-	void XmlParseHelperAction::PostActionParsing(Action& currentAction) const
-	{
-		UNREFERENCED_PARAMETER(currentAction);
 	}
 }
