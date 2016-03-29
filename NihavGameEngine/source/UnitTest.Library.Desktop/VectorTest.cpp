@@ -802,6 +802,9 @@ namespace UnitTestLibraryDesktop
 				vectorOfInts.PushBack(20);
 				vectorOfInts.Clear();
 				Assert::IsTrue(vectorOfInts.IsEmpty());
+
+				vectorOfInts.PushBack(40);
+				Assert::AreEqual(1U, vectorOfInts.Size());
 			}
 
 			{
