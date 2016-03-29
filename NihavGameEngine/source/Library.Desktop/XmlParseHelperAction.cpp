@@ -5,10 +5,15 @@
 
 namespace Library
 {
-
-	const std::string XmlParseHelperAction::ELEMENT_NAME	= "action";
 	const std::string XmlParseHelperAction::ATTRIBUTE_CLASS = "class";
-	const std::string XmlParseHelperAction::ATTRIBUTE_NAME	= "name";
+	const std::string XmlParseHelperAction::ATTRIBUTE_NAME = "name";
+
+	XmlParseHelperAction::XmlParseHelperAction() :
+		mElementName("action"), mRequiredAttributes(), mDerivedActionClassName(), mActionInstanceName()
+	{
+		mRequiredAttributes.PushBack(ATTRIBUTE_NAME);
+		mRequiredAttributes.PushBack(ATTRIBUTE_CLASS);
+	}
 
 	bool XmlParseHelperAction::StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes)
 	{
@@ -16,13 +21,23 @@ namespace Library
 		if (sharedDataPtr == nullptr)
 			return false;
 
-		if (elementName != ELEMENT_NAME)
+		if (elementName != mElementName)
 			return false;
 
-		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
-			throw std::exception("Invalid syntax for <action>. Missing attribute: name");
-		if (!attributes.ContainsKey(ATTRIBUTE_CLASS))
-			throw std::exception("Invalid syntax for <action>. Missing attribute: class");
+		for (auto& attributeName : mRequiredAttributes)
+		{
+			if (!attributes.ContainsKey(attributeName))
+			{
+				std::stringstream str;
+				str << "Invalid syntax for <" << mElementName << ">. Missing attribute: " << attributeName;
+				throw std::exception(str.str().c_str());
+			}
+		}
+
+		if (mRequiredAttributes.Find(ATTRIBUTE_CLASS) != mRequiredAttributes.end())
+			mDerivedActionClassName = attributes[ATTRIBUTE_CLASS];
+		if (mRequiredAttributes.Find(ATTRIBUTE_NAME) != mRequiredAttributes.end())
+			mActionInstanceName = attributes[ATTRIBUTE_NAME];
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
 			throw std::exception("Invalid script syntax");
@@ -33,12 +48,12 @@ namespace Library
 		if (sharedDataPtr->CurrentScopePtr->Is(Entity::TypeIdClass()))
 		{
 			Entity* entity = static_cast<Entity*>(sharedDataPtr->CurrentScopePtr);
-			sharedDataPtr->CurrentScopePtr = &(entity->CreateAction(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]));
+			sharedDataPtr->CurrentScopePtr = &(entity->CreateAction(mDerivedActionClassName, mActionInstanceName));
 		}
 		else if(sharedDataPtr->CurrentScopePtr->Is(ActionList::TypeIdClass()))
 		{
 			ActionList* actionList = static_cast<ActionList*>(sharedDataPtr->CurrentScopePtr);
-			sharedDataPtr->CurrentScopePtr = &(actionList->CreateAction(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]));
+			sharedDataPtr->CurrentScopePtr = &(actionList->CreateAction(mDerivedActionClassName, mActionInstanceName));
 		}
 		return true;
 	}
@@ -48,7 +63,7 @@ namespace Library
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
-		if (elementName != ELEMENT_NAME)
+		if (elementName != mElementName)
 			return false;
 
 		bool transitionToActionEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_END);
@@ -72,6 +87,8 @@ namespace Library
 			}
 		}
 
+		PostActionParsing(*currentAction);
+
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 
 		return true;
@@ -80,5 +97,10 @@ namespace Library
 	IXmlParseHelper* XmlParseHelperAction::Clone() const
 	{
 		return new XmlParseHelperAction();
+	}
+
+	void XmlParseHelperAction::PostActionParsing(Action& currentAction) const
+	{
+		UNREFERENCED_PARAMETER(currentAction);
 	}
 }

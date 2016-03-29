@@ -15,12 +15,6 @@
     <ClInclude Include="Hashmap.h">
       <Filter>Containers</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultReserveStrategy.h">
-      <Filter>Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="DefaultHash.h">
-      <Filter>Containers</Filter>
-    </ClInclude>
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="XmlParseMaster.h" />
     <ClInclude Include="Factory.h" />
@@ -87,15 +81,21 @@
     <ClInclude Include="SharedDataTable.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="ActionListSwitch.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionSwitch.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultReserveStrategy.h">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultHash.h">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="DefaultReserveStrategy.cpp">
-      <Filter>Containers</Filter>
-    </ClCompile>
-    <ClCompile Include="DefaultHash.cpp">
-      <Filter>Containers</Filter>
-    </ClCompile>
     <ClCompile Include="XmlParseMaster.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp">
       <Filter>XmlParseHelpers</Filter>
@@ -157,6 +157,18 @@
     <ClCompile Include="SharedDataTable.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="ActionListSwitch.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionSwitch.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultHash.cpp">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultReserveStrategy.cpp">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -191,6 +203,9 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{1a8892a5-8c0e-4ec2-9d05-78b2304d8d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\DefaultAlgos">
+      <UniqueIdentifier>{12cdb7e0-222a-48dc-a856-d8af539b5712}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ namespace Library
 		/**
 		 *	Default constructor
 		 */
-		XmlParseHelperAction() = default;
+		XmlParseHelperAction();
 
 		/**
 		 *	Default destructructor
@@ -34,10 +34,16 @@ namespace Library
 		virtual bool EndElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName) override;
 		virtual IXmlParseHelper* Clone() const override;
 
-	private:
-		static const std::string ELEMENT_NAME;
+	protected:
+		virtual void PostActionParsing(Action& currentAction) const;
+
 		static const std::string ATTRIBUTE_CLASS;
 		static const std::string ATTRIBUTE_NAME;
+
+		std::string mElementName;
+		Vector<std::string> mRequiredAttributes;
+		std::string mDerivedActionClassName;
+		std::string mActionInstanceName;
 	};
 }
 
