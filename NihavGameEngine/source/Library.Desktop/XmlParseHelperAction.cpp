@@ -48,12 +48,16 @@ namespace Library
 		if (sharedDataPtr->CurrentScopePtr->Is(Entity::TypeIdClass()))
 		{
 			Entity* entity = static_cast<Entity*>(sharedDataPtr->CurrentScopePtr);
-			sharedDataPtr->CurrentScopePtr = &(entity->CreateAction(mDerivedActionClassName, mActionInstanceName));
+			Action& currentAction = entity->CreateAction(mDerivedActionClassName, mActionInstanceName);
+			ParseActionAttributes(currentAction, attributes);
+			sharedDataPtr->CurrentScopePtr = &currentAction;
 		}
 		else if(sharedDataPtr->CurrentScopePtr->Is(ActionList::TypeIdClass()))
 		{
 			ActionList* actionList = static_cast<ActionList*>(sharedDataPtr->CurrentScopePtr);
-			sharedDataPtr->CurrentScopePtr = &(actionList->CreateAction(mDerivedActionClassName, mActionInstanceName));
+			Action& currentAction = actionList->CreateAction(mDerivedActionClassName, mActionInstanceName);
+			ParseActionAttributes(currentAction, attributes);
+			sharedDataPtr->CurrentScopePtr = &currentAction;
 		}
 		return true;
 	}
@@ -97,5 +101,11 @@ namespace Library
 	IXmlParseHelper* XmlParseHelperAction::Clone() const
 	{
 		return new XmlParseHelperAction();
+	}
+
+	void XmlParseHelperAction::ParseActionAttributes(Action& currentAction, const Hashmap<std::string, std::string>& attributes)
+	{
+		UNREFERENCED_PARAMETER(currentAction);
+		UNREFERENCED_PARAMETER(attributes);
 	}
 }

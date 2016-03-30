@@ -35,6 +35,8 @@ namespace Library
 		virtual IXmlParseHelper* Clone() const override;
 
 	protected:
+		virtual void ParseActionAttributes(Action& currentAction, const Hashmap<std::string, std::string>& attributes);
+
 		static const std::string ATTRIBUTE_CLASS;
 		static const std::string ATTRIBUTE_NAME;
 
