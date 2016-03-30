@@ -23,13 +23,6 @@ namespace Library
 		return new XmlParseHelperActionSwitch();
 	}
 
-	void XmlParseHelperActionSwitch::PostActionParsing(Action& currentAction) const
-	{
-		assert(currentAction.Is(ActionListSwitch::TypeIdClass()));
-		ActionListSwitch* actionSwitch = static_cast<ActionListSwitch*>(&currentAction);
-		actionSwitch->GenerateCaseMap();
-	}
-
 #pragma region ParseHelperSwitchCase
 
 	XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase::XmlParseHelperActionSwitchCase()

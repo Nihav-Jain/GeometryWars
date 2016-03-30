@@ -32,9 +32,6 @@ namespace Library
 
 		virtual IXmlParseHelper* Clone() const override;
 
-	protected:
-		virtual void PostActionParsing(Action& currentAction) const override;
-
 	public:
 		class XmlParseHelperActionSwitchCase : public XmlParseHelperAction
 		{
