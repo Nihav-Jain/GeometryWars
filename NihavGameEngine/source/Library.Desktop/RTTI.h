@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cassert>
 #include "pch.h"
 
 namespace Library
@@ -38,6 +38,13 @@ namespace Library
 			}
 
 			return nullptr;
+		}
+
+		template <typename T>
+		T* AssertiveAs() const
+		{
+			assert(Is(T::TypeIdClass()));
+			return (T*)this;
 		}
 
 		virtual std::string ToString() const

@@ -115,8 +115,8 @@ namespace Library
 			if (IsAttribute(ActionListSwitchCase::ATTRIBUTE_DEFAULT))
 			{
 				Scope* defaultActionScope = (*this)[ActionListSwitchCase::ATTRIBUTE_DEFAULT].Get<Scope*>();
-				assert(defaultActionScope->Is(ActionListSwitchCase::TypeIdClass()));
-				ActionListSwitchCase* defaultCase = static_cast<ActionListSwitchCase*>(defaultActionScope);
+				ActionListSwitchCase* defaultCase = defaultActionScope->AssertiveAs<ActionListSwitchCase>();
+
 				worldState.action = defaultCase;
 				defaultCase->Update(worldState);
 			}
