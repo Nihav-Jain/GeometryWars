@@ -63,15 +63,35 @@ namespace Library
 	void ActionListSwitch::GenerateCaseMap()
 	{
 		Datum& cases = Actions();
+		Datum::DatumType switchType = Datum::DatumType::UNKNOWN;
 		if (cases.Size() > 0)
-			mCaseMap = new Hashmap<std::string, ActionListSwitchCase*>(cases.Size());
-
+		{
+			mCaseMap = new Hashmap<Datum, ActionListSwitchCase*>(cases.Size());
+			Datum* conditionDatum = Search((*this)[ATTRIBUTE_SWITCH_VALUE].Get<std::string>());
+			if (conditionDatum == nullptr)
+			{
+				std::stringstream str;
+				str << "Undefined variable: " << (*this)[ATTRIBUTE_SWITCH_VALUE].Get<std::string>();
+				throw std::exception(str.str().c_str());
+			}
+			switchType = conditionDatum->Type();
+		}
 		for (uint32_t i = 0; i < cases.Size(); i++)
 		{
 			ActionListSwitchCase* switchCase = cases.Get<Scope*>(i)->As<ActionListSwitchCase>();
 			if (switchCase == nullptr)
 				continue;
-			mCaseMap->Insert(switchCase->operator[](ActionListSwitchCase::ATTRIBUTE_CASE_VALUE).Get<std::string>(), switchCase);
+			if (switchCase->DefaultCase)
+			{
+				Adopt(ActionListSwitchCase::ATTRIBUTE_DEFAULT, *switchCase);
+			}
+			else
+			{
+				Datum d;
+				d.SetType(switchType);
+				d.SetFromString(switchCase->operator[](ActionListSwitchCase::ATTRIBUTE_CASE_VALUE).Get<std::string>());
+				mCaseMap->Insert(d, switchCase);
+			}
 		}
 	}
 
@@ -88,17 +108,48 @@ namespace Library
 		Datum* conditionDatum = Search((*this)[ATTRIBUTE_SWITCH_VALUE].Get<std::string>());
 		assert(conditionDatum != nullptr);
 
-		Hashmap<std::string, ActionListSwitchCase*>::Iterator caseIterator = mCaseMap->Find(conditionDatum->ToString());
+		Hashmap<Datum, ActionListSwitchCase*>::Iterator caseIterator = mCaseMap->Find(*conditionDatum);
 		if (caseIterator == mCaseMap->end())
 		{
 			// execute default case
+			if (IsAttribute(ActionListSwitchCase::ATTRIBUTE_DEFAULT))
+			{
+				Scope* defaultActionScope = (*this)[ActionListSwitchCase::ATTRIBUTE_DEFAULT].Get<Scope*>();
+				assert(defaultActionScope->Is(ActionListSwitchCase::TypeIdClass()));
+				ActionListSwitchCase* defaultCase = static_cast<ActionListSwitchCase*>(defaultActionScope);
+				worldState.action = defaultCase;
+				defaultCase->Update(worldState);
+			}
 		}
 		else
 		{
-			// TODO: handle break and fall through
 			ActionListSwitchCase* matchingCase = (*caseIterator).second;
 			worldState.action = matchingCase;
 			matchingCase->Update(worldState);
+
+			if (!matchingCase->MustBreak)
+			{
+				Datum& cases = Actions();
+				std::uint32_t i;
+				for (i = 0; i < cases.Size(); i++)
+				{
+					if (cases.Get<Scope*>(i) == matchingCase)
+					{
+						++i;
+						break;
+					}
+				}
+				for (; i < cases.Size(); i++)
+				{
+					Scope* nextCase = cases.Get<Scope*>(i);
+					assert(nextCase->Is(ActionListSwitchCase::TypeIdClass()));
+					matchingCase = static_cast<ActionListSwitchCase*>(nextCase);
+					worldState.action = matchingCase;
+					matchingCase->Update(worldState);
+					if (matchingCase->MustBreak)
+						break;
+				}
+			}
 		}
 	}
 
@@ -121,9 +172,12 @@ namespace Library
 
 	RTTI_DEFINITIONS(ActionListSwitch::ActionListSwitchCase);
 
-	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_CASE_VALUE = "caseValue";
+	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_CASE_VALUE	= "caseValue";
+	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_BREAK		= "break";
+	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_DEFAULT		= "default";
 
-	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase()
+	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase() :
+		MustBreak(false), DefaultCase(false)
 	{
 		Populate();
 	}

@@ -21,10 +21,14 @@ namespace Library
 
 			virtual ~ActionListSwitchCase() = default;
 
+			bool MustBreak;
+			bool DefaultCase;
+
 			static const std::string ATTRIBUTE_CASE_VALUE;
+			static const std::string ATTRIBUTE_BREAK;
+			static const std::string ATTRIBUTE_DEFAULT;
 		protected:
 			virtual void DefinePrescribedAttributes();
-		private:
 		};
 
 		CONCRETE_ACTION_FACTORY(ActionListSwitchCase);
@@ -42,14 +46,16 @@ namespace Library
 		virtual void Update(WorldState& worldState) override;
 
 		virtual Scope* Clone(const Scope& rhs) const override;
+
+		static const std::string ATTRIBUTE_SWITCH_VALUE;
+
 	protected:
 		virtual void DefinePrescribedAttributes() override;
 
 	private:
 		void GenerateCaseMap();
+		Hashmap<Datum, ActionListSwitchCase*>* mCaseMap;
 
-		static const std::string ATTRIBUTE_SWITCH_VALUE;
-		Hashmap<std::string, ActionListSwitchCase*>* mCaseMap;
 	};
 
 	CONCRETE_ACTION_FACTORY(ActionListSwitch);
