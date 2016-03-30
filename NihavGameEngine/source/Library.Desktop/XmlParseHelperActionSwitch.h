@@ -32,6 +32,9 @@ namespace Library
 
 		virtual IXmlParseHelper* Clone() const override;
 
+	protected:
+		virtual void ParseActionAttributes(Action& action, const Hashmap<std::string, std::string>& attributes) override;
+
 	public:
 		class XmlParseHelperActionSwitchCase : public XmlParseHelperAction
 		{
@@ -57,6 +60,9 @@ namespace Library
 			XmlParseHelperActionSwitchCase& operator=(const XmlParseHelperActionSwitchCase& rhs) = delete;
 
 			virtual IXmlParseHelper* Clone() const override;
+
+		protected:
+			virtual void ParseActionAttributes(Action& action, const Hashmap<std::string, std::string>& attributes) override;
 		};
 	};
 }
