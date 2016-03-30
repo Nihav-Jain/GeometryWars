@@ -22,21 +22,65 @@
 
 namespace Library
 {
+	/**
+	 *	Game class which contains the world, manages the game clock
+	 *	Call Start() before the game loop
+	 *	Call Update() in the game loop
+	 *	Call Destroy() after the game loop
+	 */
 	class Game final
 	{
 	public:
+
+		/**
+		 *	parameterless constructor, initializes the members 
+		 */
 		Game();
+
+		/**
+		 *	disallow copy constructor
+		 */
 		Game(const Game& rhs) = delete;
+
+		/**
+		 *	destructor
+		 */
 		~Game();
 
+		/**
+		 *	disallow assignment operator
+		 */
 		Game& operator=(const Game& rhs) = delete;
 
+		/**
+		 *	Getter for the game World
+		 *	@return reference to World
+		 */
 		World& GetWorld();
-		void AddXmlParseHelper(IXmlParseHelper& helper);
-		bool ParseFromFile(const std::string& fileName);
 
+		/**
+		 *	Getter for the XML parse master of the Game
+		 *	@return reference to Xml Parse Master
+		 */
+		XmlParseMaster& ParseMaster();
+
+		/**
+		 *	Resets the game clock and other things to be initialized before starting the game loop
+		 *	Must be called before entering the game loop
+		 */
 		void Start();
+
+		/**
+		 *	Updates the game clock and calls Update on the game World
+		 *	Must be called every frame, inside the game loop
+		 */
 		void Update();
+
+		/**
+		 *	Will close off any lose ends before the Game ends
+		 *	Must be called after exiting from the game loop
+		 */
+		void Destroy();
 
 	private:
 

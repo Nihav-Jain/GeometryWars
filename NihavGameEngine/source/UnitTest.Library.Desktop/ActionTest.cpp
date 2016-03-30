@@ -53,11 +53,11 @@ namespace UnitTestLibraryDesktop
 
 			Game game;
 
-			game.AddXmlParseHelper(switchParseHelper);
-			game.AddXmlParseHelper(caseParseHelper);
-			game.AddXmlParseHelper(expParseHelper);
+			game.ParseMaster().AddHelper(switchParseHelper);
+			game.ParseMaster().AddHelper(caseParseHelper);
+			game.ParseMaster().AddHelper(expParseHelper);
 
-			Assert::IsTrue(game.ParseFromFile("Content/config/xml_action_test.xml"));
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_action_test.xml"));
 			game.Start();
 			game.Update();
 

@@ -21,7 +21,6 @@ namespace Library
 		mParseMaster.AddHelper(mNameValueParser);
 	}
 
-
 	Game::~Game()
 	{
 		SharedDataTable::ClearStateGraph();
@@ -33,19 +32,13 @@ namespace Library
 		return mWorld;
 	}
 
-	void Game::AddXmlParseHelper(IXmlParseHelper& helper)
+	XmlParseMaster& Game::ParseMaster()
 	{
-		mParseMaster.AddHelper(helper);
-	}
-
-	bool Game::ParseFromFile(const std::string& fileName)
-	{
-		return mParseMaster.ParseFromFile(fileName);
+		return mParseMaster;
 	}
 
 	void Game::Start()
 	{
-
 		mGameClock.Reset();
 	}
 
@@ -54,4 +47,7 @@ namespace Library
 		mGameClock.UpdateGameTime(mGameTime);
 		mWorld.Update();
 	}
+
+	void Game::Destroy()
+	{}
 }
