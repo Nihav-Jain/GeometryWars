@@ -5,8 +5,10 @@
 #include "Action.h"
 #include "ActionList.h"
 #include "ActionListSwitch.h"
+#include "ActionExpression.h"
 
 #include "XmlParseHelperActionSwitch.h"
+#include "XmlParseHelperActionExpression.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -45,17 +47,42 @@ namespace UnitTestLibraryDesktop
 			ActionListFactory actionListFactory;
 			ActionListSwitchFactory switchFactory;
 			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-
+			ActionExpressionFactory expFactory;
 
 			XmlParseHelperActionSwitch switchParseHelper;
 			XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase caseParseHelper;
+			XmlParseHelperActionExpression expParseHelper;
 
 			Game::Instance().AddXmlParseHelper(switchParseHelper);
 			Game::Instance().AddXmlParseHelper(caseParseHelper);
+			Game::Instance().AddXmlParseHelper(expParseHelper);
 
 			Assert::IsTrue(Game::Instance().ParseFromFile("Content/config/xml_action_test.xml"));
 			Game::Instance().Start();
 			Game::Instance().Update();
+
+			World& world = Game::Instance().GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+			Action* action = entity->FindAction("exp1");
+			Assert::IsNotNull(entity);
+			ActionExpression* exp = action->As<ActionExpression>();
+			Assert::IsNotNull(exp);
+
+			SList<std::string>::Iterator itr = exp->mPostfixExpression->begin();
+			Assert::IsTrue(*itr == "switchInteger");
+			++itr;
+			Assert::IsTrue(*itr == "abc");
+			++itr;
+			Assert::IsTrue(*itr == "+");
+			++itr;
+			Assert::IsTrue(*itr == "C");
+			++itr;
+			Assert::IsTrue(*itr == "-");
+			++itr;
+			Assert::IsTrue(itr == exp->mPostfixExpression->end());
 		}
 		
 

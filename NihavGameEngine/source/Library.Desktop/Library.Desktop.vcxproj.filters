@@ -93,6 +93,10 @@
     <ClInclude Include="DefaultHash.h">
       <Filter>Containers\DefaultAlgos</Filter>
     </ClInclude>
+    <ClInclude Include="ActionExpression.h" />
+    <ClInclude Include="XmlParseHelperActionExpression.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -168,6 +172,10 @@
     </ClCompile>
     <ClCompile Include="DefaultReserveStrategy.cpp">
       <Filter>Containers\DefaultAlgos</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionExpression.cpp" />
+    <ClCompile Include="XmlParseHelperActionExpression.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
