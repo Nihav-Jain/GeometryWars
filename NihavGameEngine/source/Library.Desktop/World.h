@@ -2,6 +2,7 @@
 #include "Attributed.h"
 #include "Sector.h"
 #include "WorldState.h"
+#include "GameTime.h"
 
 namespace Library
 {
@@ -19,7 +20,7 @@ namespace Library
 		/**
 		 *	Constructor - initializes member variables and declares prescribed attributes
 		 */
-		World();
+		World(const GameTime& gameTime);
 
 		/**
 		 *	Copy Constructor - deep copies the member variables and attributes

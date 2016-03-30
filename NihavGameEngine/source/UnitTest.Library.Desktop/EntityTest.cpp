@@ -62,7 +62,7 @@ namespace UnitTestLibraryDesktop
 			GameTime gameTime;
 
 			std::string worldName = "World";
-			World world;
+			World world(gameTime);
 			world.SetName("World");
 			world.SetGameTime(gameTime);
 
@@ -142,7 +142,7 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(anotherWorld.IsPrescribedAttribute("sectors"));
 
 			{
-				World worldassign;
+				World worldassign(gameTime);
 				worldassign = world;
 				worldassign.SetName("anotherWorld");
 
@@ -161,9 +161,13 @@ namespace UnitTestLibraryDesktop
 			EntityFactory entityFactory;
 			ActorEntityFactory actorEntityFactory;
 
+			GameClock gameClock;
+			gameClock.Reset();
+			GameTime gameTime;
+			World completeWorld(gameTime);
+
 			SharedDataTable sharedData;
-			Scope rootScope;
-			sharedData.SetRootScope(rootScope);
+			sharedData.SetRootScope(completeWorld);
 
 			XmlParseMaster master(sharedData);
 			XmlParseHelperWorld worldParser;
@@ -182,14 +186,7 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(master.ParseFromFile("Content/config/xml_entity_test.xml"));
 
-			Datum* worldDatum = rootScope.Find("world");
-			Assert::IsNotNull(worldDatum);
-			Assert::IsTrue(worldDatum->Type() == Datum::DatumType::TABLE);
-			Assert::AreEqual(1U, worldDatum->Size());
-
-			Scope* worldScope = worldDatum->Get<Scope*>();
-			World* world = worldScope->As<World>();
-			Assert::IsNotNull(world);
+			World* world = &completeWorld;
 
 			Assert::IsTrue(world->Name() == "NihavWorld");
 			Assert::IsTrue(world->IsPrescribedAttribute("sectors"));

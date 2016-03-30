@@ -8,8 +8,8 @@ namespace Library
 	const std::string World::ATTRIBUTE_NAME_SECTOR = "sectors";
 	const std::string World::ATTRIBUTE_NAME = "name";
 
-	World::World() :
-		mName(), mWorldState()
+	World::World(const GameTime& gameTime) :
+		mName(), mWorldState(gameTime)
 	{
 		mWorldState.world = this;
 		Populate();
@@ -120,15 +120,6 @@ namespace Library
 	void World::SetGameTime(const GameTime& gameTime)
 	{
 		mWorldState.SetGameTime(gameTime);
-	}
-
-	World& World::CreateWorld(const std::string& name, Scope& parentScope)
-	{
-		World* world = new World();
-		world->SetName(name);
-		parentScope.Adopt("world", *world);
-
-		return *world;
 	}
 
 	Scope* World::Clone(const Scope& rhs) const

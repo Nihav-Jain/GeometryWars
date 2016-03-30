@@ -7,7 +7,7 @@ namespace Library
 	class WorldState
 	{
 	public:
-		WorldState();
+		WorldState(const GameTime& gameTime);
 		WorldState(const WorldState& rhs) = default;
 		WorldState(WorldState&& rhs);
 		~WorldState() = default;

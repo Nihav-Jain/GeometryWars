@@ -22,10 +22,9 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		World& world = World::CreateWorld(attributes[ATTRIBUTE_NAME], *(sharedDataPtr->CurrentScopePtr));
-		sharedDataPtr->CurrentScopePtr = &world;
-		
-		Game::Instance().SetWorld(world);
+		//World& world = World::CreateWorld(attributes[ATTRIBUTE_NAME], *(sharedDataPtr->CurrentScopePtr));
+		//sharedDataPtr->CurrentScopePtr = &world;
+		sharedDataPtr->CurrentScopePtr->AssertiveAs<World>()->SetName(attributes[ATTRIBUTE_NAME]);
 
 		return true;
 	}

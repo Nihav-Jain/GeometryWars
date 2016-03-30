@@ -29,8 +29,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
-			delete &Game::Instance();
-
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
@@ -53,15 +51,17 @@ namespace UnitTestLibraryDesktop
 			XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase caseParseHelper;
 			XmlParseHelperActionExpression expParseHelper;
 
-			Game::Instance().AddXmlParseHelper(switchParseHelper);
-			Game::Instance().AddXmlParseHelper(caseParseHelper);
-			Game::Instance().AddXmlParseHelper(expParseHelper);
+			Game game;
 
-			Assert::IsTrue(Game::Instance().ParseFromFile("Content/config/xml_action_test.xml"));
-			Game::Instance().Start();
-			Game::Instance().Update();
+			game.AddXmlParseHelper(switchParseHelper);
+			game.AddXmlParseHelper(caseParseHelper);
+			game.AddXmlParseHelper(expParseHelper);
 
-			World& world = Game::Instance().GetWorld();
+			Assert::IsTrue(game.ParseFromFile("Content/config/xml_action_test.xml"));
+			game.Start();
+			game.Update();
+
+			World& world = game.GetWorld();
 			Sector* sector = world.FindSector("worldSector");
 			Assert::IsNotNull(sector);
 			Entity* entity = sector->FindEntity("actor");

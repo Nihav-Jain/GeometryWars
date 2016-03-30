@@ -31,9 +31,6 @@ namespace Library
 
 		Game& operator=(const Game& rhs) = delete;
 
-		static Game& Instance();
-
-		void SetWorld(World& world);
 		World& GetWorld();
 		void AddXmlParseHelper(IXmlParseHelper& helper);
 		bool ParseFromFile(const std::string& fileName);
@@ -42,9 +39,10 @@ namespace Library
 		void Update();
 
 	private:
-		static Game* sInstance;
 
-		Scope mRootScope;
+		GameClock mGameClock;
+		GameTime mGameTime;
+		World mWorld;
 		
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
@@ -56,11 +54,6 @@ namespace Library
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
 		XmlParseHelperNameValue mNameValueParser;
-
-		GameClock mGameClock;
-		GameTime mGameTime;
-
-		World* mWorld;
 	};
 }
 
