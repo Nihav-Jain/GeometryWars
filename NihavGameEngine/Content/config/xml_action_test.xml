@@ -51,6 +51,9 @@
 			<expression name="exp1">
 				<string name="expression">switchInteger + abc - C</string>
 			</expression>
+			<expression name="exp2">
+				<string name="expression">switchInteger + (abc - C)/xyz</string>
+			</expression>
 		</entity>
 	</sector>	
 </world>

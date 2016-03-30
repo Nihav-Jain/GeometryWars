@@ -8,9 +8,33 @@ namespace Library
 	const std::string ActionExpression::ATTRIBUTE_EXPRESSION = "expression";
 
 	ActionExpression::ActionExpression() :
-		mPostfixExpression(nullptr)
+		mPostfixExpression(nullptr), mOperatorPrecedence(), mDefinedFunctions()
 	{
 		Populate();
+
+		std::uint32_t i = 1;
+		
+		mOperatorPrecedence.Insert(",", i++);
+		mOperatorPrecedence.Insert("=", i++);
+
+		mOperatorPrecedence.Insert("+", i);
+		mOperatorPrecedence.Insert("-", i++);
+
+		mOperatorPrecedence.Insert("*", i);
+		mOperatorPrecedence.Insert("/", i);
+		mOperatorPrecedence.Insert("%", i++);
+
+		mDefinedFunctions["max"].NumParams = 2;
+		mDefinedFunctions["min"].NumParams = 2;
+		mDefinedFunctions["sin"].NumParams = 1;
+		mDefinedFunctions["cos"].NumParams = 1;
+		mDefinedFunctions["tan"].NumParams = 1;
+		mDefinedFunctions["atan"].NumParams = 1;
+		mDefinedFunctions["exp"].NumParams = 1;
+		mDefinedFunctions["log"].NumParams = 1;
+		mDefinedFunctions["pow"].NumParams = 2;
+		mDefinedFunctions["sqrt"].NumParams = 1;
+
 	}
 
 	ActionExpression::ActionExpression(const ActionExpression& rhs) :
@@ -83,11 +107,12 @@ namespace Library
 		std::string& expression = (*this)[ATTRIBUTE_EXPRESSION].Get<std::string>();
 		if (!expression.empty())
 		{
-			Stack<char> operatorStack;
+			Stack<std::string> operatorStack;
 			mPostfixExpression = new SList<std::string>();
 
-			std::string allOperators = "=-+*/%";
+			std::string allOperators = "(),=-+*/%";
 			std::string trimDelimiter = " \f\n\r\t\v";
+			std::uint32_t indexOfComma = allOperators.find(',');
 
 			std::string rawOperand;
 			std::uint32_t prev = 0, pos;
@@ -97,26 +122,69 @@ namespace Library
 				{
 					rawOperand = expression.substr(prev, pos - prev);
 					rawOperand = TrimInplace(rawOperand);
-					mPostfixExpression->PushBack(rawOperand);
+					if (mDefinedFunctions.ContainsKey(rawOperand))
+						operatorStack.Push(rawOperand);
+					else
+						mPostfixExpression->PushBack(rawOperand);
 				}
 
-				char currentOperator = expression.at(pos);
-				std::uint32_t currentOperatorIndex = allOperators.find(currentOperator);
-				while (!operatorStack.IsEmpty())
+				std::string currentOperator;
+				currentOperator.push_back(expression.at(pos));
+
+				// check if the operator has more than 1 characters
+				// TODO: more rigourous checking
+				std::uint32_t nextCharacterIndex = allOperators.find(expression.at(pos + 1));
+				if (nextCharacterIndex != std::string::npos && nextCharacterIndex > indexOfComma)
 				{
-					if (allOperators.find(operatorStack.Top()) > currentOperatorIndex)
+					pos++;
+					currentOperator.push_back(expression.at(pos));
+				}
+
+				if (currentOperator == ",")
+				{
+					while (operatorStack.Top() != "(")
 					{
-						std::string s;
-						s.push_back(operatorStack.Top());
-						mPostfixExpression->PushBack(s);
+						mPostfixExpression->PushBack(operatorStack.Top());
 						operatorStack.Pop();
 					}
-					else
+				}
+				else if (currentOperator == "(")
+				{
+					operatorStack.Push(currentOperator);
+				}
+				else if (currentOperator == ")")
+				{
+					while (operatorStack.Top() != "(")
 					{
-						break;
+						mPostfixExpression->PushBack(operatorStack.Top());
+						operatorStack.Pop();
+					}
+					operatorStack.Pop();
+					if (!operatorStack.IsEmpty())
+					{
+						if (mDefinedFunctions.ContainsKey(operatorStack.Top()))
+						{
+							mPostfixExpression->PushBack(operatorStack.Top());
+							operatorStack.Pop();
+						}
 					}
 				}
-				operatorStack.Push(currentOperator);
+				else
+				{
+					assert(mOperatorPrecedence.ContainsKey(currentOperator));
+					uint32_t currentOperatorPrecedence = mOperatorPrecedence[currentOperator];
+					while (!operatorStack.IsEmpty())
+					{
+						if (currentOperatorPrecedence >= mOperatorPrecedence[operatorStack.Top()])
+						{
+							mPostfixExpression->PushBack(operatorStack.Top());
+							operatorStack.Pop();
+						}
+						else
+							break;
+					}
+					operatorStack.Push(currentOperator);
+				}
 
 				prev = pos + 1;
 			}
@@ -129,9 +197,7 @@ namespace Library
 
 			while (!operatorStack.IsEmpty())
 			{
-				std::string s;
-				s.push_back(operatorStack.Top());
-				mPostfixExpression->PushBack(s);
+				mPostfixExpression->PushBack(operatorStack.Top());
 				operatorStack.Pop();
 			}
 

@@ -67,7 +67,7 @@ namespace UnitTestLibraryDesktop
 			Entity* entity = sector->FindEntity("actor");
 			Assert::IsNotNull(entity);
 			Action* action = entity->FindAction("exp1");
-			Assert::IsNotNull(entity);
+			Assert::IsNotNull(action);
 			ActionExpression* exp = action->As<ActionExpression>();
 			Assert::IsNotNull(exp);
 
@@ -81,6 +81,28 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(*itr == "C");
 			++itr;
 			Assert::IsTrue(*itr == "-");
+			++itr;
+			Assert::IsTrue(itr == exp->mPostfixExpression->end());
+
+			action = entity->FindAction("exp2");
+			Assert::IsNotNull(action);
+			exp = action->As<ActionExpression>();
+			Assert::IsNotNull(exp);
+
+			itr = exp->mPostfixExpression->begin();
+			Assert::IsTrue(*itr == "switchInteger");
+			++itr;
+			Assert::IsTrue(*itr == "abc");
+			++itr;
+			Assert::IsTrue(*itr == "C");
+			++itr;
+			Assert::IsTrue(*itr == "-");
+			++itr;
+			Assert::IsTrue(*itr == "xyz");
+			++itr;
+			Assert::IsTrue(*itr == "/");
+			++itr;
+			Assert::IsTrue(*itr == "+");
 			++itr;
 			Assert::IsTrue(itr == exp->mPostfixExpression->end());
 		}

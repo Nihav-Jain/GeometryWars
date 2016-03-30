@@ -32,6 +32,15 @@ namespace Library
 		void ConvertExpressionToPostfix();
 		void EvaluateExpression();
 
+		Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
+
+		struct FunctionDefinition
+		{
+			std::uint32_t NumParams;
+			// function pointer or function object to the corresponding function
+		};
+		Hashmap<std::string, FunctionDefinition> mDefinedFunctions;
+
 		/**
 		 *	trims the delimiter string from the end of given string
 		 *	@param string to trim
