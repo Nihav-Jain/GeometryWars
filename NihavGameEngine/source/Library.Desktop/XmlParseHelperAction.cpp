@@ -77,17 +77,19 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		Action* currentAction = sharedDataPtr->CurrentScopePtr->As<Action>();
+		Action* currentAction = sharedDataPtr->CurrentScopePtr->AssertiveAs<Action>();
 
 		 //test for action prescribed attributes.
 		std::uint32_t numReservedPrescribedAttributes = Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
+		if (currentAction->Is(ActionList::TypeIdClass()))
+			numReservedPrescribedAttributes++;
 		for (std::uint32_t i = numReservedPrescribedAttributes; i < currentAction->AuxiliaryBegin(); i++)
 		{
 			if (currentAction->operator[](i).Size() < 1 )
 			{
-				//std::stringstream str;
-				//str << "Prescribed Attribute #" << i << " of instance " << currentAction->Name() << " not initialized.";
-				//throw std::exception(str.str().c_str());
+				std::stringstream str;
+				str << "Prescribed Attribute #" << i << " of instance " << currentAction->Name() << " not initialized.";
+				throw std::exception(str.str().c_str());
 			}
 		}
 		
