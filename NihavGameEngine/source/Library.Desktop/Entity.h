@@ -70,29 +70,29 @@ namespace Library
 		void SetName(const std::string& name);
 
 		/**
-		 *	Getter for the Datum which contains the array of Entities of this Sector
+		 *	Getter for the Datum which contains the array of Actions of this Sector
 		 *	@return reference to the Datum
 		 */
 		Datum& Actions();
 
 		/**
-		 *	const override for the Getter for the Datum which contains the array of Entities of this Sector
+		 *	const override for the Getter for the Datum which contains the array of Actions of this Sector
 		 *	@return constant reference to the Datum
 		 */
 		const Datum& Actions() const;
 
 		/**
-		 *	Adds an Entity of the given name to this Sector
-		 *	@param name of the derived Entity class which is to be created
-		 *	@param  instance name of the Entity
-		 *	@return reference to the newly created Entity
+		 *	Adds an Action of the given name to this Entity
+		 *	@param name of the derived Action class which is to be created
+		 *	@param  instance name of the Action
+		 *	@return reference to the newly created Action
 		 */
 		Action& CreateAction(const std::string& actionClassName, const std::string& actionInstanceName);
 
 		/**
-		 *	Searches for the Entity of the given name in this Sector
-		 *	@param name of the Entity to be searched
-		 *	@return pointer to the Entity if found, nullptr if there is no sector of this name
+		 *	Searches for the Action of the given name in this Entity
+		 *	@param name of the Action to be searched
+		 *	@return pointer to the Action if found, nullptr if there is no sector of this name
 		 */
 		Action* FindAction(const std::string& actionName) const;
 

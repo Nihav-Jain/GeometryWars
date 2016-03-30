@@ -87,6 +87,10 @@ namespace Library
 		 */
 		Scope& RootScope();
 
+		/**
+		 *	Setter for root scope, the parent container of the parsed table
+		 *	@param reference to a Scope
+		 */
 		void SetRootScope(Scope& rootScope);
 
 		/**

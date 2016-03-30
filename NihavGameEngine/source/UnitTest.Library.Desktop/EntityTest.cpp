@@ -64,7 +64,6 @@ namespace UnitTestLibraryDesktop
 			std::string worldName = "World";
 			World world(gameTime);
 			world.SetName("World");
-			world.SetGameTime(gameTime);
 
 			Assert::AreEqual(worldName, world.Name());
 			Assert::AreEqual(worldName, world["name"].Get<std::string>());

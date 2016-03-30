@@ -117,11 +117,6 @@ namespace Library
 		}
 	}
 
-	void World::SetGameTime(const GameTime& gameTime)
-	{
-		mWorldState.SetGameTime(gameTime);
-	}
-
 	Scope* World::Clone(const Scope& rhs) const
 	{
 		if (!rhs.Is(World::TypeIdClass()))

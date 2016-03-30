@@ -4,6 +4,12 @@
 
 namespace Library
 {
+	/**
+	 *	Concrete Action which can contain a list of Actions
+	 *	Has 1 prescribed attribute - name (STRING)
+	 *	@grammar <action class="ActionList" name="{instanceName}" />
+	 *	@inherits Action
+	 */
 	class ActionList : public Action
 	{
 		RTTI_DECLARATIONS(ActionList, Action);
@@ -46,35 +52,34 @@ namespace Library
 		ActionList& operator=(ActionList&& rhs);
 
 		/**
-		 *	Getter for the Datum which contains the array of Entities of this Sector
+		 *	Getter for the Datum which contains the array of Actions of this ActionList
 		 *	@return reference to the Datum
 		 */
 		Datum& Actions();
 
 		/**
-		 *	const override for the Getter for the Datum which contains the array of Entities of this Sector
+		 *	const override for the Getter for the Datum which contains the array of Actions of this ActionList
 		 *	@return constant reference to the Datum
 		 */
 		const Datum& Actions() const;
 
 		/**
-		 *	Adds an Entity of the given name to this Sector
-		 *	@param name of the derived Entity class which is to be created
-		 *	@param  instance name of the Entity
-		 *	@return reference to the newly created Entity
+		 *	Adds an Action of the given name to this ActionList
+		 *	@param name of the derived Action class which is to be created
+		 *	@param  instance name of the Action
+		 *	@return reference to the newly created Action
 		 */
 		Action& CreateAction(const std::string& actionClassName, const std::string& actionInstanceName);
 
 		/**
-		 *	Searches for the Entity of the given name in this Sector
-		 *	@param name of the Entity to be searched
-		 *	@return pointer to the Entity if found, nullptr if there is no sector of this name
+		 *	Searches for the Action of the given name in this ActionList
+		 *	@param name of the Action to be searched
+		 *	@return pointer to the Action if found, nullptr if there is no sector of this name
 		 */
 		Action* FindAction(const std::string& actionName) const;
 
 		/**
-		 *	Calls the update method on all of its child Actions, called by the parent Sector's Update method
-		 *	Must be overriden by children of they want to dp anything extra
+		 *	Calls the update method on all of its child Actions, called by the parent Action / Entity / Sector / World's Update method
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState) override;
@@ -82,7 +87,7 @@ namespace Library
 		/**
 		 *	acts as a virtual copy constructor
 		 *	@param constant reference to the Entity to be copied / cloned
-		 *	@return pointer to the newly instantiated Entity
+		 *	@return pointer to the newly instantiated ActionList
 		 */
 		virtual Scope* Clone(const Scope& rhs) const override;
 

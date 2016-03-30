@@ -98,20 +98,6 @@ namespace Library
 		void Update();
 
 		/**
-		 *	Sets the GameTime pointer in the WorldState object
-		 *	@param constant reference to the GameTime object
-		 */
-		void SetGameTime(const GameTime& gameTime);
-
-		/**
-		 *	static function to create a World of the given name, as a child of the provided Scope
-		 *	@param name of the World
-		 *	@param reference to the parent Scope of the newly created World
-		 *	@return reference to the newly created World
-		 */
-		static World& CreateWorld(const std::string& name, Scope& parentScope);
-
-		/**
 		 *	acts as a virtual copy constructor
 		 *	@param constant reference to the World to be copied / cloned
 		 *	@return pointer to the newly instantiated World

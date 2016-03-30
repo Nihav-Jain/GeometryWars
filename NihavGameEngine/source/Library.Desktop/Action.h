@@ -4,6 +4,13 @@
 
 namespace Library
 {
+	/**
+	 *	Defines an abstract Action
+	 *	Implement the CONCRETE_ACTION_FACTORY macro with the attribute <ChildClassName> to create a factory for your derived Action class
+	 *	Has 1 prescribed attribute - name (STRING)
+	 *	requires XmlParseHelperAction to being created via XML
+	 *	@inherits Attributed
+	 */
 	class Action : public Attributed
 	{
 		RTTI_DECLARATIONS(Action, Attributed);
@@ -47,13 +54,13 @@ namespace Library
 		Action& operator=(Action&& rhs);
 
 		/**
-		 *	Getter for the name of this Entity
+		 *	Getter for the name of this Action
 		 *	@return constance reference to the string representing the name
 		 */
 		const std::string& Name() const;
 
 		/**
-		 *	Setter for the name of this Entity
+		 *	Setter for the name of this Action
 		 *	@param constance reference to the string representing the name
 		 */
 		void SetName(const std::string& name);
@@ -66,6 +73,10 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState) = 0;
 
+		/**
+		 *	Will be called by the EndElementHandler of Action parser
+		 *	Can be used for processing the Action after the whole element has been parsed
+		 */
 		virtual void PostParsingProcess();
 
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;

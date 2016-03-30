@@ -182,10 +182,57 @@ namespace Library
 		Populate();
 	}
 
+	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase(const ActionListSwitchCase& rhs) :
+		MustBreak(rhs.MustBreak), DefaultCase(rhs.DefaultCase), ActionList(rhs)
+	{}
+
+	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase(ActionListSwitchCase&& rhs) :
+		MustBreak(rhs.MustBreak), DefaultCase(rhs.DefaultCase), ActionList(std::move(rhs))
+	{
+		rhs.MustBreak = false;
+		rhs.DefaultCase = false;
+	}
+
+	ActionListSwitch::ActionListSwitchCase& ActionListSwitch::ActionListSwitchCase::operator=(const ActionListSwitchCase& rhs)
+	{
+		if (this != &rhs)
+		{
+			MustBreak = rhs.MustBreak;
+			DefaultCase = rhs.DefaultCase;
+
+			ActionList::operator=(rhs);
+		}
+		return *this;
+	}
+
+	ActionListSwitch::ActionListSwitchCase& ActionListSwitch::ActionListSwitchCase::operator=(ActionListSwitchCase&& rhs)
+	{
+		if (this != &rhs)
+		{
+			MustBreak = rhs.MustBreak;
+			DefaultCase = rhs.DefaultCase;
+
+			ActionList::operator=(std::move(rhs));
+
+			rhs.MustBreak = false;
+			rhs.DefaultCase = false;
+		}
+		return *this;
+	}
+
+	Scope* ActionListSwitch::ActionListSwitchCase::Clone(const Scope& rhs) const
+	{
+		if (!rhs.Is(ActionListSwitchCase::TypeIdClass()))
+			throw std::exception("Given Scope reference is not an ActionListSwitch.");
+		return new ActionListSwitchCase(*(rhs.As<ActionListSwitchCase>()));
+	}
+
 	void ActionListSwitch::ActionListSwitchCase::DefinePrescribedAttributes()
 	{
 		AddInternalAttribute(ATTRIBUTE_CASE_VALUE, "");
 	}
+
+
 
 #pragma endregion
 }
