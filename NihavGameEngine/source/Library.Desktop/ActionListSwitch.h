@@ -35,16 +35,9 @@ namespace Library
 			ActionListSwitchCase();
 
 			/**
-			 *	Copy Constructor - deep copies the member variables and attributes
-			 *	@param constant reference to the ActionListSwitchCase to be copied
+			 *	disallow copy construtor
 			 */
-			ActionListSwitchCase(const ActionListSwitchCase& rhs);
-
-			/**
-			 *	Move Constructor
-			 *	@param R value reference to the ActionListSwitchCase to be moved
-			 */
-			ActionListSwitchCase(ActionListSwitchCase&& rhs);
+			ActionListSwitchCase(const ActionListSwitchCase& rhs) = delete;
 
 			/**
 			 *	Default destructor
@@ -52,25 +45,9 @@ namespace Library
 			virtual ~ActionListSwitchCase() = default;
 
 			/**
-			 *	Copy assignment operator - deep copies the member variables and attributes
-			 *	@param constant reference to the ActionListSwitchCase to be copied
-			 *	@return reference to the updated ActionListSwitchCase
+			 *	disallow copy assignment operator
 			 */
-			ActionListSwitchCase& operator=(const ActionListSwitchCase& rhs);
-
-			/**
-			 *	Move assignment operator
-			 *	@param R value reference to the ActionListSwitchCase to be moved
-			 *	@return reference to the updated ActionListSwitchCase
-			 */
-			ActionListSwitchCase& operator=(ActionListSwitchCase&& rhs);
-
-			/**
-			 *	acts as a virtual copy constructor
-			 *	@param constant reference to the Entity to be copied / cloned
-			 *	@return pointer to the newly instantiated ActionListSwitchCase
-			 */
-			virtual Scope* Clone(const Scope& rhs) const override;
+			ActionListSwitchCase& operator=(const ActionListSwitchCase& rhs) = delete;
 
 			/**
 			 *	boolean to indicate if this case must break from the switch block after executing itself
@@ -97,16 +74,9 @@ namespace Library
 		ActionListSwitch();
 
 		/**
-		 *	Copy Constructor - deep copies the member variables and attributes
-		 *	@param constant reference to the ActionListSwitch to be copied
+		 *	disallow copy construtor
 		 */
-		ActionListSwitch(const ActionListSwitch& rhs);
-
-		/**
-		 *	Move Constructor
-		 *	@param R value reference to the ActionListSwitch to be moved
-		 */
-		ActionListSwitch(ActionListSwitch&& rhs);
+		ActionListSwitch(const ActionListSwitch& rhs) = delete;
 
 		/**
 		 *	Destructor
@@ -114,18 +84,9 @@ namespace Library
 		virtual ~ActionListSwitch();
 
 		/**
-		 *	Copy assignment operator - deep copies the member variables and attributes
-		 *	@param constant reference to the ActionListSwitch to be copied
-		 *	@return reference to the updated ActionListSwitch
+		 *	disallow copy assignment operator
 		 */
-		ActionListSwitch& operator=(const ActionListSwitch& rhs);
-
-		/**
-		 *	Move assignment operator
-		 *	@param R value reference to the ActionListSwitch to be moved
-		 *	@return reference to the updated ActionListSwitch
-		 */
-		ActionListSwitch& operator=(ActionListSwitch&& rhs);
+		ActionListSwitch& operator=(const ActionListSwitch& rhs) = delete;
 
 		/**
 		 *	parses the cases inthis ActionList and generates a Hashmap for quick comparison
@@ -140,13 +101,6 @@ namespace Library
 		 *	@param reference to the world state
 		 */
 		virtual void Update(WorldState& worldState) override;
-
-		/**
-		 *	acts as a virtual copy constructor
-		 *	@param constant reference to the Entity to be copied / cloned
-		 *	@return pointer to the newly instantiated ActionListSwitch
-		 */
-		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_SWITCH_VALUE;
 

@@ -26,21 +26,28 @@ namespace Library
 		ActionExpression(const ActionExpression& rhs) = delete;
 
 		/**
+		 *	disallow copy assignment operator
+		 */
+		ActionExpression& operator=(const ActionExpression& rhs) = delete;
+
+		/**
 		 *	disallow copy construtor
 		 */
 		virtual ~ActionExpression();
 
-		ActionExpression& operator=(const ActionExpression& rhs);
-		ActionExpression& operator=(ActionExpression&& rhs);
-
+		/**
+		 *	parses the expression and converts it from infix to postfix notation
+		 *	called by the Action parser when the end tag is excountered
+		 */
 		virtual void PostParsingProcess() override;
+
+		/**
+		 *	Evaluates the expression
+		 *	@param reference to the world state
+		 */
 		virtual void Update(WorldState& worldState) override;
 
-		virtual Scope* Clone(const Scope& rhs) const override;
-
 		static const std::string ATTRIBUTE_EXPRESSION;
-
-		SList<std::string>* mPostfixExpression;
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;
@@ -48,6 +55,8 @@ namespace Library
 	private:
 		void ConvertExpressionToPostfix();
 		void EvaluateExpression();
+
+		SList<std::string>* mPostfixExpression;
 
 		Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
 

@@ -27,35 +27,19 @@ namespace Library
 		Sector();
 
 		/**
-		 *	Copy Constructor - deep copies the member variables and attributes
-		 *	@param constant reference to the Sector to be copied
+		 *	disallow copy construtor
 		 */
-		Sector(const Sector& rhs);
-
-		/**
-		 *	Move Constructor
-		 *	@param R value reference to the Sector to be moved
-		 */
-		Sector(Sector&& rhs);
+		Sector(const Sector& rhs) = delete;
 
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Sector();
+		virtual ~Sector() = default;
 
 		/**
-		 *	Copy assignment operator - deep copies the member variables and attributes
-		 *	@param constant reference to the Sector to be copied
-		 *	@return reference to the updated Sector
+		 *	disallow copy assignment operator
 		 */
 		Sector& operator=(const Sector& rhs);
-
-		/**
-		 *	Move assignment operator
-		 *	@param R value reference to the Sector to be moved
-		 *	@return reference to the updated Sector
-		 */
-		Sector& operator=(Sector&& rhs);
 
 		/**
 		 *	Getter for the name of this Sector
@@ -113,13 +97,6 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		void Update(WorldState& worldState);
-
-		/**
-		 *	acts as a virtual copy constructor
-		 *	@param constant reference to the Sector to be copied / cloned
-		 *	@return pointer to the newly instantiated Sector
-		 */
-		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;

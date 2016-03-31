@@ -21,35 +21,20 @@ namespace Library
 		ActionList();
 	
 		/**
-		 *	Copy Constructor - deep copies the member variables and attributes
-		 *	@param constant reference to the Action to be copied
+		 *	disallow copy construtor
 		 */
-		ActionList(const ActionList& rhs);
-
-		/**
-		 *	Move Constructor
-		 *	@param R value reference to the Action to be moved
-		 */
-		ActionList(ActionList&& rhs);
+		ActionList(const ActionList& rhs) = delete;
 
 		/**
 		 *	Default destructor
 		 */
-		virtual ~ActionList();
+		virtual ~ActionList() = default;
 
 		/**
-		 *	Copy assignment operator - deep copies the member variables and attributes
-		 *	@param constant reference to the Action to be copied
-		 *	@return reference to the updated Action
-		 */
-		ActionList& operator=(const ActionList& rhs);
+		*	disallow assignement operator
+		*/
+		ActionList& operator=(const ActionList& rhs) = delete;
 
-		/**
-		 *	Move assignment operator
-		 *	@param R value reference to the Action to be moved
-		 *	@return reference to the updated Action
-	 	 */
-		ActionList& operator=(ActionList&& rhs);
 
 		/**
 		 *	Getter for the Datum which contains the array of Actions of this ActionList
@@ -83,13 +68,6 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState) override;
-
-		/**
-		 *	acts as a virtual copy constructor
-		 *	@param constant reference to the Entity to be copied / cloned
-		 *	@return pointer to the newly instantiated ActionList
-		 */
-		virtual Scope* Clone(const Scope& rhs) const override;
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;

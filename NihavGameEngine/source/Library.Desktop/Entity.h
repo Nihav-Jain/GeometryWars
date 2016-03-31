@@ -27,35 +27,20 @@ namespace Library
 		Entity();
 
 		/**
-		 *	Copy Constructor - deep copies the member variables and attributes
-		 *	@param constant reference to the Entity to be copied
+		 *	disallow copy construtor
 		 */
-		Entity(const Entity& rhs);
-		
-		/**
-		 *	Move Constructor
-		 *	@param R value reference to the Entity to be moved
-		 */
-		Entity(Entity&& rhs);
+		Entity(const Entity& rhs) = delete;
 
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Entity();
+		virtual ~Entity() = default;
 
 		/**
-		 *	Copy assignment operator - deep copies the member variables and attributes
-		 *	@param constant reference to the Entity to be copied
-		 *	@return reference to the updated Entity
+		 *	disallow copy assignemnt operator
 		 */
-		Entity& operator=(const Entity& rhs);
+		Entity& operator=(const Entity& rhs) = delete;
 		
-		/**
-		 *	Move assignment operator
-		 *	@param R value reference to the Entity to be moved
-		 *	@return reference to the updated Entity
-		 */
-		Entity& operator=(Entity&& rhs);
 
 		/**
 		 *	Getter for the name of this Entity
@@ -114,13 +99,6 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState);
-
-		/**
-		 *	acts as a virtual copy constructor
-		 *	@param constant reference to the Entity to be copied / cloned
-		 *	@return pointer to the newly instantiated Entity
-		 */
-		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;

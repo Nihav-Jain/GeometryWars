@@ -15,48 +15,6 @@ namespace Library
 		Populate();
 	}
 
-	World::World(const World& rhs) :
-		mName(rhs.mName), mWorldState(rhs.mWorldState), Attributed(rhs)
-	{
-		mWorldState.world = this;
-		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-	}
-
-	World::World(World&& rhs) :
-		mName(std::move(rhs.mName)), mWorldState(std::move(mWorldState)), Attributed(std::move(rhs))
-	{
-		mWorldState.world = this;
-	}
-
-	World& World::operator=(const World& rhs)
-	{
-		if (this != &rhs)
-		{
-			mName = rhs.mName;
-			mWorldState = rhs.mWorldState;
-			Attributed::operator=(rhs);
-
-			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-			mWorldState.world = this;
-		}
-		return *this;
-	}
-
-	World& World::operator=(World&& rhs)
-	{
-		if (this != &rhs)
-		{
-			mName = std::move(rhs.mName);
-			mWorldState = std::move(rhs.mWorldState);
-			Attributed::operator=(std::move(rhs));
-
-			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-			mWorldState.world = this;
-		}
-
-		return *this;
-	}
-
 	const std::string& World::Name() const
 	{
 		return mName;
@@ -115,13 +73,6 @@ namespace Library
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);
 		}
-	}
-
-	Scope* World::Clone(const Scope& rhs) const
-	{
-		if (!rhs.Is(World::TypeIdClass()))
-			throw std::exception("Given Scope reference is not a World.");
-		return new World(*(rhs.As<World>()));
 	}
 
 	void World::DefinePrescribedAttributes()

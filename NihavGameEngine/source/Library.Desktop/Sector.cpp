@@ -14,46 +14,6 @@ namespace Library
 	{
 		Populate();
 	}
-
-	Sector::Sector(const Sector& rhs) :
-		mName(rhs.mName), Attributed(rhs)
-	{
-		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-	}
-
-	Sector::Sector(Sector&& rhs) :
-		mName(std::move(rhs.mName)), Attributed(std::move(rhs))
-	{
-		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-	}
-
-	Sector::~Sector()
-	{}
-
-	Sector& Sector::operator=(const Sector& rhs)
-	{
-		if (this != &rhs)
-		{
-			mName = rhs.mName;
-			Attributed::operator=(rhs);
-
-			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-		}
-		return *this;
-	}
-
-	Sector& Sector::operator=(Sector&& rhs)
-	{
-		if (this != &rhs)
-		{
-			mName = std::move(rhs.mName);
-			Attributed::operator=(std::move(rhs));
-
-			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
-		}
-
-		return *this;
-	}
 	
 	const std::string& Sector::Name() const
 	{
@@ -124,13 +84,6 @@ namespace Library
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}
-	}
-
-	Scope* Sector::Clone(const Scope& rhs) const
-	{
-		if (!rhs.Is(Sector::TypeIdClass()))
-			throw std::exception("Given Scope reference is not a Sector.");
-		return new Sector(*(rhs.As<Sector>()));
 	}
 
 	void Sector::DefinePrescribedAttributes()

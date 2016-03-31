@@ -16,48 +16,10 @@ namespace Library
 		Populate();
 	}
 
-	ActionListSwitch::ActionListSwitch(const ActionListSwitch& rhs) :
-		mCaseMap(nullptr), ActionList(rhs)
-	{
-		GenerateCaseMap();
-	}
-
-	ActionListSwitch::ActionListSwitch(ActionListSwitch&& rhs) :
-		mCaseMap(nullptr), ActionList(std::move(rhs))
-	{
-		if (rhs.mCaseMap != nullptr)
-			*mCaseMap = std::move(*rhs.mCaseMap);
-		rhs.mCaseMap = nullptr;
-	}
-
 	ActionListSwitch::~ActionListSwitch()
 	{
 		if (mCaseMap != nullptr)
 			delete mCaseMap;
-	}
-
-	ActionListSwitch& ActionListSwitch::operator=(const ActionListSwitch& rhs)
-	{
-		if (this != &rhs)
-		{
-			mCaseMap = nullptr;
-			ActionList::operator=(rhs);
-
-			GenerateCaseMap();
-		}
-		return *this;
-	}
-
-	ActionListSwitch& ActionListSwitch::operator=(ActionListSwitch&& rhs)
-	{
-		if (this != &rhs)
-		{
-			ActionList::operator=(std::move(rhs));
-			if (rhs.mCaseMap != nullptr)
-				*mCaseMap = std::move(*rhs.mCaseMap);
-			rhs.mCaseMap = nullptr;
-		}
-		return *this;
 	}
 
 	void ActionListSwitch::GenerateCaseMap()
@@ -153,13 +115,6 @@ namespace Library
 		}
 	}
 
-	Scope* ActionListSwitch::Clone(const Scope& rhs) const
-	{
-		if (!rhs.Is(ActionListSwitch::TypeIdClass()))
-			throw std::exception("Given Scope reference is not an ActionListSwitch.");
-		return new ActionListSwitch(*(rhs.As<ActionListSwitch>()));
-	}
-
 	void ActionListSwitch::DefinePrescribedAttributes()
 	{
 		AddInternalAttribute(ATTRIBUTE_SWITCH_VALUE, "");
@@ -180,51 +135,6 @@ namespace Library
 		MustBreak(false), DefaultCase(false)
 	{
 		Populate();
-	}
-
-	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase(const ActionListSwitchCase& rhs) :
-		MustBreak(rhs.MustBreak), DefaultCase(rhs.DefaultCase), ActionList(rhs)
-	{}
-
-	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase(ActionListSwitchCase&& rhs) :
-		MustBreak(rhs.MustBreak), DefaultCase(rhs.DefaultCase), ActionList(std::move(rhs))
-	{
-		rhs.MustBreak = false;
-		rhs.DefaultCase = false;
-	}
-
-	ActionListSwitch::ActionListSwitchCase& ActionListSwitch::ActionListSwitchCase::operator=(const ActionListSwitchCase& rhs)
-	{
-		if (this != &rhs)
-		{
-			MustBreak = rhs.MustBreak;
-			DefaultCase = rhs.DefaultCase;
-
-			ActionList::operator=(rhs);
-		}
-		return *this;
-	}
-
-	ActionListSwitch::ActionListSwitchCase& ActionListSwitch::ActionListSwitchCase::operator=(ActionListSwitchCase&& rhs)
-	{
-		if (this != &rhs)
-		{
-			MustBreak = rhs.MustBreak;
-			DefaultCase = rhs.DefaultCase;
-
-			ActionList::operator=(std::move(rhs));
-
-			rhs.MustBreak = false;
-			rhs.DefaultCase = false;
-		}
-		return *this;
-	}
-
-	Scope* ActionListSwitch::ActionListSwitchCase::Clone(const Scope& rhs) const
-	{
-		if (!rhs.Is(ActionListSwitchCase::TypeIdClass()))
-			throw std::exception("Given Scope reference is not an ActionListSwitch.");
-		return new ActionListSwitchCase(*(rhs.As<ActionListSwitchCase>()));
 	}
 
 	void ActionListSwitch::ActionListSwitchCase::DefinePrescribedAttributes()

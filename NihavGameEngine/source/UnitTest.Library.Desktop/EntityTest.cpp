@@ -111,49 +111,6 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(world.FindSector("sector1") == &sector1);
 			Assert::IsTrue(world.FindSector("sector1")->FindEntity("entity12") == &entity12);
 			
-			{
-				Entity entity11Copy(entity11);
-				entity11Copy.SetName("entity11Copy");
-				Assert::IsTrue(entity11["name"].Get<std::string>() == "entity11");
-				Assert::IsTrue(entity11Copy["name"].Get<std::string>() == "entity11Copy");
-				Assert::IsTrue(entity11.Name() != entity11Copy["name"].Get<std::string>());
-			}
-
-			Sector sector1Copy(sector1);
-			sector1Copy.SetName("sector1Copy");
-			Assert::IsTrue(sector1["name"].Get<std::string>() == "sector1");
-			Assert::IsTrue(sector1Copy["name"].Get<std::string>() == "sector1Copy");
-			Assert::IsTrue(sector1.Name() != sector1Copy["name"].Get<std::string>());
-			Assert::IsTrue(sector1Copy.IsPrescribedAttribute("entities"));
-
-			Datum& sector1CopyEntities = sector1Copy.Entities();
-			Assert::AreEqual(2U, sector1CopyEntities.Size());
-			Assert::IsTrue(sector1CopyEntities.Get<Scope*>(0)->Is(Entity::TypeIdClass()));
-			Assert::IsTrue(sector1CopyEntities.Get<Scope*>(0) != &entity11);
-
-			World anotherWorld = world;
-			anotherWorld.SetName("anotherWorld");
-
-			Assert::IsTrue(world.Name() == "World");
-			Assert::IsTrue(anotherWorld.Name() == "anotherWorld");
-			Datum& anotherWorldSectors = anotherWorld.Sectors();
-			Assert::AreEqual(2U, anotherWorldSectors.Size());
-			Assert::IsFalse(anotherWorldSectors.Get<Scope*>(0) == worldSectors.Get<Scope*>(0));
-			Assert::IsTrue(anotherWorld.IsPrescribedAttribute("sectors"));
-
-			{
-				World worldassign(gameTime);
-				worldassign = world;
-				worldassign.SetName("anotherWorld");
-
-				Assert::IsTrue(world.Name() == "World");
-				Assert::IsTrue(worldassign.Name() == "anotherWorld");
-				Datum& worldassignSectors = worldassign.Sectors();
-				Assert::AreEqual(2U, worldassignSectors.Size());
-				Assert::IsFalse(worldassignSectors.Get<Scope*>(0) == worldSectors.Get<Scope*>(0));
-				Assert::IsTrue(worldassign.IsPrescribedAttribute("sectors"));
-			}
-		
 		}
 
 		TEST_METHOD(EntityTestXML)

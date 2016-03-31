@@ -15,7 +15,7 @@ namespace Library
 		 *	Constructor
 		 *	@param constant reference to GameTime
 		 */
-		WorldState(const GameTime& gameTime);
+		explicit WorldState(const GameTime& gameTime);
 
 		/**
 		 *	default copy constructor

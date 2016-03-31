@@ -20,19 +20,12 @@ namespace Library
 		/**
 		 *	Constructor - initializes member variables and declares prescribed attributes
 		 */
-		World(const GameTime& gameTime);
+		explicit World(const GameTime& gameTime);
 
 		/**
-		 *	Copy Constructor - deep copies the member variables and attributes
-		 *	@param constant reference to the World to be copied
+		 s*	disallow copy construtor
 		 */
-		World(const World& rhs);
-
-		/**
-		 *	Move Constructor
-		 *	@param R value reference to the World to be moved
-		 */
-		World(World&& rhs);
+		World(const World& rhs) = delete;
 
 		/**
 		 *	Default destructor
@@ -40,18 +33,9 @@ namespace Library
 		virtual ~World() = default;
 
 		/**
-		 *	Copy assignment operator - deep copies the member variables and attributes
-		 *	@param constant reference to the World to be copied
-		 *	@return reference to the updated World
+		 *	disallow copy construtor
 		 */
-		World& operator=(const World& rhs);
-
-		/**
-		 *	Move assignment operator
-		 *	@param R value reference to the World to be moved
-		 *	@return reference to the updated World
-		 */
-		World& operator=(World&& rhs);
+		World& operator=(const World& rhs) = delete;
 
 		/**
 		 *	Getter for the name of this World
@@ -96,13 +80,6 @@ namespace Library
 		 *	Should be called every frame from the game loop
 		 */
 		void Update();
-
-		/**
-		 *	acts as a virtual copy constructor
-		 *	@param constant reference to the World to be copied / cloned
-		 *	@return pointer to the newly instantiated World
-		 */
-		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 

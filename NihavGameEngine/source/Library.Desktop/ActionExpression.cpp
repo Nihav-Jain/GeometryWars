@@ -47,32 +47,6 @@ namespace Library
 			delete mPostfixExpression;
 	}
 
-	ActionExpression& ActionExpression::operator=(const ActionExpression& rhs)
-	{
-		if (this != &rhs)
-		{
-			mPostfixExpression = new SList<std::string>(*rhs.mPostfixExpression);
-
-			Action::operator=(rhs);
-		}
-
-		return *this;
-	}
-
-	ActionExpression& ActionExpression::operator=(ActionExpression&& rhs)
-	{
-		if (this != &rhs)
-		{
-			mPostfixExpression = rhs.mPostfixExpression;
-
-			Action::operator=(std::move(rhs));
-
-			rhs.mPostfixExpression = nullptr;
-		}
-
-		return *this;
-	}
-
 	void ActionExpression::PostParsingProcess()
 	{
 		ConvertExpressionToPostfix();
@@ -82,13 +56,6 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		EvaluateExpression();
-	}
-
-	Scope* ActionExpression::Clone(const Scope& rhs) const
-	{
-		if (!rhs.Is(ActionExpression::TypeIdClass()))
-			throw std::exception("Given Scope reference is not an ActionExpression.");
-		return new ActionExpression(*(rhs.As<ActionExpression>()));
 	}
 
 	void ActionExpression::DefinePrescribedAttributes()

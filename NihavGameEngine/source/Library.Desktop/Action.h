@@ -25,33 +25,17 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Action();
+		virtual ~Action() = default;
 
 		/**
-		 *	Copy Constructor - deep copies the member variables and attributes
-		 *	@param constant reference to the Action to be copied
+		 *	disallow copy construtor
 		 */
-		Action(const Action& rhs);
+		Action(const Action& rhs) = delete;
 
 		/**
-		 *	Move Constructor
-		 *	@param R value reference to the Action to be moved
+		 *	disallow copy assignment operator
 		 */
-		Action(Action&& rhs);
-
-		/**
-		 *	Copy assignment operator - deep copies the member variables and attributes
-		 *	@param constant reference to the Action to be copied
-		 *	@return reference to the updated Action
-		 */
-		Action& operator=(const Action& rhs);
-
-		/**
-		 *	Move assignment operator
-		 *	@param R value reference to the Action to be moved
-		 *	@return reference to the updated Action
-		 */
-		Action& operator=(Action&& rhs);
+		Action& operator=(const Action& rhs) = delete;
 
 		/**
 		 *	Getter for the name of this Action

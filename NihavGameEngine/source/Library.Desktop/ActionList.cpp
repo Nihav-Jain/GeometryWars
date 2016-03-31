@@ -12,37 +12,6 @@ namespace Library
 		Populate();
 	}
 
-	ActionList::ActionList(const ActionList& rhs) :
-		Action(rhs)
-	{}
-
-	ActionList::ActionList(ActionList&& rhs) :
-		Action(std::move(rhs))
-	{}
-
-
-	ActionList::~ActionList()
-	{
-	}
-
-	ActionList& ActionList::operator=(const ActionList& rhs)
-	{
-		if (this != &rhs)
-		{
-			Action::operator=(rhs);
-		}
-		return *this;
-	}
-
-	ActionList& ActionList::operator=(ActionList&& rhs)
-	{
-		if (this != &rhs)
-		{
-			Action::operator=(std::move(rhs));
-		}
-		return *this;
-	}
-
 	Datum& ActionList::Actions()
 	{
 		return operator[](ATTRIBUTE_ACTIONS);
@@ -88,13 +57,6 @@ namespace Library
 			worldState.action = action;
 			action->Update(worldState);
 		}
-	}
-	
-	Scope* ActionList::Clone(const Scope& rhs) const
-	{
-		if (!rhs.Is(ActionList::TypeIdClass()))
-			throw std::exception("Given Scope reference is not an ActionList.");
-		return new ActionList(*(rhs.As<ActionList>()));
 	}
 
 	void ActionList::DefinePrescribedAttributes()
