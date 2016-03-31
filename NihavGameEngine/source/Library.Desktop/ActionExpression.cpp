@@ -122,10 +122,13 @@ namespace Library
 				{
 					rawOperand = expression.substr(prev, pos - prev);
 					rawOperand = TrimInplace(rawOperand);
-					if (mDefinedFunctions.ContainsKey(rawOperand))
-						operatorStack.Push(rawOperand);
-					else
-						mPostfixExpression->PushBack(rawOperand);
+					if (!rawOperand.empty())
+					{
+						if (mDefinedFunctions.ContainsKey(rawOperand))
+							operatorStack.Push(rawOperand);
+						else
+							mPostfixExpression->PushBack(rawOperand);
+					}
 				}
 
 				std::string currentOperator;
@@ -133,11 +136,14 @@ namespace Library
 
 				// check if the operator has more than 1 characters
 				// TODO: more rigourous checking
-				std::uint32_t nextCharacterIndex = allOperators.find(expression.at(pos + 1));
-				if (nextCharacterIndex != std::string::npos && nextCharacterIndex > indexOfComma)
+				if (allOperators.find(expression.at(pos)) > indexOfComma)
 				{
-					pos++;
-					currentOperator.push_back(expression.at(pos));
+					std::uint32_t nextCharacterIndex = allOperators.find(expression.at(pos + 1));
+					if (nextCharacterIndex != std::string::npos && nextCharacterIndex > indexOfComma)
+					{
+						pos++;
+						currentOperator.push_back(expression.at(pos));
+					}
 				}
 
 				if (currentOperator == ",")
@@ -173,15 +179,22 @@ namespace Library
 				{
 					assert(mOperatorPrecedence.ContainsKey(currentOperator));
 					uint32_t currentOperatorPrecedence = mOperatorPrecedence[currentOperator];
-					while (!operatorStack.IsEmpty())
+					if (!operatorStack.IsEmpty())
 					{
-						if (currentOperatorPrecedence >= mOperatorPrecedence[operatorStack.Top()])
+						if (operatorStack.Top() != "(")
 						{
-							mPostfixExpression->PushBack(operatorStack.Top());
-							operatorStack.Pop();
+							while (!operatorStack.IsEmpty())
+							{
+								if (currentOperatorPrecedence <= mOperatorPrecedence[operatorStack.Top()])
+								{
+									mPostfixExpression->PushBack(operatorStack.Top());
+									operatorStack.Pop();
+								}
+								else
+									break;
+							}
+
 						}
-						else
-							break;
 					}
 					operatorStack.Push(currentOperator);
 				}

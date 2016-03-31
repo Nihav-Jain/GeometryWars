@@ -23,6 +23,7 @@ namespace Library
 
 	Game::~Game()
 	{
+		Datum::ClearStaticMembers();
 		SharedDataTable::ClearStateGraph();
 		XmlParseHelperPrimitives::ClearStaticMembers();
 	}

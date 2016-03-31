@@ -5,9 +5,20 @@
 
 namespace Library
 {
+	Hashmap<Datum::DatumType, Datum::AddDatums> Datum::mAddDatums;
+
 	Datum::Datum() :
 		mType(DatumType::UNKNOWN), mSize(0), mCapacity(0), mStorageType(DatumStorageType::UNKNOWN)
-	{}
+	{
+		if (mAddDatums.Size() == 0)
+		{
+			mAddDatums[DatumType::INTEGER] = &Datum::Add<DatumType::INTEGER>;
+			mAddDatums[DatumType::FLOAT] = &Datum::Add<DatumType::FLOAT>;
+			mAddDatums[DatumType::STRING] = &Datum::Add<DatumType::STRING>;
+			mAddDatums[DatumType::VECTOR4] = &Datum::Add<DatumType::VECTOR4>;
+			mAddDatums[DatumType::MATRIX4x4] = &Datum::Add<DatumType::MATRIX4x4>;
+		}
+	}
 
 	Datum::Datum(const Datum& rhs) :
 		Datum()
@@ -98,6 +109,8 @@ namespace Library
 	{
 		if (this != &rhs)
 		{
+			Clear();
+
 			mType = rhs.mType;
 			mSize = rhs.mSize;
 			mCapacity = rhs.mCapacity;
@@ -155,6 +168,19 @@ namespace Library
 		return *this;
 	}
 
+
+#pragma endregion
+
+#pragma region operator+
+
+	Datum Datum::operator+(const Datum& rhs)
+	{
+		if (!(mAddDatums.ContainsKey(mType) && mAddDatums.ContainsKey(rhs.Type())))
+			throw std::exception("cannot add Datums of given type");
+		if(!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		return (this->*mAddDatums[mType])(rhs);
+	}
 
 #pragma endregion
 
@@ -859,6 +885,11 @@ namespace Library
 		return toString;
 	}
 
+	void Datum::ClearStaticMembers()
+	{
+		mAddDatums.Clear();
+	}
+
 	void Datum::CurrentTypeCheck(DatumType typeToComapreTo) const
 	{
 		if (mType != typeToComapreTo)
@@ -870,5 +901,96 @@ namespace Library
 		if (mSize <= index)
 			throw std::exception("index out of bounds");
 	}
+
+#pragma region Add
+
+	template<>
+	Datum Datum::Add<Datum::DatumType::INTEGER>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = Get<std::int32_t>() + rhs.Get<std::int32_t>();
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::int32_t>() + rhs.Get<std::float_t>();
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be added to Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Add<Datum::DatumType::FLOAT>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.Add<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::float_t>() + rhs.Get<std::float_t>();
+			break;
+		default:
+			throw std::exception("FLOAT type Datums can only be added to Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Add<Datum::DatumType::STRING>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::STRING:
+			result = Get<std::string>() + rhs.Get<std::string>();
+			break;
+		default:
+			throw std::exception("STRING type Datums can only be added to Datums of type STRING");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Add<Datum::DatumType::VECTOR4>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::VECTOR4:
+			result = Get<glm::vec4>() + rhs.Get<glm::vec4>();
+			break;
+		default:
+			throw std::exception("VECTOR4 type Datums can only be added to Datums of type VECTOR4");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Add<Datum::DatumType::MATRIX4x4>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::MATRIX4x4:
+			result = Get<glm::mat4x4>() + rhs.Get<glm::mat4x4>();
+			break;
+		default:
+			throw std::exception("MATRIX4x4 type Datums can only be added to Datums of type MATRIX4x4");
+			break;
+		}
+		return result;
+	}
+
+#pragma endregion
+
 
 }

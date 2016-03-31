@@ -21,6 +21,8 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
+			Datum::ClearStaticMembers();
+
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
@@ -609,6 +611,50 @@ namespace UnitTestLibraryDesktop
 
 		}
 
+		TEST_METHOD(DatumTestAdd)
+		{
+			Datum a;
+			a = 10;
+			Datum b;
+			
+			auto expression = [&] {Datum d = a + b; };
+			Assert::ExpectException<std::exception>(expression);
+
+			b = 20;
+			Datum c = a + b;
+			Assert::IsTrue(c == 30);
+
+			Datum fa;
+			fa = 10.10f;
+			Datum fres = a + fa;
+			Assert::IsTrue(fres == 20.10f);
+			Datum fb;
+			fb = 20.25f;
+			fres = fb + fa;
+			Assert::IsTrue(fres == 30.35f);
+
+			Datum sa;
+			sa = "Hello ";
+			Datum sb;
+			sb = "World!";
+			sa = sa + sb;
+			Assert::IsTrue(sa == "Hello World!");
+
+			Datum va;
+			va = glm::vec4(10, 20, 10, 20);
+			Datum vb;
+			vb = glm::vec4(20, 10, 20, 10);
+			vb = vb + va;
+			Assert::IsTrue(vb == glm::vec4(30, 30, 30, 30));
+
+			Datum ma;
+			ma = glm::mat4(10);
+			Datum mb;
+			mb = glm::mat4(20);
+			mb = ma + mb;
+			Assert::IsTrue(mb == glm::mat4(30));
+
+		}
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;

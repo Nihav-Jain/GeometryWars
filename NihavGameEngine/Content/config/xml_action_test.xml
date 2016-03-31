@@ -54,6 +54,9 @@
 			<expression name="exp2">
 				<string name="expression">switchInteger + (abc - C)/xyz</string>
 			</expression>
+			<expression name="exp3">
+				<string name="expression">sin ( max ( A , B ) / C * D )</string>
+			</expression>
 		</entity>
 	</sector>	
 </world>

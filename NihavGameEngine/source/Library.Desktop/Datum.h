@@ -88,6 +88,8 @@ namespace Library
 			Datum& operator=(RTTI* rhs);
 			Datum& operator=(Scope& rhs);
 
+			Datum operator+(const Datum& rhs);
+
 			/**
 			 *	Gets the DatumType of this Datum
 			 *	@return current DatumType
@@ -227,7 +229,25 @@ namespace Library
 			 */
 			std::string ToString(std::uint32_t index = 0) const;
 
+			static void ClearStaticMembers();
+
 		private:
+			template <DatumType T>
+			Datum Add(const Datum& rhs) const;
+			template<>
+			Datum Add<DatumType::INTEGER>(const Datum& rhs) const;
+			template<>
+			Datum Add<DatumType::FLOAT>(const Datum& rhs) const;
+			template<>
+			Datum Add<DatumType::STRING>(const Datum& rhs) const;
+			template<>
+			Datum Add<DatumType::VECTOR4>(const Datum& rhs) const;
+			template<>
+			Datum Add<DatumType::MATRIX4x4>(const Datum& rhs) const;
+
+			typedef Datum (Datum::*AddDatums)(const Datum&) const;
+			static Hashmap<DatumType, AddDatums> mAddDatums;
+
 			DatumType mType;
 			std::uint32_t mSize;
 			std::uint32_t mCapacity;
