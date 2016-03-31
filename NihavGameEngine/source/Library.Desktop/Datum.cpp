@@ -6,6 +6,9 @@
 namespace Library
 {
 	Hashmap<Datum::DatumType, Datum::AddDatums> Datum::mAddDatums;
+	Hashmap<Datum::DatumType, Datum::SubtractDatums> Datum::mSubtractDatums;
+	Hashmap<Datum::DatumType, Datum::MultiplyDatums> Datum::mMultiplyDatums;
+	Hashmap<Datum::DatumType, Datum::DivideDatums> Datum::mDivideDatums;
 
 	Datum::Datum() :
 		mType(DatumType::UNKNOWN), mSize(0), mCapacity(0), mStorageType(DatumStorageType::UNKNOWN)
@@ -17,6 +20,27 @@ namespace Library
 			mAddDatums[DatumType::STRING] = &Datum::Add<DatumType::STRING>;
 			mAddDatums[DatumType::VECTOR4] = &Datum::Add<DatumType::VECTOR4>;
 			mAddDatums[DatumType::MATRIX4x4] = &Datum::Add<DatumType::MATRIX4x4>;
+		}
+		if (mSubtractDatums.Size() == 0)
+		{
+			mSubtractDatums[DatumType::INTEGER] = &Datum::Subtract<DatumType::INTEGER>;
+			mSubtractDatums[DatumType::FLOAT] = &Datum::Subtract<DatumType::FLOAT>;
+			mSubtractDatums[DatumType::VECTOR4] = &Datum::Subtract<DatumType::VECTOR4>;
+			mSubtractDatums[DatumType::MATRIX4x4] = &Datum::Subtract<DatumType::MATRIX4x4>;
+		}
+		if (mMultiplyDatums.Size() == 0)
+		{
+			mMultiplyDatums[DatumType::INTEGER] = &Datum::Multiply<DatumType::INTEGER>;
+			mMultiplyDatums[DatumType::FLOAT] = &Datum::Multiply<DatumType::FLOAT>;
+			mMultiplyDatums[DatumType::VECTOR4] = &Datum::Multiply<DatumType::VECTOR4>;
+			mMultiplyDatums[DatumType::MATRIX4x4] = &Datum::Multiply<DatumType::MATRIX4x4>;
+		}
+		if (mDivideDatums.Size() == 0)
+		{
+			mDivideDatums[DatumType::INTEGER] = &Datum::Divide<DatumType::INTEGER>;
+			mDivideDatums[DatumType::FLOAT] = &Datum::Divide<DatumType::FLOAT>;
+			mDivideDatums[DatumType::VECTOR4] = &Datum::Divide<DatumType::VECTOR4>;
+			mDivideDatums[DatumType::MATRIX4x4] = &Datum::Divide<DatumType::MATRIX4x4>;
 		}
 	}
 
@@ -180,6 +204,33 @@ namespace Library
 		if(!(mSize > 0 && rhs.Size() > 0))
 			throw std::exception("cannot add an empty datum");
 		return (this->*mAddDatums[mType])(rhs);
+	}
+
+	Datum Datum::operator-(const Datum& rhs)
+	{
+		if (!(mSubtractDatums.ContainsKey(mType) && mSubtractDatums.ContainsKey(rhs.Type())))
+			throw std::exception("cannot add Datums of given type");
+		if (!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		return (this->*mSubtractDatums[mType])(rhs);
+	}
+
+	Datum Datum::operator*(const Datum& rhs)
+	{
+		if (!(mMultiplyDatums.ContainsKey(mType) && mMultiplyDatums.ContainsKey(rhs.Type())))
+			throw std::exception("cannot add Datums of given type");
+		if (!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		return (this->*mMultiplyDatums[mType])(rhs);
+	}
+
+	Datum Datum::operator/(const Datum& rhs)
+	{
+		if (!(mDivideDatums.ContainsKey(mType) && mDivideDatums.ContainsKey(rhs.Type())))
+			throw std::exception("cannot add Datums of given type");
+		if (!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		return (this->*mDivideDatums[mType])(rhs);
 	}
 
 #pragma endregion
@@ -888,6 +939,9 @@ namespace Library
 	void Datum::ClearStaticMembers()
 	{
 		mAddDatums.Clear();
+		mSubtractDatums.Clear();
+		mMultiplyDatums.Clear();
+		mDivideDatums.Clear();
 	}
 
 	void Datum::CurrentTypeCheck(DatumType typeToComapreTo) const
@@ -992,5 +1046,341 @@ namespace Library
 
 #pragma endregion
 
+#pragma region Subtract
+
+	template<>
+	Datum Datum::Subtract<Datum::DatumType::INTEGER>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = Get<std::int32_t>() - rhs.Get<std::int32_t>();
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::int32_t>() - rhs.Get<std::float_t>();
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be subtracted from Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Subtract<Datum::DatumType::FLOAT>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.Subtract<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::float_t>() - rhs.Get<std::float_t>();
+			break;
+		default:
+			throw std::exception("FLOAT type Datums can only be subtracted from Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Subtract<Datum::DatumType::VECTOR4>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::VECTOR4:
+			result = Get<glm::vec4>() - rhs.Get<glm::vec4>();
+			break;
+		default:
+			throw std::exception("VECTOR4 type Datums can only be subtracted from Datums of type VECTOR4");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Subtract<Datum::DatumType::MATRIX4x4>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::MATRIX4x4:
+			result = Get<glm::mat4x4>() - rhs.Get<glm::mat4x4>();
+			break;
+		default:
+			throw std::exception("MATRIX4x4 type Datums can only be subtracted from Datums of type MATRIX4x4");
+			break;
+		}
+		return result;
+	}
+
+#pragma endregion
+
+#pragma region Multiply
+
+	template<>
+	Datum Datum::Multiply<Datum::DatumType::INTEGER>(const Datum& rhs) const
+	{
+		Datum result;
+		glm::vec4 rhsVec;
+		glm::mat4 rhsMat;
+		std::int32_t multiplier;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = Get<std::int32_t>() * rhs.Get<std::int32_t>();
+			break;
+
+		case DatumType::FLOAT:
+			result = Get<std::int32_t>() * rhs.Get<std::float_t>();
+			break;
+
+		case DatumType::VECTOR4:
+			rhsVec = rhs.Get<glm::vec4>();
+			multiplier = Get<std::int32_t>();
+			
+			for (std::uint32_t j = 0; j < 4; j++)
+				rhsVec[j] *= multiplier;
+
+			result = rhsVec;
+			break;
+
+		case DatumType::MATRIX4x4:
+			rhsMat = rhs.Get<glm::mat4>();
+			multiplier = Get<std::int32_t>();
+
+			for (std::uint32_t i = 0; i < 4; i++)
+			{
+				for (std::uint32_t j = 0; j < 4; j++)
+					rhsMat[i].data[j] *= multiplier;
+			}
+
+			result = rhsMat;
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Multiply<Datum::DatumType::FLOAT>(const Datum& rhs) const
+	{
+		Datum result;
+		glm::vec4 rhsVec;
+		glm::mat4 rhsMat;
+		std::float_t multiplier;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.Multiply<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::float_t>() * rhs.Get<std::float_t>();
+			break;
+		case DatumType::VECTOR4:
+			rhsVec = rhs.Get<glm::vec4>();
+			multiplier = Get<std::float_t>();
+
+			for (std::uint32_t j = 0; j < 4; j++)
+				rhsVec[j] *= multiplier;
+
+			result = rhsVec;
+			break;
+		case DatumType::MATRIX4x4:
+			rhsMat = rhs.Get<glm::mat4>();
+			multiplier = Get<std::float_t>();
+
+			for (std::uint32_t i = 0; i < 4; i++)
+			{
+				for (std::uint32_t j = 0; j < 4; j++)
+					rhsMat[i].data[j] *= multiplier;
+			}
+
+			result = rhsMat;
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Multiply<Datum::DatumType::VECTOR4>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.Multiply<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = rhs.Multiply<DatumType::FLOAT>(*this);
+			break;
+		case DatumType::VECTOR4:
+			result = Get<glm::vec4>() * rhs.Get<glm::vec4>();
+			break;
+		default:
+			throw std::exception("VECTOR4 type Datums can only be multiplied with Datums of type VECTOR4");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Multiply<Datum::DatumType::MATRIX4x4>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.Multiply<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = rhs.Multiply<DatumType::FLOAT>(*this);
+			break;
+		case DatumType::MATRIX4x4:
+			result = Get<glm::mat4x4>() * rhs.Get<glm::mat4x4>();
+			break;
+		default:
+			throw std::exception("MATRIX4x4 type Datums can only be multiplied with Datums of type MATRIX4x4");
+			break;
+		}
+		return result;
+	}
+
+#pragma endregion
+
+#pragma region Divide
+
+	template<>
+	Datum Datum::Divide<Datum::DatumType::INTEGER>(const Datum& rhs) const
+	{
+		Datum result;
+		glm::vec4 rhsVec;
+		glm::mat4 rhsMat;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = Get<std::int32_t>() / rhs.Get<std::int32_t>();
+			break;
+
+		case DatumType::FLOAT:
+			result = Get<std::int32_t>() / rhs.Get<std::float_t>();
+			break;
+
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Divide<Datum::DatumType::FLOAT>(const Datum& rhs) const
+	{
+		Datum result;
+		glm::vec4 rhsVec;
+		glm::mat4 rhsMat;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.Divide<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::float_t>() / rhs.Get<std::float_t>();
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Divide<Datum::DatumType::VECTOR4>(const Datum& rhs) const
+	{
+		Datum result;
+		glm::vec4 rhsVec;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			rhsVec = rhs.Get<glm::vec4>();
+
+			for (std::uint32_t j = 0; j < 4; j++)
+				rhsVec[j] /= Get<std::int32_t>();
+
+			result = rhsVec;
+			break;
+		case DatumType::FLOAT:
+			rhsVec = rhs.Get<glm::vec4>();
+
+			for (std::uint32_t j = 0; j < 4; j++)
+				rhsVec[j] /= Get<std::float_t>();
+
+			result = rhsVec;
+			break;
+		case DatumType::VECTOR4:
+			result = Get<glm::vec4>() / rhs.Get<glm::vec4>();
+			break;
+		default:
+			throw std::exception("VECTOR4 type Datums can only be multiplied with Datums of type VECTOR4");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::Divide<Datum::DatumType::MATRIX4x4>(const Datum& rhs) const
+	{
+		Datum result;
+		glm::mat4 rhsMat;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			rhsMat = rhs.Get<glm::mat4>();
+
+			for (std::uint32_t i = 0; i < 4; i++)
+			{
+				for (std::uint32_t j = 0; j < 4; j++)
+					rhsMat[i].data[j] /= Get<std::int32_t>();
+			}
+
+			result = rhsMat;
+			break;
+		case DatumType::FLOAT:
+			rhsMat = rhs.Get<glm::mat4>();
+
+			for (std::uint32_t i = 0; i < 4; i++)
+			{
+				for (std::uint32_t j = 0; j < 4; j++)
+					rhsMat[i].data[j] /= Get<std::float_t>();
+			}
+
+			result = rhsMat;
+			break;
+		case DatumType::MATRIX4x4:
+			result = Get<glm::mat4x4>() / rhs.Get<glm::mat4x4>();
+			break;
+		default:
+			throw std::exception("MATRIX4x4 type Datums can only be multiplied with Datums of type MATRIX4x4");
+			break;
+		}
+		return result;
+	}
+
+#pragma endregion
 
 }

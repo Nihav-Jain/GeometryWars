@@ -89,6 +89,9 @@ namespace Library
 			Datum& operator=(Scope& rhs);
 
 			Datum operator+(const Datum& rhs);
+			Datum operator-(const Datum& rhs);
+			Datum operator*(const Datum& rhs);
+			Datum operator/(const Datum& rhs);
 
 			/**
 			 *	Gets the DatumType of this Datum
@@ -247,6 +250,54 @@ namespace Library
 
 			typedef Datum (Datum::*AddDatums)(const Datum&) const;
 			static Hashmap<DatumType, AddDatums> mAddDatums;
+
+			template <DatumType T>
+			Datum Subtract(const Datum& rhs) const;
+			template<>
+			Datum Subtract<DatumType::INTEGER>(const Datum& rhs) const;
+			template<>
+			Datum Subtract<DatumType::FLOAT>(const Datum& rhs) const;
+			template<>
+			Datum Subtract<DatumType::STRING>(const Datum& rhs) const;
+			template<>
+			Datum Subtract<DatumType::VECTOR4>(const Datum& rhs) const;
+			template<>
+			Datum Subtract<DatumType::MATRIX4x4>(const Datum& rhs) const;
+
+			typedef Datum(Datum::*SubtractDatums)(const Datum&) const;
+			static Hashmap<DatumType, SubtractDatums> mSubtractDatums;
+
+			template <DatumType T>
+			Datum Multiply(const Datum& rhs) const;
+			template<>
+			Datum Multiply<DatumType::INTEGER>(const Datum& rhs) const;
+			template<>
+			Datum Multiply<DatumType::FLOAT>(const Datum& rhs) const;
+			template<>
+			Datum Multiply<DatumType::STRING>(const Datum& rhs) const;
+			template<>
+			Datum Multiply<DatumType::VECTOR4>(const Datum& rhs) const;
+			template<>
+			Datum Multiply<DatumType::MATRIX4x4>(const Datum& rhs) const;
+
+			typedef Datum(Datum::*MultiplyDatums)(const Datum&) const;
+			static Hashmap<DatumType, MultiplyDatums> mMultiplyDatums;
+
+			template <DatumType T>
+			Datum Divide(const Datum& rhs) const;
+			template<>
+			Datum Divide<DatumType::INTEGER>(const Datum& rhs) const;
+			template<>
+			Datum Divide<DatumType::FLOAT>(const Datum& rhs) const;
+			template<>
+			Datum Divide<DatumType::STRING>(const Datum& rhs) const;
+			template<>
+			Datum Divide<DatumType::VECTOR4>(const Datum& rhs) const;
+			template<>
+			Datum Divide<DatumType::MATRIX4x4>(const Datum& rhs) const;
+
+			typedef Datum(Datum::*DivideDatums)(const Datum&) const;
+			static Hashmap<DatumType, DivideDatums> mDivideDatums;
 
 			DatumType mType;
 			std::uint32_t mSize;

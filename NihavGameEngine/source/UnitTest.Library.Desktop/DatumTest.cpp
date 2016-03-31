@@ -611,7 +611,7 @@ namespace UnitTestLibraryDesktop
 
 		}
 
-		TEST_METHOD(DatumTestAdd)
+		TEST_METHOD(DatumTestArithmetic)
 		{
 			Datum a;
 			a = 10;
@@ -653,6 +653,26 @@ namespace UnitTestLibraryDesktop
 			mb = glm::mat4(20);
 			mb = ma + mb;
 			Assert::IsTrue(mb == glm::mat4(30));
+
+			Datum suba = a - b;
+			Assert::IsTrue(suba == -10);
+			Datum subf = fb - fa;
+			Assert::IsTrue(subf == (20.25f - 10.10f));
+
+			Datum subv = vb - va;
+			Assert::IsTrue(subv == glm::vec4(20, 10, 20, 10));
+
+			Datum subm = mb - ma;
+			Assert::IsTrue(subm == glm::mat4(20));
+
+			Datum mula = a * b;
+			Assert::IsTrue(mula == 200);
+			Datum mulf = fa * fb;
+			Assert::IsTrue(mulf == (20.25f * 10.10f));
+			Datum mulav = a * va;
+			Assert::IsTrue(mulav == glm::vec4(100, 200, 100, 200));
+			Datum mulam = a * ma;
+			Assert::IsTrue(mulam == glm::mat4(100));
 
 		}
 

@@ -21,8 +21,7 @@ namespace Library
 		mOperatorPrecedence.Insert("-", i++);
 
 		mOperatorPrecedence.Insert("*", i);
-		mOperatorPrecedence.Insert("/", i);
-		mOperatorPrecedence.Insert("%", i++);
+		mOperatorPrecedence.Insert("/", i++);
 
 		mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
@@ -110,7 +109,7 @@ namespace Library
 			Stack<std::string> operatorStack;
 			mPostfixExpression = new SList<std::string>();
 
-			std::string allOperators = "(),=-+*/%";
+			std::string allOperators = "(),=-+*/";
 			std::string trimDelimiter = " \f\n\r\t\v";
 			std::uint32_t indexOfComma = allOperators.find(',');
 
