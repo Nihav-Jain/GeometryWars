@@ -73,11 +73,11 @@ namespace Library
 
 			std::string allOperators = "(),=-+*/";
 			std::string trimDelimiter = " \f\n\r\t\v";
-			std::uint32_t indexOfComma = allOperators.find(',');
+			std::uint32_t indexOfComma = (std::uint32_t)allOperators.find(',');
 
 			std::string rawOperand;
 			std::uint32_t prev = 0, pos;
-			while ((pos = expression.find_first_of(allOperators, prev)) != std::string::npos)
+			while ((pos = (std::uint32_t)expression.find_first_of(allOperators, prev)) != std::string::npos)
 			{
 				if (pos > prev)
 				{
@@ -99,7 +99,7 @@ namespace Library
 				// TODO: more rigourous checking
 				if (allOperators.find(expression.at(pos)) > indexOfComma)
 				{
-					std::uint32_t nextCharacterIndex = allOperators.find(expression.at(pos + 1));
+					std::uint32_t nextCharacterIndex = (std::uint32_t)allOperators.find(expression.at(pos + 1));
 					if (nextCharacterIndex != std::string::npos && nextCharacterIndex > indexOfComma)
 					{
 						pos++;
