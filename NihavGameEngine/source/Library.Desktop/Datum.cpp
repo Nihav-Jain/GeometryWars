@@ -10,6 +10,8 @@ namespace Library
 	Hashmap<Datum::DatumType, Datum::MultiplyDatums> Datum::mMultiplyDatums;
 	Hashmap<Datum::DatumType, Datum::DivideDatums> Datum::mDivideDatums;
 
+	Hashmap<Datum::DatumType, Datum::LessThanDatums> Datum::mLessThanDatums;
+
 	Datum::Datum() :
 		mType(DatumType::UNKNOWN), mSize(0), mCapacity(0), mStorageType(DatumStorageType::UNKNOWN)
 	{
@@ -41,6 +43,12 @@ namespace Library
 			mDivideDatums[DatumType::FLOAT] = &Datum::Divide<DatumType::FLOAT>;
 			mDivideDatums[DatumType::VECTOR4] = &Datum::Divide<DatumType::VECTOR4>;
 			mDivideDatums[DatumType::MATRIX4x4] = &Datum::Divide<DatumType::MATRIX4x4>;
+		}
+		if (mLessThanDatums.Size() == 0)
+		{
+			mLessThanDatums[DatumType::INTEGER] = &Datum::LessThan<DatumType::INTEGER>;
+			mLessThanDatums[DatumType::FLOAT] = &Datum::LessThan<DatumType::FLOAT>;
+			mLessThanDatums[DatumType::STRING] = &Datum::LessThan<DatumType::STRING>;
 		}
 	}
 
@@ -231,6 +239,15 @@ namespace Library
 		if (!(mSize > 0 && rhs.Size() > 0))
 			throw std::exception("cannot add an empty datum");
 		return (this->*mDivideDatums[mType])(rhs);
+	}
+
+	Datum Datum::operator<(const Datum& rhs)
+	{
+		if (!(mLessThanDatums.ContainsKey(mType) && mLessThanDatums.ContainsKey(rhs.Type())))
+			throw std::exception("cannot add Datums of given type");
+		if (!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		return (this->*mLessThanDatums[mType])(rhs);
 	}
 
 #pragma endregion
@@ -942,6 +959,8 @@ namespace Library
 		mSubtractDatums.Clear();
 		mMultiplyDatums.Clear();
 		mDivideDatums.Clear();
+
+		mLessThanDatums.Clear();
 	}
 
 	void Datum::CurrentTypeCheck(DatumType typeToComapreTo) const
@@ -1383,4 +1402,63 @@ namespace Library
 
 #pragma endregion
 
+#pragma region LessThan
+
+	template<>
+	Datum Datum::LessThan<Datum::DatumType::INTEGER>(const Datum& rhs) const
+	{
+		Datum result;
+
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = (Get<std::int32_t>() < rhs.Get<std::int32_t>()) ? 1 : 0;
+			break;
+
+		case DatumType::FLOAT:
+			result = (Get<std::int32_t>() < rhs.Get<std::float_t>()) ? 1 : 0;
+			break;
+
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::LessThan<Datum::DatumType::FLOAT>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::INTEGER:
+			result = rhs.LessThan<DatumType::INTEGER>(*this);
+			break;
+		case DatumType::FLOAT:
+			result = (Get<std::float_t>() < rhs.Get<std::float_t>()) ? 1 : 0;
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+
+	template<>
+	Datum Datum::LessThan<Datum::DatumType::STRING>(const Datum& rhs) const
+	{
+		Datum result;
+		switch (rhs.Type())
+		{
+		case DatumType::STRING:
+			result = (Get<std::string>() < rhs.Get<std::string>()) ? 1 : 0;
+			break;
+		default:
+			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			break;
+		}
+		return result;
+	}
+#pragma endregion
 }

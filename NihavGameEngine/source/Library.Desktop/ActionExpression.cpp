@@ -8,13 +8,12 @@ namespace Library
 	const std::string ActionExpression::ATTRIBUTE_EXPRESSION = "expression";
 
 	ActionExpression::ActionExpression() :
-		mPostfixExpression(nullptr), mOperatorPrecedence(), mDefinedFunctions()
+		mPostfixExpression(nullptr), mOperatorPrecedence(), mDefinedFunctions(), mArithmeticOperations()
 	{
 		Populate();
 
 		std::uint32_t i = 1;
 		
-		mOperatorPrecedence.Insert(",", i++);
 		mOperatorPrecedence.Insert("=", i++);
 
 		mOperatorPrecedence.Insert("+", i);
@@ -34,18 +33,13 @@ namespace Library
 		mDefinedFunctions["pow"].NumParams = 2;
 		mDefinedFunctions["sqrt"].NumParams = 1;
 
+		mArithmeticOperations["="] = &ActionExpression::Assign;
+		mArithmeticOperations["+"] = &ActionExpression::Add;
+		mArithmeticOperations["-"] = &ActionExpression::Subtract;
+		mArithmeticOperations["*"] = &ActionExpression::Multiply;
+		mArithmeticOperations["/"] = &ActionExpression::Divide;
+
 	}
-
-	ActionExpression::ActionExpression(const ActionExpression& rhs) :
-		mPostfixExpression(new SList<std::string>(*rhs.mPostfixExpression)), Action(rhs)
-	{}
-
-	ActionExpression::ActionExpression(ActionExpression&& rhs) :
-		mPostfixExpression(rhs.mPostfixExpression), Action(std::move(rhs))
-	{
-		rhs.mPostfixExpression = nullptr;
-	}
-
 
 	ActionExpression::~ActionExpression()
 	{
@@ -87,6 +81,7 @@ namespace Library
 	void ActionExpression::Update(WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
+		EvaluateExpression();
 	}
 
 	Scope* ActionExpression::Clone(const Scope& rhs) const
@@ -218,8 +213,61 @@ namespace Library
 
 	void ActionExpression::EvaluateExpression()
 	{
-		Stack<std::string> evaluationStack;
+		Stack<Datum*> evaluationStack;
 
+		Datum result;
+		while (!mPostfixExpression->IsEmpty())
+		{
+			if (mOperatorPrecedence.ContainsKey(mPostfixExpression->Front()))
+			{
+				Datum* rhs = evaluationStack.Top();
+				evaluationStack.Pop();
+				Datum* lhs = evaluationStack.Top();
+				evaluationStack.Pop();
+
+				result = (this->*mArithmeticOperations[mPostfixExpression->Front()])(*lhs, *rhs);
+				evaluationStack.Push(&result);
+				mPostfixExpression->PopFront();
+			}
+			else if (mDefinedFunctions.ContainsKey(mPostfixExpression->Front()))
+			{
+
+			}
+			else
+			{
+				Datum* operand = Search(mPostfixExpression->Front());
+				assert(operand != nullptr);
+				evaluationStack.Push(operand);
+				mPostfixExpression->PopFront();
+			}
+		}
+
+	}
+
+	Datum ActionExpression::Add(Datum& lhs, Datum& rhs)
+	{
+		return lhs + rhs;
+	}
+
+	Datum ActionExpression::Subtract(Datum& lhs, Datum& rhs)
+	{
+		return lhs - rhs;
+	}
+
+	Datum ActionExpression::Multiply(Datum& lhs, Datum& rhs)
+	{
+		return lhs * rhs;
+	}
+
+	Datum ActionExpression::Divide(Datum& lhs, Datum& rhs)
+	{
+		return lhs / rhs;
+	}
+
+	Datum ActionExpression::Assign(Datum& lhs, Datum& rhs)
+	{
+		lhs = rhs;
+		return Datum();
 	}
 
 	std::string& ActionExpression::TrimRightInplace(std::string& s, const std::string& delimiters)

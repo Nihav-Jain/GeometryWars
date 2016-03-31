@@ -93,6 +93,8 @@ namespace Library
 			Datum operator*(const Datum& rhs);
 			Datum operator/(const Datum& rhs);
 
+			Datum operator<(const Datum& rhs);
+
 			/**
 			 *	Gets the DatumType of this Datum
 			 *	@return current DatumType
@@ -258,8 +260,6 @@ namespace Library
 			template<>
 			Datum Subtract<DatumType::FLOAT>(const Datum& rhs) const;
 			template<>
-			Datum Subtract<DatumType::STRING>(const Datum& rhs) const;
-			template<>
 			Datum Subtract<DatumType::VECTOR4>(const Datum& rhs) const;
 			template<>
 			Datum Subtract<DatumType::MATRIX4x4>(const Datum& rhs) const;
@@ -273,8 +273,6 @@ namespace Library
 			Datum Multiply<DatumType::INTEGER>(const Datum& rhs) const;
 			template<>
 			Datum Multiply<DatumType::FLOAT>(const Datum& rhs) const;
-			template<>
-			Datum Multiply<DatumType::STRING>(const Datum& rhs) const;
 			template<>
 			Datum Multiply<DatumType::VECTOR4>(const Datum& rhs) const;
 			template<>
@@ -290,14 +288,24 @@ namespace Library
 			template<>
 			Datum Divide<DatumType::FLOAT>(const Datum& rhs) const;
 			template<>
-			Datum Divide<DatumType::STRING>(const Datum& rhs) const;
-			template<>
 			Datum Divide<DatumType::VECTOR4>(const Datum& rhs) const;
 			template<>
 			Datum Divide<DatumType::MATRIX4x4>(const Datum& rhs) const;
 
 			typedef Datum(Datum::*DivideDatums)(const Datum&) const;
 			static Hashmap<DatumType, DivideDatums> mDivideDatums;
+
+			template <DatumType T>
+			Datum LessThan(const Datum& rhs) const;
+			template<>
+			Datum LessThan<DatumType::INTEGER>(const Datum& rhs) const;
+			template<>
+			Datum LessThan<DatumType::FLOAT>(const Datum& rhs) const;
+			template<>
+			Datum LessThan<DatumType::STRING>(const Datum& rhs) const;
+
+			typedef Datum(Datum::*LessThanDatums)(const Datum&) const;
+			static Hashmap<DatumType, LessThanDatums> mLessThanDatums;
 
 			DatumType mType;
 			std::uint32_t mSize;

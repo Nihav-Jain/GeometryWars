@@ -71,65 +71,14 @@ namespace UnitTestLibraryDesktop
 			ActionExpression* exp = action->As<ActionExpression>();
 			Assert::IsNotNull(exp);
 
-			SList<std::string>::Iterator itr = exp->mPostfixExpression->begin();
-			Assert::IsTrue(*itr == "switchInteger");
-			++itr;
-			Assert::IsTrue(*itr == "abc");
-			++itr;
-			Assert::IsTrue(*itr == "+");
-			++itr;
-			Assert::IsTrue(*itr == "C");
-			++itr;
-			Assert::IsTrue(*itr == "-");
-			++itr;
-			Assert::IsTrue(itr == exp->mPostfixExpression->end());
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			std::int32_t res = result->Get<std::int32_t>();
+			Assert::IsTrue(res == 19);
 
-			action = entity->FindAction("exp2");
-			Assert::IsNotNull(action);
-			exp = action->As<ActionExpression>();
-			Assert::IsNotNull(exp);
-
-			itr = exp->mPostfixExpression->begin();
-			Assert::IsTrue(*itr == "switchInteger");
-			++itr;
-			Assert::IsTrue(*itr == "abc");
-			++itr;
-			Assert::IsTrue(*itr == "C");
-			++itr;
-			Assert::IsTrue(*itr == "-");
-			++itr;
-			Assert::IsTrue(*itr == "xyz");
-			++itr;
-			Assert::IsTrue(*itr == "/");
-			++itr;
-			Assert::IsTrue(*itr == "+");
-			++itr;
-			Assert::IsTrue(itr == exp->mPostfixExpression->end());
-
-
-			action = entity->FindAction("exp3");
-			Assert::IsNotNull(action);
-			exp = action->As<ActionExpression>();
-			Assert::IsNotNull(exp);
-
-			itr = exp->mPostfixExpression->begin();
-			Assert::IsTrue(*itr == "A");
-			++itr;
-			Assert::IsTrue(*itr == "B");
-			++itr;
-			Assert::IsTrue(*itr == "max");
-			++itr;
-			Assert::IsTrue(*itr == "C");
-			++itr;
-			Assert::IsTrue(*itr == "/");
-			++itr;
-			Assert::IsTrue(*itr == "D");
-			++itr;
-			Assert::IsTrue(*itr == "*");
-			++itr;
-			Assert::IsTrue(*itr == "sin");
-			++itr;
-			Assert::IsTrue(itr == exp->mPostfixExpression->end());
+			Datum* result2 = entity->Find("result2");
+			Assert::IsNotNull(result2);
+			Assert::IsTrue(*result2 == 15);
 		}
 		
 
