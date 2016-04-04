@@ -7,8 +7,11 @@ namespace Library
 	RTTI_DEFINITIONS(Event<T>);
 
 	template <typename T>
+	Vector<IEventSubscriber*> Event<T>::mSubscriberList;
+
+	template <typename T>
 	Event<T>::Event(const T& payload) :
-		mMessage(&payload), EventPublisher(&mSubscriberList)
+		mMessage(&payload), EventPublisher(mSubscriberList)
 	{}
 
 	template<typename T>
@@ -48,13 +51,13 @@ namespace Library
 	}
 
 	template<typename T>
-	void Event<T>::Subscribe(const IEventSubscriber& subscriber)
+	void Event<T>::Subscribe(IEventSubscriber& subscriber)
 	{
 		mSubscriberList.PushBack(&subscriber);
 	}
 
 	template<typename T>
-	void Event<T>::Unsubscribe(const IEventSubscriber& subscriber)
+	void Event<T>::Unsubscribe(IEventSubscriber& subscriber)
 	{
 		mSubscriberList.Remove(&subscriber);
 	}

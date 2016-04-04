@@ -18,8 +18,8 @@ namespace Library
 		Event& operator=(const Event& rhs);
 		Event& operator=(Event&& rhs);
 
-		static void Subscribe(const IEventSubscriber& subscriber);
-		static void Unsubscribe(const IEventSubscriber& subscriber);
+		static void Subscribe(IEventSubscriber& subscriber);
+		static void Unsubscribe(IEventSubscriber& subscriber);
 		static void UnsubscriberAll();
 
 		const T& Message() const;
