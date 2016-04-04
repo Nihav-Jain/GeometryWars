@@ -20,6 +20,8 @@
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
 
+#include "EventQueue.h"
+
 namespace Library
 {
 	/**
@@ -65,6 +67,12 @@ namespace Library
 		XmlParseMaster& ParseMaster();
 
 		/**
+		 *	Getter for the game's EventQueue
+		 *	@return reference EventQueue
+		 */
+		EventQueue& GameEventQueue();
+
+		/**
 		 *	Resets the game clock and other things to be initialized before starting the game loop
 		 *	Must be called before entering the game loop
 		 */
@@ -98,6 +106,8 @@ namespace Library
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
 		XmlParseHelperNameValue mNameValueParser;
+
+		EventQueue mEventQueue;
 	};
 }
 
