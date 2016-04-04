@@ -11,7 +11,7 @@ namespace Library
 		RTTI_DECLARATIONS(EventPublisher, RTTI);
 	
 	public:
-		EventPublisher(const Vector<IEventSubscriber*>& subscriberList);
+		explicit EventPublisher(const Vector<IEventSubscriber*>& subscriberList);
 		EventPublisher(const EventPublisher& rhs);
 		EventPublisher(EventPublisher&& rhs);
 
@@ -20,15 +20,15 @@ namespace Library
 		EventPublisher& operator=(const EventPublisher& rhs);
 		EventPublisher& operator=(EventPublisher&& rhs);
 
-		void SetTime(const std::chrono::high_resolution_clock::time_point& timeEnqueued, std::chrono::milliseconds delay = std::chrono::milliseconds());
-		const std::chrono::high_resolution_clock::time_point& TimeEnqueued() const;
+		void SetTime(const std::chrono::milliseconds& timeEnqueued, std::chrono::milliseconds delay = std::chrono::milliseconds());
+		const std::chrono::milliseconds& TimeEnqueued() const;
 		const std::chrono::milliseconds& Delay() const;
-		bool IsExpired(const std::chrono::high_resolution_clock::time_point& currentTime) const;
+		bool IsExpired(const std::chrono::milliseconds& currentTime) const;
 		void Deliver();
 
 	private:
 		const Vector<IEventSubscriber*>* mSubscriberList;
-		std::chrono::high_resolution_clock::time_point mTimeEnqueued;
+		std::chrono::milliseconds mTimeEnqueued;
 		std::chrono::milliseconds mDelay;
 	};
 

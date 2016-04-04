@@ -103,6 +103,16 @@
     <ClInclude Include="XmlParseHelperActionCreate.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="IEventSubscriber.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPublisher.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -189,6 +199,10 @@
     <ClCompile Include="XmlParseHelperActionCreate.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="EventPublisher.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -206,6 +220,9 @@
     <None Include="Factory.inl" />
     <None Include="Graph.inl">
       <Filter>Containers</Filter>
+    </None>
+    <None Include="Event.inl">
+      <Filter>Event</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +243,9 @@
     </Filter>
     <Filter Include="Containers\DefaultAlgos">
       <UniqueIdentifier>{12cdb7e0-222a-48dc-a856-d8af539b5712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{1701d7bb-f296-4604-b3f4-681d9c373f7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

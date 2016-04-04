@@ -21,11 +21,6 @@ namespace Library
 		rhs.mSubscriberList = nullptr;
 	}
 
-
-	EventPublisher::~EventPublisher()
-	{
-	}
-
 	EventPublisher& EventPublisher::operator=(const EventPublisher& rhs)
 	{
 		if (this != &rhs)
@@ -50,13 +45,13 @@ namespace Library
 		return *this;
 	}
 
-	void EventPublisher::SetTime(const std::chrono::high_resolution_clock::time_point& timeEnqueued, std::chrono::milliseconds delay)
+	void EventPublisher::SetTime(const std::chrono::milliseconds& timeEnqueued, std::chrono::milliseconds delay)
 	{
 		mTimeEnqueued = timeEnqueued;
 		mDelay = delay;
 	}
 
-	const std::chrono::high_resolution_clock::time_point & EventPublisher::TimeEnqueued() const
+	const std::chrono::milliseconds& EventPublisher::TimeEnqueued() const
 	{
 		return mTimeEnqueued;
 	}
@@ -66,9 +61,9 @@ namespace Library
 		return mDelay;
 	}
 
-	bool EventPublisher::IsExpired(const std::chrono::high_resolution_clock::time_point& currentTime) const
+	bool EventPublisher::IsExpired(const std::chrono::milliseconds& currentTime) const
 	{
-		if (duration_cast<milliseconds>(currentTime - mTimeEnqueued) > mDelay)
+		if ((currentTime - mTimeEnqueued) > mDelay)
 			return true;
 		return false;
 	}

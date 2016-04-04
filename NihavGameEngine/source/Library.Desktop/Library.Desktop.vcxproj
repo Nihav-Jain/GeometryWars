@@ -210,12 +210,16 @@
     <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="DefaultReserveStrategy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventPublisher.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
+    <ClInclude Include="IEventSubscriber.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RTTI.h" />
@@ -250,6 +254,8 @@
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EventPublisher.cpp" />
+    <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameTime.cpp" />
@@ -277,6 +283,7 @@
     <ClCompile Include="XmlParseHelperTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Event.inl" />
     <None Include="Factory.inl" />
     <None Include="Graph.inl" />
     <None Include="Hashmap.inl" />
