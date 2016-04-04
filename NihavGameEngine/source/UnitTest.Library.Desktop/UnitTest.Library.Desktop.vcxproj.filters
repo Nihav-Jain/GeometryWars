@@ -51,6 +51,8 @@
     <ClCompile Include="ActorEntity.cpp">
       <Filter>TestHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="EventTest.cpp" />
+    <ClCompile Include="FooSubscriber.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -90,6 +92,7 @@
     <ClInclude Include="ActorEntity.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="FooSubscriber.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestHelpers">
