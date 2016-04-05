@@ -7,28 +7,21 @@ namespace Library
 		mPublishers(), mExpiredEvents()
 	{}
 
-	void EventQueue::Enqueue(EventPublisher& publisher, const GameTime& gameTime, std::chrono::milliseconds delay)
+	void EventQueue::Enqueue(const std::shared_ptr<EventPublisher>& publisher, const GameTime& gameTime, std::chrono::milliseconds delay)
 	{
-		publisher.SetTime(gameTime.ElapsedGameTime(), delay);
-		mPublishers.PushBack(std::shared_ptr<EventPublisher>(&publisher));
+		publisher->SetTime(gameTime.ElapsedGameTime(), delay);
+		mPublishers.PushBack(publisher);
 	}
 
-	void EventQueue::Send(EventPublisher& publisher)
+	void EventQueue::Send(const std::shared_ptr<EventPublisher>& publisher)
 	{
-		publisher.Deliver();
-		mPublishers.Remove(std::shared_ptr<EventPublisher>(&publisher));
+		publisher->Deliver();
+		mPublishers.Remove(publisher);
 	}
 
 	void EventQueue::Update(const GameTime& gameTime)
 	{
-		for (auto& publisher : mPublishers)
-		{
-			if (publisher->IsExpired(gameTime.ElapsedGameTime()))
-			{
-				publisher->Deliver();
-				mExpiredEvents.PushBack(publisher);
-			}
-		}
+		DeliverExpiredEvents(gameTime);
 
 		for (auto& expiredEvent : mExpiredEvents)
 		{
@@ -40,14 +33,7 @@ namespace Library
 
 	void EventQueue::Clear(const GameTime& gameTime)
 	{
-		for (auto& publisher : mPublishers)
-		{
-			if (publisher->IsExpired(gameTime.ElapsedGameTime()))
-			{
-				publisher->Deliver();
-				mExpiredEvents.PushBack(publisher);
-			}
-		}
+		DeliverExpiredEvents(gameTime);
 		mPublishers.Clear();
 		mExpiredEvents.Clear();
 	}
@@ -62,9 +48,21 @@ namespace Library
 		return mPublishers.Size();
 	}
 
-	void EventQueue::CancelEvent(EventPublisher& publisher)
+	void EventQueue::CancelEvent(const std::shared_ptr<EventPublisher>& publisher)
 	{
-		mPublishers.Remove(std::shared_ptr<EventPublisher>(&publisher));
+		mPublishers.Remove(publisher);
+	}
+
+	void EventQueue::DeliverExpiredEvents(const GameTime& gameTime)
+	{
+		for (auto& publisher : mPublishers)
+		{
+			if (publisher->IsExpired(gameTime.ElapsedGameTime()))
+			{
+				publisher->Deliver();
+				mExpiredEvents.PushBack(publisher);
+			}
+		}
 	}
 
 }
