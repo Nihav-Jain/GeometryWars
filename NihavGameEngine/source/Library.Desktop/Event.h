@@ -10,6 +10,7 @@ namespace Library
 		RTTI_DECLARATIONS(Event, EventPublisher);
 	public:
 		Event(const T& payload);
+		Event(T&& payload);
 		Event(const Event& rhs);
 		Event(Event&& rhs);
 
@@ -25,7 +26,7 @@ namespace Library
 		const T& Message() const;
 
 	private:
-		const T* mMessage;
+		T mMessage;
 		static Vector<IEventSubscriber*> mSubscriberList;
 	};
 }

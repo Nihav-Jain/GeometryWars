@@ -11,7 +11,12 @@ namespace Library
 
 	template <typename T>
 	Event<T>::Event(const T& payload) :
-		mMessage(&payload), EventPublisher(mSubscriberList)
+		mMessage(payload), EventPublisher(mSubscriberList)
+	{}
+
+	template<typename T>
+	Event<T>::Event(T&& payload) :
+		mMessage(std::move(payload)), EventPublisher(mSubscriberList)
 	{}
 
 	template<typename T>
@@ -21,10 +26,8 @@ namespace Library
 
 	template<typename T>
 	Event<T>::Event(Event&& rhs) :
-		mMessage(rhs.mMessage), EventPublisher(std::move(rhs))
-	{
-		rhs.mMessage = nullptr;
-	}
+		mMessage(std::move(rhs.mMessage)), EventPublisher(std::move(rhs))
+	{}
 
 	template<typename T>
 	Event<T>& Event<T>::operator=(const Event& rhs)
@@ -42,10 +45,8 @@ namespace Library
 	{
 		if (this != &rhs)
 		{
-			mMessage = rhs.mMessage;
+			mMessage = std::move(rhs.mMessage);
 			EventPublisher::operator=(std::move(rhs));
-
-			rhs.mMessage = nullptr;
 		}
 		return *this;
 	}
@@ -71,6 +72,6 @@ namespace Library
 	template<typename T>
 	const T& Event<T>::Message() const
 	{
-		return *mMessage;
+		return mMessage;
 	}
 }
