@@ -17,9 +17,7 @@ namespace Library
 
 	EventPublisher::EventPublisher(EventPublisher&& rhs) :
 		mSubscriberList(rhs.mSubscriberList), mTimeEnqueued(std::move(rhs.mTimeEnqueued)), mDelay(std::move(mDelay))
-	{
-		rhs.mSubscriberList = nullptr;
-	}
+	{}
 
 	EventPublisher& EventPublisher::operator=(const EventPublisher& rhs)
 	{
@@ -39,8 +37,6 @@ namespace Library
 			mSubscriberList = rhs.mSubscriberList;
 			mTimeEnqueued = std::move(rhs.mTimeEnqueued);
 			mDelay = std::move(rhs.mDelay);
-
-			rhs.mSubscriberList = nullptr;
 		}
 		return *this;
 	}
