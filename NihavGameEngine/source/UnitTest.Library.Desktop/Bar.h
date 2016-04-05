@@ -1,52 +1,52 @@
 #pragma once
 
 /**
- *	Class Foo for testing static library linking
+ *	Class Bar for testing static library linking
  */
-class Foo
+class Bar
 {
 public:
 	/**
- 	 *	Contructor of class Foo
-	 *	@param data integer value stored in Foo
+ 	 *	Contructor of class Bar
+	 *	@param data integer value stored in Bar
 	 */
-	Foo(int data = 10);
+	Bar(int data = 10);
 
 	/**
-	 *	Copy Contructor of class Foo
+	 *	Copy Contructor of class Bar
 	 *	@param reference to the right hand side variable
 	 */
-	Foo(const Foo& rhs);
+	Bar(const Bar& rhs);
 
-	Foo(Foo&& rhs);
+	Bar(Bar&& rhs);
 
 	/**
 	 *	destructor
 	 */
-	~Foo();
+	~Bar();
 
 	/**
 	 *	Assignment operator override
 	 *	@param reference to the right hand side variable
-	 *	@return reference to the resultant Foo
+	 *	@return reference to the resultant Bar
 	 */
-	Foo& operator=(const Foo& rhs);
+	Bar& operator=(const Bar& rhs);
 
-	Foo& operator=(Foo&& rhs);
+	Bar& operator=(Bar&& rhs);
 
 	/**
 	 *	Equality operator override
 	 *	@param reference to the right hand side variable
 	 *	@return boolean
 	 */
-	bool operator== (const Foo& rhs) const;
+	bool operator== (const Bar& rhs) const;
 
 	/**
 	 *	Not Equals operator override
 	 *	@param reference to the right hand side variable
 	 *	@return boolean
 	 */
-	bool operator!= (const Foo& rhs) const;
+	bool operator!= (const Bar& rhs) const;
 
 	/**
 	 *	Getter for the member variable Data
@@ -62,7 +62,7 @@ public:
 	void SetData(int data);
 
 	/**
-	 *	Getter for the pointer type member variable of Foo
+	 *	Getter for the pointer type member variable of Bar
 	 *	@return pointer to an integer
 	 */
 	int* GetPointerData() const;

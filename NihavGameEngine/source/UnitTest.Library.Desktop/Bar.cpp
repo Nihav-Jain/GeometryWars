@@ -1,30 +1,30 @@
 #include "pch.h"
-#include "Foo.h"
+#include "Bar.h"
 
 
-Foo::Foo(int data) :
+Bar::Bar(int data) :
 	mData(data), mPointerData(new int(data))
 {
 }
 
-Foo::Foo(const Foo& rhs):
+Bar::Bar(const Bar& rhs):
 	mData(rhs.mData), mPointerData(new int(rhs.mData))
 {
 }
 
-Foo::Foo(Foo&& rhs) :
+Bar::Bar(Bar&& rhs) :
 	mData(rhs.mData), mPointerData(rhs.mPointerData)
 {
 	rhs.mData = 0;
 	rhs.mPointerData = nullptr;
 }
 
-Foo::~Foo()
+Bar::~Bar()
 {
 	delete mPointerData;
 }
 
-Foo& Foo::operator=(const Foo& rhs)
+Bar& Bar::operator=(const Bar& rhs)
 {
 	if (this != &rhs)
 	{
@@ -37,7 +37,7 @@ Foo& Foo::operator=(const Foo& rhs)
 	return *this;
 }
 
-Foo& Foo::operator=(Foo&& rhs)
+Bar& Bar::operator=(Bar&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -51,7 +51,7 @@ Foo& Foo::operator=(Foo&& rhs)
 	return *this;
 }
 
-bool Foo::operator==(const Foo & rhs) const
+bool Bar::operator==(const Bar & rhs) const
 {
 	bool returnVal = true;
 	if (mData != rhs.mData)
@@ -65,22 +65,22 @@ bool Foo::operator==(const Foo & rhs) const
 	return returnVal;
 }
 
-bool Foo::operator!=(const Foo & rhs) const
+bool Bar::operator!=(const Bar & rhs) const
 {
 	return !(*this == rhs);
 }
 
- int Foo::GetData() const
+ int Bar::GetData() const
 {
 	return mData;
 }
 
-void Foo::SetData(int data)
+void Bar::SetData(int data)
 {
 	mData = data;
 	*mPointerData = data;
 }
-int* Foo::GetPointerData() const
+int* Bar::GetPointerData() const
 {
 	return mPointerData;
 }

@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="FooTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
     <ClCompile Include="VectorTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
@@ -52,7 +51,16 @@
       <Filter>TestHelpers</Filter>
     </ClCompile>
     <ClCompile Include="EventTest.cpp" />
-    <ClCompile Include="FooSubscriber.cpp" />
+    <ClCompile Include="FooSubscriber.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="FooTest.cpp" />
+    <ClCompile Include="Bar.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="BarSubscriber.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -92,7 +100,15 @@
     <ClInclude Include="ActorEntity.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="FooSubscriber.h" />
+    <ClInclude Include="FooSubscriber.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="BarSubscriber.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestHelpers">
