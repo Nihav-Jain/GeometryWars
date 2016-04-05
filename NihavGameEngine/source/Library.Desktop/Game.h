@@ -72,6 +72,8 @@ namespace Library
 		 */
 		EventQueue& GameEventQueue();
 
+		const GameTime& GetGameTime() const;
+
 		/**
 		 *	Resets the game clock and other things to be initialized before starting the game loop
 		 *	Must be called before entering the game loop

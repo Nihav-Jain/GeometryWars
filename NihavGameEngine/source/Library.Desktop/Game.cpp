@@ -44,6 +44,11 @@ namespace Library
 		return mEventQueue;
 	}
 
+	const GameTime& Game::GetGameTime() const
+	{
+		return mGameTime;
+	}
+
 	void Game::Start()
 	{
 		mGameClock.Reset();
