@@ -9,7 +9,7 @@ namespace Library
 	 *	@inherits EventPublisher
 	 */
 	template <typename T>
-	class Event : public EventPublisher
+	class Event final : public EventPublisher
 	{
 		RTTI_DECLARATIONS(Event, EventPublisher);
 	public:
@@ -18,13 +18,13 @@ namespace Library
 		 *	Constructor
 		 *	@param constant reference to the payload to be carried by this Event
 		 */
-		Event(const T& payload);
+		explicit Event(const T& payload);
 
 		/**
 		 *	Constructor (overload), moves the payload instad of copying it, thus possibly improving performance
 		 *	@param R value reference to the payload to be carried by this Event
 		 */
-		Event(T&& payload);
+		explicit Event(T&& payload);
 
 		/**
 		 *	Copy Constructor
