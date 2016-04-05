@@ -41,7 +41,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Event() = default;
+		~Event() = default;
 
 		/**
 		 *	copy assigment operator

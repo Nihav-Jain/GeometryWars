@@ -35,9 +35,9 @@ namespace Library
 		EventPublisher(EventPublisher&& rhs);
 
 		/**
-		 *	pure virual destructor
+		 *	default destructor (is not virtual because there are no heap allocated members - saves the vtable creation)
 		 */
-		virtual ~EventPublisher() = 0;
+		~EventPublisher() = default;
 
 		/**
 		 *	Copy assignment operator

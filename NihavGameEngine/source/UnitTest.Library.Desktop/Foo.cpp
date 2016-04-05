@@ -42,6 +42,7 @@ Foo& Foo::operator=(Foo&& rhs)
 	if (this != &rhs)
 	{
 		mData = rhs.mData;
+		delete mPointerData;
 		mPointerData = rhs.mPointerData;
 
 		rhs.mData = 0;

@@ -7,7 +7,7 @@ namespace Library
 	RTTI_DEFINITIONS(Event<T>);
 
 	template <typename T>
-	Vector<IEventSubscriber*> Event<T>::mSubscriberList;
+	Vector<IEventSubscriber*> Event<T>::mSubscriberList(0);
 
 	template <typename T>
 	Event<T>::Event(const T& payload) :

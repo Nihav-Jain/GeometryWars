@@ -37,7 +37,7 @@ namespace UnitTestLibraryDesktop
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
 			{
 				_CrtMemDumpStatistics(&diffMemState);
-				//Assert::Fail(L"Memory Leaks!");
+				Assert::Fail(L"Memory Leaks!");
 			}
 		}
 #endif
@@ -105,7 +105,7 @@ namespace UnitTestLibraryDesktop
 			game.Start();
 			queue.Enqueue(fooEvent, game.GetGameTime());
 
-			Sleep(2001);
+			Sleep(201);
 
 			game.Update();
 			Assert::IsTrue(subscriber.wasNotified);
@@ -129,8 +129,8 @@ namespace UnitTestLibraryDesktop
 			std::shared_ptr<Event<Bar>> barEvent = std::make_shared<Event<Bar>>(bar);
 			Event<Bar>::Subscribe(barSubsciber);
 			
-			queue.Enqueue(fooEvent, game.GetGameTime(), milliseconds(4000));
-			queue.Enqueue(barEvent, game.GetGameTime(), milliseconds(2000));
+			queue.Enqueue(fooEvent, game.GetGameTime(), milliseconds(400));
+			queue.Enqueue(barEvent, game.GetGameTime(), milliseconds(200));
 
 			Assert::IsFalse(anotherFooSubscriber.wasNotified);
 			Assert::AreEqual(0, anotherFooSubscriber.data);
@@ -138,7 +138,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(0, barSubsciber.data);
 
 
-			Sleep(2001);
+			Sleep(201);
 
 			game.Update();
 			Assert::IsFalse(anotherFooSubscriber.wasNotified);
@@ -150,7 +150,7 @@ namespace UnitTestLibraryDesktop
 			barSubsciber.wasNotified = false;
 			barSubsciber.data = 0;
 
-			Sleep(4001);
+			Sleep(401);
 
 			game.Update();
 			Assert::IsTrue(anotherFooSubscriber.wasNotified);
@@ -176,13 +176,13 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(0U, queue.Size());
 
 			game.Start();
-			queue.Enqueue(fooEvent, game.GetGameTime(), milliseconds(2000));
+			queue.Enqueue(fooEvent, game.GetGameTime(), milliseconds(200));
 
 			Assert::IsFalse(queue.IsEmpty());
 			Assert::AreEqual(1U, queue.Size());
 
 			game.Update();
-			Sleep(1000);
+			Sleep(100);
 
 			game.Update();
 			Assert::IsFalse(subscriber.wasNotified);
@@ -196,7 +196,7 @@ namespace UnitTestLibraryDesktop
 			subscriber.wasNotified = false;
 			subscriber.data = 0;
 
-			Sleep(3000);
+			Sleep(300);
 			game.Update();
 
 			Assert::IsFalse(subscriber.wasNotified);
@@ -219,9 +219,9 @@ namespace UnitTestLibraryDesktop
 
 			clock.Reset();
 			clock.UpdateGameTime(gameTime);
-			queue.Enqueue(fooEvent, gameTime, milliseconds(1000));
+			queue.Enqueue(fooEvent, gameTime, milliseconds(100));
 
-			Sleep(1001);
+			Sleep(101);
 			clock.UpdateGameTime(gameTime);
 			queue.Clear(gameTime);
 
@@ -242,9 +242,9 @@ namespace UnitTestLibraryDesktop
 			Event<Foo>::Subscribe(subscriber);
 
 			game.Start();
-			queue.Enqueue(fooEvent, game.GetGameTime(), milliseconds(2000));
+			queue.Enqueue(fooEvent, game.GetGameTime(), milliseconds(200));
 
-			Sleep(1000);
+			Sleep(100);
 			game.Update();
 
 			Assert::IsFalse(subscriber.wasNotified);
@@ -252,7 +252,7 @@ namespace UnitTestLibraryDesktop
 
 			queue.CancelEvent(fooEvent);
 
-			Sleep(3000);
+			Sleep(300);
 			game.Update();
 
 			Assert::IsFalse(subscriber.wasNotified);
@@ -276,11 +276,11 @@ namespace UnitTestLibraryDesktop
 			Event<Foo> fooEventCopy2(tempFoo);
 			fooEventCopy2 = *fooEvent;
 			Assert::AreEqual(20, fooEventCopy2.Message().GetData());
-
+			
 			Event<Foo> fooEventMove(std::move(fooEventCopy));
 			Assert::AreEqual(20, fooEventMove.Message().GetData());
 			Assert::AreEqual(0, fooEventCopy.Message().GetData());
-
+			
 			Event<Foo> fooEventMove2(tempFoo);
 			Assert::AreEqual(30, fooEventMove2.Message().GetData());
 			fooEventMove2 = std::move(fooEventMove);
@@ -309,6 +309,8 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNull(rtti);
 			rtti = fooEvent.QueryInterface(EventPublisher::TypeIdClass());
 			Assert::IsNotNull(rtti);
+
+			Event<Foo>::UnsubscriberAll();
 		}
 
 

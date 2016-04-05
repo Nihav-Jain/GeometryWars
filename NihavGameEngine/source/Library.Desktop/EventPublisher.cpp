@@ -19,9 +19,6 @@ namespace Library
 		mSubscriberList(rhs.mSubscriberList), mTimeEnqueued(std::move(rhs.mTimeEnqueued)), mDelay(std::move(mDelay))
 	{}
 
-	EventPublisher::~EventPublisher()
-	{}
-
 	EventPublisher& EventPublisher::operator=(const EventPublisher& rhs)
 	{
 		if (this != &rhs)
