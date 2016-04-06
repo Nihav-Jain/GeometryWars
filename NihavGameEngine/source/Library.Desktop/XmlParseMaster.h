@@ -8,6 +8,7 @@
 #include "RTTI.h"
 #include "Vector.h"
 #include "Hashmap.h"
+#include "Stack.h"
 
 namespace Library
 {
@@ -223,6 +224,12 @@ namespace Library
 		 * 	@param delimiter to trim, default value is a string containing all whitespace characters
 		 */
 		std::string& TrimInplace(std::string& s, const std::string& delimiters = " \f\n\r\t\v");
+
+		void OpenFileHandle(const std::string& fileName);
+		void CloseTopFileHandle();
+
+		Stack<std::ifstream*> mFileHandles;
+		std::uint32_t mFileHandleCounter;
 
 		SharedData* mSharedData;
 		Vector<IXmlParseHelper*> mHelpers;

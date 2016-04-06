@@ -5,7 +5,8 @@
 namespace Library
 {
 	XmlParseMaster::XmlParseMaster(SharedData& sharedData) :
-		mSharedData(&sharedData), mHelpers(), mLastClonedHelper(0), mIsCloned(false), mFileName(std::string()), mXmlParser(nullptr)
+		mSharedData(&sharedData), mHelpers(), mLastClonedHelper(0), mIsCloned(false), mFileName(std::string()), mXmlParser(nullptr),
+		mFileHandles(), mFileHandleCounter(0)
 	{
 		mSharedData->SetXmlParseMaster(this);
 	}
@@ -22,6 +23,12 @@ namespace Library
 			}
 		}
 		XML_ParserFree(mXmlParser);
+
+		while (!mFileHandles.IsEmpty())
+		{
+			delete mFileHandles.Top();
+			mFileHandles.Pop();
+		}
 	}
 
 	XmlParseMaster* XmlParseMaster::Clone() const
@@ -71,28 +78,32 @@ namespace Library
 	{
 		mFileName = fileName;
 
-		std::ifstream fileInputStream;
-		fileInputStream.open(mFileName);
-
-		if (!fileInputStream.is_open())
-			throw std::exception("Error in opening file");
+		OpenFileHandle(fileName);
 
 		bool isFirstChunk = true;
+		bool isLastChunk = false;
+
 		std::string fileData;
-		while (fileInputStream.good())
+		while (!mFileHandles.IsEmpty())
 		{
-			std::getline(fileInputStream, fileData);
-
-			std::uint32_t fileLength = static_cast<std::uint32_t>(fileData.length());
-
-			if (!Parse(fileData.c_str(), fileLength, isFirstChunk, !fileInputStream.good()))
+			while (mFileHandles.Top()->good())
 			{
-				fileInputStream.close();
-				return false;
+				std::getline(*mFileHandles.Top(), fileData);
+
+				std::uint32_t fileLength = static_cast<std::uint32_t>(fileData.length());
+
+				if (mFileHandleCounter == 1)
+					isLastChunk = !mFileHandles.Top()->good();
+
+				if (!Parse(fileData.c_str(), fileLength, isFirstChunk, isLastChunk))
+				{
+					CloseTopFileHandle();
+					return false;
+				}
+				isFirstChunk = false;
 			}
-			isFirstChunk = false;
+			CloseTopFileHandle();
 		}
-		fileInputStream.close();
 		return true;
 	}
 
@@ -132,6 +143,16 @@ namespace Library
 		{
 			attributeMap[attributes[i]] = attributes[i + 1];
 			i += 2;
+		}
+		std::string element = elementName;
+		if (element == "include")
+		{
+			if (!attributeMap.ContainsKey("file"))
+				throw std::exception("<include> tag has missing attribute: file");
+
+			xmlParseMaster->OpenFileHandle(attributeMap["file"]);
+
+			return;
 		}
 
 		for (i = 0; i < xmlParseMaster->mHelpers.Size(); i++)
@@ -202,6 +223,30 @@ namespace Library
 	std::string& XmlParseMaster::TrimInplace(std::string& s, const std::string& delimiters)
 	{
 		return TrimLeftInplace(TrimRightInplace(s, delimiters), delimiters);
+	}
+
+	void XmlParseMaster::OpenFileHandle(const std::string& fileName)
+	{
+		std::ifstream* fileInputStream = new std::ifstream();
+		mFileHandles.Push(fileInputStream);
+		mFileHandleCounter++;
+
+		fileInputStream->open(fileName);
+
+		if (!fileInputStream->is_open())
+		{
+			std::stringstream str;
+			str << "Error in opening file " << fileName;
+			throw std::exception(str.str().c_str());
+		}
+	}
+
+	void XmlParseMaster::CloseTopFileHandle()
+	{
+		mFileHandles.Top()->close();
+		delete mFileHandles.Top();
+		mFileHandles.Pop();
+		mFileHandleCounter--;
 	}
 
 #pragma region SharedData

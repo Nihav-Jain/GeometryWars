@@ -1,0 +1,14 @@
+<switch name="switch1" switchValue="switchInteger">
+	<case name="case1" caseValue="10">
+		<action class="ActionList" name="case1"/>
+	</case>
+	<case name="case2" caseValue="15">
+		<action class="ActionList" name="case2"/>
+	</case>
+	<case name="case3" caseValue="20" break="true">
+		<action class="ActionList" name="case3"/>
+	</case>
+	<case name="case3" caseValue="40">
+		<action class="ActionList" name="case3"/>
+	</case>
+</switch>
