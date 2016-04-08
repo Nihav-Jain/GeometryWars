@@ -100,12 +100,16 @@ namespace Library
 		 */
 		Datum& operator[](const std::string& name);
 
+		const Datum& operator[](const std::string& name) const;
+
 		/**
 		 *	Accesor and mutator for the Datum added to this Scope at the given order index
 		 *	@param order in which Datums was added to the Scope
 		 *	@return reference to the Datum in the Scope stored at the given order index
 		 */
 		Datum& operator[](std::uint32_t index);
+
+		const Datum& operator[](std::uint32_t index) const;
 
 		/**
 		 *	Equality operator - does a recursive check on all child scopes and datum values

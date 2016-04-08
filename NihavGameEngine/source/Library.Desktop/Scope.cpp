@@ -201,7 +201,19 @@ namespace Library
 		return Append(name);
 	}
 
+	const Datum& Scope::operator[](const std::string& name) const
+	{
+		Datum* datum = Find(name);
+		assert(datum != nullptr);
+		return *datum;
+	}
+
 	Datum& Scope::operator[](std::uint32_t index)
+	{
+		return (*mSymbolList[index]).second;
+	}
+
+	const Datum& Scope::operator[](std::uint32_t index) const
 	{
 		return (*mSymbolList[index]).second;
 	}
