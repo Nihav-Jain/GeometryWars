@@ -202,6 +202,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionCreateAction.h" />
+    <ClInclude Include="ActionEvent.h" />
     <ClInclude Include="ActionExpression.h" />
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="DefaultReserveStrategy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventMessageAttributed.h" />
     <ClInclude Include="EventPublisher.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Factory.h" />
@@ -222,6 +224,8 @@
     <ClInclude Include="IEventSubscriber.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Reaction.h" />
+    <ClInclude Include="ReactionAttributed.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scope.h" />
     <ClInclude Include="Sector.h" />
@@ -246,6 +250,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionCreateAction.cpp" />
+    <ClCompile Include="ActionEvent.cpp" />
     <ClCompile Include="ActionExpression.cpp" />
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
@@ -254,6 +259,7 @@
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EventMessageAttributed.cpp" />
     <ClCompile Include="EventPublisher.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -265,6 +271,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Reaction.cpp" />
+    <ClCompile Include="ReactionAttributed.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />

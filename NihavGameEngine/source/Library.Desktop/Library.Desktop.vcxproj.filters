@@ -115,6 +115,10 @@
     <ClInclude Include="EventQueue.h">
       <Filter>Event</Filter>
     </ClInclude>
+    <ClInclude Include="Reaction.h" />
+    <ClInclude Include="EventMessageAttributed.h" />
+    <ClInclude Include="ReactionAttributed.h" />
+    <ClInclude Include="ActionEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -207,6 +211,10 @@
     <ClCompile Include="EventQueue.cpp">
       <Filter>Event</Filter>
     </ClCompile>
+    <ClCompile Include="Reaction.cpp" />
+    <ClCompile Include="EventMessageAttributed.cpp" />
+    <ClCompile Include="ReactionAttributed.cpp" />
+    <ClCompile Include="ActionEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
