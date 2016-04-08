@@ -3,6 +3,7 @@
 #include "Sector.h"
 #include "WorldState.h"
 #include "GameTime.h"
+#include "EventQueue.h"
 
 namespace Library
 {
@@ -30,7 +31,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~World() = default;
+		virtual ~World();
 
 		/**
 		 *	disallow copy construtor
@@ -81,6 +82,9 @@ namespace Library
 		 */
 		void Update();
 
+		WorldState& GetWorldState();
+		EventQueue& GetEventQueue();
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 
 	protected:
@@ -89,6 +93,7 @@ namespace Library
 	private:
 		std::string mName;
 		WorldState mWorldState;
+		EventQueue mEventQueue;
 
 		static const std::string ATTRIBUTE_NAME;
 

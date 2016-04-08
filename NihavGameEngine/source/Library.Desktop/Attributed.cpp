@@ -207,6 +207,11 @@ namespace Library
 
 	}
 
+	void Attributed::AddNestedScope(const std::string& name, std::uint32_t size)
+	{
+		AddEmptyInternalSignature(name, Datum::DatumType::TABLE, size);
+	}
+
 	void Attributed::AddNestedScope(const std::string& name, Scope& initialValue, std::uint32_t size)
 	{
 		Datum& datum = AddEmptyInternalSignature(name, Datum::DatumType::TABLE, size);

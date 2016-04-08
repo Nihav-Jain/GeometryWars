@@ -9,10 +9,16 @@ namespace Library
 	const std::string World::ATTRIBUTE_NAME = "name";
 
 	World::World(const GameTime& gameTime) :
-		mName(), mWorldState(gameTime)
+		mName(), mWorldState(gameTime), mEventQueue()
 	{
 		mWorldState.world = this;
 		Populate();
+	}
+
+	World::~World()
+	{
+		// debatable
+		// mEventQueue.Clear(*mWorldState.mGameTime);
 	}
 
 	const std::string& World::Name() const
@@ -63,6 +69,8 @@ namespace Library
 		mWorldState.entity = nullptr;
 		mWorldState.action = nullptr;
 
+		mEventQueue.Update(*mWorldState.mGameTime);
+
 		std::uint32_t i;
 
 		Datum& sectors = Sectors();
@@ -75,10 +83,20 @@ namespace Library
 		}
 	}
 
+	WorldState& World::GetWorldState()
+	{
+		return mWorldState;
+	}
+
+	EventQueue& World::GetEventQueue()
+	{
+		return mEventQueue;
+	}
+
 	void World::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_NAME_SECTOR, Scope(), 0);
+		AddNestedScope(ATTRIBUTE_NAME_SECTOR, 0);
 	}
 
 }

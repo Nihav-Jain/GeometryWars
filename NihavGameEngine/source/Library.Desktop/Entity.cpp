@@ -90,6 +90,6 @@ namespace Library
 	void Entity::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_ACTIONS, Scope(), 0);
+		AddNestedScope(ATTRIBUTE_ACTIONS, 0);
 	}
 }

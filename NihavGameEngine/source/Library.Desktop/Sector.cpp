@@ -89,6 +89,6 @@ namespace Library
 	void Sector::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_ENTITIES, Scope(), 0);
+		AddNestedScope(ATTRIBUTE_ENTITIES, 0);
 	}
 }

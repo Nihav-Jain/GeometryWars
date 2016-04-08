@@ -127,7 +127,8 @@ namespace Library
 		 *	@param (optional) initial (default) value of the attribute
 		 *	@param (optional) number of values of the current data type to be associated with the given attribute name
 		 */
-		void AddNestedScope(const std::string& name, Scope& initialValue = Scope(), std::uint32_t size = 0);
+		void AddNestedScope(const std::string& name, std::uint32_t size = 0);
+		void AddNestedScope(const std::string& name, Scope& initialValue, std::uint32_t size = 0);
 
 		/**
 		 *	Adds a signature as an external prescribed attribute, see overloads for various supported data types

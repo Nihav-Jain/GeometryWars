@@ -61,6 +61,6 @@ namespace Library
 
 	void ActionList::DefinePrescribedAttributes()
 	{
-		AddNestedScope(ATTRIBUTE_ACTIONS, Scope(), 0);
+		AddNestedScope(ATTRIBUTE_ACTIONS, 0);
 	}
 }
