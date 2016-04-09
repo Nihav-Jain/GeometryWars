@@ -5,51 +5,44 @@
 
 namespace Library
 {
-	Hashmap<Datum::DatumType, Datum::AddDatums> Datum::mAddDatums;
-	Hashmap<Datum::DatumType, Datum::SubtractDatums> Datum::mSubtractDatums;
-	Hashmap<Datum::DatumType, Datum::MultiplyDatums> Datum::mMultiplyDatums;
-	Hashmap<Datum::DatumType, Datum::DivideDatums> Datum::mDivideDatums;
+	Hashmap<Datum::DatumType, Datum::AddDatums> Datum::mAddDatums = {
+		{ Datum::DatumType::INTEGER, &Datum::Add<DatumType::INTEGER> },
+		{ Datum::DatumType::FLOAT, &Datum::Add<DatumType::FLOAT> },
+		{ Datum::DatumType::STRING, &Datum::Add<DatumType::STRING> },
+		{ Datum::DatumType::VECTOR4, &Datum::Add<DatumType::VECTOR4> },
+		{ Datum::DatumType::MATRIX4x4, &Datum::Add<DatumType::MATRIX4x4> }
+	};
 
-	Hashmap<Datum::DatumType, Datum::LessThanDatums> Datum::mLessThanDatums;
+	Hashmap<Datum::DatumType, Datum::SubtractDatums> Datum::mSubtractDatums = {
+		{ Datum::DatumType::INTEGER, &Datum::Subtract<DatumType::INTEGER> },
+		{ Datum::DatumType::FLOAT, &Datum::Subtract<DatumType::FLOAT> },
+		{ Datum::DatumType::VECTOR4, &Datum::Subtract<DatumType::VECTOR4> },
+		{ Datum::DatumType::MATRIX4x4, &Datum::Subtract<DatumType::MATRIX4x4> }
+	};
+
+	Hashmap<Datum::DatumType, Datum::MultiplyDatums> Datum::mMultiplyDatums = {
+		{ Datum::DatumType::INTEGER, &Datum::Multiply<DatumType::INTEGER> },
+		{ Datum::DatumType::FLOAT, &Datum::Multiply<DatumType::FLOAT> },
+		{ Datum::DatumType::VECTOR4, &Datum::Multiply<DatumType::VECTOR4> },
+		{ Datum::DatumType::MATRIX4x4, &Datum::Multiply<DatumType::MATRIX4x4> }
+	};
+
+	Hashmap<Datum::DatumType, Datum::DivideDatums> Datum::mDivideDatums = {
+		{ Datum::DatumType::INTEGER, &Datum::Divide<DatumType::INTEGER> },
+		{ Datum::DatumType::FLOAT, &Datum::Divide<DatumType::FLOAT> },
+		{ Datum::DatumType::VECTOR4, &Datum::Divide<DatumType::VECTOR4> },
+		{ Datum::DatumType::MATRIX4x4, &Datum::Divide<DatumType::MATRIX4x4> }
+	};
+
+	Hashmap<Datum::DatumType, Datum::LessThanDatums> Datum::mLessThanDatums = {
+		{ Datum::DatumType::INTEGER, &Datum::LessThan<DatumType::INTEGER> },
+		{ Datum::DatumType::FLOAT, &Datum::LessThan<DatumType::FLOAT> },
+		{ Datum::DatumType::STRING, &Datum::LessThan<DatumType::STRING> }
+	};
 
 	Datum::Datum() :
 		mType(DatumType::UNKNOWN), mSize(0), mCapacity(0), mStorageType(DatumStorageType::UNKNOWN)
 	{
-		if (mAddDatums.Size() == 0)
-		{
-			mAddDatums[DatumType::INTEGER] = &Datum::Add<DatumType::INTEGER>;
-			mAddDatums[DatumType::FLOAT] = &Datum::Add<DatumType::FLOAT>;
-			mAddDatums[DatumType::STRING] = &Datum::Add<DatumType::STRING>;
-			mAddDatums[DatumType::VECTOR4] = &Datum::Add<DatumType::VECTOR4>;
-			mAddDatums[DatumType::MATRIX4x4] = &Datum::Add<DatumType::MATRIX4x4>;
-		}
-		if (mSubtractDatums.Size() == 0)
-		{
-			mSubtractDatums[DatumType::INTEGER] = &Datum::Subtract<DatumType::INTEGER>;
-			mSubtractDatums[DatumType::FLOAT] = &Datum::Subtract<DatumType::FLOAT>;
-			mSubtractDatums[DatumType::VECTOR4] = &Datum::Subtract<DatumType::VECTOR4>;
-			mSubtractDatums[DatumType::MATRIX4x4] = &Datum::Subtract<DatumType::MATRIX4x4>;
-		}
-		if (mMultiplyDatums.Size() == 0)
-		{
-			mMultiplyDatums[DatumType::INTEGER] = &Datum::Multiply<DatumType::INTEGER>;
-			mMultiplyDatums[DatumType::FLOAT] = &Datum::Multiply<DatumType::FLOAT>;
-			mMultiplyDatums[DatumType::VECTOR4] = &Datum::Multiply<DatumType::VECTOR4>;
-			mMultiplyDatums[DatumType::MATRIX4x4] = &Datum::Multiply<DatumType::MATRIX4x4>;
-		}
-		if (mDivideDatums.Size() == 0)
-		{
-			mDivideDatums[DatumType::INTEGER] = &Datum::Divide<DatumType::INTEGER>;
-			mDivideDatums[DatumType::FLOAT] = &Datum::Divide<DatumType::FLOAT>;
-			mDivideDatums[DatumType::VECTOR4] = &Datum::Divide<DatumType::VECTOR4>;
-			mDivideDatums[DatumType::MATRIX4x4] = &Datum::Divide<DatumType::MATRIX4x4>;
-		}
-		if (mLessThanDatums.Size() == 0)
-		{
-			mLessThanDatums[DatumType::INTEGER] = &Datum::LessThan<DatumType::INTEGER>;
-			mLessThanDatums[DatumType::FLOAT] = &Datum::LessThan<DatumType::FLOAT>;
-			mLessThanDatums[DatumType::STRING] = &Datum::LessThan<DatumType::STRING>;
-		}
 	}
 
 	Datum::Datum(const Datum& rhs) :
@@ -951,16 +944,6 @@ namespace Library
 		}
 
 		return toString;
-	}
-
-	void Datum::ClearStaticMembers()
-	{
-		mAddDatums.Clear();
-		mSubtractDatums.Clear();
-		mMultiplyDatums.Clear();
-		mDivideDatums.Clear();
-
-		mLessThanDatums.Clear();
 	}
 
 	void Datum::CurrentTypeCheck(DatumType typeToComapreTo) const

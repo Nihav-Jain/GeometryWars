@@ -234,8 +234,6 @@ namespace Library
 			 */
 			std::string ToString(std::uint32_t index = 0) const;
 
-			static void ClearStaticMembers();
-
 		private:
 			template <DatumType T>
 			Datum Add(const Datum& rhs) const;
