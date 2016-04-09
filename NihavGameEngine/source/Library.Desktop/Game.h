@@ -19,6 +19,10 @@
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
 #include "XmlParseHelperNameValue.h"
+#include "XmlParseHelperActionSwitch.h"
+#include "XmlParseHelperActionExpression.h"
+#include "XmlParseHelperReaction.h"
+#include "XmlParseHelperActionEvent.h"
 
 #include "EventQueue.h"
 
@@ -108,6 +112,11 @@ namespace Library
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
 		XmlParseHelperNameValue mNameValueParser;
+		XmlParseHelperActionSwitch mSwitchParser;
+		XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase mCaseParser;
+		XmlParseHelperActionExpression mExpressionParser;
+		XmlParseHelperReaction mReactionParser;
+		XmlParseHelperActionEvent mActionEvent;
 
 		EventQueue mEventQueue;
 	};
