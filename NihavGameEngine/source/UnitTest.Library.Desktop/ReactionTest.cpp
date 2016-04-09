@@ -37,7 +37,7 @@ namespace UnitTestLibraryDesktop
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
 			{
 				_CrtMemDumpStatistics(&diffMemState);
-				//Assert::Fail(L"Memory Leaks!");
+				Assert::Fail(L"Memory Leaks!");
 			}
 		}
 #endif
@@ -86,6 +86,154 @@ namespace UnitTestLibraryDesktop
 
 			a = result3->Get<std::int32_t>();
 			Assert::AreEqual(150, a);
+
+			Event<EventMessageAttributed>::UnsubscriberAll();
+			world.GetEventQueue().Clear(*world.GetWorldState().mGameTime);
+		}
+
+		TEST_METHOD(ReactionTestMultipleSubtypes)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+			ActionExpressionFactory expFactory;
+			ReactionAttributedFactory reactionAttributedFactory;
+			ActionEventFactory actionEventFactory;
+
+			Game game;
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test_subtype.xml"));
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+			Action* action = entity->FindAction("exp1");
+			Assert::IsNotNull(action);
+			ActionExpression* exp = action->As<ActionExpression>();
+			Assert::IsNotNull(exp);
+
+			game.Update();
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			std::int32_t res = result->Get<std::int32_t>();
+			Assert::IsTrue(res == 19);
+
+			Datum* result2 = entity->Find("result2");
+			Assert::IsNotNull(result2);
+			Assert::IsTrue(*result2 == 15);
+
+			Datum* result3 = entity->Find("something");
+			Assert::IsNotNull(result3);
+			std::int32_t a = result3->Get<std::int32_t>();
+			Assert::AreEqual(0, a);
+			Sleep(100);
+			game.Update();
+
+			a = result3->Get<std::int32_t>();
+			Assert::AreEqual(150, a);
+
+			Event<EventMessageAttributed>::UnsubscriberAll();
+			world.GetEventQueue().Clear(*world.GetWorldState().mGameTime);
+
+		}
+
+		TEST_METHOD(ReactionTestNotNotified)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+			ActionExpressionFactory expFactory;
+			ReactionAttributedFactory reactionAttributedFactory;
+			ActionEventFactory actionEventFactory;
+
+			Game game;
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test_notnotified.xml"));
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+			Action* action = entity->FindAction("exp1");
+			Assert::IsNotNull(action);
+			ActionExpression* exp = action->As<ActionExpression>();
+			Assert::IsNotNull(exp);
+
+			game.Update();
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			std::int32_t res = result->Get<std::int32_t>();
+			Assert::IsTrue(res == 19);
+
+			Datum* result2 = entity->Find("result2");
+			Assert::IsNotNull(result2);
+			Assert::IsTrue(*result2 == 15);
+
+			Datum* result3 = entity->Find("something");
+			Assert::IsNotNull(result3);
+			std::int32_t a = result3->Get<std::int32_t>();
+			Assert::AreEqual(0, a);
+			Sleep(100);
+			game.Update();
+
+			a = result3->Get<std::int32_t>();
+			Assert::AreEqual(0, a);
+
+			Event<EventMessageAttributed>::UnsubscriberAll();
+			world.GetEventQueue().Clear(*world.GetWorldState().mGameTime);
+		}
+
+		TEST_METHOD(ReactionTestArguments)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+			ActionExpressionFactory expFactory;
+			ReactionAttributedFactory reactionAttributedFactory;
+			ActionEventFactory actionEventFactory;
+
+			Game game;
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test_arguments.xml"));
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+			Action* action = entity->FindAction("exp1");
+			Assert::IsNotNull(action);
+			ActionExpression* exp = action->As<ActionExpression>();
+			Assert::IsNotNull(exp);
+
+			game.Update();
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			std::int32_t res = result->Get<std::int32_t>();
+			Assert::IsTrue(res == 19);
+
+			Datum* result2 = entity->Find("result2");
+			Assert::IsNotNull(result2);
+			Assert::IsTrue(*result2 == 15);
+
+			Datum* result3 = entity->Find("something");
+			Assert::IsNotNull(result3);
+			std::int32_t a = result3->Get<std::int32_t>();
+			Assert::AreEqual(0, a);
+			Sleep(100);
+			game.Update();
+
+			a = result3->Get<std::int32_t>();
+			Assert::AreEqual(60, a);
 
 			Event<EventMessageAttributed>::UnsubscriberAll();
 			world.GetEventQueue().Clear(*world.GetWorldState().mGameTime);
