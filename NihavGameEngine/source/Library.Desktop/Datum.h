@@ -98,7 +98,12 @@ namespace Library
 			Datum operator*(const Datum& rhs);
 			Datum operator/(const Datum& rhs);
 
+			Datum operator||(const Datum& rhs);
+			Datum operator&&(const Datum& rhs);
 			Datum operator<(const Datum& rhs);
+			Datum operator>(const Datum& rhs);
+			Datum operator<=(const Datum& rhs);
+			Datum operator>=(const Datum& rhs);
 
 			/**
 			 *	Gets the DatumType of this Datum

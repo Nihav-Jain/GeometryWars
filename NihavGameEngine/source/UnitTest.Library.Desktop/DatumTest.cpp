@@ -675,6 +675,43 @@ namespace UnitTestLibraryDesktop
 
 		}
 
+		TEST_METHOD(DatumTestComparisonOps)
+		{
+			Datum a;
+			a = true;
+			Datum b;
+			b = false;
+
+			Datum result;
+			result = a && b;
+			Assert::IsFalse(result.Get<bool>());
+			
+			result = a || b;
+			Assert::IsTrue(result.Get<bool>());
+
+			Datum inta;
+			inta = 10;
+			Datum intb;
+			intb = 20;
+			
+			result = inta > intb;
+			Assert::IsFalse(result.Get<bool>());
+
+			result = inta < intb;
+			Assert::IsTrue(result.Get<bool>());
+
+			inta = 20;
+			result = false;
+			
+			result = inta >= intb;
+			Assert::IsTrue(result.Get<bool>());
+
+			result = false;
+
+			result = inta <= intb;
+			Assert::IsTrue(result.Get<bool>());
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

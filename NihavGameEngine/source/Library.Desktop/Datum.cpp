@@ -269,6 +269,53 @@ namespace Library
 		return (this->*mLessThanDatums[mType])(rhs);
 	}
 
+	Datum Datum::operator>(const Datum& rhs)
+	{
+		Datum result;
+		result = operator==(rhs);
+		result = (operator<(rhs) || result);
+		result = !result.Get<bool>();
+		return result;
+	}
+
+	Datum Datum::operator<=(const Datum& rhs)
+	{
+		Datum result;
+		result = operator==(rhs);
+		result = (operator<(rhs) || result);
+		return result;
+	}
+
+	Datum Datum::operator>=(const Datum& rhs)
+	{
+		Datum result;
+		result = operator==(rhs);
+		result = (operator>(rhs) || result);
+		return result;
+	}
+
+	Datum Datum::operator||(const Datum& rhs)
+	{
+		if (!(mType == DatumType::BOOLEAN && rhs.Type() == DatumType::BOOLEAN))
+			throw std::exception("cannot compare Datums of given type");
+		if (!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		Datum result;
+		result = (Get<bool>() || rhs.Get<bool>(0));
+		return result;
+	}
+
+	Datum Datum::operator&&(const Datum& rhs)
+	{
+		if (!(mType == DatumType::BOOLEAN && rhs.Type() == DatumType::BOOLEAN))
+			throw std::exception("cannot compare Datums of given type");
+		if (!(mSize > 0 && rhs.Size() > 0))
+			throw std::exception("cannot add an empty datum");
+		Datum result;
+		result = (Get<bool>() && rhs.Get<bool>(0));
+		return result;
+	}
+
 #pragma endregion
 
 	Datum::DatumType Datum::Type() const
@@ -1566,15 +1613,15 @@ namespace Library
 		switch (rhs.Type())
 		{
 		case DatumType::INTEGER:
-			result = (Get<std::int32_t>() < rhs.Get<std::int32_t>()) ? 1 : 0;
+			result = Get<std::int32_t>() < rhs.Get<std::int32_t>();
 			break;
 
 		case DatumType::FLOAT:
-			result = (Get<std::int32_t>() < rhs.Get<std::float_t>()) ? 1 : 0;
+			result = Get<std::int32_t>() < rhs.Get<std::float_t>();
 			break;
 
 		default:
-			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			throw std::exception("INTEGER type Datums can only be comapred with Datums of type INTEGER and FLOAT");
 			break;
 		}
 		return result;
@@ -1590,10 +1637,10 @@ namespace Library
 			result = rhs.LessThan<DatumType::INTEGER>(*this);
 			break;
 		case DatumType::FLOAT:
-			result = (Get<std::float_t>() < rhs.Get<std::float_t>()) ? 1 : 0;
+			result = Get<std::float_t>() < rhs.Get<std::float_t>();
 			break;
 		default:
-			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			throw std::exception("FLOAT type Datums can only be compared with Datums of type INTEGER and FLOAT");
 			break;
 		}
 		return result;
@@ -1606,10 +1653,10 @@ namespace Library
 		switch (rhs.Type())
 		{
 		case DatumType::STRING:
-			result = (Get<std::string>() < rhs.Get<std::string>()) ? 1 : 0;
+			result = Get<std::string>() < rhs.Get<std::string>();
 			break;
 		default:
-			throw std::exception("INTEGER type Datums can only be multiplied with Datums of type INTEGER and FLOAT");
+			throw std::exception("STRING type Datums can only be compared with Datums of type STRING");
 			break;
 		}
 		return result;
