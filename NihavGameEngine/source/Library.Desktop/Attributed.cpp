@@ -6,16 +6,18 @@ namespace Library
 	RTTI_DEFINITIONS(Attributed);
 
 	Attributed::Attributed()
-	{}
+	{
+		AddInternalAttribute("this", this, 1);
+	}
 
 	Attributed::Attributed(const Attributed& rhs) :
-		Scope::Scope(rhs), mSignatures(rhs.mSignatures), mPrescribedAttributes(rhs.mPrescribedAttributes)
+		Scope::Scope(rhs), mPrescribedAttributes(rhs.mPrescribedAttributes)
 	{
 		(*this)["this"] = this;
 	}
 
 	Attributed::Attributed(Attributed&& rhs) :
-		Scope::Scope(std::move(rhs)), mSignatures(std::move(rhs.mSignatures)), mPrescribedAttributes(std::move(rhs.mPrescribedAttributes))
+		Scope::Scope(std::move(rhs)), mPrescribedAttributes(std::move(rhs.mPrescribedAttributes))
 	{
 		(*this)["this"] = this;
 	}
@@ -28,7 +30,6 @@ namespace Library
 
 			Scope::operator=(rhs);
 
-			mSignatures = rhs.mSignatures;
 			mPrescribedAttributes = rhs.mPrescribedAttributes;
 
 			(*this)["this"] = this;
@@ -43,45 +44,11 @@ namespace Library
 			Clear();
 
 			Scope::operator=(std::move(rhs));
-			mSignatures = std::move(rhs.mSignatures);
 			mPrescribedAttributes = std::move(rhs.mPrescribedAttributes);
 
 			(*this)["this"] = this;
 		}
 		return *this;
-	}
-
-	void Attributed::Populate()
-	{
-		DefinePrescribedAttributes();
-
-		if (mPrescribedAttributes.Size() == 0)
-		{
-			Datum& thisDatum = Append("this");
-			thisDatum = this;
-			mPrescribedAttributes.PushBack("this");
-		}
-
-		// for each GetSignature, create a Datum and add to cache
-		for (std::uint32_t i = mPrescribedAttributes.Size() - 1; i < mSignatures.Size();i++)
-		{
-			Signature& signature = mSignatures[i];
-			mPrescribedAttributes.PushBack(signature.Name());
-			if (signature.SignatureDatum().Type() == Datum::DatumType::TABLE)
-			{
-				for (std::uint32_t j = 0; j < signature.SignatureDatum().Size(); j++)
-				{
-					Adopt(signature.Name(), *signature.SignatureDatum().Get<Scope*>(j));
-				}
-				if(signature.SignatureDatum().Size() == 0)
-					Append(signature.Name());
-			}
-			else
-			{
-				Datum& attribute = Append(signature.Name());
-				attribute = std::move(signature.SignatureDatum());
-			}
-		}
 	}
 
 	bool Attributed::IsPrescribedAttribute(const std::string& name) const
@@ -145,41 +112,8 @@ namespace Library
 	void Attributed::Clear()
 	{
 		Scope::Clear();
-		mSignatures.Clear();
 		mPrescribedAttributes.Clear();
 	}
-
-#pragma region Signature
-
-	Attributed::Signature::Signature(const std::string& name, Datum& datum) :
-		mName(name), mSignatureDatum(datum)
-	{}
-
-	Attributed::Signature::Signature(Signature&& rhs) :
-		mName(std::move(rhs.mName)), mSignatureDatum(std::move(rhs.mSignatureDatum))
-	{}
-
-	Attributed::Signature& Attributed::Signature::operator=(Signature&& rhs)
-	{
-		if (this != &rhs)
-		{
-			mName = std::move(rhs.mName);
-			mSignatureDatum = std::move(rhs.mSignatureDatum);
-		}
-		return *this;
-	}
-
-	std::string& Attributed::Signature::Name()
-	{
-		return mName;
-	}
-
-	Datum& Attributed::Signature::SignatureDatum()
-	{
-		return mSignatureDatum;
-	}
-
-#pragma endregion
 
 #pragma region AddInternalAttribute
 
@@ -238,17 +172,18 @@ namespace Library
 
 	}
 
-	void Attributed::AddNestedScope(const std::string& name, std::uint32_t size)
+	void Attributed::AddNestedScope(const std::string& name)
 	{
-		AddEmptyInternalSignature(name, Datum::DatumType::TABLE, size);
+		AddEmptyInternalSignature(name, Datum::DatumType::TABLE, 0);
 	}
 
 	void Attributed::AddNestedScope(const std::string& name, Scope& initialValue, std::uint32_t size)
 	{
-		Datum& datum = AddEmptyInternalSignature(name, Datum::DatumType::TABLE, size);
-		for (std::uint32_t i = 0; i < size; i++)
+		AddEmptyInternalSignature(name, Datum::DatumType::TABLE, 0);
+		for (std::uint32_t j = 0; j < size; j++)
 		{
-			datum.Set(initialValue, i);
+			Scope* scope = new Scope(initialValue);
+			Adopt(name, *scope);
 		}
 	}
 
@@ -296,23 +231,20 @@ namespace Library
 
 #pragma region Helper Functions
 
-	bool Attributed::IsSignatureNameDefined(const std::string& name) const
+	void Attributed::DefineUniqueAttributeName(const std::string& name)
 	{
-		for (auto& signature : mSignatures)
+		if (IsAttribute(name))
 		{
-			if (signature.Name() == name)
-				return true;
+			std::stringstream str;
+			str << "Attribute " << name << " already exists.";
+			throw std::exception(str.str().c_str());
 		}
-		return false;
+		mPrescribedAttributes.PushBack(name);
 	}
 
 	Datum& Attributed::AddEmptyInternalSignature(const std::string& name, Datum::DatumType type, std::uint32_t size)
 	{
-		if (IsSignatureNameDefined(name))
-			throw std::exception("Signature with given name already exists.");
-
-		Vector<Signature>::Iterator itr = mSignatures.PushBack(Signature(name, Datum()));
-		Datum& datum = (*itr).SignatureDatum();
+		Datum& datum = AddEmptySignature(name);
 		datum.SetType(type);
 		datum.SetSize(size);
 		return datum;
@@ -320,11 +252,8 @@ namespace Library
 
 	Datum& Attributed::AddEmptySignature(const std::string& name)
 	{
-		if (IsSignatureNameDefined(name))
-			throw std::exception("Signature with given name already exists.");
-
-		Vector<Signature>::Iterator itr = mSignatures.PushBack(Signature(name, Datum()));
-		return (*itr).SignatureDatum();
+		DefineUniqueAttributeName(name);
+		return Append(name);
 	}
 
 #pragma endregion

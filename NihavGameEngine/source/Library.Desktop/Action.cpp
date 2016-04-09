@@ -11,7 +11,7 @@ namespace Library
 	Action::Action() :
 		mName()
 	{
-		Populate();
+		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 	}
 
 	const std::string& Action::Name() const
@@ -26,10 +26,5 @@ namespace Library
 
 	void Action::PostParsingProcess()
 	{}
-
-	void Action::DefinePrescribedAttributes()
-	{
-		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-	}
 
 }

@@ -7,13 +7,13 @@ RTTI_DEFINITIONS(AttributedFooChild);
 AttributedFooChild::AttributedFooChild()
 {
 	mRttiChild = new FooRTTI();
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 AttributedFooChild::AttributedFooChild(const AttributedFooChild& rhs)
 {
 	mRttiChild = new FooRTTI(*rhs.mRttiChild);
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 

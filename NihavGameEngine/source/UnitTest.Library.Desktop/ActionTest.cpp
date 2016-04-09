@@ -6,11 +6,9 @@
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
-#include "ActionCreateAction.h"
 
 #include "XmlParseHelperActionSwitch.h"
 #include "XmlParseHelperActionExpression.h"
-#include "XmlParseHelperActionCreate.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
@@ -49,19 +47,16 @@ namespace UnitTestLibraryDesktop
 			ActionListSwitchFactory switchFactory;
 			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
 			ActionExpressionFactory expFactory;
-			ActionCreateActionFactory createActionFactory;
 
 			XmlParseHelperActionSwitch switchParseHelper;
 			XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase caseParseHelper;
 			XmlParseHelperActionExpression expParseHelper;
-			XmlParseHelperActionCreate createActionParseHelper;
 
 			Game game;
 
 			game.ParseMaster().AddHelper(switchParseHelper);
 			game.ParseMaster().AddHelper(caseParseHelper);
 			game.ParseMaster().AddHelper(expParseHelper);
-			game.ParseMaster().AddHelper(createActionParseHelper);
 
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_action_test.xml"));
 			game.Start();

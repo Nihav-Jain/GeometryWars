@@ -9,7 +9,7 @@ namespace Library
 
 	ReactionAttributed::ReactionAttributed()
 	{
-		Populate();
+		AddInternalAttribute(EventMessageAttributed::ATTRIBUTE_SUBTYPE, "", 0);
 		Event<EventMessageAttributed>::Subscribe(*this);
 	}
 
@@ -40,11 +40,6 @@ namespace Library
 		CopyAuxiliaryAttributesFromAnotherAttributed(message);
 
 		ActionList::Update(message.GetWorldState());
-	}
-
-	void ReactionAttributed::DefinePrescribedAttributes()
-	{
-		AddInternalAttribute(EventMessageAttributed::ATTRIBUTE_SUBTYPE, "", 0);
 	}
 
 }

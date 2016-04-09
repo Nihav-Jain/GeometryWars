@@ -11,8 +11,8 @@ public:
 
 	virtual void Update(Library::WorldState& worldState) override;
 
-protected:
-	virtual void DefinePrescribedAttributes() override;
+private:
+	void DefinePrescribedAttributes();
 };
 
 namespace Library

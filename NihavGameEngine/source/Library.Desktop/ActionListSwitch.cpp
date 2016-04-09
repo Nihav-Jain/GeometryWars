@@ -13,7 +13,7 @@ namespace Library
 	ActionListSwitch::ActionListSwitch() :
 		mCaseMap(nullptr)
 	{
-		Populate();
+		AddInternalAttribute(ATTRIBUTE_SWITCH_VALUE, "");
 	}
 
 	ActionListSwitch::~ActionListSwitch()
@@ -115,11 +115,6 @@ namespace Library
 		}
 	}
 
-	void ActionListSwitch::DefinePrescribedAttributes()
-	{
-		AddInternalAttribute(ATTRIBUTE_SWITCH_VALUE, "");
-	}
-
 #pragma endregion
 
 
@@ -134,15 +129,8 @@ namespace Library
 	ActionListSwitch::ActionListSwitchCase::ActionListSwitchCase() :
 		MustBreak(false), DefaultCase(false)
 	{
-		Populate();
-	}
-
-	void ActionListSwitch::ActionListSwitchCase::DefinePrescribedAttributes()
-	{
 		AddInternalAttribute(ATTRIBUTE_CASE_VALUE, "");
 	}
-
-
 
 #pragma endregion
 }

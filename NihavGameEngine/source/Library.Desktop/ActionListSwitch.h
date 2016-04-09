@@ -62,8 +62,6 @@ namespace Library
 			static const std::string ATTRIBUTE_CASE_VALUE;
 			static const std::string ATTRIBUTE_BREAK;
 			static const std::string ATTRIBUTE_DEFAULT;
-		protected:
-			virtual void DefinePrescribedAttributes();
 		};
 
 		CONCRETE_ACTION_FACTORY(ActionListSwitchCase);
@@ -103,9 +101,6 @@ namespace Library
 		virtual void Update(WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_SWITCH_VALUE;
-
-	protected:
-		virtual void DefinePrescribedAttributes() override;
 
 	private:
 		/**

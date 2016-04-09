@@ -14,7 +14,8 @@ namespace Library
 
 	ActionEvent::ActionEvent()
 	{
-		Populate();
+		AddInternalAttribute(ATTRIBUTE_SUBTYPE, "", 0);
+		AddInternalAttribute(ATTRIBUTE_DELAY, 0, 1);
 	}
 
 	void ActionEvent::Update(WorldState& worldState)
@@ -29,12 +30,6 @@ namespace Library
 		std::shared_ptr<Event<EventMessageAttributed>> attributedEvent = std::make_shared<Event<EventMessageAttributed>>(message);
 		worldState.world->GetEventQueue().Enqueue(attributedEvent, *worldState.mGameTime, std::chrono::milliseconds(delay));
 
-	}
-
-	void ActionEvent::DefinePrescribedAttributes()
-	{
-		AddInternalAttribute(ATTRIBUTE_SUBTYPE, "", 0);
-		AddInternalAttribute(ATTRIBUTE_DELAY, 0, 1);
 	}
 
 }

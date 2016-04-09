@@ -69,9 +69,6 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState) override;
 
-	protected:
-		virtual void DefinePrescribedAttributes() override;
-
 	private:
 		static const std::string ATTRIBUTE_ACTIONS;
 	};

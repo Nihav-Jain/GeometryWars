@@ -7,7 +7,7 @@ RTTI_DEFINITIONS(AttributedInternalError);
 
 AttributedInternalError::AttributedInternalError()
 {
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 void AttributedInternalError::DefinePrescribedAttributes()

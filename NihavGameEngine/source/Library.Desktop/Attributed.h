@@ -114,16 +114,6 @@ namespace Library
 
 	protected:
 		/**
-		 *	Implement this function and add signatures for the prescribed attributes for the derived Attributed class in it
-		 */
-		virtual void DefinePrescribedAttributes() = 0;
-
-		/**
-		 *	Should be called in the constructor of the derived Attributed class, creates prescribed attributes as run-time data types
-		 */
-		void Populate();
-
-		/**
 		 *	Adds a signature as an internal prescribed attribute, see overloads for various supported data types
 		 *	@param name of the attribute
 		 *	@param initial (default) value of the attribute
@@ -142,7 +132,7 @@ namespace Library
 		 *	@param (optional) initial (default) value of the attribute
 		 *	@param (optional) number of values of the current data type to be associated with the given attribute name
 		 */
-		void AddNestedScope(const std::string& name, std::uint32_t size = 0);
+		void AddNestedScope(const std::string& name);
 		void AddNestedScope(const std::string& name, Scope& initialValue, std::uint32_t size = 0);
 
 		/**
@@ -159,37 +149,11 @@ namespace Library
 		void AddExternalAttribute(const std::string& name, std::uint32_t size, RTTI** storage);
 
 	private:
-
-		/**
-		 *	Helper class to maintain signatures for the prescribed attributes
-		 */
-		class Signature
-		{
-		public:
-			Signature() = default;
-			Signature(const std::string& name, Datum& datum);
-			Signature(const Signature& rhs) = default;
-			Signature(Signature&& rhs);
-
-			~Signature() = default;
-
-			Signature& operator=(const Signature& rhs) = default;
-			Signature& operator=(Signature&& rhs);
-
-			std::string& Name();
-			Datum& SignatureDatum();
-		private:
-			std::string mName;
-			Datum mSignatureDatum;
-		};
-
-		bool IsSignatureNameDefined(const std::string& name) const;
+		void DefineUniqueAttributeName(const std::string& name);
 		Datum& AddEmptyInternalSignature(const std::string& name, Datum::DatumType type, std::uint32_t size);
 		Datum& AddEmptySignature(const std::string& name);
 
-		Vector<Signature> mSignatures;
 		Vector<std::string> mPrescribedAttributes;
-
 	};
 }
 

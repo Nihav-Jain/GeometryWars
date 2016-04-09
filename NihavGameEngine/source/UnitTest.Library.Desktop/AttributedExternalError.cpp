@@ -8,16 +8,6 @@ RTTI_DEFINITIONS(AttributedExternalError);
 AttributedExternalError::AttributedExternalError()
 {
 	mIntArray = new std::int32_t[10];
-	Populate();
-}
-
-AttributedExternalError::~AttributedExternalError()
-{
-	delete[] mIntArray;
-}
-
-void AttributedExternalError::DefinePrescribedAttributes()
-{
 	AddExternalAttribute("mIntArray", 10, mIntArray);
 	try
 	{
@@ -30,5 +20,11 @@ void AttributedExternalError::DefinePrescribedAttributes()
 		throw;
 	}
 }
+
+AttributedExternalError::~AttributedExternalError()
+{
+	delete[] mIntArray;
+}
+
 
 

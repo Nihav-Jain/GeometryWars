@@ -7,7 +7,7 @@ RTTI_DEFINITIONS(AttributedNative);
 
 AttributedNative::AttributedNative()
 {
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 AttributedNative::AttributedNative(const AttributedNative& rhs) :

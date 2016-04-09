@@ -13,11 +13,9 @@ public:
 	AttributedFoo& operator=(const AttributedFoo& rhs);
 	AttributedFoo& operator=(AttributedFoo&& rhs);
 
-protected:
-	virtual void DefinePrescribedAttributes() override;
-
 private:
 	void DeepCopyMemberVariables(const AttributedFoo& rhs);
+	void DefinePrescribedAttributes();
 
 	FooRTTI* mFooRtti;
 	Scope* mScope;

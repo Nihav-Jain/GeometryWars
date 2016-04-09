@@ -12,7 +12,7 @@ namespace Library
 	EventMessageAttributed::EventMessageAttributed() :
 		mSubtype(), mWorldState(nullptr)
 	{
-		Populate();
+		AddExternalAttribute(ATTRIBUTE_SUBTYPE, 1, &mSubtype);
 	}
 
 	EventMessageAttributed::EventMessageAttributed(const EventMessageAttributed& rhs) :
@@ -79,8 +79,4 @@ namespace Library
 		return *mWorldState;
 	}
 
-	void EventMessageAttributed::DefinePrescribedAttributes()
-	{
-		AddExternalAttribute(ATTRIBUTE_SUBTYPE, 1, &mSubtype);
-	}
 }

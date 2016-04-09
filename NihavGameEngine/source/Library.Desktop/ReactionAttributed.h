@@ -41,9 +41,6 @@ namespace Library
 		 *	copies the auxiliary attributes of the message and then triggers ActionList::Update
 		 */
 		virtual void Notify(const EventPublisher& publisher) override;
-
-	protected:
-		virtual void DefinePrescribedAttributes() override;
 	};
 
 	CONCRETE_REACTION_FACTORY(ReactionAttributed);

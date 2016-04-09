@@ -101,9 +101,6 @@ namespace Library
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
 
-	protected:
-		virtual void DefinePrescribedAttributes() override;
-
 	private:
 		std::string mName;
 	};

@@ -5,7 +5,7 @@ RTTI_DEFINITIONS(ActorEntity);
 
 ActorEntity::ActorEntity()
 {
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 void ActorEntity::Update(Library::WorldState& worldState)

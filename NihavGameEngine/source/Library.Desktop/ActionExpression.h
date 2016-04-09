@@ -49,9 +49,6 @@ namespace Library
 
 		static const std::string ATTRIBUTE_EXPRESSION;
 
-	protected:
-		virtual void DefinePrescribedAttributes() override;
-
 	private:
 		void ConvertExpressionToPostfix();
 		void EvaluateExpression();

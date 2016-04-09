@@ -10,11 +10,12 @@ namespace Library
 	const std::uint32_t Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
 	const std::string Entity::ATTRIBUTE_NAME = "name";
 	const std::string Entity::ATTRIBUTE_ACTIONS = "actions";
-	
+
 	Entity::Entity() :
 		mName()
 	{
-		Populate();
+		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddNestedScope(ATTRIBUTE_ACTIONS);
 	}
 
 	const std::string& Entity::Name() const
@@ -42,7 +43,7 @@ namespace Library
 		Action* action = Factory<Action>::Create(actionClassName);
 		assert(action != nullptr);
 		action->SetName(actionInstanceName);
-		
+
 		Adopt(ATTRIBUTE_ACTIONS, *action);
 
 		return *action;
@@ -87,9 +88,4 @@ namespace Library
 		}
 	}
 
-	void Entity::DefinePrescribedAttributes()
-	{
-		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_ACTIONS, 0);
-	}
 }

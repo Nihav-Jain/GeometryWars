@@ -17,14 +17,13 @@ AttributedFoo::AttributedFoo()
 	mMat4Array = new glm::mat4[10];
 	mRttiPtrArray = new RTTI*[10];
 
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 AttributedFoo::AttributedFoo(const AttributedFoo& rhs)
 {
 	DeepCopyMemberVariables(rhs);
-
-	Populate();
+	DefinePrescribedAttributes();
 }
 
 AttributedFoo::AttributedFoo(AttributedFoo&& rhs) :

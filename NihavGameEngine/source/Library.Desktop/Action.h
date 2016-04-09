@@ -66,9 +66,6 @@ namespace Library
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
 
-	protected:
-		virtual void DefinePrescribedAttributes() override;
-
 	private:
 		std::string mName;
 	};

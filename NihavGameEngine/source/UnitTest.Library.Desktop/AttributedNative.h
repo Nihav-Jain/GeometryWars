@@ -15,6 +15,6 @@ public:
 	AttributedNative& operator=(AttributedNative&& rhs);
 
 protected:
-	virtual void DefinePrescribedAttributes() override;
+	void DefinePrescribedAttributes();
 };
 

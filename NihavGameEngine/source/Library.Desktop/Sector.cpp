@@ -12,7 +12,8 @@ namespace Library
 	Sector::Sector() :
 		mName()
 	{
-		Populate();
+		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddNestedScope(ATTRIBUTE_ENTITIES);
 	}
 	
 	const std::string& Sector::Name() const
@@ -86,9 +87,4 @@ namespace Library
 		}
 	}
 
-	void Sector::DefinePrescribedAttributes()
-	{
-		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_ENTITIES, 0);
-	}
 }

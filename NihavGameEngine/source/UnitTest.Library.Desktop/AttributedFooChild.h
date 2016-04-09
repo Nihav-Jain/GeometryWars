@@ -9,10 +9,8 @@ public:
 	AttributedFooChild(const AttributedFooChild& rhs);
 	virtual ~AttributedFooChild();
 
-protected:
-	virtual void DefinePrescribedAttributes() override;
-
 private:
+	void DefinePrescribedAttributes();
 	FooRTTI* mRttiChild;
 };
 

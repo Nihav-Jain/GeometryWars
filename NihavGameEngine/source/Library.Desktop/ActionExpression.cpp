@@ -10,7 +10,7 @@ namespace Library
 	ActionExpression::ActionExpression() :
 		mPostfixExpression(nullptr), mOperatorPrecedence(), mDefinedFunctions(), mArithmeticOperations()
 	{
-		Populate();
+		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
 
 		std::uint32_t i = 1;
 		
@@ -56,11 +56,6 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		EvaluateExpression();
-	}
-
-	void ActionExpression::DefinePrescribedAttributes()
-	{
-		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
 	}
 
 	void ActionExpression::ConvertExpressionToPostfix()

@@ -99,10 +99,6 @@
     <ClInclude Include="ActionExpression.h">
       <Filter>Kernel\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="ActionCreateAction.h" />
-    <ClInclude Include="XmlParseHelperActionCreate.h">
-      <Filter>XmlParseHelpers</Filter>
-    </ClInclude>
     <ClInclude Include="IEventSubscriber.h">
       <Filter>Kernel\Event</Filter>
     </ClInclude>
@@ -214,10 +210,6 @@
     </ClCompile>
     <ClCompile Include="ActionExpression.cpp">
       <Filter>Kernel\Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionCreateAction.cpp" />
-    <ClCompile Include="XmlParseHelperActionCreate.cpp">
-      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="EventPublisher.cpp">
       <Filter>Kernel\Event</Filter>

@@ -10,6 +10,6 @@ public:
 
 
 protected:
-	virtual void DefinePrescribedAttributes() override;
+	void DefinePrescribedAttributes();
 };
 

@@ -9,7 +9,7 @@ namespace Library
 
 	ActionList::ActionList()
 	{
-		Populate();
+		AddNestedScope(ATTRIBUTE_ACTIONS);
 	}
 
 	Datum& ActionList::Actions()
@@ -57,10 +57,5 @@ namespace Library
 			worldState.action = action;
 			action->Update(worldState);
 		}
-	}
-
-	void ActionList::DefinePrescribedAttributes()
-	{
-		AddNestedScope(ATTRIBUTE_ACTIONS, 0);
 	}
 }

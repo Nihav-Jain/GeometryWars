@@ -9,9 +9,6 @@ public:
 	virtual ~AttributedExternalError();
 
 
-protected:
-	virtual void DefinePrescribedAttributes() override;
-
 private:
 	std::int32_t* mIntArray;
 };

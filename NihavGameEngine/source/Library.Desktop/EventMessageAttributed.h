@@ -69,9 +69,6 @@ namespace Library
 		static const std::string ATTRIBUTE_SUBTYPE;
 		static const std::string ATTRIBUTE_ARGUMENTS;
 
-	protected:
-		virtual void DefinePrescribedAttributes() override;
-
 	private:
 		std::string mSubtype;
 		WorldState* mWorldState;

@@ -201,7 +201,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
-    <ClInclude Include="ActionCreateAction.h" />
     <ClInclude Include="ActionEvent.h" />
     <ClInclude Include="ActionExpression.h" />
     <ClInclude Include="ActionList.h" />
@@ -236,7 +235,6 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="XmlParseHelperAction.h" />
-    <ClInclude Include="XmlParseHelperActionCreate.h" />
     <ClInclude Include="XmlParseHelperActionEvent.h" />
     <ClInclude Include="XmlParseHelperActionExpression.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
@@ -251,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
-    <ClCompile Include="ActionCreateAction.cpp" />
     <ClCompile Include="ActionEvent.cpp" />
     <ClCompile Include="ActionExpression.cpp" />
     <ClCompile Include="ActionList.cpp" />
@@ -281,7 +278,6 @@
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperAction.cpp" />
-    <ClCompile Include="XmlParseHelperActionCreate.cpp" />
     <ClCompile Include="XmlParseHelperActionEvent.cpp" />
     <ClCompile Include="XmlParseHelperActionExpression.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />

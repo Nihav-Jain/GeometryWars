@@ -12,7 +12,8 @@ namespace Library
 		mName(), mWorldState(gameTime), mEventQueue()
 	{
 		mWorldState.world = this;
-		Populate();
+		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 	}
 
 	World::~World()
@@ -91,12 +92,6 @@ namespace Library
 	EventQueue& World::GetEventQueue()
 	{
 		return mEventQueue;
-	}
-
-	void World::DefinePrescribedAttributes()
-	{
-		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
-		AddNestedScope(ATTRIBUTE_NAME_SECTOR, 0);
 	}
 
 }

@@ -96,9 +96,6 @@ namespace Library
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 
-	protected:
-		virtual void DefinePrescribedAttributes() override;
-
 	private:
 		std::string mName;
 		WorldState mWorldState;
