@@ -8,11 +8,10 @@ namespace Library
 	{
 		RTTI_DECLARATIONS(Reaction, ActionList);
 	public:
-		Reaction() = default;
+		Reaction();
 		virtual ~Reaction() = default;
 
-		// debatable
-		//virtual void Update(WorldState& worldState) override;
+		virtual void Update(WorldState& worldState) override;
 	};
 
 #define CONCRETE_REACTION_FACTORY(ConcreteReactionType) CONCRETE_FACTORY(ConcreteReactionType, Reaction);

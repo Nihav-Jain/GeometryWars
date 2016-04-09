@@ -3,6 +3,14 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Reaction)
+	RTTI_DEFINITIONS(Reaction);
+
+	Reaction::Reaction()
+	{}
+
+	void Reaction::Update(WorldState& worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+	}
 
 }
