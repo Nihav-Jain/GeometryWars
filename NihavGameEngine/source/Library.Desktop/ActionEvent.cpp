@@ -17,24 +17,11 @@ namespace Library
 		Populate();
 	}
 
-
-	ActionEvent::~ActionEvent()
-	{
-	}
-
 	void ActionEvent::Update(WorldState& worldState)
 	{
 		EventMessageAttributed message;
 		message.SetSubtype((*this)[ATTRIBUTE_SUBTYPE].Get<std::string>());
 		message.SetWorldState(worldState);
-
-		//// copy attributes
-		//Datum& attributes = (*this)[ATTRIBUTE_ARGUMENTS];
-		//if (attributes.Size() > 0)
-		//{
-		//	Scope* tableOfAttributes = new Scope(*attributes.Get<Scope*>());
-		//	message.Adopt(EventMessageAttributed::ATTRIBUTE_ARGUMENTS, *tableOfAttributes);
-		//}
 
 		std::uint32_t i = AuxiliaryBegin();
 		std::uint32_t size = Size();

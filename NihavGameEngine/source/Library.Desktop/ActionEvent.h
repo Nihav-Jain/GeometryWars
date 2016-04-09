@@ -3,17 +3,42 @@
 
 namespace Library
 {
+	/**
+	 *	Registers an event with the EventQueue of the world with the specified delay
+	 *	Has 3 prescribed attributes - name (STRING), event subtype (STIRNG) and delay (INTEGER - defaulted to 0)
+	 *	@grammar  <event name="mouseDownEvent" subtype="mousedown" delay="100"/>
+	 *	@requires XmlParseHelperActionEvent, ActionEventFactory
+	 *	@inherits Action
+	 */
 	class ActionEvent : public Action
 	{
 		RTTI_DECLARATIONS(ActionEvent, Action);
 
 	public:
+		/**
+		 *	Constructor
+		 */
 		ActionEvent();
-		virtual ~ActionEvent();
 
+		/**
+		 *	Default destructor
+		 */
+		virtual ~ActionEvent() = default;
+
+		/**
+		 *	disallow copy constructor
+		 */
 		ActionEvent(const ActionEvent& rhs) = delete;
+		
+		/**
+		 *	disallow copy assignment operator
+		 */
 		ActionEvent& operator=(const ActionEvent& rhs) = delete;
 
+		/**
+		 *	Preapres the event payload with the proper subtype, copies its auxiliary attributes to it and enqueues the event
+		 *	@param reference to the world state
+		 */
 		virtual void Update(WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_SUBTYPE;

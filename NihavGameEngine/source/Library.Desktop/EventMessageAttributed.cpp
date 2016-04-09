@@ -28,11 +28,6 @@ namespace Library
 		rhs.mWorldState = nullptr;
 	}
 
-
-	EventMessageAttributed::~EventMessageAttributed()
-	{
-	}
-
 	EventMessageAttributed& EventMessageAttributed::operator=(const EventMessageAttributed& rhs)
 	{
 		if (this != &rhs)
@@ -87,6 +82,5 @@ namespace Library
 	void EventMessageAttributed::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_SUBTYPE, 1, &mSubtype);
-		//AddNestedScope(ATTRIBUTE_ARGUMENTS, 0);
 	}
 }
