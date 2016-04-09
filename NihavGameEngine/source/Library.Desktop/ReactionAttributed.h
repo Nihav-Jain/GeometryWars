@@ -5,7 +5,7 @@ namespace Library
 {
 	class ReactionAttributed : public Reaction
 	{
-		RTTI_DECLARATIONS(ReactionAttributed, Reaction)
+		RTTI_DECLARATIONS(ReactionAttributed, Reaction);
 	public:
 		ReactionAttributed();
 		virtual ~ReactionAttributed();

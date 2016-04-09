@@ -16,11 +16,12 @@ namespace Library
 
 	ReactionAttributed::~ReactionAttributed()
 	{
+		Event<EventMessageAttributed>::Unsubscribe(*this);
 	}
 
 	void ReactionAttributed::Notify(const EventPublisher& publisher)
 	{
-		if (!publisher.Is(EventMessageAttributed::TypeIdClass()))
+		if (!publisher.Is(Event<EventMessageAttributed>::TypeIdClass()))
 			return;
 		Event<EventMessageAttributed>& eventPublisher = *(publisher.AssertiveAs<Event<EventMessageAttributed>>());
 		const EventMessageAttributed& message = eventPublisher.Message();
