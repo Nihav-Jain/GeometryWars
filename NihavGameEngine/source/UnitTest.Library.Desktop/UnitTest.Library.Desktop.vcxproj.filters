@@ -61,6 +61,7 @@
     <ClCompile Include="BarSubscriber.cpp">
       <Filter>TestHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="ReactionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
