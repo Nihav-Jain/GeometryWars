@@ -104,12 +104,20 @@ namespace Library
 						Set(rhs.mData.mMat4x4[i], i);
 						break;
 					
+					case DatumType::BOOLEAN:
+						Set(rhs.mData.mBool[i], i);
+						break;
+
 					case DatumType::POINTER:
 						Set(rhs.mData.mRttiPtr[i], i);
 						break;
 
 					case DatumType::TABLE:
 						Set(*rhs.mData.mScopePtr[i], i);
+						break;
+
+					case DatumType::REFERENCE:
+						Set(rhs.mData.mDatumPtr[i], i);
 						break;
 
 					default:
@@ -169,6 +177,11 @@ namespace Library
 		return *this;
 	}
 
+	Datum& Datum::operator=(const char* rhs)
+	{
+		return operator=(std::string(rhs));
+	}
+
 	Datum& Datum::operator=(const glm::vec4& rhs)
 	{
 		Set(rhs);
@@ -176,6 +189,12 @@ namespace Library
 	}
 
 	Datum& Datum::operator=(const glm::mat4x4& rhs)
+	{
+		Set(rhs);
+		return *this;
+	}
+
+	Datum& Datum::operator=(const bool& rhs)
 	{
 		Set(rhs);
 		return *this;
@@ -189,6 +208,13 @@ namespace Library
 
 	Datum& Datum::operator=(Scope& rhs)
 	{
+		Set(rhs);
+		return *this;
+	}
+
+	Datum& Datum::operator=(Datum* rhs)
+	{
+		assert(rhs != nullptr);
 		Set(rhs);
 		return *this;
 	}
@@ -313,12 +339,20 @@ namespace Library
 					new (mData.mMat4x4 + mSize)glm::mat4x4();
 					break;
 
+				case DatumType::BOOLEAN:
+					new (mData.mBool + mSize)bool();
+					break;
+
 				case DatumType::POINTER:
 					new (mData.mRttiPtr + mSize)RTTI*(nullptr);
 					break;
 
 				case DatumType::TABLE:
 					new (mData.mScopePtr + mSize)Scope*(nullptr);
+					break;
+
+				case DatumType::REFERENCE:
+					new (mData.mDatumPtr + mSize)Datum*(nullptr);
 					break;
 
 				default:
@@ -351,10 +385,16 @@ namespace Library
 					mData.mMat4x4[mSize].glm::mat4x4::~mat4x4();
 					break;
 
+				case DatumType::BOOLEAN:
+					break;
+
 				case DatumType::POINTER:
 					break;
 
 				case DatumType::TABLE:
+					break;
+
+				case DatumType::REFERENCE:
 					break;
 
 				default:
@@ -399,12 +439,20 @@ namespace Library
 					mData.mMat4x4 = reinterpret_cast<glm::mat4x4*>(realloc(mData.mMat4x4, newCapacity * sizeof(glm::mat4x4)));
 					break;
 
+				case DatumType::BOOLEAN:
+					mData.mBool = reinterpret_cast<bool*>(realloc(mData.mBool, newCapacity * sizeof(bool)));
+					break;
+
 				case DatumType::POINTER:
 					mData.mRttiPtr = reinterpret_cast<RTTI**>(realloc(mData.mRttiPtr, newCapacity * sizeof(RTTI*)));
 					break;
 
 				case DatumType::TABLE:
 					mData.mScopePtr = reinterpret_cast<Scope**>(realloc(mData.mScopePtr, newCapacity * sizeof(Scope*)));
+					break;
+
+				case DatumType::REFERENCE:
+					mData.mDatumPtr = reinterpret_cast<Datum**>(realloc(mData.mDatumPtr, newCapacity * sizeof(Datum*)));
 					break;
 
 				default:
@@ -447,12 +495,20 @@ namespace Library
 				free(mData.mMat4x4);
 				break;
 
+			case DatumType::BOOLEAN:
+				free(mData.mBool);
+				break;
+
 			case DatumType::POINTER:
 				free(mData.mRttiPtr);
 				break;
 
 			case DatumType::TABLE:
 				free(mData.mScopePtr);
+				break;
+
+			case DatumType::REFERENCE:
+				free(mData.mDatumPtr);
 				break;
 
 			default:
@@ -515,10 +571,22 @@ namespace Library
 		mData.mMat4x4 = dataArray;
 	}
 
-	void Datum::SetStorage(RTTI ** dataArray, std::uint32_t arraySize)
+	void Datum::SetStorage(bool* dataArray, std::uint32_t arraySize)
+	{
+		SetStorage(DatumType::BOOLEAN, arraySize);
+		mData.mBool = dataArray;
+	}
+
+	void Datum::SetStorage(RTTI** dataArray, std::uint32_t arraySize)
 	{
 		SetStorage(DatumType::POINTER, arraySize);
 		mData.mRttiPtr = dataArray;
+	}
+
+	void Datum::SetStorage(Datum** dataArray, std::uint32_t arraySize)
+	{
+		SetStorage(DatumType::REFERENCE, arraySize);
+		mData.mDatumPtr = dataArray;
 	}
 
 #pragma endregion
@@ -573,6 +641,13 @@ namespace Library
 						break;
 					}
 					break;
+				case DatumType::BOOLEAN:
+					if (mData.mBool[i] != rhs.mData.mBool[i])
+					{
+						areEqual = false;
+						break;
+					}
+					break;
 				case DatumType::POINTER:
 					if (mData.mRttiPtr[i] != rhs.mData.mRttiPtr[i])
 					{
@@ -583,6 +658,14 @@ namespace Library
 
 				case DatumType::TABLE:
 					if (*mData.mScopePtr[i] != *rhs.mData.mScopePtr[i])
+					{
+						areEqual = false;
+						break;
+					}
+					break;
+
+				case DatumType::REFERENCE:
+					if (mData.mDatumPtr[i] != rhs.mData.mDatumPtr[i])
 					{
 						areEqual = false;
 						break;
@@ -609,9 +692,14 @@ namespace Library
 		return (mType == DatumType::FLOAT && mSize > 0 && *mData.mFloat == rhs);
 	}
 
-	bool Datum::operator==(const std::string & rhs) const
+	bool Datum::operator==(const std::string& rhs) const
 	{
 		return (mType == DatumType::STRING && mSize > 0 && rhs.compare(*mData.mString) == 0);
+	}
+
+	bool Datum::operator==(const char* rhs) const
+	{
+		return operator==(std::string(rhs));
 	}
 
 	bool Datum::operator==(const glm::vec4& rhs) const
@@ -624,6 +712,11 @@ namespace Library
 		return (mType == DatumType::MATRIX4x4 && mSize > 0 && *mData.mMat4x4 == rhs);
 	}
 
+	bool Datum::operator==(const bool& rhs) const
+	{
+		return (mType == DatumType::BOOLEAN && mSize > 0 && *mData.mBool == rhs);
+	}
+
 	bool Datum::operator==(const RTTI* rhs) const
 	{
 		return (mType == DatumType::POINTER && mSize > 0 && (**mData.mRttiPtr).Equals(rhs));
@@ -634,8 +727,13 @@ namespace Library
 		return (mType == DatumType::TABLE && mSize > 0 && (**mData.mScopePtr) == *rhs);
 	}
 
+	bool Datum::operator==(const Datum* rhs) const
+	{
+		return (mType == DatumType::REFERENCE && mSize > 0 && (**mData.mDatumPtr) == *rhs);
+	}
 
-	bool Datum::operator!=(const Datum & rhs) const
+
+	bool Datum::operator!=(const Datum& rhs) const
 	{
 		return !operator==(rhs);
 	}
@@ -655,6 +753,11 @@ namespace Library
 		return !(operator==(rhs));
 	}
 
+	bool Datum::operator!=(const char* rhs) const
+	{
+		return !(operator==(rhs));
+	}
+
 	bool Datum::operator!=(const glm::vec4& rhs) const
 	{
 		return !(operator==(rhs));
@@ -665,12 +768,22 @@ namespace Library
 		return !(operator==(rhs));
 	}
 
+	bool Datum::operator!=(const bool& rhs) const
+	{
+		return !(operator==(rhs));
+	}
+
 	bool Datum::operator!=(const RTTI* rhs) const
 	{
 		return !(operator==(rhs));
 	}
 
 	bool Datum::operator!=(const Scope* rhs) const
+	{
+		return !(operator==(rhs));
+	}
+
+	bool Datum::operator!=(const Datum* rhs) const
 	{
 		return !(operator==(rhs));
 	}
@@ -715,6 +828,11 @@ namespace Library
 		mData.mString[index] = value;
 	}
 
+	void Datum::Set(const char* value, std::uint32_t index)
+	{
+		Set(std::string(value), index);
+	}
+
 	void Datum::Set(const glm::vec4& value, std::uint32_t index)
 	{
 		Set(DatumType::VECTOR4, index);
@@ -727,6 +845,12 @@ namespace Library
 		mData.mMat4x4[index] = value;
 	}
 
+	void Datum::Set(bool value, std::uint32_t index)
+	{
+		Set(DatumType::BOOLEAN, index);
+		mData.mBool[index] = value;
+	}
+
 	void Datum::Set(RTTI* value, std::uint32_t index)
 	{
 		Set(DatumType::POINTER, index);
@@ -737,6 +861,13 @@ namespace Library
 	{
 		Set(DatumType::TABLE, index);
 		mData.mScopePtr[index] = &value;
+	}
+
+	void Datum::Set(Datum* value, std::uint32_t index)
+	{
+		assert(value != nullptr);
+		Set(DatumType::REFERENCE, index);
+		mData.mDatumPtr[index] = value;
 	}
 
 	void Datum::Remove(std::uint32_t index)
@@ -767,11 +898,16 @@ namespace Library
 				mData.mString[index].std::string::~string();
 				sizeOfType = sizeof(std::string);
 				break;
+			case DatumType::BOOLEAN:
+				sizeOfType = sizeof(bool);
+				break;
 			case DatumType::POINTER:
 				sizeOfType = sizeof(RTTI*);
 				break;
 			case DatumType::TABLE:
 				sizeOfType = sizeof(Scope*);
+			case DatumType::REFERENCE:
+				sizeOfType = sizeof(Datum*);
 			default:
 				break;
 			}
@@ -826,6 +962,14 @@ namespace Library
 	}
 
 	template<>
+	bool& Datum::Get<bool>(std::uint32_t index) const
+	{
+		CurrentTypeCheck(DatumType::BOOLEAN);
+		OutOfBoundsCheck(index);
+		return mData.mBool[index];
+	}
+
+	template<>
 	RTTI*& Datum::Get<RTTI*>(std::uint32_t index) const
 	{
 		CurrentTypeCheck(DatumType::POINTER);
@@ -841,6 +985,14 @@ namespace Library
 		return mData.mScopePtr[index];
 	}
 
+	template<>
+	Datum& Datum::Get<Datum>(std::uint32_t index) const
+	{
+		CurrentTypeCheck(DatumType::REFERENCE);
+		OutOfBoundsCheck(index);
+		return *mData.mDatumPtr[index];
+	}
+
 #pragma endregion
 
 	Scope& Datum::operator[](std::uint32_t index) const
@@ -854,6 +1006,7 @@ namespace Library
 			throw std::exception("Invalid operation. Datum type not set.");
 		glm::vec4 fvec;
 		glm::mat4 mat;
+		bool boolValue = false;
 		switch (mType)
 		{
 			case DatumType::INTEGER:
@@ -886,12 +1039,22 @@ namespace Library
 				Set(mat, index);
 				break;
 
+			case DatumType::BOOLEAN:
+				if (inputString == "true")
+					boolValue = true;
+				Set(boolValue, index);
+				break;
+
 			case DatumType::POINTER:
 				throw std::exception("Invalid operation. Cannot set RTTI pointer from string.");
 				break;
 
 			case DatumType::TABLE:
 				throw std::exception("Invalid operation. Cannot set Scope pointer from string.");
+				break;
+
+			case DatumType::REFERENCE:
+				throw std::exception("Invalid operation. Cannot set Datum pointer from string.");
 				break;
 
 			default:
@@ -930,12 +1093,20 @@ namespace Library
 			toString = glm::to_string(mData.mMat4x4[index]);
 			break;
 
+		case DatumType::BOOLEAN:
+			toString = (mData.mBool[index]) ? "true" : "false";
+			break;
+
 		case DatumType::POINTER:
 			toString = (*mData.mRttiPtr[index]).ToString();
 			break;
 
 		case DatumType::TABLE:
 			toString = "Scope";	//(*mData.mScopePtr[index]).ToString();
+			break;
+
+		case DatumType::REFERENCE:
+			toString = "Datum";
 			break;
 
 		default:

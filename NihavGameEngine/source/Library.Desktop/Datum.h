@@ -26,6 +26,8 @@ namespace Library
 				TABLE,
 				STRING,
 				POINTER,
+				REFERENCE,
+				BOOLEAN,
 				END
 			};
 
@@ -83,10 +85,13 @@ namespace Library
 			Datum& operator=(const std::int32_t& rhs);
 			Datum& operator=(const std::float_t& rhs);
 			Datum& operator=(const std::string& rhs);
+			Datum& operator=(const char* rhs);
 			Datum& operator=(const glm::vec4& rhs);
 			Datum& operator=(const glm::mat4x4& rhs);
+			Datum& operator=(const bool& rhs);
 			Datum& operator=(RTTI* rhs);
 			Datum& operator=(Scope& rhs);
+			Datum& operator=(Datum* rhs);
 
 			Datum operator+(const Datum& rhs);
 			Datum operator-(const Datum& rhs);
@@ -155,7 +160,9 @@ namespace Library
 			void SetStorage(std::string* dataArray, std::uint32_t arraySize);
 			void SetStorage(glm::vec4* dataArray, std::uint32_t arraySize);
 			void SetStorage(glm::mat4x4* dataArray, std::uint32_t arraySize);
+			void SetStorage(bool* dataArray, std::uint32_t arraySize);
 			void SetStorage(RTTI** dataArray, std::uint32_t arraySize);
+			void SetStorage(Datum** dataArray, std::uint32_t arraySize);
 
 			/**
 			 *	Equality operator, deep comparison of the given Datums
@@ -172,10 +179,13 @@ namespace Library
 			bool operator==(const std::int32_t& rhs) const;
 			bool operator==(const std::float_t& rhs) const;
 			bool operator==(const std::string& rhs) const;
+			bool operator==(const char* rhs) const;
 			bool operator==(const glm::vec4& rhs) const;
 			bool operator==(const glm::mat4x4& rhs) const;
+			bool operator==(const bool& rhs) const;
 			bool operator==(const RTTI* rhs) const;
 			bool operator==(const Scope* rhs) const;
+			bool operator==(const Datum* rhs) const;
 
 			/**
 			 *	Not-Equals operator overloads
@@ -186,10 +196,13 @@ namespace Library
 			bool operator!=(const std::int32_t& rhs) const;
 			bool operator!=(const std::float_t& rhs) const;
 			bool operator!=(const std::string& rhs) const;
+			bool operator!=(const char* rhs) const;
 			bool operator!=(const glm::vec4& rhs) const;
 			bool operator!=(const glm::mat4x4& rhs) const;
+			bool operator!=(const bool& rhs) const;
 			bool operator!=(const RTTI* rhs) const;
 			bool operator!=(const Scope* rhs) const;
+			bool operator!=(const Datum* rhs) const;
 
 			/**
 			 *	Sets the given data type value to the given index
@@ -200,10 +213,13 @@ namespace Library
 			void Set(std::int32_t value, std::uint32_t index = 0);
 			void Set(std::float_t value, std::uint32_t index = 0);
 			void Set(const std::string& value, std::uint32_t index = 0);
+			void Set(const char* value, std::uint32_t index = 0);
 			void Set(const glm::vec4& value, std::uint32_t index = 0);
 			void Set(const glm::mat4x4& value, std::uint32_t index = 0);
+			void Set(bool value, std::uint32_t index = 0);
 			void Set(RTTI* value, std::uint32_t index = 0);
 			void Set(Scope& value, std::uint32_t index = 0);
+			void Set(Datum* value, std::uint32_t index = 0);
 
 			void Remove(std::uint32_t index);
 
@@ -317,8 +333,10 @@ namespace Library
 				std::string* mString;
 				glm::vec4* mVec4;
 				glm::mat4x4* mMat4x4;
+				bool* mBool;
 				RTTI** mRttiPtr;
 				Scope** mScopePtr;
+				Datum** mDatumPtr;
 			};
 			Data mData;
 
