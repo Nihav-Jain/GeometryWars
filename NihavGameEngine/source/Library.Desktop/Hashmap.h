@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <utility>
-
+#include <initializer_list>
 #include "DefaultHash.h"
 
 namespace Library
@@ -149,6 +149,7 @@ namespace Library
 			 *	@param initial number of buckets for the Hashmap to start with
 			 */
 			explicit Hashmap(std::uint32_t bucketSize = DEFAULT_BUCKET_SIZE);
+			Hashmap(std::initializer_list<PairType> initList);
 
 			/**
 			 *	default copy contructor

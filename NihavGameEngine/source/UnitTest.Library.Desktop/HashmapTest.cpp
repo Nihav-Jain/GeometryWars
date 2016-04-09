@@ -1985,6 +1985,17 @@ namespace UnitTestLibraryDesktop
 			}
 		}
 
+		TEST_METHOD(HashmapTestInitList)
+		{
+			Hashmap<std::string, std::int32_t> map = {
+				{"name", 10},
+				{"value", 20}
+			};
+
+			Assert::AreEqual(2U, map.Size());
+			Assert::AreEqual(10, map["name"]);
+			Assert::AreEqual(20, map["value"]);
+		}
 
 
 #if defined(DEBUG) | defined(_DEBUG)

@@ -20,6 +20,16 @@ namespace Library
 	}
 
 	template<typename TKey, typename TData, typename HashFunctor>
+	Hashmap<TKey, TData, HashFunctor>::Hashmap(std::initializer_list<typename Hashmap::PairType> initList) :
+		buckets(initList.size() , true), mSize(0), mLowestUsedBucketIndex(initList.size() - 1), mHighestUsedBucketIndex(0)
+	{
+		for (auto& pair : initList)
+		{
+			Insert(pair);
+		}
+	}
+
+	template<typename TKey, typename TData, typename HashFunctor>
 	Hashmap<TKey, TData, HashFunctor>& Hashmap<TKey, TData, HashFunctor>::operator=(Hashmap&& rhs)
 	{
 		if (this != &rhs)

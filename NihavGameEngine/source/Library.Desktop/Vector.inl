@@ -16,6 +16,17 @@ namespace Library
 	}
 
 	template<typename T, typename F>
+	Vector<T, F>::Vector(std::initializer_list<T> initList) :
+		mCapacity(0), mSize(0), mDataArray(nullptr)
+	{
+		Reserve(initList.size());
+		for (auto& item : initList)
+		{
+			PushBack(item);
+		}
+	}
+
+	template<typename T, typename F>
 	Vector<T, F>::Vector(const Vector<T, F>& rhs) :
 		Vector(rhs.Capacity())
 	{

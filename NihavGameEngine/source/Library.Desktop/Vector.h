@@ -1,5 +1,5 @@
 #pragma once
-
+#include <initializer_list>
 #include "DefaultReserveStrategy.h"
 
 namespace Library
@@ -119,6 +119,8 @@ namespace Library
 			 *	Parameterless constructor to create an empty vector
 			 */
 			explicit Vector(std::uint32_t defaultCapacity = DEFAULT_CAPACITY, bool fixedSize = false);
+
+			Vector(std::initializer_list<T> initList);
 
 			/**
 			 *	Copy constructor for Vector

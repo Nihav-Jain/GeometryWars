@@ -1685,6 +1685,15 @@ namespace UnitTestLibraryDesktop
 			}
 		}
 
+		TEST_METHOD(VectorTestInitList)
+		{
+			Vector<std::int32_t> vector = { 1, 2, 3 };
+			Assert::AreEqual(3U, vector.Size());
+			Assert::AreEqual(1, vector[0]);
+			Assert::AreEqual(2, vector[1]);
+			Assert::AreEqual(3, vector[2]);
+		}
+
 #pragma endregion
 
 #if defined(DEBUG) | defined(_DEBUG)
