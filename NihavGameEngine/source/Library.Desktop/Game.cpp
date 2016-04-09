@@ -9,8 +9,7 @@ namespace Library
 		mSharedData(), mParseMaster(mSharedData),
 		mWorldParser(), mSectorParser(), mEntityParser(), mActionParser(),
 		mTableParser(), mPrimitivesParser(), mNameValueParser(),
-		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
-		mEventQueue()
+		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent()
 	{
 		mSharedData.SetRootScope(mWorld);
 
@@ -46,11 +45,6 @@ namespace Library
 		return mParseMaster;
 	}
 
-	EventQueue& Game::GameEventQueue()
-	{
-		return mEventQueue;
-	}
-
 	const GameTime& Game::GetGameTime() const
 	{
 		return mGameTime;
@@ -64,7 +58,6 @@ namespace Library
 	void Game::Update()
 	{
 		mGameClock.UpdateGameTime(mGameTime);
-		mEventQueue.Update(mGameTime);
 		mWorld.Update();
 	}
 

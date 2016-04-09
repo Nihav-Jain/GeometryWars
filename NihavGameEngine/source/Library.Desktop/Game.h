@@ -24,8 +24,6 @@
 #include "XmlParseHelperReaction.h"
 #include "XmlParseHelperActionEvent.h"
 
-#include "EventQueue.h"
-
 namespace Library
 {
 	/**
@@ -71,11 +69,9 @@ namespace Library
 		XmlParseMaster& ParseMaster();
 
 		/**
-		 *	Getter for the game's EventQueue
-		 *	@return reference EventQueue
+		 *	Getter of Game time
+		 *	@return const reference to game time
 		 */
-		EventQueue& GameEventQueue();
-
 		const GameTime& GetGameTime() const;
 
 		/**
@@ -118,7 +114,6 @@ namespace Library
 		XmlParseHelperReaction mReactionParser;
 		XmlParseHelperActionEvent mActionEvent;
 
-		EventQueue mEventQueue;
 	};
 }
 

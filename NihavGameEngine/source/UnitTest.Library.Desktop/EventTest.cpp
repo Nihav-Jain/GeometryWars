@@ -93,7 +93,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(EventTestEventQueue)
 		{
 			Game game;
-			EventQueue& queue = game.GameEventQueue();
+			EventQueue& queue = game.GetWorld().GetEventQueue();
 
 			FooSubscriber subscriber;
 			Foo foo(20);
@@ -165,7 +165,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(EventQueueTestSend)
 		{
 			Game game;
-			EventQueue& queue = game.GameEventQueue();
+			EventQueue& queue = game.GetWorld().GetEventQueue();
 
 			Foo foo(20);
 			FooSubscriber subscriber;
@@ -234,7 +234,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(EventQueueTestCancelEvent)
 		{
 			Game game;
-			EventQueue& queue = game.GameEventQueue();
+			EventQueue& queue = game.GetWorld().GetEventQueue();
 
 			Foo foo(20);
 			FooSubscriber subscriber;
