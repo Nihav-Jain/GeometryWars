@@ -106,6 +106,13 @@ namespace Library
 		return Append(name);
 	}
 
+	Scope& Attributed::AppendAuxiliaryScope(const std::string& name)
+	{
+		if (IsPrescribedAttribute(name))
+			throw std::exception("Attribute already exists");
+		return AppendScope(name);
+	}
+
 	std::uint32_t Attributed::AuxiliaryBegin() const
 	{
 		return mPrescribedAttributes.Size();

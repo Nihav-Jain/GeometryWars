@@ -81,6 +81,8 @@ namespace Library
 		 */
 		Datum& AppendAuxiliaryAttribute(const std::string& name);
 
+		Scope& AppendAuxiliaryScope(const std::string& name);
+
 		/**
 		 *	Returns the index in the Scope order vector from where auxiliary attributes of the derived Attributed class instance will start
 		 *	@return number of prescribed attributes
