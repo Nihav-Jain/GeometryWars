@@ -46,7 +46,6 @@ namespace Library
 	{
 		AddInternalAttribute(ATTRIBUTE_SUBTYPE, "", 0);
 		AddInternalAttribute(ATTRIBUTE_DELAY, 0, 1);
-		AddNestedScope(ATTRIBUTE_ATTRIBUTES, 0);
 	}
 
 }

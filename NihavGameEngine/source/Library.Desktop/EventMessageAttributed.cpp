@@ -87,5 +87,6 @@ namespace Library
 	void EventMessageAttributed::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_SUBTYPE, 1, &mSubtype);
+		AddNestedScope(ATTRIBUTE_ATTRIBUTES, 0);
 	}
 }
