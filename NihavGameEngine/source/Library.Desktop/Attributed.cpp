@@ -118,6 +118,30 @@ namespace Library
 		return mPrescribedAttributes.Size();
 	}
 
+	void Attributed::CopyAuxiliaryAttributesFromAnotherAttributed(const Attributed& anotherAttributed)
+	{
+		std::uint32_t i;
+		for (i = anotherAttributed.AuxiliaryBegin(); i < anotherAttributed.Size(); i++)
+		{
+			const SymbolPair& pair = anotherAttributed.GetPair(i);
+			Remove(pair.first);
+			if (pair.second.Type() == Datum::DatumType::TABLE)
+			{
+				const Datum& nestedScopeDatum = pair.second;
+				std::uint32_t j;
+				for (j = 0; j < nestedScopeDatum.Size(); j++)
+				{
+					Scope* nestedScopeAttribute = new Scope(*nestedScopeDatum.Get<Scope*>(j));
+					Adopt(pair.first, *nestedScopeAttribute);
+				}
+			}
+			else
+			{
+				AppendAuxiliaryAttribute(pair.first) = pair.second;
+			}
+		}
+	}
+
 	void Attributed::Clear()
 	{
 		Scope::Clear();

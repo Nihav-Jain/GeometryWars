@@ -81,6 +81,12 @@ namespace Library
 		 */
 		Datum& AppendAuxiliaryAttribute(const std::string& name);
 
+		/**
+		 *	Add an auxiliary attribute of type table to the current instance of the derived Attributed class
+		 *	@param name of the attribute
+		 *	@return reference to the Scope which will contain the value for the auxiliary attribute and is associated with the given name
+		 *	@exception cannot add an auxiliary attribute with the same name as a prescribed attribute
+		 */
 		Scope& AppendAuxiliaryScope(const std::string& name);
 
 		/**
@@ -88,6 +94,13 @@ namespace Library
 		 *	@return number of prescribed attributes
 		 */
 		std::uint32_t AuxiliaryBegin() const;
+
+		/**
+		 *	Deep copies the auxiliary attributes of the given Attributed into itself.
+		 *	If any attributes of the same name already exist, they are overriden by the new values
+		 *	@param constant reference to the Attributed whose auxiliary attributes are to be copied
+		 */
+		void CopyAuxiliaryAttributesFromAnotherAttributed(const Attributed& anotherAttributed);
 
 		/**
 		 *	Destructor

@@ -23,26 +23,7 @@ namespace Library
 		message.SetSubtype((*this)[ATTRIBUTE_SUBTYPE].Get<std::string>());
 		message.SetWorldState(worldState);
 
-		std::uint32_t i = AuxiliaryBegin();
-		std::uint32_t size = Size();
-		for (; i < size; i++)
-		{
-			const SymbolPair& pair = GetPair(i);
-			if (pair.second.Type() == Datum::DatumType::TABLE)
-			{
-				const Datum& nestedScopeDatum = pair.second;
-				std::uint32_t j;
-				for (j = 0; j < nestedScopeDatum.Size(); j++)
-				{
-					Scope* nestedScopeAttribute = new Scope(*nestedScopeDatum.Get<Scope*>(j));
-					message.Adopt(pair.first, *nestedScopeAttribute);
-				}
-			}
-			else
-			{
-				message.AppendAuxiliaryAttribute(pair.first) = pair.second;
-			}
-		}
+		message.CopyAuxiliaryAttributesFromAnotherAttributed(*this);
 
 		std::int32_t delay = (*this)[ATTRIBUTE_DELAY].Get<std::int32_t>();
 		std::shared_ptr<Event<EventMessageAttributed>> attributedEvent = std::make_shared<Event<EventMessageAttributed>>(message);
