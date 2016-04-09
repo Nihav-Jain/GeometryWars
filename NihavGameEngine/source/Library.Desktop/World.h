@@ -82,7 +82,16 @@ namespace Library
 		 */
 		void Update();
 
+		/**
+		 *	Getter for world state
+		 *	@return reference to WorldState
+		 */
 		WorldState& GetWorldState();
+
+		/**
+		 *	Getter for EventQueue
+		 *	@return reference to EventQueue
+		 */
 		EventQueue& GetEventQueue();
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;

@@ -103,6 +103,12 @@ namespace Library
 		 */
 		Datum& operator[](const std::string& name);
 
+		/**
+		 *	const overload - wrapper for Find
+		 *	@param name of the datum to be searched
+		 *	@return constant reference to the Datum in the Scope stored with the given name
+		 *	@exception if there is no pair with the given name
+		 */
 		const Datum& operator[](const std::string& name) const;
 
 		/**
@@ -112,12 +118,30 @@ namespace Library
 		 */
 		Datum& operator[](std::uint32_t index);
 
+		/**
+		 *	Accesor for the Datum added to this Scope at the given order index
+		 *	@param order in which Datums was added to the Scope
+		 *	@return constant reference to the Datum in the Scope stored at the given order index
+		 */
 		const Datum& operator[](std::uint32_t index) const;
 
+		/**
+		 *	Accesor for the name-Datum pair added to this Scope at the given order index
+		 *	@param order in which Datums was added to the Scope
+		 *	@return constant reference to the name-Datum pair in the Scope stored at the given order index
+		 */
 		const SymbolPair& GetPair(std::uint32_t index) const;
 
+		/**
+		 *	Total number of name-datum pairs stored in this Scope
+		 *	@return number of pairs
+		 */
 		std::uint32_t Size() const;
 
+		/**
+		 *	Removes the pair with the given name from itself
+		 *	@param name corresponding to the datum to be removed
+		 */
 		void Remove(const std::string& name);
 
 		/**
