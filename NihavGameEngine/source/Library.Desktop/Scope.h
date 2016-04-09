@@ -9,6 +9,9 @@ namespace Library
 	{
 		RTTI_DECLARATIONS(Scope, RTTI);
 	public:
+		typedef Hashmap<std::string, Datum> SymbolTable;
+		typedef Vector<SymbolTable::PairType*> SymbolList;
+		typedef SymbolTable::PairType SymbolPair;
 
 		/**
 		 *	Initialized the symbol table and list
@@ -110,6 +113,12 @@ namespace Library
 		Datum& operator[](std::uint32_t index);
 
 		const Datum& operator[](std::uint32_t index) const;
+
+		const SymbolPair& GetPair(std::uint32_t index) const;
+
+		std::uint32_t Size() const;
+
+		void Remove(const std::string& name);
 
 		/**
 		 *	Equality operator - does a recursive check on all child scopes and datum values
@@ -213,10 +222,6 @@ namespace Library
 		 *	@param reference to Scope to be copied from
 		 */
 		void PointerFixupAfterMove(Scope& rhs);
-
-		typedef Hashmap<std::string, Datum> SymbolTable;
-		typedef Vector<SymbolTable::PairType*> SymbolList;
-		typedef SymbolTable::PairType SymbolPair;
 
 		Scope* mParent;
 

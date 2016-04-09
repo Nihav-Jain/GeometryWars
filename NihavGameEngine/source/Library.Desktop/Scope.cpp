@@ -174,6 +174,13 @@ namespace Library
 		}
 	}
 
+	const Scope::SymbolPair& Scope::GetPair(std::uint32_t index) const
+	{
+		if (index >= mSymbolList.Size())
+			throw std::exception("Index out of bounds");
+		return *mSymbolList[index];
+	}
+
 	void Scope::Adopt(const std::string& name, Scope& child)
 	{
 		if (IsAncestor(&child))
@@ -216,6 +223,32 @@ namespace Library
 	const Datum& Scope::operator[](std::uint32_t index) const
 	{
 		return (*mSymbolList[index]).second;
+	}
+
+	std::uint32_t Scope::Size() const
+	{
+		return mSymbolList.Size();
+	}
+
+	void Scope::Remove(const std::string& name)
+	{
+		SymbolTable::Iterator itr = mSymbolTable.Find(name);
+		if (itr == mSymbolTable.end())
+			return;
+		
+		SymbolPair& pair = *itr;
+		mSymbolList.Remove(&pair);
+
+		if (pair.second.Type() == Datum::DatumType::TABLE)
+		{
+			while (pair.second.Size() > 0)
+			{
+				pair.second.Get<Scope*>(pair.second.Size() - 1)->Clear();
+				pair.second.Remove(pair.second.Size() - 1);
+			}
+		}
+		pair.second.Clear();
+		mSymbolTable.Remove(pair.first);
 	}
 
 	bool Scope::operator==(const Scope& rhs) const
