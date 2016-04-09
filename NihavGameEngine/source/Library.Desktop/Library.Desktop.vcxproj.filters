@@ -104,21 +104,35 @@
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
     <ClInclude Include="IEventSubscriber.h">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </ClInclude>
     <ClInclude Include="EventPublisher.h">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </ClInclude>
     <ClInclude Include="EventQueue.h">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </ClInclude>
-    <ClInclude Include="Reaction.h" />
-    <ClInclude Include="EventMessageAttributed.h" />
-    <ClInclude Include="ReactionAttributed.h" />
-    <ClInclude Include="ActionEvent.h" />
+    <ClInclude Include="Reaction.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="ReactionAttributed.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMessageAttributed.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEvent.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperReaction.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionEvent.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -206,15 +220,29 @@
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="EventPublisher.cpp">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </ClCompile>
     <ClCompile Include="EventQueue.cpp">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </ClCompile>
-    <ClCompile Include="Reaction.cpp" />
-    <ClCompile Include="EventMessageAttributed.cpp" />
-    <ClCompile Include="ReactionAttributed.cpp" />
-    <ClCompile Include="ActionEvent.cpp" />
+    <ClCompile Include="Reaction.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="ReactionAttributed.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMessageAttributed.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionEvent.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperReaction.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionEvent.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -234,7 +262,7 @@
       <Filter>Containers</Filter>
     </None>
     <None Include="Event.inl">
-      <Filter>Event</Filter>
+      <Filter>Kernel\Event</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +284,10 @@
     <Filter Include="Containers\DefaultAlgos">
       <UniqueIdentifier>{12cdb7e0-222a-48dc-a856-d8af539b5712}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Event">
+    <Filter Include="Kernel\Reaction">
+      <UniqueIdentifier>{b81e4602-a96f-4506-9204-cf8ee103b9f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Event">
       <UniqueIdentifier>{1701d7bb-f296-4604-b3f4-681d9c373f7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

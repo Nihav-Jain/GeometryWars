@@ -237,11 +237,13 @@
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="XmlParseHelperAction.h" />
     <ClInclude Include="XmlParseHelperActionCreate.h" />
+    <ClInclude Include="XmlParseHelperActionEvent.h" />
     <ClInclude Include="XmlParseHelperActionExpression.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
+    <ClInclude Include="XmlParseHelperReaction.h" />
     <ClInclude Include="XmlParseHelperSector.h" />
     <ClInclude Include="XmlParseHelperWorld.h" />
     <ClInclude Include="XmlParseMaster.h" />
@@ -280,11 +282,13 @@
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperAction.cpp" />
     <ClCompile Include="XmlParseHelperActionCreate.cpp" />
+    <ClCompile Include="XmlParseHelperActionEvent.cpp" />
     <ClCompile Include="XmlParseHelperActionExpression.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
+    <ClCompile Include="XmlParseHelperReaction.cpp" />
     <ClCompile Include="XmlParseHelperSector.cpp" />
     <ClCompile Include="XmlParseHelperWorld.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
