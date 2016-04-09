@@ -98,7 +98,7 @@ namespace Library
 				std::uint32_t j;
 				for (j = 0; j < nestedScopeDatum.Size(); j++)
 				{
-					Scope* nestedScopeAttribute = new Scope(*nestedScopeDatum.Get<Scope*>(j));
+					Scope* nestedScopeAttribute = new Scope(nestedScopeDatum.Get<Scope>(j));
 					Adopt(pair.first, *nestedScopeAttribute);
 				}
 			}

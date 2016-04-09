@@ -56,7 +56,7 @@ namespace Library
 		const Datum& sectors = Sectors();
 		for (std::uint32_t i = 0; i < sectors.Size(); i++)
 		{
-			Sector* sector = sectors.Get<Scope*>(i)->As<Sector>();
+			Sector* sector = sectors.Get<Scope>(i).As<Sector>();
 			assert(sector != nullptr);
 			if (sector->Name() == sectorName)
 				return sector;
@@ -77,7 +77,7 @@ namespace Library
 		Datum& sectors = Sectors();
 		for (i = 0; i < sectors.Size(); i++)
 		{
-			Sector* sector = sectors.Get<Scope*>(i)->As<Sector>();
+			Sector* sector = sectors.Get<Scope>(i).As<Sector>();
 			assert(sector != nullptr);
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);

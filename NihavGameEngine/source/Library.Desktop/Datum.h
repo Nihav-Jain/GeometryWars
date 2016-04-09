@@ -230,6 +230,22 @@ namespace Library
 			 */
 			template <typename T>
 			T& Get(std::uint32_t index = 0) const;
+			template<>
+			std::int32_t& Get<std::int32_t>(std::uint32_t index) const;
+			template<>
+			std::float_t& Get<std::float_t>(std::uint32_t index) const;
+			template<>
+			std::string& Get<std::string>(std::uint32_t index) const;
+			template<>
+			glm::vec4& Get<glm::vec4>(std::uint32_t index) const;
+			template<>
+			glm::mat4x4& Get<glm::mat4x4>(std::uint32_t index) const;
+			template<>
+			bool& Get<bool>(std::uint32_t index) const;
+			template<>
+			Scope& Get<Scope>(std::uint32_t index) const;
+			template<>
+			Datum& Get<Datum>(std::uint32_t index) const;
 
 			Scope& operator[](std::uint32_t index) const;
 

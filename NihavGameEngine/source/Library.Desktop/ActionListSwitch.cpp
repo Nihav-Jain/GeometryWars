@@ -40,7 +40,7 @@ namespace Library
 		}
 		for (uint32_t i = 0; i < cases.Size(); i++)
 		{
-			ActionListSwitchCase* switchCase = cases.Get<Scope*>(i)->As<ActionListSwitchCase>();
+			ActionListSwitchCase* switchCase = cases.Get<Scope>(i).As<ActionListSwitchCase>();
 			if (switchCase == nullptr)
 				continue;
 			if (switchCase->DefaultCase)
@@ -76,8 +76,8 @@ namespace Library
 			// execute default case
 			if (IsAttribute(ActionListSwitchCase::ATTRIBUTE_DEFAULT))
 			{
-				Scope* defaultActionScope = (*this)[ActionListSwitchCase::ATTRIBUTE_DEFAULT].Get<Scope*>();
-				ActionListSwitchCase* defaultCase = defaultActionScope->AssertiveAs<ActionListSwitchCase>();
+				Scope& defaultActionScope = (*this)[ActionListSwitchCase::ATTRIBUTE_DEFAULT].Get<Scope>();
+				ActionListSwitchCase* defaultCase = defaultActionScope.AssertiveAs<ActionListSwitchCase>();
 
 				worldState.action = defaultCase;
 				defaultCase->Update(worldState);
@@ -95,7 +95,7 @@ namespace Library
 				std::uint32_t i;
 				for (i = 0; i < cases.Size(); i++)
 				{
-					if (cases.Get<Scope*>(i) == matchingCase)
+					if (&cases.Get<Scope>(i) == matchingCase)
 					{
 						++i;
 						break;
@@ -103,9 +103,9 @@ namespace Library
 				}
 				for (; i < cases.Size(); i++)
 				{
-					Scope* nextCase = cases.Get<Scope*>(i);
-					assert(nextCase->Is(ActionListSwitchCase::TypeIdClass()));
-					matchingCase = static_cast<ActionListSwitchCase*>(nextCase);
+					Scope& nextCase = cases.Get<Scope>(i);
+					assert(nextCase.Is(ActionListSwitchCase::TypeIdClass()));
+					matchingCase = static_cast<ActionListSwitchCase*>(&nextCase);
 					worldState.action = matchingCase;
 					matchingCase->Update(worldState);
 					if (matchingCase->MustBreak)

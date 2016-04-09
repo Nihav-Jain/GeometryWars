@@ -66,10 +66,10 @@ namespace UnitTestLibraryDesktop
 				Datum* angrybirds = angryBirdsData.mAngryBirdsData.Find("angrybirds");
 				Assert::IsNotNull(angrybirds);
 
-				Scope* birds = ((*angrybirds->Get<Scope*>())["birds"].Get<Scope*>());
-				Datum* src = birds->Find("src");
-				Datum* imageWidth = birds->Find("imageWidth");
-				Datum* imageHeight = birds->Find("imageHeight");
+				Scope& birds = ((angrybirds->Get<Scope>())["birds"].Get<Scope>());
+				Datum* src = birds.Find("src");
+				Datum* imageWidth = birds.Find("imageWidth");
+				Datum* imageHeight = birds.Find("imageHeight");
 
 				Assert::IsNotNull(src);
 				Assert::IsTrue(src->Get<std::string>() == "Textures/SR_Regular_Birds-1.png");
@@ -96,10 +96,10 @@ namespace UnitTestLibraryDesktop
 				Datum* angrybirds = angryBirdsData.mAngryBirdsData.Find("angrybirds");
 				Assert::IsNotNull(angrybirds);
 
-				Scope* birds = ((*angrybirds->Get<Scope*>())["birds"].Get<Scope*>());
-				Datum* src = birds->Find("src");
-				Datum* imageWidth = birds->Find("imageWidth");
-				Datum* imageHeight = birds->Find("imageHeight");
+				Scope& birds = ((angrybirds->Get<Scope>())["birds"].Get<Scope>());
+				Datum* src = birds.Find("src");
+				Datum* imageWidth = birds.Find("imageWidth");
+				Datum* imageHeight = birds.Find("imageHeight");
 
 				Assert::IsNotNull(src);
 				Assert::IsTrue(src->Get<std::string>() == "Textures/SR_Regular_Birds-1.png");
@@ -123,10 +123,10 @@ namespace UnitTestLibraryDesktop
 				Datum* angrybirds = anotherAngryBirdsData.mAngryBirdsData.Find("angrybirds");
 				Assert::IsNotNull(angrybirds);
 
-				Scope* birds = ((*angrybirds->Get<Scope*>())["birds"].Get<Scope*>());
-				Datum* src = birds->Find("src");
-				Datum* imageWidth = birds->Find("imageWidth");
-				Datum* imageHeight = birds->Find("imageHeight");
+				Scope& birds = ((angrybirds->Get<Scope>())["birds"].Get<Scope>());
+				Datum* src = birds.Find("src");
+				Datum* imageWidth = birds.Find("imageWidth");
+				Datum* imageHeight = birds.Find("imageHeight");
 
 				Assert::IsNotNull(src);
 				Assert::IsTrue(src->Get<std::string>() == "Textures/SR_Regular_Birds-1.png");

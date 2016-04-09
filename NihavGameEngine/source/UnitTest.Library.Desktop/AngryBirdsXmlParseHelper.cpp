@@ -99,7 +99,7 @@ template <>
 bool AngryBirdsXmlParseHelper::ParseElement<AngryBirdsXmlParseHelper::ElementNames::Birds>(AngryBirdsSharedData& sharedData, const Hashmap<std::string, std::string>& attributes)
 {
 	Datum& angrybirds = sharedData.mAngryBirdsData["angrybirds"];
-	Scope& birds = angrybirds.Get<Scope*>()->AppendScope("birds");
+	Scope& birds = angrybirds.Get<Scope>().AppendScope("birds");
 	
 	birds["src"] = attributes["src"];
 	birds["imageWidth"] = std::stoi(attributes["imageWidth"]);

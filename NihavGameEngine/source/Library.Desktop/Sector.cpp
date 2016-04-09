@@ -53,7 +53,7 @@ namespace Library
 		const Datum& entities = Entities();
 		for (std::uint32_t i = 0; i < entities.Size(); i++)
 		{
-			Entity* entity = entities.Get<Scope*>(i)->As<Entity>();
+			Entity* entity = entities.Get<Scope>(i).As<Entity>();
 			assert(entity != nullptr);
 			if (entity->Name() == entityName)
 				return entity;
@@ -80,7 +80,7 @@ namespace Library
 		std::uint32_t i;
 		for (i = 0; i < entities.Size(); i++)
 		{
-			Entity* entity = entities.Get<Scope*>(i)->As<Entity>();
+			Entity* entity = entities.Get<Scope>(i).As<Entity>();
 			assert(entity != nullptr);
 			worldState.entity = entity;
 			entity->Update(worldState);

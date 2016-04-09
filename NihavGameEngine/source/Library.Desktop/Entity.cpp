@@ -54,7 +54,7 @@ namespace Library
 		const Datum& actions = Actions();
 		for (std::uint32_t i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope*>(i)->As<Action>();
+			Action* action = actions.Get<Scope>(i).As<Action>();
 			assert(action != nullptr);
 			if (action->Name() == actionName)
 				return action;
@@ -81,7 +81,7 @@ namespace Library
 		std::uint32_t i;
 		for (i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope*>(i)->As<Action>();
+			Action* action = actions.Get<Scope>(i).As<Action>();
 			assert(action != nullptr);
 			worldState.action = action;
 			action->Update(worldState);

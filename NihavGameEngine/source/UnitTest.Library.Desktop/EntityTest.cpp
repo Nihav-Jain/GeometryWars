@@ -74,8 +74,8 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsFalse(world.IsAttribute("sector1"));
 			Datum& worldSectors = world.Sectors();
-			Assert::IsTrue(worldSectors.Get<Scope*>(0) == &sector1);
-			Assert::IsTrue(worldSectors.Get<Scope*>(1) == &sector2);
+			Assert::IsTrue(&worldSectors.Get<Scope>(0) == &sector1);
+			Assert::IsTrue(&worldSectors.Get<Scope>(1) == &sector2);
 			Assert::IsTrue(sector1.Name() == "sector1");
 			Assert::IsTrue(sector2.Name() == "sector2");
 
@@ -89,15 +89,15 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsFalse(sector1.IsAttribute("entity11"));
 			Datum& sector1Entities = sector1.Entities();
-			Assert::IsTrue(sector1Entities.Get<Scope*>(0) == &entity11);
-			Assert::IsTrue(sector1Entities.Get<Scope*>(1) == &entity12);
+			Assert::IsTrue(&sector1Entities.Get<Scope>(0) == &entity11);
+			Assert::IsTrue(&sector1Entities.Get<Scope>(1) == &entity12);
 			Assert::IsTrue(entity11.Name() == "entity11");
 			Assert::IsTrue(entity12.Name() == "entity12");
 
 			Assert::IsFalse(sector2.IsAttribute("entity21"));
 			Datum& sector2Entities = sector2.Entities();
-			Assert::IsTrue(sector2Entities.Get<Scope*>(0) == &entity21);
-			Assert::IsTrue(sector2Entities.Get<Scope*>(1) == &entity22);
+			Assert::IsTrue(&sector2Entities.Get<Scope>(0) == &entity21);
+			Assert::IsTrue(&sector2Entities.Get<Scope>(1) == &entity22);
 			Assert::IsTrue(entity21.Name() == "entity21");
 			Assert::IsTrue(entity22.Name() == "entity22");
 
@@ -157,21 +157,21 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(world->IsAuxiliaryAttribute("worldScope"));
 
-			Scope* worldNestedScope = world->operator[]("worldScope").Get<Scope*>();
-			Assert::IsNotNull(worldNestedScope->Find("worldScopeFloat"));
-			Assert::IsNotNull(worldNestedScope->Find("worldScopeString"));
-			Assert::IsNotNull(worldNestedScope->Find("worldScopeVector"));
+			Scope& worldNestedScope = world->operator[]("worldScope").Get<Scope>();
+			Assert::IsNotNull(worldNestedScope.Find("worldScopeFloat"));
+			Assert::IsNotNull(worldNestedScope.Find("worldScopeString"));
+			Assert::IsNotNull(worldNestedScope.Find("worldScopeVector"));
 
-			Assert::AreEqual(10.10f, worldNestedScope->operator[]("worldScopeFloat").Get<std::float_t>());
-			Assert::IsTrue("scopestring" == worldNestedScope->operator[]("worldScopeString").Get<std::string>());
-			Assert::IsTrue(worldNestedScope->operator[]("worldScopeVector").Get<glm::vec4>() == glm::vec4(10, 20, 30, 40));
+			Assert::AreEqual(10.10f, worldNestedScope["worldScopeFloat"].Get<std::float_t>());
+			Assert::IsTrue("scopestring" == worldNestedScope["worldScopeString"].Get<std::string>());
+			Assert::IsTrue(worldNestedScope["worldScopeVector"].Get<glm::vec4>() == glm::vec4(10, 20, 30, 40));
 
 			Assert::IsFalse(world->IsAttribute("worldSector1"));
 
 			Datum& worldSectors = world->Sectors();
 			Assert::AreEqual(2U, worldSectors.Size());
 			
-				Sector* worldSector1 = worldSectors.Get<Scope*>(0)->As<Sector>();
+				Sector* worldSector1 = worldSectors.Get<Scope>(0).As<Sector>();
 				Assert::IsNotNull(worldSector1);
 				Assert::IsTrue(worldSector1->Name() == "worldSector1");
 				Assert::IsTrue(worldSector1->IsPrescribedAttribute("entities"));
@@ -179,9 +179,9 @@ namespace UnitTestLibraryDesktop
 				Assert::IsFalse(worldSector1->IsAuxiliaryAttribute("sector1Entity1"));
 				Assert::IsTrue(worldSector1->IsAuxiliaryAttribute("sector1Scope"));
 
-				Scope* sector1Scope = worldSector1->operator[]("sector1Scope").Get<Scope*>();
-				Assert::IsNotNull(sector1Scope->Find("sector1Int"));
-				Assert::AreEqual(5, sector1Scope->Find("sector1Int")->Get<std::int32_t>());
+				Scope& sector1Scope = worldSector1->operator[]("sector1Scope").Get<Scope>();
+				Assert::IsNotNull(sector1Scope.Find("sector1Int"));
+				Assert::AreEqual(5, sector1Scope.Find("sector1Int")->Get<std::int32_t>());
 
 				Assert::IsTrue(worldSector1->IsAuxiliaryAttribute("sector1Mat"));
 				Assert::IsTrue(worldSector1->Find("sector1Mat")->Get<glm::mat4>() == glm::mat4x4(10));
@@ -191,7 +191,7 @@ namespace UnitTestLibraryDesktop
 				Datum& sector1Entities = worldSector1->Entities();
 				Assert::AreEqual(2U, sector1Entities.Size());
 
-					Entity* sector1Entity = sector1Entities.Get<Scope*>(0)->As<Entity>();
+					Entity* sector1Entity = sector1Entities.Get<Scope>(0).As<Entity>();
 					Assert::IsNotNull(sector1Entity);
 					Assert::IsTrue(sector1Entity->Name() == "sector1Entity1");
 
@@ -199,11 +199,11 @@ namespace UnitTestLibraryDesktop
 					Assert::IsTrue(sector1Entity->IsAuxiliaryAttribute("entity1Scope"));
 
 					Assert::IsTrue(sector1Entity->operator[]("entity1Str") == "stringvalue");
-					Scope* sector1Entity1Scope = sector1Entity->operator[]("entity1Scope").Get<Scope*>();
-					Assert::IsNotNull(sector1Entity1Scope->Find("entity1Int"));
-					Assert::AreEqual(50, sector1Entity1Scope->Find("entity1Int")->Get<std::int32_t>());
+					Scope& sector1Entity1Scope = sector1Entity->operator[]("entity1Scope").Get<Scope>();
+					Assert::IsNotNull(sector1Entity1Scope.Find("entity1Int"));
+					Assert::AreEqual(50, sector1Entity1Scope.Find("entity1Int")->Get<std::int32_t>());
 
-					Entity* sector1Entity2 = sector1Entities.Get<Scope*>(1)->As<Entity>();
+					Entity* sector1Entity2 = sector1Entities.Get<Scope>(1).As<Entity>();
 					Assert::IsNotNull(sector1Entity2);
 					Assert::IsTrue(sector1Entity2->Is(ActorEntity::TypeIdClass()));
 					Assert::IsTrue(sector1Entity2->IsPrescribedAttribute("position"));
@@ -211,10 +211,10 @@ namespace UnitTestLibraryDesktop
 					std::int32_t positionIteration = sector1Entity2->operator[]("positionIteration").Get<std::int32_t>();
 					Assert::AreEqual(3, positionIteration);
 
-				Sector* worldSector2 = worldSectors.Get<Scope*>(1)->As<Sector>();
+				Sector* worldSector2 = worldSectors.Get<Scope>(1).As<Sector>();
 				Assert::IsNotNull(worldSector2);
 				Assert::AreEqual(1U, worldSector2->Entities().Size());
-					Entity* sector2Entity = worldSector2->Entities().Get<Scope*>()->As<Entity>();
+					Entity* sector2Entity = worldSector2->Entities().Get<Scope>().As<Entity>();
 					Assert::IsNotNull(sector2Entity);
 					Assert::IsTrue(sector2Entity->Is(ActorEntity::TypeIdClass()));
 					Assert::IsTrue(sector2Entity->IsPrescribedAttribute("position"));

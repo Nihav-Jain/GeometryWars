@@ -978,11 +978,11 @@ namespace Library
 	}
 
 	template<>
-	Scope*& Datum::Get<Scope*>(std::uint32_t index) const
+	Scope& Datum::Get<Scope>(std::uint32_t index) const
 	{
 		CurrentTypeCheck(DatumType::TABLE);
 		OutOfBoundsCheck(index);
-		return mData.mScopePtr[index];
+		return *mData.mScopePtr[index];
 	}
 
 	template<>
@@ -997,7 +997,7 @@ namespace Library
 
 	Scope& Datum::operator[](std::uint32_t index) const
 	{
-		return *Get<Scope*>(index);
+		return Get<Scope>(index);
 	}
 
 	void Datum::SetFromString(const std::string& inputString, std::uint32_t index)

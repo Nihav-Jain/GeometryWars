@@ -128,7 +128,7 @@ namespace Library
 			delete &scopeToAppend;
 			throw std::exception("Cannot change data type of Datum");
 		}
-		return *scopeDatum.Get<Scope*>(scopeDatum.Size() - 1);
+		return scopeDatum.Get<Scope>(scopeDatum.Size() - 1);
 	}
 
 	void Scope::RecursiveScopeChildrenCopy(const Scope& rhs)
@@ -144,7 +144,7 @@ namespace Library
 			{
 				for (std::uint32_t i = 0U; i < orderedSymbol->second.Size(); ++i)
 				{
-					Scope* newScopeCopy = orderedSymbol->second.Get<Scope*>(i)->Clone(*orderedSymbol->second.Get<Scope*>(i)); // new Scope(*orderedSymbol->second.Get<Scope*>(i));
+					Scope* newScopeCopy = orderedSymbol->second.Get<Scope>(i).Clone(orderedSymbol->second.Get<Scope>(i)); // new Scope(*orderedSymbol->second.Get<Scope*>(i));
 					AppendScope(orderedSymbol->first, *newScopeCopy);
 				}
 			}
@@ -159,7 +159,7 @@ namespace Library
 			{
 				for (std::uint32_t i = 0; i < symbol->second.Size(); ++i)
 				{
-					symbol->second.Get<Scope*>(i)->mParent = this;
+					symbol->second.Get<Scope>(i).mParent = this;
 				}
 			}
 		}
@@ -243,7 +243,7 @@ namespace Library
 		{
 			while (pair.second.Size() > 0)
 			{
-				pair.second.Get<Scope*>(pair.second.Size() - 1)->Clear();
+				pair.second.Get<Scope>(pair.second.Size() - 1).Clear();
 				pair.second.Remove(pair.second.Size() - 1);
 			}
 		}
@@ -291,7 +291,7 @@ namespace Library
 				std::uint32_t i;
 				for (i = 0; i < datum.Size(); i++)
 				{
-					if (datum.Get<Scope*>(i) == &child)
+					if (&datum.Get<Scope>(i) == &child)
 					{
 						childScopeName = itr->first;
 						break;
@@ -318,7 +318,7 @@ namespace Library
 					while (symbol->second.Size() > 0U)
 					{
 						Orphan(symbol->second, 0);
-						delete symbol->second.Get<Scope*>();
+						delete &symbol->second.Get<Scope>();
 					}
 				}
 			}
@@ -364,7 +364,7 @@ namespace Library
 				std::uint32_t i;
 				for (i = 0U; i < symbol->second.Size(); i++)
 				{
-					if (symbol->second.Get<Scope*>(i) == &child)
+					if (&symbol->second.Get<Scope>(i) == &child)
 					{
 						childContainer = &symbol->second;
 						index = i;

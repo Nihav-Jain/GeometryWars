@@ -116,7 +116,7 @@ namespace UnitTestLibraryDesktop
 			powerScope1.Orphan();
 			Assert::IsNull(powerScope1.GetParent());
 			Assert::AreEqual(1U, rootScope.Find("power")->Size());
-			Assert::IsTrue(&powerScope2 == rootScope.Find("power")->Get<Scope*>());
+			Assert::IsTrue(&powerScope2 == &rootScope.Find("power")->Get<Scope>());
 
 			delete &powerScope1;
 
@@ -310,7 +310,7 @@ namespace UnitTestLibraryDesktop
 			Scope rootScope2 = std::move(rootScope);
 			Assert::IsNull(rootScope2.GetParent());
 			Assert::IsNotNull(rootScope2.Find("health"));
-			Assert::IsTrue(rootScope2.Find("power")->Get<Scope*>() == &powerScope1);
+			Assert::IsTrue(&rootScope2.Find("power")->Get<Scope>() == &powerScope1);
 
 			Scope powerScope2 = std::move(powerScope1);
 
