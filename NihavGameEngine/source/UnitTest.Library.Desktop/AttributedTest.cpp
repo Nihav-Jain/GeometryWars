@@ -280,43 +280,6 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(fooChildAux2 == fooChild[21]);
 		}
 
-		TEST_METHOD(AttributedTestEventMessage)
-		{
-			EventMessageAttributed msg;
-			msg.SetSubtype("mousemove");
-			Assert::IsTrue(msg.GetSubtype() == "mousemove");
-
-			EventMessageAttributed msg2(msg);
-			msg2.SetSubtype("mouseup");
-			Assert::IsTrue(msg2[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mouseup");
-			Assert::IsTrue(msg[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousemove");
-
-			EventMessageAttributed msg3;
-			msg3 = msg;
-			msg3.SetSubtype("mousedown");
-			Assert::IsTrue(msg3[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousedown");
-			Assert::IsTrue(msg[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousemove");
-
-			EventMessageAttributed msg4(std::move(msg));
-			Assert::IsTrue(msg4[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousemove");
-
-			EventMessageAttributed msg5;
-			msg5 = std::move(msg2);
-			Assert::IsTrue(msg5[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mouseup");
-
-			Assert::IsTrue(msg3.Is(EventMessageAttributed::TypeIdClass()));
-			Assert::IsTrue(msg3.Is(EventMessageAttributed::TypeName()));
-			Assert::IsTrue(msg3.Is(msg4.TypeIdInstance()));
-
-			Assert::IsNotNull(msg3.As<Attributed>());
-			Assert::IsNotNull(msg3.AssertiveAs<Attributed>());
-
-			Assert::IsTrue(msg3.ToString() == "Scope");
-			Assert::IsTrue(msg3.Equals(&msg3));
-			Assert::IsNotNull(msg3.QueryInterface(EventMessageAttributed::TypeIdClass()));
-			Assert::IsNull(msg3.QueryInterface(Action::TypeIdClass()));
-		}
-
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

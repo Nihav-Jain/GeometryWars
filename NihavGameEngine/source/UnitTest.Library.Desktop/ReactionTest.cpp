@@ -32,6 +32,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
+			Datum::ClearStaticMembers();
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
@@ -89,6 +90,13 @@ namespace UnitTestLibraryDesktop
 
 			Event<EventMessageAttributed>::UnsubscriberAll();
 			world.GetEventQueue().Clear(*world.GetWorldState().mGameTime);
+
+			ActionList* switchAction = entity->FindAction("switch2")->As<ActionList>();
+			Assert::IsNotNull(switchAction);
+			//ActionList* case3 = entity
+			//Datum* switch2Datum = entityAction->Find("switch2");
+			//Assert::IsNotNull(switch2Datum);
+
 		}
 
 		TEST_METHOD(ReactionTestMultipleSubtypes)
@@ -239,6 +247,82 @@ namespace UnitTestLibraryDesktop
 			world.GetEventQueue().Clear(*world.GetWorldState().mGameTime);
 		}
 
+		TEST_METHOD(ReactionTestEventMessageAttributed)
+		{
+			EventMessageAttributed msg;
+			msg.SetSubtype("mousemove");
+			Assert::IsTrue(msg.GetSubtype() == "mousemove");
+
+			EventMessageAttributed msg2(msg);
+			msg2.SetSubtype("mouseup");
+			Assert::IsTrue(msg2[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mouseup");
+			Assert::IsTrue(msg[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousemove");
+
+			EventMessageAttributed msg3;
+			msg3 = msg;
+			msg3.SetSubtype("mousedown");
+			Assert::IsTrue(msg3[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousedown");
+			Assert::IsTrue(msg[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousemove");
+
+			EventMessageAttributed msg4(std::move(msg));
+			Assert::IsTrue(msg4[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mousemove");
+
+			EventMessageAttributed msg5;
+			msg5 = std::move(msg2);
+			Assert::IsTrue(msg5[EventMessageAttributed::ATTRIBUTE_SUBTYPE].Get<std::string>() == "mouseup");
+
+			Assert::IsTrue(msg3.Is(EventMessageAttributed::TypeIdClass()));
+			Assert::IsTrue(msg3.Is(EventMessageAttributed::TypeName()));
+			Assert::IsTrue(msg3.Is(msg4.TypeIdInstance()));
+
+			Assert::IsNotNull(msg3.As<Attributed>());
+			Assert::IsNotNull(msg3.AssertiveAs<Attributed>());
+
+			Assert::IsTrue(msg3.ToString() == "Scope");
+			Assert::IsTrue(msg3.Equals(&msg3));
+			Assert::IsNotNull(msg3.QueryInterface(EventMessageAttributed::TypeIdClass()));
+			Assert::IsNull(msg3.QueryInterface(Action::TypeIdClass()));
+		}
+
+		TEST_METHOD(ReactionTestActionEventRTTI)
+		{
+			ActionEvent actionEvent;
+			Scope scope;
+
+			Assert::IsTrue(actionEvent.Is(ActionEvent::TypeIdClass()));
+			Assert::IsTrue(actionEvent.Is(ActionEvent::TypeName()));
+			Assert::IsTrue(actionEvent.Is(scope.TypeIdInstance()));
+			Assert::IsTrue(actionEvent.Is(actionEvent.TypeIdInstance()));
+
+			Assert::IsNotNull(actionEvent.As<Attributed>());
+			Assert::IsNotNull(actionEvent.AssertiveAs<Attributed>());
+
+			Assert::IsTrue(actionEvent.ToString() == "Scope");
+			Assert::IsTrue(actionEvent.Equals(&actionEvent));
+			Assert::IsNotNull(actionEvent.QueryInterface(ActionEvent::TypeIdClass()));
+			Assert::IsNull(actionEvent.QueryInterface(ActionList::TypeIdClass()));
+		}
+
+		TEST_METHOD(ReactionTestReactionAttrinbuteRTTI)
+		{
+			ReactionAttributed reaction;
+			Scope scope;
+
+			Assert::IsTrue(reaction.Is(Reaction::TypeIdClass()));
+			Assert::IsTrue(reaction.Is(Reaction::TypeName()));
+			Assert::IsTrue(reaction.Is(scope.TypeIdInstance()));
+			Assert::IsTrue(reaction.Is(reaction.TypeIdInstance()));
+
+			Assert::IsNotNull(reaction.As<Attributed>());
+			Assert::IsNotNull(reaction.AssertiveAs<Attributed>());
+
+			Assert::IsTrue(reaction.ToString() == "Scope");
+			Assert::IsTrue(reaction.Equals(&reaction));
+			Assert::IsNotNull(reaction.QueryInterface(Reaction::TypeIdClass()));
+			Assert::IsNull(reaction.QueryInterface(ActionExpression::TypeIdClass()));
+
+			Event<EventMessageAttributed>::UnsubscriberAll();
+		}
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;

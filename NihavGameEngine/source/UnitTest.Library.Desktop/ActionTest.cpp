@@ -31,6 +31,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
+			Datum::ClearStaticMembers();
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
@@ -86,7 +87,6 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(result2);
 			Assert::IsTrue(*result2 == 15);
 		}
-		
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;

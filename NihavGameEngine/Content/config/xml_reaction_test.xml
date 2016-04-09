@@ -33,7 +33,7 @@
 				</case>
 			</switch>
 						
-			<switch name="switch1" switchValue="switchFloat">
+			<switch name="switch2" switchValue="switchFloat">
 				<case name="case1" caseValue="10" break="true">
 					<action class="ActionList" name="case1"/>
 				</case>
