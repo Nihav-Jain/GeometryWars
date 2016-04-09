@@ -7,7 +7,7 @@ namespace Library
 	RTTI_DEFINITIONS(EventMessageAttributed);
 
 	const std::string EventMessageAttributed::ATTRIBUTE_SUBTYPE = "subtype";
-	const std::string EventMessageAttributed::ATTRIBUTE_ATTRIBUTES = "attributes";
+	const std::string EventMessageAttributed::ATTRIBUTE_ARGUMENTS = "arguments";
 
 	EventMessageAttributed::EventMessageAttributed() :
 		mSubtype(), mWorldState(nullptr)
@@ -87,6 +87,6 @@ namespace Library
 	void EventMessageAttributed::DefinePrescribedAttributes()
 	{
 		AddExternalAttribute(ATTRIBUTE_SUBTYPE, 1, &mSubtype);
-		AddNestedScope(ATTRIBUTE_ATTRIBUTES, 0);
+		//AddNestedScope(ATTRIBUTE_ARGUMENTS, 0);
 	}
 }

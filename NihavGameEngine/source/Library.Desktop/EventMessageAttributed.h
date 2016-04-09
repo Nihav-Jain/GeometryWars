@@ -23,7 +23,7 @@ namespace Library
 		WorldState& GetWorldState() const;
 
 		static const std::string ATTRIBUTE_SUBTYPE;
-		static const std::string ATTRIBUTE_ATTRIBUTES;
+		static const std::string ATTRIBUTE_ARGUMENTS;
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;
