@@ -46,7 +46,7 @@ namespace Library
 		assert(transitionToStateRouter);
 
 		Entity* currentEntity = sharedDataPtr->CurrentScopePtr->As<Entity>();
-
+		assert(currentEntity != nullptr);
 		// test for entity prescribed attributes.
 		std::uint32_t numReservedPrescribedAttributes = Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		for (std::uint32_t i = numReservedPrescribedAttributes; i < currentEntity->AuxiliaryBegin(); i++)
