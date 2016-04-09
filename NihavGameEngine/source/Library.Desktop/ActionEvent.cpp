@@ -10,7 +10,7 @@ namespace Library
 
 	const std::string ActionEvent::ATTRIBUTE_SUBTYPE = "subtype";
 	const std::string ActionEvent::ATTRIBUTE_DELAY = "delay";
-	const std::string ActionEvent::ATTRIBUTE_ATTRIBUTES = "attributes";
+	const std::string ActionEvent::ATTRIBUTE_ARGUMENTS = "arguments";
 
 	ActionEvent::ActionEvent()
 	{
@@ -28,12 +28,33 @@ namespace Library
 		message.SetSubtype((*this)[ATTRIBUTE_SUBTYPE].Get<std::string>());
 		message.SetWorldState(worldState);
 
-		// copy attributes
-		Datum& attributes = (*this)[ATTRIBUTE_ATTRIBUTES];
-		if (attributes.Size() > 0)
+		//// copy attributes
+		//Datum& attributes = (*this)[ATTRIBUTE_ARGUMENTS];
+		//if (attributes.Size() > 0)
+		//{
+		//	Scope* tableOfAttributes = new Scope(*attributes.Get<Scope*>());
+		//	message.Adopt(EventMessageAttributed::ATTRIBUTE_ARGUMENTS, *tableOfAttributes);
+		//}
+
+		std::uint32_t i = AuxiliaryBegin();
+		std::uint32_t size = Size();
+		for (; i < size; i++)
 		{
-			Scope* tableOfAttributes = new Scope(*attributes.Get<Scope*>());
-			message.Adopt(EventMessageAttributed::ATTRIBUTE_ATTRIBUTES, *tableOfAttributes);
+			const SymbolPair& pair = GetPair(i);
+			if (pair.second.Type() == Datum::DatumType::TABLE)
+			{
+				const Datum& nestedScopeDatum = pair.second;
+				std::uint32_t j;
+				for (j = 0; j < nestedScopeDatum.Size(); j++)
+				{
+					Scope* nestedScopeAttribute = new Scope(*nestedScopeDatum.Get<Scope*>(j));
+					message.Adopt(pair.first, *nestedScopeAttribute);
+				}
+			}
+			else
+			{
+				message.AppendAuxiliaryAttribute(pair.first) = pair.second;
+			}
 		}
 
 		std::int32_t delay = (*this)[ATTRIBUTE_DELAY].Get<std::int32_t>();
