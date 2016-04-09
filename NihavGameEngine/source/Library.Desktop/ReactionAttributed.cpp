@@ -36,17 +36,28 @@ namespace Library
 		}
 		if (i == size)
 			return;
-		
-		const Datum& attributes = message[EventMessageAttributed::ATTRIBUTE_ATTRIBUTES];
-		if(attributes.Size() > 0)
-			CopyMessageAttributes(*attributes.Get<Scope*>());
+
+		for (i = message.AuxiliaryBegin(); i < message.Size(); i++)
+		{
+			const SymbolPair& pair = message.GetPair(i);
+			Remove(pair.first);
+			if (pair.second.Type() == Datum::DatumType::TABLE)
+			{
+				const Datum& nestedScopeDatum = pair.second;
+				std::uint32_t j;
+				for (j = 0; j < nestedScopeDatum.Size(); j++)
+				{
+					Scope* nestedScopeAttribute = new Scope(*nestedScopeDatum.Get<Scope*>(j));
+					Adopt(pair.first, *nestedScopeAttribute);
+				}
+			}
+			else
+			{
+				AppendAuxiliaryAttribute(pair.first) = pair.second;
+			}
+		}
 
 		ActionList::Update(message.GetWorldState());
-	}
-
-	void ReactionAttributed::CopyMessageAttributes(const Scope& attributes)
-	{
-		UNREFERENCED_PARAMETER(attributes);
 	}
 
 	void ReactionAttributed::DefinePrescribedAttributes()

@@ -10,11 +10,10 @@ namespace Library
 		ReactionAttributed();
 		virtual ~ReactionAttributed();
 
-		ReactionAttributed(const ReactionAttributed& rhs) = delete;	// for now
-		ReactionAttributed& operator=(const ReactionAttributed& rhs) = delete; // fpr now
+		ReactionAttributed(const ReactionAttributed& rhs) = delete;
+		ReactionAttributed& operator=(const ReactionAttributed& rhs) = delete;
 
 		virtual void Notify(const EventPublisher& publisher) override;
-		virtual void CopyMessageAttributes(const Scope& message);
 
 	protected:
 		virtual void DefinePrescribedAttributes() override;
