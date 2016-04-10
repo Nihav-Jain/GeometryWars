@@ -19,7 +19,7 @@ namespace Library
 	Vector<T, F>::Vector(std::initializer_list<T> initList) :
 		mCapacity(0), mSize(0), mDataArray(nullptr)
 	{
-		Reserve(initList.size());
+		Reserve(static_cast<std::uint32_t>(initList.size()));
 		for (auto& item : initList)
 		{
 			PushBack(item);
