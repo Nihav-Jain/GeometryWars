@@ -15,6 +15,14 @@ namespace Library
 		std::uint32_t i = 1;
 		
 		mOperatorPrecedence.Insert("=", i++);
+		mOperatorPrecedence.Insert("||", i++);
+		mOperatorPrecedence.Insert("&&", i++);
+		mOperatorPrecedence.Insert("==", i);
+		mOperatorPrecedence.Insert("!=", i++);
+		mOperatorPrecedence.Insert("<", i);
+		mOperatorPrecedence.Insert("<=", i);
+		mOperatorPrecedence.Insert(">", i);
+		mOperatorPrecedence.Insert(">=", i++);
 
 		mOperatorPrecedence.Insert("+", i);
 		mOperatorPrecedence.Insert("-", i++);
@@ -38,6 +46,13 @@ namespace Library
 		mArithmeticOperations["-"] = &ActionExpression::Subtract;
 		mArithmeticOperations["*"] = &ActionExpression::Multiply;
 		mArithmeticOperations["/"] = &ActionExpression::Divide;
+
+		mArithmeticOperations["<"] = &ActionExpression::LessThan;
+		mArithmeticOperations[">"] = &ActionExpression::GreaterThan;
+		mArithmeticOperations["<="] = &ActionExpression::LessThanEqualTo;
+		mArithmeticOperations[">="] = &ActionExpression::GreaterThanEqualTo;
+		mArithmeticOperations["&&"] = &ActionExpression::And;
+		mArithmeticOperations["||"] = &ActionExpression::Or;
 
 	}
 
@@ -66,7 +81,7 @@ namespace Library
 			Stack<std::string> operatorStack;
 			mPostfixExpression = new SList<std::string>();
 
-			std::string allOperators = "(),=-+*/";
+			std::string allOperators = "(),=-+*/&|<>";
 			std::string trimDelimiter = " \f\n\r\t\v";
 			std::uint32_t indexOfComma = (std::uint32_t)allOperators.find(',');
 
@@ -100,6 +115,7 @@ namespace Library
 						pos++;
 						currentOperator.push_back(expression.at(pos));
 					}
+					assert(mOperatorPrecedence.ContainsKey(currentOperator));
 				}
 
 				if (currentOperator == ",")
@@ -230,6 +246,36 @@ namespace Library
 	{
 		lhs = rhs;
 		return Datum();
+	}
+
+	Datum ActionExpression::LessThan(Datum& lhs, Datum& rhs)
+	{
+		return lhs < rhs;
+	}
+
+	Datum ActionExpression::GreaterThan(Datum& lhs, Datum& rhs)
+	{
+		return lhs > rhs;
+	}
+
+	Datum ActionExpression::LessThanEqualTo(Datum& lhs, Datum& rhs)
+	{
+		return lhs <= rhs;
+	}
+
+	Datum ActionExpression::GreaterThanEqualTo(Datum& lhs, Datum& rhs)
+	{
+		return lhs >= rhs;
+	}
+
+	Datum ActionExpression::Or(Datum& lhs, Datum& rhs)
+	{
+		return lhs || rhs;
+	}
+
+	Datum ActionExpression::And(Datum& lhs, Datum& rhs)
+	{
+		return lhs && rhs;
 	}
 
 	std::string& ActionExpression::TrimRightInplace(std::string& s, const std::string& delimiters)

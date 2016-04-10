@@ -70,6 +70,13 @@ namespace Library
 		Datum Divide(Datum& lhs, Datum& rhs);
 		Datum Assign(Datum& lhs, Datum& rhs);
 
+		Datum LessThan(Datum& lhs, Datum& rhs);
+		Datum GreaterThan(Datum& lhs, Datum& rhs);
+		Datum LessThanEqualTo(Datum& lhs, Datum& rhs);
+		Datum GreaterThanEqualTo(Datum& lhs, Datum& rhs);
+		Datum Or(Datum& lhs, Datum& rhs);
+		Datum And(Datum& lhs, Datum& rhs);
+
 		typedef Datum(ActionExpression::*Arithmetic)(Datum&, Datum&);
 		Hashmap<std::string, Arithmetic> mArithmeticOperations;
 
