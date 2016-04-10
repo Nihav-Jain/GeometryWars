@@ -249,8 +249,8 @@ namespace Library
 			bool& Get<bool>(std::uint32_t index) const;
 			template<>
 			Scope& Get<Scope>(std::uint32_t index) const;
-			template<>
-			Datum& Get<Datum>(std::uint32_t index) const;
+			//template<>
+			//Datum& Get<Datum>(std::uint32_t index) const;
 
 			Scope& operator[](std::uint32_t index) const;
 

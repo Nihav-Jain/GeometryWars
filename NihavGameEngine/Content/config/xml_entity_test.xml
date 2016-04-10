@@ -12,6 +12,7 @@
 			<name>worldScopeVector</name>
 			<value>vec4(10, 20, 30, 40)</value>
 		</vector>
+		<bool name="worldScopeBool" value="true" />
 	</scope>
 
 	<sector name="worldSector1">
@@ -27,7 +28,7 @@
 		</entity>
 
 		<matrix name="sector1Mat">mat4x4((10, 0, 0, 0), (0, 10, 0, 0), (0, 0, 10, 0), (0, 0, 0, 10))</matrix>
-		
+		<ref name="worldInt3Ptr" value="worldInt3"/>
 		<entity class="ActorEntity" name="actor">
 			<integer name="positionIteration" value="3"/>
 		</entity>

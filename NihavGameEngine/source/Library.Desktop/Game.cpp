@@ -31,7 +31,6 @@ namespace Library
 	Game::~Game()
 	{
 		SharedDataTable::ClearStateGraph();
-		XmlParseHelperPrimitives::ClearStaticMembers();
 	}
 
 	World& Game::GetWorld()

@@ -3,20 +3,19 @@
 
 namespace Library
 {
-	Hashmap<std::string, Datum::DatumType> XmlParseHelperPrimitives::mElementMetaData;
+	Hashmap<std::string, Datum::DatumType> XmlParseHelperPrimitives::mElementMetaData = {
+		{ "integer", Datum::DatumType::INTEGER },
+		{ "float", Datum::DatumType::FLOAT },
+		{ "string", Datum::DatumType::STRING },
+		{ "vector", Datum::DatumType::VECTOR4 },
+		{ "matrix", Datum::DatumType::MATRIX4x4 },
+		{ "bool", Datum::DatumType::BOOLEAN },
+		{ "ref", Datum::DatumType::REFERENCE }
+	};
 
 	XmlParseHelperPrimitives::XmlParseHelperPrimitives() :
 		mCharData(), mCurrentDataName(), mStartState(SharedDataTable::ParserState::PRIMITIVE_START), mEndState(SharedDataTable::ParserState::PRIMITIVE_END)
-	{
-		if (mElementMetaData.Size() == 0U)
-		{
-			mElementMetaData["integer"] = Datum::DatumType::INTEGER;
-			mElementMetaData["float"] = Datum::DatumType::FLOAT;
-			mElementMetaData["string"] = Datum::DatumType::STRING;
-			mElementMetaData["vector"] = Datum::DatumType::VECTOR4;
-			mElementMetaData["matrix"] = Datum::DatumType::MATRIX4x4;
-		}
-	}
+	{}
 
 	void XmlParseHelperPrimitives::Initialize()
 	{
@@ -54,7 +53,19 @@ namespace Library
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
 
-				primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
+				if(primitiveDatum.Type() != Datum::DatumType::REFERENCE)
+					primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
+				else
+				{
+					Datum* reference = sharedDataPtr->CurrentScopePtr->Search(attributes["value"]);
+					if (reference == nullptr)
+					{
+						std::stringstream str;
+						str << "LNK2001: unresolved external symbol: " << attributes["value"] << " :P ";
+						throw std::exception(str.str().c_str());
+					}
+					primitiveDatum = reference;
+				}
 				mCurrentDataName = "";
 			}
 		}
@@ -76,7 +87,19 @@ namespace Library
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			Datum& datum = sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName);
-			datum.SetFromString(mCharData, datum.Size());
+			if(datum.Type() != Datum::DatumType::REFERENCE)
+				datum.SetFromString(mCharData, datum.Size());
+			else
+			{
+				Datum* reference = sharedDataPtr->CurrentScopePtr->Search(mCharData);
+				if (reference == nullptr)
+				{
+					std::stringstream str;
+					str << "LNK2001: unresolved external symbol: " << mCharData << " :P ";
+					throw std::exception(str.str().c_str());
+				}
+				datum = reference;
+			}
 		}
 
 		// <integer>
@@ -87,7 +110,19 @@ namespace Library
 		{
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(sharedDataPtr->DataName);
 			primitiveDatum.SetType(mElementMetaData[elementName]);
-			primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
+			if(primitiveDatum.Type() != Datum::DatumType::REFERENCE)
+				primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
+			else
+			{
+				Datum* reference = sharedDataPtr->CurrentScopePtr->Search(sharedDataPtr->DataName);
+				if (reference == nullptr)
+				{
+					std::stringstream str;
+					str << "LNK2001: unresolved external symbol: " << sharedDataPtr->DataName << " :P ";
+					throw std::exception(str.str().c_str());
+				}
+				primitiveDatum = reference;
+			}
 		}
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::PRIMITIVE_END))
@@ -118,11 +153,6 @@ namespace Library
 	IXmlParseHelper* XmlParseHelperPrimitives::Clone() const
 	{
 		return new XmlParseHelperPrimitives();
-	}
-
-	void XmlParseHelperPrimitives::ClearStaticMembers()
-	{
-		mElementMetaData.Clear();
 	}
 
 }

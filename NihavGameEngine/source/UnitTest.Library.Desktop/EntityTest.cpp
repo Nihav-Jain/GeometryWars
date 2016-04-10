@@ -41,7 +41,6 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
 			SharedDataTable::ClearStateGraph();
-			XmlParseHelperPrimitives::ClearStaticMembers();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
@@ -165,6 +164,8 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10.10f, worldNestedScope["worldScopeFloat"].Get<std::float_t>());
 			Assert::IsTrue("scopestring" == worldNestedScope["worldScopeString"].Get<std::string>());
 			Assert::IsTrue(worldNestedScope["worldScopeVector"].Get<glm::vec4>() == glm::vec4(10, 20, 30, 40));
+			Assert::IsNotNull(worldNestedScope.Find("worldScopeBool"));
+			Assert::IsTrue(worldNestedScope["worldScopeBool"].Get<bool>());
 
 			Assert::IsFalse(world->IsAttribute("worldSector1"));
 
@@ -185,6 +186,8 @@ namespace UnitTestLibraryDesktop
 
 				Assert::IsTrue(worldSector1->IsAuxiliaryAttribute("sector1Mat"));
 				Assert::IsTrue(worldSector1->Find("sector1Mat")->Get<glm::mat4>() == glm::mat4x4(10));
+				Assert::IsNotNull(worldSector1->Find("worldInt3Ptr"));
+				Assert::AreEqual(30, worldSector1->operator[]("worldInt3Ptr").Get<Datum>().Get<std::int32_t>());
 
 				Assert::IsFalse(worldSector1->IsAttribute("sector1Entity1"));
 
