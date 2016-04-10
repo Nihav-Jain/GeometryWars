@@ -144,6 +144,11 @@ namespace Library
 		}
 	}
 
+	void Attributed::AddInternalAttribute(const std::string& name, const char* initialValue, std::uint32_t size)
+	{
+		AddInternalAttribute(name, std::string(initialValue), size);
+	}
+
 	void Attributed::AddInternalAttribute(const std::string& name, const glm::vec4& initialValue, std::uint32_t size)
 	{
 		Datum& datum = AddEmptyInternalSignature(name, Datum::DatumType::VECTOR4, size);
@@ -162,6 +167,15 @@ namespace Library
 		}
 	}
 
+	void Attributed::AddInternalAttribute(const std::string& name, bool initialValue, std::uint32_t size)
+	{
+		Datum& datum = AddEmptyInternalSignature(name, Datum::DatumType::BOOLEAN, size);
+		for (std::uint32_t i = 0; i < size; i++)
+		{
+			datum.Set(initialValue, i);
+		}
+	}
+
 	void Attributed::AddInternalAttribute(const std::string& name, RTTI* initialValue, std::uint32_t size)
 	{
 		Datum& datum = AddEmptyInternalSignature(name, Datum::DatumType::POINTER, size);
@@ -170,6 +184,15 @@ namespace Library
 			datum.Set(initialValue, i);
 		}
 
+	}
+
+	void Attributed::AddInternalAttribute(const std::string& name, Datum* initialValue, std::uint32_t size)
+	{
+		Datum& datum = AddEmptyInternalSignature(name, Datum::DatumType::REFERENCE, size);
+		for (std::uint32_t i = 0; i < size; i++)
+		{
+			datum.Set(initialValue, i);
+		}
 	}
 
 	void Attributed::AddNestedScope(const std::string& name)
@@ -221,7 +244,19 @@ namespace Library
 		datum.SetStorage(storage, size);
 	}
 
+	void Attributed::AddExternalAttribute(const std::string & name, std::uint32_t size, bool* storage)
+	{
+		Datum& datum = AddEmptySignature(name);
+		datum.SetStorage(storage, size);
+	}
+
 	void Attributed::AddExternalAttribute(const std::string& name, std::uint32_t size, RTTI** storage)
+	{
+		Datum& datum = AddEmptySignature(name);
+		datum.SetStorage(storage, size);
+	}
+
+	void Attributed::AddExternalAttribute(const std::string& name, std::uint32_t size, Datum** storage)
 	{
 		Datum& datum = AddEmptySignature(name);
 		datum.SetStorage(storage, size);

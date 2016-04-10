@@ -122,9 +122,12 @@ namespace Library
 		void AddInternalAttribute(const std::string& name, std::int32_t initialValue, std::uint32_t size = 0);
 		void AddInternalAttribute(const std::string& name, std::float_t initialValue, std::uint32_t size = 0);
 		void AddInternalAttribute(const std::string& name, const std::string& initialValue, std::uint32_t size = 0);
+		void AddInternalAttribute(const std::string& name, const char* initialValue, std::uint32_t size = 0);
 		void AddInternalAttribute(const std::string& name, const glm::vec4& initialValue, std::uint32_t size = 0);
 		void AddInternalAttribute(const std::string& name, const glm::mat4& initialValue, std::uint32_t size = 0);
+		void AddInternalAttribute(const std::string& name, bool initialValue, std::uint32_t size = 0);
 		void AddInternalAttribute(const std::string& name, RTTI* initialValue, std::uint32_t size = 0);
+		void AddInternalAttribute(const std::string& name, Datum* initialValue, std::uint32_t size = 0);
 
 		/**
 		 *	Adds a nested scope as a prescribed attribute
@@ -146,7 +149,9 @@ namespace Library
 		void AddExternalAttribute(const std::string& name, std::uint32_t size, std::string* storage);
 		void AddExternalAttribute(const std::string& name, std::uint32_t size, glm::vec4* storage);
 		void AddExternalAttribute(const std::string& name, std::uint32_t size, glm::mat4* storage);
+		void AddExternalAttribute(const std::string& name, std::uint32_t size, bool* storage);
 		void AddExternalAttribute(const std::string& name, std::uint32_t size, RTTI** storage);
+		void AddExternalAttribute(const std::string& name, std::uint32_t size, Datum** storage);
 
 	private:
 		void DefineUniqueAttributeName(const std::string& name);
