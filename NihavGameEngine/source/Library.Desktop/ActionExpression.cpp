@@ -53,7 +53,8 @@ namespace Library
 		mArithmeticOperations[">="] = &ActionExpression::GreaterThanEqualTo;
 		mArithmeticOperations["&&"] = &ActionExpression::And;
 		mArithmeticOperations["||"] = &ActionExpression::Or;
-
+		mArithmeticOperations["=="] = &ActionExpression::Equals;
+		mArithmeticOperations["!="] = &ActionExpression::NotEquals;
 	}
 
 	ActionExpression::~ActionExpression()
@@ -81,7 +82,7 @@ namespace Library
 			Stack<std::string> operatorStack;
 			mPostfixExpression = new SList<std::string>();
 
-			std::string allOperators = "(),=-+*/&|<>";
+			std::string allOperators = "(),=-+*/&|<>!";
 			std::string trimDelimiter = " \f\n\r\t\v";
 			std::uint32_t indexOfComma = (std::uint32_t)allOperators.find(',');
 
@@ -193,6 +194,7 @@ namespace Library
 	{
 		Stack<Datum*> evaluationStack;
 
+		Stack<Datum*> resultDatums;
 		Datum result;
 		while (!mPostfixExpression->IsEmpty())
 		{
@@ -203,8 +205,10 @@ namespace Library
 				Datum* lhs = evaluationStack.Top();
 				evaluationStack.Pop();
 
-				result = (this->*mArithmeticOperations[mPostfixExpression->Front()])(*lhs, *rhs);
-				evaluationStack.Push(&result);
+				if (resultDatums.IsEmpty() || !((rhs == resultDatums.Top()) || (lhs == resultDatums.Top())))
+					resultDatums.Push(new Datum());
+				*resultDatums.Top() = (this->*mArithmeticOperations[mPostfixExpression->Front()])(*lhs, *rhs);
+				evaluationStack.Push(resultDatums.Top());
 				mPostfixExpression->PopFront();
 			}
 			else if (mDefinedFunctions.ContainsKey(mPostfixExpression->Front()))
@@ -220,6 +224,11 @@ namespace Library
 			}
 		}
 
+		while (!resultDatums.IsEmpty())
+		{
+			delete resultDatums.Top();
+			resultDatums.Pop();
+		}
 	}
 
 	Datum ActionExpression::Add(Datum& lhs, Datum& rhs)
@@ -276,6 +285,20 @@ namespace Library
 	Datum ActionExpression::And(Datum& lhs, Datum& rhs)
 	{
 		return lhs && rhs;
+	}
+
+	Datum ActionExpression::Equals(Datum& lhs, Datum& rhs)
+	{
+		Datum result;
+		result = (lhs == rhs);
+		return result;
+	}
+
+	Datum ActionExpression::NotEquals(Datum& lhs, Datum& rhs)
+	{
+		Datum result;
+		result = (lhs != rhs);
+		return result;
 	}
 
 	std::string& ActionExpression::TrimRightInplace(std::string& s, const std::string& delimiters)

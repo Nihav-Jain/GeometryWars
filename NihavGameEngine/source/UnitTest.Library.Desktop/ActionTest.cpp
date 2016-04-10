@@ -70,6 +70,14 @@ namespace UnitTestLibraryDesktop
 			ActionExpression* exp = action->As<ActionExpression>();
 			Assert::IsNotNull(exp);
 
+			Datum* boolResult = entity->Find("boolResult");
+			Assert::IsNotNull(boolResult);
+			Assert::IsFalse(boolResult->Get<bool>());
+			
+			Datum* boolResult2 = entity->Find("boolResult2");
+			Assert::IsNotNull(boolResult2);
+			Assert::IsTrue(boolResult2->Get<bool>());
+
 			game.Update();
 
 			Datum* result = entity->Find("result");
@@ -80,6 +88,9 @@ namespace UnitTestLibraryDesktop
 			Datum* result2 = entity->Find("result2");
 			Assert::IsNotNull(result2);
 			Assert::IsTrue(*result2 == 15);
+
+			Assert::IsTrue(boolResult->Get<bool>());
+			Assert::IsFalse(boolResult2->Get<bool>());
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

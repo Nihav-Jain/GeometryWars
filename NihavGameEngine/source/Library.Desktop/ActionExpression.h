@@ -76,6 +76,8 @@ namespace Library
 		Datum GreaterThanEqualTo(Datum& lhs, Datum& rhs);
 		Datum Or(Datum& lhs, Datum& rhs);
 		Datum And(Datum& lhs, Datum& rhs);
+		Datum Equals(Datum& lhs, Datum& rhs);
+		Datum NotEquals(Datum& lhs, Datum& rhs);
 
 		typedef Datum(ActionExpression::*Arithmetic)(Datum&, Datum&);
 		Hashmap<std::string, Arithmetic> mArithmeticOperations;
