@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library.Desktop", "..\source\Library.Desktop\Library.Desktop.vcxproj", "{2B9673CD-FABE-4471-90C4-30F5B64A117B}"
 EndProject
@@ -20,7 +20,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest.Library.Desktop", 
 		{2B9673CD-FABE-4471-90C4-30F5B64A117B} = {2B9673CD-FABE-4471-90C4-30F5B64A117B}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game.Desktop.Shared", "..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems", "{45D41ACC-2C3C-43D2-BC10-02AA73FFC7C7}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{6cf53473-585d-4693-a26d-8560fa995351}*SharedItemsImports = 4
+		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{a0e11a2f-cb1d-4b2d-a32c-bb00151b4d53}*SharedItemsImports = 4
+		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86

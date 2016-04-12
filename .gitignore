@@ -251,3 +251,4 @@ _Pvt_Extensions
 !GeometryWars/external/glfw/lib/x64/*
 !GeometryWars/external/glfw/lib/x64/Debug/*
 !GeometryWars/external/glfw/lib/x64/Release/*
+GeometryWars/build/GeometryWars.VC.db
