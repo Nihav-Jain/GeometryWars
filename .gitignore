@@ -234,20 +234,20 @@ _Pvt_Extensions
 .fake/
 
 
-!NihavGameEngine/external/*
-!NihavGameEngine/external/expat/*
-!NihavGameEngine/external/expat/lib/Win32/*
-!NihavGameEngine/external/expat/lib/Win32/Debug/*
-!NihavGameEngine/external/expat/lib/Win32/Release/*
-!NihavGameEngine/external/expat/lib/x64/*
-!NihavGameEngine/external/expat/lib/x64/Debug/*
-!NihavGameEngine/external/expat/lib/x64/Release/*
+!GeometryWars/external/*
+!GeometryWars/external/expat/*
+!GeometryWars/external/expat/lib/Win32/*
+!GeometryWars/external/expat/lib/Win32/Debug/*
+!GeometryWars/external/expat/lib/Win32/Release/*
+!GeometryWars/external/expat/lib/x64/*
+!GeometryWars/external/expat/lib/x64/Debug/*
+!GeometryWars/external/expat/lib/x64/Release/*
 
-!NihavGameEngine/external/glfw/*
-!NihavGameEngine/external/glfw/lib/*
-!NihavGameEngine/external/glfw/lib/Win32/*
-!NihavGameEngine/external/glfw/lib/Win32/Debug/*
-!NihavGameEngine/external/glfw/lib/Win32/Release/*
-!NihavGameEngine/external/glfw/lib/x64/*
-!NihavGameEngine/external/glfw/lib/x64/Debug/*
-!NihavGameEngine/external/glfw/lib/x64/Release/*
+!GeometryWars/external/glfw/*
+!GeometryWars/external/glfw/lib/*
+!GeometryWars/external/glfw/lib/Win32/*
+!GeometryWars/external/glfw/lib/Win32/Debug/*
+!GeometryWars/external/glfw/lib/Win32/Release/*
+!GeometryWars/external/glfw/lib/x64/*
+!GeometryWars/external/glfw/lib/x64/Debug/*
+!GeometryWars/external/glfw/lib/x64/Release/*
