@@ -233,4 +233,3 @@ _Pvt_Extensions
 .fake/
 
 NihavGameEngine/docs/*
-!NihavGameEngine/external/expat/lib/Win32/*.lib
