@@ -78,6 +78,10 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(boolResult2);
 			Assert::IsTrue(boolResult2->Get<bool>());
 
+			Datum* someVector = sector->Find("someVector");
+			Assert::IsNotNull(someVector);
+			Assert::IsTrue(*someVector == glm::vec4(0, 0, 0, 0));
+
 			game.Update();
 
 			Datum* result = entity->Find("result");
@@ -91,6 +95,8 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(boolResult->Get<bool>());
 			Assert::IsFalse(boolResult2->Get<bool>());
+
+			Assert::IsTrue(*someVector == glm::vec4(20, 40, 60, 80));
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

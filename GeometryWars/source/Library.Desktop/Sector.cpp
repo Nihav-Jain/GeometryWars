@@ -14,6 +14,7 @@ namespace Library
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
+		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
 	}
 	
 	const std::string& Sector::Name() const
@@ -61,6 +62,40 @@ namespace Library
 		return nullptr;
 	}
 
+	Datum& Sector::Actions()
+	{
+		return operator[](Entity::ATTRIBUTE_ACTIONS);
+	}
+
+	const Datum& Sector::Actions() const
+	{
+		return *Find(Entity::ATTRIBUTE_ACTIONS);
+	}
+
+	Action& Sector::CreateAction(const std::string& actionClassName, const std::string& actionInstanceName)
+	{
+		Action* action = Factory<Action>::Create(actionClassName);
+		assert(action != nullptr);
+		action->SetName(actionInstanceName);
+
+		Adopt(Entity::ATTRIBUTE_ACTIONS, *action);
+
+		return *action;
+	}
+
+	Action* Sector::FindAction(const std::string& actionName) const
+	{
+		const Datum& actions = Actions();
+		for (std::uint32_t i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).As<Action>();
+			assert(action != nullptr);
+			if (action->Name() == actionName)
+				return action;
+		}
+		return nullptr;
+	}
+
 	World* Sector::GetWorld() const
 	{
 		Scope* parent = GetParent();
@@ -76,8 +111,17 @@ namespace Library
 
 	void Sector::Update(WorldState& worldState)
 	{
-		Datum& entities = Entities();
+		Datum& actions = Actions();
 		std::uint32_t i;
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).As<Action>();
+			assert(action != nullptr);
+			worldState.action = action;
+			action->Update(worldState);
+		}
+
+		Datum& entities = Entities();
 		for (i = 0; i < entities.Size(); i++)
 		{
 			Entity* entity = entities.Get<Scope>(i).As<Entity>();

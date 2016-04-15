@@ -57,5 +57,12 @@
 				<string name="expression">boolResult2 = (C == xyz) &amp;&amp; (abc > C)</string>
 			</expression>
 		</entity>
+
+		<vector name="someVector" value="vec4(0, 0, 0, 0)"/>
+		<integer name="multiplier" value="2"/>
+		<expression name="sectorExp1">
+			<string name="expression">someVector = multiplier * sectorCorners</string>
+		</expression>
+
 	</sector>	
 </world>

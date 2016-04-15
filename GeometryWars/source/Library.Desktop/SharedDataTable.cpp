@@ -141,6 +141,33 @@ namespace Library
 			Graph<ParserState>::Traversor aScopeEndState = ParserStateAutomata.AddVertex(scopeEnd, eActionStateRouter);
 			ParserStateAutomata.CreateEdge(aScopeEndState, eActionStateRouter);
 
+			/** Sector - Action */
+			// sector_router -> action_start -> action_router -> action_end -> sector_router
+			Graph<ParserState>::Traversor sActionStartState = ParserStateAutomata.AddVertex(actionStart, sectorRouterState);
+			Graph<ParserState>::Traversor sActionStateRouter = ParserStateAutomata.AddVertex(stateRouter, sActionStartState);
+			Graph<ParserState>::Traversor sActionEndState = ParserStateAutomata.AddVertex(actionEnd, sActionStateRouter);
+			ParserStateAutomata.CreateEdge(sActionEndState, sectorRouterState);
+			ParserStateAutomata.CreateEdge(sActionStateRouter, sActionStartState);
+			ParserStateAutomata.CreateEdge(sectorRouterState, sActionEndState);
+			
+			// action_router -> prim_start -> name_start -> name_end -> value_start -> value_end -> prim_end -> action_router
+			Graph<ParserState>::Traversor saPrimitiveStartState = ParserStateAutomata.AddVertex(primitiveStart, sActionStateRouter);
+			Graph<ParserState>::Traversor saNameStart = ParserStateAutomata.AddVertex(nameStart, saPrimitiveStartState);
+			Graph<ParserState>::Traversor saNameEnd = ParserStateAutomata.AddVertex(nameEnd, saNameStart);
+			Graph<ParserState>::Traversor saValueStart = ParserStateAutomata.AddVertex(valueStart, saNameEnd);
+			Graph<ParserState>::Traversor saValueEnd = ParserStateAutomata.AddVertex(valueEnd, saValueStart);
+			Graph<ParserState>::Traversor saPrimitiveEndState = ParserStateAutomata.AddVertex(primitiveEnd, saValueEnd);
+			ParserStateAutomata.CreateEdge(saPrimitiveEndState, sActionStateRouter);
+
+			// action_router -> scope_start -> action_router
+			Graph<ParserState>::Traversor saScopeStartState = ParserStateAutomata.AddVertex(scopeStart, sActionStateRouter);
+			ParserStateAutomata.CreateEdge(saScopeStartState, sActionStateRouter);
+
+			// action_router -> scope_end -> action_router
+			Graph<ParserState>::Traversor saScopeEndState = ParserStateAutomata.AddVertex(scopeEnd, sActionStateRouter);
+			ParserStateAutomata.CreateEdge(saScopeEndState, sActionStateRouter);
+
+
 		}
 
 		mStateTraversor = ParserStateAutomata.Begin();
