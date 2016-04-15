@@ -14,6 +14,7 @@ namespace Library
 		mWorldState.world = this;
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
+		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
 	}
 
 	World::~World()
@@ -64,6 +65,21 @@ namespace Library
 		return nullptr;
 	}
 
+	Datum& World::Actions()
+	{
+		return operator[](Entity::ATTRIBUTE_ACTIONS);
+	}
+
+	const Datum& World::Actions() const
+	{
+		return *Find(Entity::ATTRIBUTE_ACTIONS);
+	}
+
+	Action* World::FindAction(const std::string& actionName) const
+	{
+		return Action::FindAction(actionName, Actions());
+	}
+
 	void World::Update()
 	{
 		mWorldState.sector = nullptr;
@@ -73,6 +89,15 @@ namespace Library
 		mEventQueue.Update(*mWorldState.mGameTime);
 
 		std::uint32_t i;
+
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).As<Action>();
+			assert(action != nullptr);
+			mWorldState.action = action;
+			action->Update(mWorldState);
+		}
 
 		Datum& sectors = Sectors();
 		for (i = 0; i < sectors.Size(); i++)

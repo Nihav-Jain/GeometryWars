@@ -86,8 +86,6 @@ namespace Library
 
 		Action* FindAction(const std::string& actionName) const;
 
-		Action& CreateAction(const std::string& actionClassName, const std::string& actionInstanceName);
-
 		/**
 		 *	Getter for the World which contains this Sector
 		 *	@return pointer to the World

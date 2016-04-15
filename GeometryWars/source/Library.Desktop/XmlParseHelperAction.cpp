@@ -45,27 +45,7 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		Action* currentAction;
-		if (sharedDataPtr->CurrentScopePtr->Is(Entity::TypeIdClass()))
-		{
-			Entity* entity = static_cast<Entity*>(sharedDataPtr->CurrentScopePtr);
-			currentAction = &entity->CreateAction(mDerivedActionClassName, mActionInstanceName);
-		}
-		else if(sharedDataPtr->CurrentScopePtr->Is(ActionList::TypeIdClass()))
-		{
-			ActionList* actionList = static_cast<ActionList*>(sharedDataPtr->CurrentScopePtr);
-			currentAction = &actionList->CreateAction(mDerivedActionClassName, mActionInstanceName);
-		}
-		else if (sharedDataPtr->CurrentScopePtr->Is(Sector::TypeIdClass()))
-		{
-			Sector* sector = static_cast<Sector*>(sharedDataPtr->CurrentScopePtr);
-			currentAction = &sector->CreateAction(mDerivedActionClassName, mActionInstanceName);
-		}
-		else
-		{
-			throw std::exception("Invalid parent of Action");
-		}
-
+		Action* currentAction = &Action::CreateAction(mDerivedActionClassName, mActionInstanceName, *sharedDataPtr->CurrentScopePtr);
 		ParseActionAttributes(*currentAction, attributes);
 		sharedDataPtr->CurrentScopePtr = currentAction;
 

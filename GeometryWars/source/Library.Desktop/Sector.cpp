@@ -72,28 +72,9 @@ namespace Library
 		return *Find(Entity::ATTRIBUTE_ACTIONS);
 	}
 
-	Action& Sector::CreateAction(const std::string& actionClassName, const std::string& actionInstanceName)
-	{
-		Action* action = Factory<Action>::Create(actionClassName);
-		assert(action != nullptr);
-		action->SetName(actionInstanceName);
-
-		Adopt(Entity::ATTRIBUTE_ACTIONS, *action);
-
-		return *action;
-	}
-
 	Action* Sector::FindAction(const std::string& actionName) const
 	{
-		const Datum& actions = Actions();
-		for (std::uint32_t i = 0; i < actions.Size(); i++)
-		{
-			Action* action = actions.Get<Scope>(i).As<Action>();
-			assert(action != nullptr);
-			if (action->Name() == actionName)
-				return action;
-		}
-		return nullptr;
+		return Action::FindAction(actionName, Actions());
 	}
 
 	World* Sector::GetWorld() const

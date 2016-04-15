@@ -65,4 +65,13 @@
 		</expression>
 
 	</sector>	
+
+	<integer name="int1" value="1"/>
+	<integer name="int2" value="2"/>
+	<integer name="worldResult" value="0"/>
+
+	<expression name="worldExp1">
+		<string name="expression">worldResult = int1 + int2</string>
+	</expression>
+
 </world>
