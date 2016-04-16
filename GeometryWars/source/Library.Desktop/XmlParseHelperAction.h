@@ -41,6 +41,7 @@ namespace Library
 		 *	@param constant reference to the map of attribtues
 		 */
 		virtual void ParseActionAttributes(Action& currentAction, const Hashmap<std::string, std::string>& attributes);
+		virtual void PostXMLParsing(Action& currentAction);
 
 		static const std::string ATTRIBUTE_CLASS;
 		static const std::string ATTRIBUTE_NAME;
