@@ -129,6 +129,7 @@
     <ClInclude Include="XmlParseHelperActionEvent.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="ActionIfThenElse.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -235,6 +236,7 @@
     <ClCompile Include="XmlParseHelperActionEvent.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="ActionIfThenElse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

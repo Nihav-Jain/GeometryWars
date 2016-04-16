@@ -203,6 +203,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEvent.h" />
     <ClInclude Include="ActionExpression.h" />
+    <ClInclude Include="ActionIfThenElse.h" />
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
     <ClInclude Include="Attributed.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEvent.cpp" />
     <ClCompile Include="ActionExpression.cpp" />
+    <ClCompile Include="ActionIfThenElse.cpp" />
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
     <ClCompile Include="Attributed.cpp" />
