@@ -27,4 +27,27 @@ namespace Library
 	void Action::PostParsingProcess()
 	{}
 
+	Action* Action::FindAction(const std::string& actionName, const Datum& actions)
+	{
+		for (std::uint32_t i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).As<Action>();
+			assert(action != nullptr);
+			if (action->Name() == actionName)
+				return action;
+		}
+		return nullptr;
+	}
+
+	Action& Action::CreateAction(const std::string& actionClassName, const std::string& actionInstanceName, Scope& parentScope)
+	{
+		Action* action = Factory<Action>::Create(actionClassName);
+		assert(action != nullptr);
+		action->SetName(actionInstanceName);
+
+		parentScope.Adopt(Entity::ATTRIBUTE_ACTIONS, *action);
+
+		return *action;
+	}
+
 }

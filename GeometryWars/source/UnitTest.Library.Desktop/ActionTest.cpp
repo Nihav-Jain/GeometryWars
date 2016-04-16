@@ -78,6 +78,14 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(boolResult2);
 			Assert::IsTrue(boolResult2->Get<bool>());
 
+			Datum* someVector = sector->Find("someVector");
+			Assert::IsNotNull(someVector);
+			Assert::IsTrue(*someVector == glm::vec4(0, 0, 0, 0));
+
+			Datum* worldResult = world.Find("worldResult");
+			Assert::IsNotNull(worldResult);
+			Assert::AreEqual(0, worldResult->Get<std::int32_t>());
+
 			game.Update();
 
 			Datum* result = entity->Find("result");
@@ -91,6 +99,9 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(boolResult->Get<bool>());
 			Assert::IsFalse(boolResult2->Get<bool>());
+
+			Assert::IsTrue(*someVector == glm::vec4(20, 40, 60, 80));
+			Assert::AreEqual(3, worldResult->Get<std::int32_t>());
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

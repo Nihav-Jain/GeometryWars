@@ -45,20 +45,10 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		if (sharedDataPtr->CurrentScopePtr->Is(Entity::TypeIdClass()))
-		{
-			Entity* entity = static_cast<Entity*>(sharedDataPtr->CurrentScopePtr);
-			Action& currentAction = entity->CreateAction(mDerivedActionClassName, mActionInstanceName);
-			ParseActionAttributes(currentAction, attributes);
-			sharedDataPtr->CurrentScopePtr = &currentAction;
-		}
-		else if(sharedDataPtr->CurrentScopePtr->Is(ActionList::TypeIdClass()))
-		{
-			ActionList* actionList = static_cast<ActionList*>(sharedDataPtr->CurrentScopePtr);
-			Action& currentAction = actionList->CreateAction(mDerivedActionClassName, mActionInstanceName);
-			ParseActionAttributes(currentAction, attributes);
-			sharedDataPtr->CurrentScopePtr = &currentAction;
-		}
+		Action* currentAction = &Action::CreateAction(mDerivedActionClassName, mActionInstanceName, *sharedDataPtr->CurrentScopePtr);
+		ParseActionAttributes(*currentAction, attributes);
+		sharedDataPtr->CurrentScopePtr = currentAction;
+
 		return true;
 	}
 
