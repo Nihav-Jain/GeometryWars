@@ -103,5 +103,7 @@ namespace Library
 	}
 
 	void XmlParseHelperAction::PostXMLParsing(Action& currentAction)
-	{}
+	{
+		UNREFERENCED_PARAMETER(currentAction);
+	}
 }

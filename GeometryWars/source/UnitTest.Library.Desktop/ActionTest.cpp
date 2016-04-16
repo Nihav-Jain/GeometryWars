@@ -6,6 +6,7 @@
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
+#include "ActionIfThenElse.h"
 
 #include "XmlParseHelperActionSwitch.h"
 #include "XmlParseHelperActionExpression.h"
@@ -47,15 +48,7 @@ namespace UnitTestLibraryDesktop
 			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
 			ActionExpressionFactory expFactory;
 
-			XmlParseHelperActionSwitch switchParseHelper;
-			XmlParseHelperActionSwitch::XmlParseHelperActionSwitchCase caseParseHelper;
-			XmlParseHelperActionExpression expParseHelper;
-
 			Game game;
-
-			game.ParseMaster().AddHelper(switchParseHelper);
-			game.ParseMaster().AddHelper(caseParseHelper);
-			game.ParseMaster().AddHelper(expParseHelper);
 
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_action_test.xml"));
 			game.Start();
@@ -103,6 +96,46 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(*someVector == glm::vec4(20, 40, 60, 80));
 			Assert::AreEqual(3, worldResult->Get<std::int32_t>());
 		}
+
+		TEST_METHOD(ActionTestIfThenElse)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+			ActionExpressionFactory expFactory;
+			ActionIfThenElseFactory ifFactory;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_if_else_test.xml"));
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			Datum* result2 = entity->Find("result2");
+			Assert::IsNotNull(result2);
+			Assert::AreEqual(0, result2->Get<std::int32_t>());
+
+			Datum* result3 = entity->Find("result3");
+			Assert::IsNotNull(result3);
+			Assert::AreEqual(0, result3->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, result->Get<std::int32_t>());
+			Assert::AreEqual(15, result2->Get<std::int32_t>());
+			Assert::AreEqual(0, result3->Get<std::int32_t>());
+		}
+
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;

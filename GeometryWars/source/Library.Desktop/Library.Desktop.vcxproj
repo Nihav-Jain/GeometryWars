@@ -238,6 +238,7 @@
     <ClInclude Include="XmlParseHelperAction.h" />
     <ClInclude Include="XmlParseHelperActionEvent.h" />
     <ClInclude Include="XmlParseHelperActionExpression.h" />
+    <ClInclude Include="XmlParseHelperActionIf.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
@@ -282,6 +283,7 @@
     <ClCompile Include="XmlParseHelperAction.cpp" />
     <ClCompile Include="XmlParseHelperActionEvent.cpp" />
     <ClCompile Include="XmlParseHelperActionExpression.cpp" />
+    <ClCompile Include="XmlParseHelperActionIf.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
