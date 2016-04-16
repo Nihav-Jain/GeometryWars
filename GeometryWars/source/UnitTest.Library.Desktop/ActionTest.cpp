@@ -7,6 +7,7 @@
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
+#include "ActionWhileLoop.h"
 
 #include "XmlParseHelperActionSwitch.h"
 #include "XmlParseHelperActionExpression.h"
@@ -136,6 +137,34 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(0, result3->Get<std::int32_t>());
 		}
 
+		TEST_METHOD(ActionTestWhile)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+			ActionExpressionFactory expFactory;
+			ActionIfThenElseFactory ifFactory;
+			ActionWhileLoopFactory whileFactory;
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_while_test.xml"));
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, result->Get<std::int32_t>());
+		}
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;

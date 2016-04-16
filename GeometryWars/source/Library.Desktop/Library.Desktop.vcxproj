@@ -206,6 +206,7 @@
     <ClInclude Include="ActionIfThenElse.h" />
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
+    <ClInclude Include="ActionWhileLoop.h" />
     <ClInclude Include="Attributed.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
@@ -240,6 +241,7 @@
     <ClInclude Include="XmlParseHelperActionExpression.h" />
     <ClInclude Include="XmlParseHelperActionIf.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
+    <ClInclude Include="XmlParseHelperActionWhile.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
@@ -256,6 +258,7 @@
     <ClCompile Include="ActionIfThenElse.cpp" />
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
+    <ClCompile Include="ActionWhileLoop.cpp" />
     <ClCompile Include="Attributed.cpp" />
     <ClCompile Include="Datum.cpp" />
     <ClCompile Include="DefaultHash.cpp" />
@@ -285,6 +288,7 @@
     <ClCompile Include="XmlParseHelperActionExpression.cpp" />
     <ClCompile Include="XmlParseHelperActionIf.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />
+    <ClCompile Include="XmlParseHelperActionWhile.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
