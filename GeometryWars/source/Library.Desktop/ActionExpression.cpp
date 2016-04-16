@@ -193,12 +193,12 @@ namespace Library
 	void ActionExpression::EvaluateExpression()
 	{
 		Stack<Datum*> evaluationStack;
-
+		SList<std::string> postfixExpression(*mPostfixExpression);
 		Stack<Datum*> resultDatums;
 		Datum result;
-		while (!mPostfixExpression->IsEmpty())
+		while (!postfixExpression.IsEmpty())
 		{
-			if (mOperatorPrecedence.ContainsKey(mPostfixExpression->Front()))
+			if (mOperatorPrecedence.ContainsKey(postfixExpression.Front()))
 			{
 				Datum* rhs = evaluationStack.Top();
 				evaluationStack.Pop();
@@ -207,20 +207,20 @@ namespace Library
 
 				if (resultDatums.IsEmpty() || !((rhs == resultDatums.Top()) || (lhs == resultDatums.Top())))
 					resultDatums.Push(new Datum());
-				*resultDatums.Top() = (this->*mArithmeticOperations[mPostfixExpression->Front()])(*lhs, *rhs);
+				*resultDatums.Top() = (this->*mArithmeticOperations[postfixExpression.Front()])(*lhs, *rhs);
 				evaluationStack.Push(resultDatums.Top());
-				mPostfixExpression->PopFront();
+				postfixExpression.PopFront();
 			}
-			else if (mDefinedFunctions.ContainsKey(mPostfixExpression->Front()))
+			else if (mDefinedFunctions.ContainsKey(postfixExpression.Front()))
 			{
 
 			}
 			else
 			{
-				Datum* operand = Search(mPostfixExpression->Front());
+				Datum* operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);
 				evaluationStack.Push(operand);
-				mPostfixExpression->PopFront();
+				postfixExpression.PopFront();
 			}
 		}
 
