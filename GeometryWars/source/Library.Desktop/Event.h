@@ -1,6 +1,7 @@
 #pragma once
 #include "EventPublisher.h"
 #include "Vector.h"
+#include "RTTI.h"
 
 namespace Library
 {

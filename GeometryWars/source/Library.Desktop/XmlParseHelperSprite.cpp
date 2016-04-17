@@ -29,6 +29,7 @@ namespace Library {
 
 		// TODO: integrate this
 		Sprite* sprite = sharedDataPtr->CurrentScopePtr->AssertiveAs<Sprite>();
+		UNREFERENCED_PARAMETER(sprite);
 		assert(sprite != nullptr);
 
 		return true;
