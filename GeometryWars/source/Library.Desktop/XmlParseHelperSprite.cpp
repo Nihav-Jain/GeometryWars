@@ -4,8 +4,6 @@
 
 namespace Library {
 	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite";
-	const std::string XmlParseHelperSprite::ATTRIBUTE_POSITION = "position";
-	const std::string XmlParseHelperSprite::ATTRIBUTE_IMAGE_PATH = "imagePath";
 
 	XmlParseHelperSprite::XmlParseHelperSprite()
 	{

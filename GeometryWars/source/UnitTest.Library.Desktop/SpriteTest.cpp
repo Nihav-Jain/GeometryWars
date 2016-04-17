@@ -65,6 +65,10 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(sprite->GetPosition() == position);
 
+			glm::vec4 color = glm::vec4(1, 0, 0, 0);
+
+			Assert::IsTrue(sprite->GetColor() == color);
+
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

@@ -18,7 +18,5 @@ namespace Library {
 
 	private:
 		static const std::string ELEMENT_NAME;
-		static const std::string ATTRIBUTE_POSITION;
-		static const std::string ATTRIBUTE_IMAGE_PATH;
 	};
 }

@@ -17,6 +17,7 @@ namespace Library {
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_IMAGE_PATH;
+		static const std::string ATTRIBUTE_COLOR;
 
 		Sprite();
 		virtual ~Sprite() = default;
@@ -26,12 +27,14 @@ namespace Library {
 
 		const glm::vec4 & GetPosition() const;
 		const std::string & GetImagePath() const;
+		const glm::vec4 & GetColor() const;
 
 		virtual void Render(RenderDevice * device) override;
 
 	private:
 		glm::vec4 mPosition;
 		std::string mImagePath;
+		glm::vec4 mColor;
 	};
 }
 
