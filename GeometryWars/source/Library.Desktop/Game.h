@@ -9,6 +9,7 @@
 #include "Entity.h"
 #include "Action.h"
 #include "ActionList.h"
+#include "ActionExpression.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"

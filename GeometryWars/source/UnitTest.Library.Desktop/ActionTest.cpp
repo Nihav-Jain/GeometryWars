@@ -166,6 +166,32 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10, result->Get<std::int32_t>());
 		}
 
+		TEST_METHOD(ActionTestExpressionFunctionCalls)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionExpressionFactory expFactory;
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_function_test.xml"));
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, result->Get<std::int32_t>());
+
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

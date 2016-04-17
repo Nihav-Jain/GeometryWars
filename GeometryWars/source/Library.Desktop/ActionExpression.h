@@ -48,6 +48,7 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState) override;
 
+		static void ClearStaticMemebers();
 		static const std::string ATTRIBUTE_EXPRESSION;
 
 	private:
@@ -66,7 +67,8 @@ namespace Library
 			std::uint32_t NumParams;
 			std::function<Datum(const Vector<Datum>&)> FunctionBody;
 		};
-		static Hashmap<std::string, FunctionDefinition> mDefinedFunctions;
+		typedef Hashmap<std::string, FunctionDefinition> CallableFunctions;
+		static CallableFunctions mDefinedFunctions;
 
 		Datum Add(Datum& lhs, Datum& rhs);
 		Datum Subtract(Datum& lhs, Datum& rhs);

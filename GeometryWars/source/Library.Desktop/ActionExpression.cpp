@@ -82,6 +82,11 @@ namespace Library
 		EvaluateExpression();
 	}
 
+	void ActionExpression::ClearStaticMemebers()
+	{
+		mDefinedFunctions.Clear();
+	}
+
 	void ActionExpression::ConvertExpressionToPostfix()
 	{
 		std::string& expression = (*this)[ATTRIBUTE_EXPRESSION].Get<std::string>();
@@ -221,15 +226,28 @@ namespace Library
 			}
 			else if (mDefinedFunctions.ContainsKey(postfixExpression.Front()))
 			{
-				std::uint32_t numParams = mDefinedFunctions[postfixExpression.Front()].NumParams;
+				CallableFunctions::Iterator itr = mDefinedFunctions.Find(postfixExpression.Front());
+				std::uint32_t numParams = itr->second.NumParams;
 				Vector<Datum> functionParams(numParams);
 
+				bool isResultDatumAParam = false;
 				while (numParams > 0)
 				{
 					functionParams.PushBack(*evaluationStack.Top());
+					
+					if (resultDatums.IsEmpty() || evaluationStack.Top() != resultDatums.Top())
+						isResultDatumAParam = true;
+					else
+						isResultDatumAParam = false;
+
 					evaluationStack.Pop();
 					numParams--;
 				}
+				if (isResultDatumAParam)
+					resultDatums.Push(new Datum());
+				*resultDatums.Top() = itr->second.FunctionBody(functionParams);
+				evaluationStack.Push(resultDatums.Top());
+				postfixExpression.PopFront();
 			}
 			else
 			{
