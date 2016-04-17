@@ -23,6 +23,8 @@
 #include "XmlParseHelperActionExpression.h"
 #include "XmlParseHelperReaction.h"
 #include "XmlParseHelperActionEvent.h"
+#include "XmlParseHelperActionIf.h"
+#include "XmlParseHelperActionWhile.h"
 
 namespace Library
 {
@@ -114,6 +116,13 @@ namespace Library
 		XmlParseHelperReaction mReactionParser;
 		XmlParseHelperActionEvent mActionEvent;
 
+		XmlParseHelperActionIf mActionIf;
+		XmlParseHelperActionIf::XmlParseHelperActionIfCondition mActionIfCondition;
+		XmlParseHelperActionIf::XmlParseHelperActionIfThen mActionIfThen;
+		XmlParseHelperActionIf::XmlParseHelperActionIfElse mActionIfElse;
+
+		XmlParseHelperActionWhile mActionWhile;
+		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 	};
 }
 

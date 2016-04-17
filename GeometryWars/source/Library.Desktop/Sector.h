@@ -80,6 +80,12 @@ namespace Library
 		 */
 		Entity* FindEntity(const std::string& entityName) const;
 
+		Datum& Actions();
+
+		const Datum& Actions() const;
+
+		Action* FindAction(const std::string& actionName) const;
+
 		/**
 		 *	Getter for the World which contains this Sector
 		 *	@return pointer to the World

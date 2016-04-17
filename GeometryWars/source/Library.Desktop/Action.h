@@ -63,6 +63,9 @@ namespace Library
 		 */
 		virtual void PostParsingProcess();
 
+		static Action* FindAction(const std::string& actionName, const Datum& actions);
+		static Action& CreateAction(const std::string& actionClassName, const std::string& actionInstanceName, Scope& parentScope);
+
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
 

@@ -1,0 +1,58 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+			<integer name="switchInteger" value="15" />
+			<float name="switchFloat" value="10.10" />
+			<integer name="result" value="0"/>
+			<integer name="result2" value="0"/>
+			<integer name="result3" value="0"/>
+			<integer name="anotherInt" value="10"/>
+			
+			<if name="someCondition">
+				<condition>
+					<string name="expression">switchInteger &lt; switchFloat</string>
+				</condition>
+				<then>
+					<expression name="thenExp">
+						<string name="expression">result = switchInteger</string>
+					</expression>
+				</then>	<!-- ActionList -->
+				<else>
+					<expression name="elseExp">
+						<string name="expression">result = anotherInt</string>
+					</expression>
+				</else>	<!-- (optional) ActionList -->
+			</if>
+			
+			<if name="anotherCondition">
+				<condition>
+					<string name="expression">switchInteger &gt; switchFloat</string>
+				</condition>
+				<then>
+					<expression name="thenExp">
+						<string name="expression">result2 = switchInteger</string>
+					</expression>
+				</then>
+				<!-- ActionList -->
+				<else>
+					<expression name="elseExp">
+						<string name="expression">result2 = anotherInt</string>
+					</expression>
+				</else>
+				<!-- (optional) ActionList -->
+			</if>
+
+			<if name="wasd">
+				<condition>
+					<string name="expression">switchInteger == switchFloat</string>
+				</condition>
+				<then>
+					<expression name="thenExp">
+						<string name="expression">result3 = switchInteger</string>
+					</expression>
+				</then>
+			</if>
+
+		</entity>		
+	</sector>	
+</world>

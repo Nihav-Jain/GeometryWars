@@ -9,7 +9,9 @@ namespace Library
 		mSharedData(), mParseMaster(mSharedData),
 		mWorldParser(), mSectorParser(), mEntityParser(), mActionParser(),
 		mTableParser(), mPrimitivesParser(), mNameValueParser(),
-		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent()
+		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
+		mActionIf(), mActionIfCondition(), mActionIfThen(), mActionIfElse(),
+		mActionWhile(), mActionWhileLoop()
 	{
 		mSharedData.SetRootScope(mWorld);
 
@@ -26,6 +28,13 @@ namespace Library
 		mParseMaster.AddHelper(mReactionParser);
 		mParseMaster.AddHelper(mActionEvent);
 
+		mParseMaster.AddHelper(mActionIf);
+		mParseMaster.AddHelper(mActionIfCondition);
+		mParseMaster.AddHelper(mActionIfThen);
+		mParseMaster.AddHelper(mActionIfElse);
+
+		mParseMaster.AddHelper(mActionWhile);
+		mParseMaster.AddHelper(mActionWhileLoop);
 	}
 
 	Game::~Game()

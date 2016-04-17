@@ -76,6 +76,12 @@ namespace Library
 		 */
 		Sector* FindSector(const std::string& sectorName) const;
 
+		Datum& Actions();
+
+		const Datum& Actions() const;
+
+		Action* FindAction(const std::string& actionName) const;
+
 		/**
 		 *	Calls the update method on all of its child Sectors
 		 *	Should be called every frame from the game loop

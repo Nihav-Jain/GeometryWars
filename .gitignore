@@ -236,6 +236,7 @@ _Pvt_Extensions
 
 !GeometryWars/external/*
 !GeometryWars/external/expat/*
+!GeometryWars/external/expat/lib/*
 !GeometryWars/external/expat/lib/Win32/*
 !GeometryWars/external/expat/lib/Win32/Debug/*
 !GeometryWars/external/expat/lib/Win32/Release/*

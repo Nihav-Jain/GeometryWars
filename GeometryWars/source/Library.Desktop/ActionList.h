@@ -49,14 +49,6 @@ namespace Library
 		const Datum& Actions() const;
 
 		/**
-		 *	Adds an Action of the given name to this ActionList
-		 *	@param name of the derived Action class which is to be created
-		 *	@param  instance name of the Action
-		 *	@return reference to the newly created Action
-		 */
-		Action& CreateAction(const std::string& actionClassName, const std::string& actionInstanceName);
-
-		/**
 		 *	Searches for the Action of the given name in this ActionList
 		 *	@param name of the Action to be searched
 		 *	@return pointer to the Action if found, nullptr if there is no sector of this name
