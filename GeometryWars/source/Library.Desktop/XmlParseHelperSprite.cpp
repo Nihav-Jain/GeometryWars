@@ -42,12 +42,12 @@ namespace Library {
 		if (elementName != ELEMENT_NAME)
 			return false;
 
-		bool transitionToActionEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_END);
+		bool transitionToActionEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SPRITE_END);
 		UNREFERENCED_PARAMETER(transitionToActionEnd);
 		assert(transitionToActionEnd);
-		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
-		UNREFERENCED_PARAMETER(transitionToStateRouter);
-		assert(transitionToStateRouter);
+		//bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		//UNREFERENCED_PARAMETER(transitionToStateRouter);
+		//assert(transitionToStateRouter);
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 

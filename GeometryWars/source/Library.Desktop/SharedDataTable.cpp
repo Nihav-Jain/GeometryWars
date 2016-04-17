@@ -210,7 +210,7 @@ namespace Library
 			Graph<ParserState>::Traversor spValueStart = ParserStateAutomata.AddVertex(valueStart, spNameEnd);
 			Graph<ParserState>::Traversor spValueEnd = ParserStateAutomata.AddVertex(valueEnd, spValueStart);
 			Graph<ParserState>::Traversor spPrimitiveEndState = ParserStateAutomata.AddVertex(primitiveEnd, spValueEnd);
-			ParserStateAutomata.CreateEdge(wPrimitiveEndState, spriteRouterState);
+			ParserStateAutomata.CreateEdge(spPrimitiveEndState, spriteRouterState);
 		}
 
 		mStateTraversor = ParserStateAutomata.Begin();
