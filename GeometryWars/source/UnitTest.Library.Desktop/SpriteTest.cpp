@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "Sprite.h"
+#include "Renderer.h"
 
 #include "XmlParseMaster.h"
 #include "SharedDataTable.h"
@@ -68,6 +69,17 @@ namespace UnitTestLibraryDesktop
 			glm::vec4 color = glm::vec4(1, 0, 0, 0);
 
 			Assert::IsTrue(sprite->GetColor() == color);
+
+
+			Library::Renderer * render = Renderer::CreateRenderer(Library::Renderer::RenderDeviceType::OPENGL);
+
+			Assert::IsTrue(render != nullptr);
+
+			render->AddRenderable(sprite);
+
+			render->Update();
+
+			delete render;
 
 		}
 
