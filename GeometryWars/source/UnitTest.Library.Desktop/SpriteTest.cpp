@@ -3,6 +3,7 @@
 
 #include "Sprite.h"
 #include "Renderer.h"
+#include "OpenGLRenderDevice.h"
 
 #include "XmlParseMaster.h"
 #include "SharedDataTable.h"
@@ -70,7 +71,9 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(sprite->GetColor() == color);
 
-			Library::Renderer render(nullptr);
+			OpenGLRenderDevice renderDevice;
+
+			Library::Renderer render(&renderDevice);
 
 			render.AddRenderable(sprite);
 
