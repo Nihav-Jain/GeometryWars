@@ -6,30 +6,44 @@ namespace Library
 	RTTI_DEFINITIONS(ActionExpression);
 
 	const std::string ActionExpression::ATTRIBUTE_EXPRESSION = "expression";
+	const Hashmap<std::string, std::uint32_t> ActionExpression::mOperatorPrecedence = {
+		{ "=",	1 },
+		{ "||", 2 },
+		{ "&&", 3 },
+		{ "==", 4 },
+		{ "!=", 4 },
+		{ "<",	5 },
+		{ "<=", 5 },
+		{ ">",	5 },
+		{ ">=", 5 },
+		{ "+",	6 },
+		{ "-",	6 },
+		{ "*",	7 },
+		{ "/",	7 }
+	};
+
+	const Hashmap<std::string, ActionExpression::Arithmetic> ActionExpression::mOperations = {
+		{ "=",  &ActionExpression::Assign },
+		{ "+",  &ActionExpression::Add },
+		{ "-",  &ActionExpression::Subtract },
+		{ "*",  &ActionExpression::Multiply },
+		{ "/",  &ActionExpression::Divide },
+		{ "<",  &ActionExpression::LessThan },
+		{ ">",  &ActionExpression::GreaterThan },
+		{ "<=", &ActionExpression::LessThanEqualTo },
+		{ ">=", &ActionExpression::GreaterThanEqualTo },
+		{ "&&", &ActionExpression::And },
+		{ "||", &ActionExpression::Or },
+		{ "==", &ActionExpression::Equals },
+		{ "!=", &ActionExpression::NotEquals }
+	};
 
 	ActionExpression::ActionExpression() :
-		mPostfixExpression(nullptr), mOperatorPrecedence(), mDefinedFunctions(), mArithmeticOperations()
+		mPostfixExpression(nullptr), mDefinedFunctions()
 	{
 		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
 
-		std::uint32_t i = 1;
 		
-		mOperatorPrecedence.Insert("=", i++);
-		mOperatorPrecedence.Insert("||", i++);
-		mOperatorPrecedence.Insert("&&", i++);
-		mOperatorPrecedence.Insert("==", i);
-		mOperatorPrecedence.Insert("!=", i++);
-		mOperatorPrecedence.Insert("<", i);
-		mOperatorPrecedence.Insert("<=", i);
-		mOperatorPrecedence.Insert(">", i);
-		mOperatorPrecedence.Insert(">=", i++);
-
-		mOperatorPrecedence.Insert("+", i);
-		mOperatorPrecedence.Insert("-", i++);
-
-		mOperatorPrecedence.Insert("*", i);
-		mOperatorPrecedence.Insert("/", i++);
-
 		mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;
@@ -40,21 +54,6 @@ namespace Library
 		mDefinedFunctions["log"].NumParams = 1;
 		mDefinedFunctions["pow"].NumParams = 2;
 		mDefinedFunctions["sqrt"].NumParams = 1;
-
-		mArithmeticOperations["="] = &ActionExpression::Assign;
-		mArithmeticOperations["+"] = &ActionExpression::Add;
-		mArithmeticOperations["-"] = &ActionExpression::Subtract;
-		mArithmeticOperations["*"] = &ActionExpression::Multiply;
-		mArithmeticOperations["/"] = &ActionExpression::Divide;
-
-		mArithmeticOperations["<"] = &ActionExpression::LessThan;
-		mArithmeticOperations[">"] = &ActionExpression::GreaterThan;
-		mArithmeticOperations["<="] = &ActionExpression::LessThanEqualTo;
-		mArithmeticOperations[">="] = &ActionExpression::GreaterThanEqualTo;
-		mArithmeticOperations["&&"] = &ActionExpression::And;
-		mArithmeticOperations["||"] = &ActionExpression::Or;
-		mArithmeticOperations["=="] = &ActionExpression::Equals;
-		mArithmeticOperations["!="] = &ActionExpression::NotEquals;
 	}
 
 	ActionExpression::~ActionExpression()
@@ -207,7 +206,7 @@ namespace Library
 
 				if (resultDatums.IsEmpty() || !((rhs == resultDatums.Top()) || (lhs == resultDatums.Top())))
 					resultDatums.Push(new Datum());
-				*resultDatums.Top() = (this->*mArithmeticOperations[postfixExpression.Front()])(*lhs, *rhs);
+				*resultDatums.Top() = (this->*mOperations[postfixExpression.Front()])(*lhs, *rhs);
 				evaluationStack.Push(resultDatums.Top());
 				postfixExpression.PopFront();
 			}

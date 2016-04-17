@@ -55,7 +55,7 @@ namespace Library
 
 		SList<std::string>* mPostfixExpression;
 
-		Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
+		static const Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
 
 		struct FunctionDefinition
 		{
@@ -80,7 +80,7 @@ namespace Library
 		Datum NotEquals(Datum& lhs, Datum& rhs);
 
 		typedef Datum(ActionExpression::*Arithmetic)(Datum&, Datum&);
-		Hashmap<std::string, Arithmetic> mArithmeticOperations;
+		static const Hashmap<std::string, Arithmetic> mOperations;
 
 
 		/**
