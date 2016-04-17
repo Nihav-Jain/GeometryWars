@@ -68,6 +68,7 @@ namespace Library
 		assert(transitionToStateRouter);
 
 		Action* currentAction = sharedDataPtr->CurrentScopePtr->AssertiveAs<Action>();
+		PostXMLParsing(*currentAction);
 
 		 //test for action prescribed attributes.
 		std::uint32_t numReservedPrescribedAttributes = Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
@@ -99,5 +100,10 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(currentAction);
 		UNREFERENCED_PARAMETER(attributes);
+	}
+
+	void XmlParseHelperAction::PostXMLParsing(Action& currentAction)
+	{
+		UNREFERENCED_PARAMETER(currentAction);
 	}
 }

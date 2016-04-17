@@ -1,8 +1,10 @@
 #include "pch.h"
+#include "Game.h"
+
+using namespace Library;
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR commandLine, int showCommand)
 {
-
 	UNREFERENCED_PARAMETER(instance);
 	UNREFERENCED_PARAMETER(previousInstance);
 	UNREFERENCED_PARAMETER(commandLine);
@@ -28,6 +30,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 		return -1;
 	}
 
+	Game game;
+	game.Start();
+
 	glViewport(0, 0, 800, 600);
 
 	while (!glfwWindowShouldClose(window))
@@ -36,6 +41,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		game.Update();
 	}
 
 	glfwDestroyWindow(window);

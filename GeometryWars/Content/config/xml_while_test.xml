@@ -1,0 +1,21 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+			<integer name="switchInteger" value="10" />
+			<integer name="result" value="0"/>
+			<integer name="anotherInt" value="1"/>
+
+			<while name="something">
+				<condition>
+					<string name="expression">result &lt; switchInteger</string>
+				</condition>
+				<loop>
+					<expression name="looper">
+						<string name="expression">result = anotherInt + result</string>
+					</expression>
+				</loop>
+			</while>
+
+		</entity>		
+	</sector>	
+</world>

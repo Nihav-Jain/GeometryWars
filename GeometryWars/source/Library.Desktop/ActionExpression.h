@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "Action.h"
 
 namespace Library
@@ -47,6 +48,43 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState) override;
 
+		/**
+		 *	Clears the static memebers to avoid memory leak detection in the Unit Tests
+		 *	Its called in the destructor of Game
+		 */
+		static void ClearStaticMemebers();
+
+		/**
+		 *	Structure to maintain information about functions which have been defined to be used in expressions.
+		 *	@param an unsigned integer representing the number of parameters this function expects
+		 *	@param lambda expression which will be used as the funtions body; 
+		 *	the definition of the lambda expression is -> return type - Datum; parameters -> const Vector<Datum>& (contains the list of parameters in the same order as defined in XML)
+		 */
+		struct FunctionDefinition
+		{
+			FunctionDefinition(std::uint32_t numParams, std::function<Datum(const Vector<Datum>&)> functionBody) :
+				NumParams(numParams), FunctionBody(std::move(functionBody))
+			{}
+			std::uint32_t NumParams;
+			std::function<Datum(const Vector<Datum>&)> FunctionBody;
+		};
+		typedef Hashmap<std::string, FunctionDefinition> CallableFunctions;
+
+		/**
+		 *	Adds a FunctionDefinition to the list of defined functions, this function can now be used in XML expressions
+		 *	@param name of the function
+		 *	@param FunctionDefinition (lambda expression for function body and number of params)
+		 *	@return true if function was added successfully, false if there was already a function by this name
+		 */
+		static bool AddFunction(const std::string& functionName, FunctionDefinition functionDefinition);
+
+		/**
+		 *	Checks if a function with the given name has already been defined or not
+		 *	@param name of the function
+		 *	@return true if a function with the given name already exists, false otherwise
+		 */
+		static bool IsFunctionDefined(const std::string& functionName);
+
 		static const std::string ATTRIBUTE_EXPRESSION;
 
 	private:
@@ -55,14 +93,8 @@ namespace Library
 
 		SList<std::string>* mPostfixExpression;
 
-		Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
-
-		struct FunctionDefinition
-		{
-			std::uint32_t NumParams;
-			// function pointer or function object to the corresponding function
-		};
-		Hashmap<std::string, FunctionDefinition> mDefinedFunctions;
+		static const Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
+		static CallableFunctions mDefinedFunctions;
 
 		Datum Add(Datum& lhs, Datum& rhs);
 		Datum Subtract(Datum& lhs, Datum& rhs);
@@ -80,7 +112,7 @@ namespace Library
 		Datum NotEquals(Datum& lhs, Datum& rhs);
 
 		typedef Datum(ActionExpression::*Arithmetic)(Datum&, Datum&);
-		Hashmap<std::string, Arithmetic> mArithmeticOperations;
+		static const Hashmap<std::string, Arithmetic> mOperations;
 
 
 		/**

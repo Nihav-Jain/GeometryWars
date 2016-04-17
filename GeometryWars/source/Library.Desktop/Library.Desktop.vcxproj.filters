@@ -129,6 +129,24 @@
     <ClInclude Include="XmlParseHelperActionEvent.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="ActionIfThenElse.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionIf.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionWhileLoop.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionWhile.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperSprite.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -235,6 +253,24 @@
     <ClCompile Include="XmlParseHelperActionEvent.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="ActionIfThenElse.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionIf.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionWhileLoop.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionWhile.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperSprite.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -281,6 +317,9 @@
     </Filter>
     <Filter Include="Kernel\Event">
       <UniqueIdentifier>{1701d7bb-f296-4604-b3f4-681d9c373f7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Graphic">
+      <UniqueIdentifier>{a512568e-1bf5-4b59-8364-517228890d86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

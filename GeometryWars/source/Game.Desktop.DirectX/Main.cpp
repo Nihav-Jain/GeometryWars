@@ -1,4 +1,7 @@
 #include "pch.h"
+#include "Game.h"
+
+using namespace Library;
 
 
 void InitializeWindow(HINSTANCE instance, const std::wstring& className, const std::wstring windowTitle, int showCommand);
@@ -78,6 +81,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	PlayMusic(0,2,1);
 
+	Game game;
+	game.Start();
+
 	while (message.message != WM_QUIT)
 	{
 		if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
@@ -91,6 +97,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 			mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 			// Game-specific code
+			game.Update();
 
 			ThrowIfFailed(mSwapChain->Present(0, 0), "IDXGISwapChain::Present() failed.");
 		}

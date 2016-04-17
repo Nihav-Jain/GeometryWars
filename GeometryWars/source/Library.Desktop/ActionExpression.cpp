@@ -6,31 +6,54 @@ namespace Library
 	RTTI_DEFINITIONS(ActionExpression);
 
 	const std::string ActionExpression::ATTRIBUTE_EXPRESSION = "expression";
+	const Hashmap<std::string, std::uint32_t> ActionExpression::mOperatorPrecedence = {
+		{ "=",	1 },
+		{ "||", 2 },
+		{ "&&", 3 },
+		{ "==", 4 },
+		{ "!=", 4 },
+		{ "<",	5 },
+		{ "<=", 5 },
+		{ ">",	5 },
+		{ ">=", 5 },
+		{ "+",	6 },
+		{ "-",	6 },
+		{ "*",	7 },
+		{ "/",	7 }
+	};
+
+	const Hashmap<std::string, ActionExpression::Arithmetic> ActionExpression::mOperations = {
+		{ "=",  &ActionExpression::Assign },
+		{ "+",  &ActionExpression::Add },
+		{ "-",  &ActionExpression::Subtract },
+		{ "*",  &ActionExpression::Multiply },
+		{ "/",  &ActionExpression::Divide },
+		{ "<",  &ActionExpression::LessThan },
+		{ ">",  &ActionExpression::GreaterThan },
+		{ "<=", &ActionExpression::LessThanEqualTo },
+		{ ">=", &ActionExpression::GreaterThanEqualTo },
+		{ "&&", &ActionExpression::And },
+		{ "||", &ActionExpression::Or },
+		{ "==", &ActionExpression::Equals },
+		{ "!=", &ActionExpression::NotEquals }
+	};
+
+	Hashmap<std::string, ActionExpression::FunctionDefinition> ActionExpression::mDefinedFunctions;
 
 	ActionExpression::ActionExpression() :
-		mPostfixExpression(nullptr), mOperatorPrecedence(), mDefinedFunctions(), mArithmeticOperations()
+		mPostfixExpression(nullptr)
 	{
 		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
-
-		std::uint32_t i = 1;
 		
-		mOperatorPrecedence.Insert("=", i++);
-		mOperatorPrecedence.Insert("||", i++);
-		mOperatorPrecedence.Insert("&&", i++);
-		mOperatorPrecedence.Insert("==", i);
-		mOperatorPrecedence.Insert("!=", i++);
-		mOperatorPrecedence.Insert("<", i);
-		mOperatorPrecedence.Insert("<=", i);
-		mOperatorPrecedence.Insert(">", i);
-		mOperatorPrecedence.Insert(">=", i++);
+		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum>& params)
+		{
+			assert(params.Size() >= 2);
+			Datum result;
+			result = ( (params[0] >= params[1]).Get<bool>() ) ? params[0] : params[1];
+			return result;
+		} ));
 
-		mOperatorPrecedence.Insert("+", i);
-		mOperatorPrecedence.Insert("-", i++);
-
-		mOperatorPrecedence.Insert("*", i);
-		mOperatorPrecedence.Insert("/", i++);
-
-		mDefinedFunctions["max"].NumParams = 2;
+		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;
 		mDefinedFunctions["cos"].NumParams = 1;
@@ -39,22 +62,7 @@ namespace Library
 		mDefinedFunctions["exp"].NumParams = 1;
 		mDefinedFunctions["log"].NumParams = 1;
 		mDefinedFunctions["pow"].NumParams = 2;
-		mDefinedFunctions["sqrt"].NumParams = 1;
-
-		mArithmeticOperations["="] = &ActionExpression::Assign;
-		mArithmeticOperations["+"] = &ActionExpression::Add;
-		mArithmeticOperations["-"] = &ActionExpression::Subtract;
-		mArithmeticOperations["*"] = &ActionExpression::Multiply;
-		mArithmeticOperations["/"] = &ActionExpression::Divide;
-
-		mArithmeticOperations["<"] = &ActionExpression::LessThan;
-		mArithmeticOperations[">"] = &ActionExpression::GreaterThan;
-		mArithmeticOperations["<="] = &ActionExpression::LessThanEqualTo;
-		mArithmeticOperations[">="] = &ActionExpression::GreaterThanEqualTo;
-		mArithmeticOperations["&&"] = &ActionExpression::And;
-		mArithmeticOperations["||"] = &ActionExpression::Or;
-		mArithmeticOperations["=="] = &ActionExpression::Equals;
-		mArithmeticOperations["!="] = &ActionExpression::NotEquals;
+		mDefinedFunctions["sqrt"].NumParams = 1;*/
 	}
 
 	ActionExpression::~ActionExpression()
@@ -72,6 +80,24 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		EvaluateExpression();
+	}
+
+	void ActionExpression::ClearStaticMemebers()
+	{
+		mDefinedFunctions.Clear();
+	}
+
+	bool ActionExpression::AddFunction(const std::string& functionName, FunctionDefinition functionDefinition)
+	{
+		bool didNewInsert = false;
+		mDefinedFunctions.Insert(CallableFunctions::PairType(functionName, functionDefinition), didNewInsert);
+
+		return didNewInsert;
+	}
+
+	bool ActionExpression::IsFunctionDefined(const std::string& functionName)
+	{
+		return mDefinedFunctions.ContainsKey(functionName);
 	}
 
 	void ActionExpression::ConvertExpressionToPostfix()
@@ -193,12 +219,12 @@ namespace Library
 	void ActionExpression::EvaluateExpression()
 	{
 		Stack<Datum*> evaluationStack;
-
+		SList<std::string> postfixExpression(*mPostfixExpression);
 		Stack<Datum*> resultDatums;
 		Datum result;
-		while (!mPostfixExpression->IsEmpty())
+		while (!postfixExpression.IsEmpty())
 		{
-			if (mOperatorPrecedence.ContainsKey(mPostfixExpression->Front()))
+			if (mOperatorPrecedence.ContainsKey(postfixExpression.Front()))
 			{
 				Datum* rhs = evaluationStack.Top();
 				evaluationStack.Pop();
@@ -207,20 +233,49 @@ namespace Library
 
 				if (resultDatums.IsEmpty() || !((rhs == resultDatums.Top()) || (lhs == resultDatums.Top())))
 					resultDatums.Push(new Datum());
-				*resultDatums.Top() = (this->*mArithmeticOperations[mPostfixExpression->Front()])(*lhs, *rhs);
+				*resultDatums.Top() = (this->*mOperations[postfixExpression.Front()])(*lhs, *rhs);
 				evaluationStack.Push(resultDatums.Top());
-				mPostfixExpression->PopFront();
+				postfixExpression.PopFront();
 			}
-			else if (mDefinedFunctions.ContainsKey(mPostfixExpression->Front()))
+			else if (mDefinedFunctions.ContainsKey(postfixExpression.Front()))
 			{
+				CallableFunctions::Iterator itr = mDefinedFunctions.Find(postfixExpression.Front());
+				std::uint32_t numParams = itr->second.NumParams;
+				Vector<Datum> functionParams(numParams);
+				Stack<Datum*> parameterStack;
 
+				bool isResultDatumAParam = false;
+				while (numParams > 0)
+				{
+					parameterStack.Push(evaluationStack.Top());
+					
+					if (resultDatums.IsEmpty() || evaluationStack.Top() != resultDatums.Top())
+						isResultDatumAParam = true;
+					else
+						isResultDatumAParam = false;
+
+					evaluationStack.Pop();
+					numParams--;
+				}
+
+				while (!parameterStack.IsEmpty())
+				{
+					functionParams.PushBack(*parameterStack.Top());
+					parameterStack.Pop();
+				}
+
+				if (isResultDatumAParam)
+					resultDatums.Push(new Datum());
+				*resultDatums.Top() = itr->second.FunctionBody(functionParams);
+				evaluationStack.Push(resultDatums.Top());
+				postfixExpression.PopFront();
 			}
 			else
 			{
-				Datum* operand = Search(mPostfixExpression->Front());
+				Datum* operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);
 				evaluationStack.Push(operand);
-				mPostfixExpression->PopFront();
+				postfixExpression.PopFront();
 			}
 		}
 

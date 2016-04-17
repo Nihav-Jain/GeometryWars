@@ -1,14 +1,26 @@
 #pragma once
 
+#include "SList.h"
+#include "Vector.h"
+#include "Stack.h"
+#include "Hashmap.h"
+#include "Graph.h"
+
 #include "GameClock.h"
 #include "GameTime.h"
 
+#include "RTTI.h"
+#include "Datum.h"
 #include "Scope.h"
 #include "World.h"
 #include "Sector.h"
 #include "Entity.h"
 #include "Action.h"
 #include "ActionList.h"
+#include "ActionListSwitch.h"
+#include "ActionExpression.h"
+#include "ActionIfThenElse.h"
+#include "ActionWhileLoop.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
@@ -23,6 +35,8 @@
 #include "XmlParseHelperActionExpression.h"
 #include "XmlParseHelperReaction.h"
 #include "XmlParseHelperActionEvent.h"
+#include "XmlParseHelperActionIf.h"
+#include "XmlParseHelperActionWhile.h"
 
 namespace Library
 {
@@ -114,6 +128,13 @@ namespace Library
 		XmlParseHelperReaction mReactionParser;
 		XmlParseHelperActionEvent mActionEvent;
 
+		XmlParseHelperActionIf mActionIf;
+		XmlParseHelperActionIf::XmlParseHelperActionIfCondition mActionIfCondition;
+		XmlParseHelperActionIf::XmlParseHelperActionIfThen mActionIfThen;
+		XmlParseHelperActionIf::XmlParseHelperActionIfElse mActionIfElse;
+
+		XmlParseHelperActionWhile mActionWhile;
+		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 	};
 }
 
