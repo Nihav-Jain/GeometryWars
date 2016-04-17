@@ -87,6 +87,19 @@ namespace Library
 		mDefinedFunctions.Clear();
 	}
 
+	bool ActionExpression::AddFunction(const std::string& functionName, FunctionDefinition functionDefinition)
+	{
+		bool didNewInsert = false;
+		mDefinedFunctions.Insert(CallableFunctions::PairType(functionName, functionDefinition), didNewInsert);
+
+		return didNewInsert;
+	}
+
+	bool ActionExpression::IsFunctionDefined(const std::string& functionName)
+	{
+		return mDefinedFunctions.ContainsKey(functionName);
+	}
+
 	void ActionExpression::ConvertExpressionToPostfix()
 	{
 		std::string& expression = (*this)[ATTRIBUTE_EXPRESSION].Get<std::string>();
@@ -229,11 +242,12 @@ namespace Library
 				CallableFunctions::Iterator itr = mDefinedFunctions.Find(postfixExpression.Front());
 				std::uint32_t numParams = itr->second.NumParams;
 				Vector<Datum> functionParams(numParams);
+				Stack<Datum*> parameterStack;
 
 				bool isResultDatumAParam = false;
 				while (numParams > 0)
 				{
-					functionParams.PushBack(*evaluationStack.Top());
+					parameterStack.Push(evaluationStack.Top());
 					
 					if (resultDatums.IsEmpty() || evaluationStack.Top() != resultDatums.Top())
 						isResultDatumAParam = true;
@@ -243,6 +257,13 @@ namespace Library
 					evaluationStack.Pop();
 					numParams--;
 				}
+
+				while (!parameterStack.IsEmpty())
+				{
+					functionParams.PushBack(*parameterStack.Top());
+					parameterStack.Pop();
+				}
+
 				if (isResultDatumAParam)
 					resultDatums.Push(new Datum());
 				*resultDatums.Top() = itr->second.FunctionBody(functionParams);

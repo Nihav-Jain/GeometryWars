@@ -173,6 +173,14 @@ namespace UnitTestLibraryDesktop
 			ActionExpressionFactory expFactory;
 			Game game;
 
+			ActionExpression::AddFunction("min", ActionExpression::FunctionDefinition(2, [](const Vector<Datum>& params)
+			{
+				assert(params.Size() >= 2);
+				Datum result;
+				result = ((params[0] <= params[1]).Get<bool>()) ? params[0] : params[1];
+				return result;
+			}));
+
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_function_test.xml"));
 			game.Start();
 
@@ -186,10 +194,14 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(result);
 			Assert::AreEqual(0, result->Get<std::int32_t>());
 
+			Datum* minResult = entity->Find("minResult");
+			Assert::IsNotNull(minResult);
+			Assert::AreEqual(0, minResult->Get<std::int32_t>());
+
 			game.Update();
 
 			Assert::AreEqual(10, result->Get<std::int32_t>());
-
+			Assert::AreEqual(1, minResult->Get<std::int32_t>());
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
