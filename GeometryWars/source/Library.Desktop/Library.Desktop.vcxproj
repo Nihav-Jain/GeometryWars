@@ -223,6 +223,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IEventSubscriber.h" />
+    <ClInclude Include="OpenGLRenderDevice.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="IXmlParseHelper.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="OpenGLRenderDevice.cpp" />
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

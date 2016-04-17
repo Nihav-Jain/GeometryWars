@@ -159,6 +159,9 @@
     <ClInclude Include="Viewport.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
+    <ClInclude Include="OpenGLRenderDevice.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -290,6 +293,9 @@
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="Viewport.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderDevice.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
   </ItemGroup>

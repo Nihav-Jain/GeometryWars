@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Renderer.h"
+#include "Renderable.h"
 
 namespace Library {
 
@@ -8,6 +9,10 @@ namespace Library {
 	{
 	}
 
+	Renderer::~Renderer()
+	{
+		// TODO Clean up
+	}
 
 	Renderer * Renderer::CreateRenderer(RenderDeviceType type)
 	{
@@ -22,8 +27,17 @@ namespace Library {
 		return renderer;
 	}
 
-	Renderer::~Renderer()
+	void Renderer::AddRenderable(Renderable * object)
 	{
+		mObjects.push_back(object);
 	}
+
+	void Renderer::Update()
+	{
+		for (auto & obj : mObjects) {
+			obj->Render(mDevice);
+		}
+	}
+
 
 }

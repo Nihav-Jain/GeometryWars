@@ -1,7 +1,7 @@
 #pragma once
 
 /**
-* The Viewport information, similar to D3DDeviceContext
+* The Viewport information
 */
 class Viewport
 {
