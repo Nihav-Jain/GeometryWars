@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Sprite.h"
+#include "RenderDevice.h"
 
 namespace Library {
 
@@ -23,6 +24,11 @@ namespace Library {
 	const std::string & Sprite::GetImagePath() const
 	{
 		return mImagePath;
+	}
+
+	void Sprite::Render(RenderDevice * device)
+	{
+		(device);
 	}
 
 }

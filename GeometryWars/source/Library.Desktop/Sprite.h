@@ -2,14 +2,14 @@
 #include "glm\vec4.hpp"
 #include "RTTI.h"
 #include "Attributed.h"
+#include "Renderable.h"
 
 namespace Library {
 	/**
 	* The renderable sprite class
 	* TODO: Add trasnformation to the entiy trasnformation accordingly
-	* TODO: Maybe drive from some renderable class?
 	*/
-	class Sprite : public Attributed
+	class Sprite : public Attributed, public Renderable
 	{
 		RTTI_DECLARATIONS(Sprite, Attributed);
 
@@ -26,6 +26,8 @@ namespace Library {
 
 		const glm::vec4 & GetPosition() const;
 		const std::string & GetImagePath() const;
+
+		virtual void Render(RenderDevice * device) override;
 
 	private:
 		glm::vec4 mPosition;
