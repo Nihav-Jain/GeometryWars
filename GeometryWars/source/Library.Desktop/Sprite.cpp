@@ -3,6 +3,8 @@
 
 namespace Library {
 
+	RTTI_DEFINITIONS(Sprite);
+
 	const std::uint32_t Sprite::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 2;
 	const std::string Sprite::ATTRIBUTE_POSITION = "position";
 	const std::string Sprite::ATTRIBUTE_IMAGE_PATH = "imagePath";

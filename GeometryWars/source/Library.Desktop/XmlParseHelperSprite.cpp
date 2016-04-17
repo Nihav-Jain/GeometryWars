@@ -13,6 +13,7 @@ namespace Library {
 
 	bool XmlParseHelperSprite::StartElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName, const Hashmap<std::string, std::string>& attributes)
 	{
+		(attributes);
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
@@ -20,20 +21,7 @@ namespace Library {
 		if (elementName != ELEMENT_NAME)
 			return false;
 
-		if (!attributes.ContainsKey(ATTRIBUTE_POSITION))
-		{
-			std::stringstream str;
-			str << "Invalid syntax for <" << ELEMENT_NAME << ">. Missing attribute: " << ATTRIBUTE_POSITION;
-			throw std::exception(str.str().c_str());
-		}
-		if (!attributes.ContainsKey(ATTRIBUTE_IMAGE_PATH))
-		{
-			std::stringstream str;
-			str << "Invalid syntax for <" << ELEMENT_NAME << ">. Missing attribute: " << ATTRIBUTE_IMAGE_PATH;
-			throw std::exception(str.str().c_str());
-		}
-
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SPRITE_START))
 			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
