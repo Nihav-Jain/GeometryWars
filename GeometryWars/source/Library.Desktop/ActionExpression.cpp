@@ -38,13 +38,22 @@ namespace Library
 		{ "!=", &ActionExpression::NotEquals }
 	};
 
+	Hashmap<std::string, ActionExpression::FunctionDefinition> ActionExpression::mDefinedFunctions;
+
 	ActionExpression::ActionExpression() :
-		mPostfixExpression(nullptr), mDefinedFunctions()
+		mPostfixExpression(nullptr)
 	{
 		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
-
 		
-		mDefinedFunctions["max"].NumParams = 2;
+		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum>& params)
+		{
+			assert(params.Size() >= 2);
+			Datum result;
+			result = ( (params[0] >= params[1]).Get<bool>() ) ? params[0] : params[1];
+			return result;
+		} ));
+
+		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;
 		mDefinedFunctions["cos"].NumParams = 1;
@@ -53,7 +62,7 @@ namespace Library
 		mDefinedFunctions["exp"].NumParams = 1;
 		mDefinedFunctions["log"].NumParams = 1;
 		mDefinedFunctions["pow"].NumParams = 2;
-		mDefinedFunctions["sqrt"].NumParams = 1;
+		mDefinedFunctions["sqrt"].NumParams = 1;*/
 	}
 
 	ActionExpression::~ActionExpression()
@@ -212,7 +221,15 @@ namespace Library
 			}
 			else if (mDefinedFunctions.ContainsKey(postfixExpression.Front()))
 			{
+				std::uint32_t numParams = mDefinedFunctions[postfixExpression.Front()].NumParams;
+				Vector<Datum> functionParams(numParams);
 
+				while (numParams > 0)
+				{
+					functionParams.PushBack(*evaluationStack.Top());
+					evaluationStack.Pop();
+					numParams--;
+				}
 			}
 			else
 			{

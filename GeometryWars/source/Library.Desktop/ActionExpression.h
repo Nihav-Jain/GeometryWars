@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "Action.h"
 
 namespace Library
@@ -59,10 +60,13 @@ namespace Library
 
 		struct FunctionDefinition
 		{
+			FunctionDefinition(std::uint32_t numParams, std::function<Datum(const Vector<Datum>&)> functionBody) :
+				NumParams(numParams), FunctionBody(std::move(functionBody))
+			{}
 			std::uint32_t NumParams;
-			// function pointer or function object to the corresponding function
+			std::function<Datum(const Vector<Datum>&)> FunctionBody;
 		};
-		Hashmap<std::string, FunctionDefinition> mDefinedFunctions;
+		static Hashmap<std::string, FunctionDefinition> mDefinedFunctions;
 
 		Datum Add(Datum& lhs, Datum& rhs);
 		Datum Subtract(Datum& lhs, Datum& rhs);
