@@ -1,4 +1,4 @@
 <sprite>
-	<string name="imagePath" value="Content\resource\mushroom.png" />
+	<string name="imagePath" value="Content/resource/mushroom.png" />
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 </sprite>
