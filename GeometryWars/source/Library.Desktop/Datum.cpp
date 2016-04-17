@@ -224,7 +224,7 @@ namespace Library
 
 #pragma region operator+
 
-	Datum Datum::operator+(const Datum& rhs)
+	Datum Datum::operator+(const Datum& rhs) const
 	{
 		if (!(mAddDatums.ContainsKey(mType) && mAddDatums.ContainsKey(rhs.Type())))
 			throw std::exception("cannot add Datums of given type");
@@ -233,7 +233,7 @@ namespace Library
 		return (this->*mAddDatums[mType])(rhs);
 	}
 
-	Datum Datum::operator-(const Datum& rhs)
+	Datum Datum::operator-(const Datum& rhs) const
 	{
 		if (!(mSubtractDatums.ContainsKey(mType) && mSubtractDatums.ContainsKey(rhs.Type())))
 			throw std::exception("cannot add Datums of given type");
@@ -242,7 +242,7 @@ namespace Library
 		return (this->*mSubtractDatums[mType])(rhs);
 	}
 
-	Datum Datum::operator*(const Datum& rhs)
+	Datum Datum::operator*(const Datum& rhs) const
 	{
 		if (!(mMultiplyDatums.ContainsKey(mType) && mMultiplyDatums.ContainsKey(rhs.Type())))
 			throw std::exception("cannot add Datums of given type");
@@ -251,7 +251,7 @@ namespace Library
 		return (this->*mMultiplyDatums[mType])(rhs);
 	}
 
-	Datum Datum::operator/(const Datum& rhs)
+	Datum Datum::operator/(const Datum& rhs) const
 	{
 		if (!(mDivideDatums.ContainsKey(mType) && mDivideDatums.ContainsKey(rhs.Type())))
 			throw std::exception("cannot add Datums of given type");
@@ -260,7 +260,7 @@ namespace Library
 		return (this->*mDivideDatums[mType])(rhs);
 	}
 
-	Datum Datum::operator<(const Datum& rhs)
+	Datum Datum::operator<(const Datum& rhs) const
 	{
 		if (!(mLessThanDatums.ContainsKey(mType) && mLessThanDatums.ContainsKey(rhs.Type())))
 			throw std::exception("cannot add Datums of given type");
@@ -269,7 +269,7 @@ namespace Library
 		return (this->*mLessThanDatums[mType])(rhs);
 	}
 
-	Datum Datum::operator>(const Datum& rhs)
+	Datum Datum::operator>(const Datum& rhs) const
 	{
 		Datum result;
 		result = operator==(rhs);
@@ -278,7 +278,7 @@ namespace Library
 		return result;
 	}
 
-	Datum Datum::operator<=(const Datum& rhs)
+	Datum Datum::operator<=(const Datum& rhs) const
 	{
 		Datum result;
 		result = operator==(rhs);
@@ -286,7 +286,7 @@ namespace Library
 		return result;
 	}
 
-	Datum Datum::operator>=(const Datum& rhs)
+	Datum Datum::operator>=(const Datum& rhs) const
 	{
 		Datum result;
 		result = operator==(rhs);
@@ -294,7 +294,7 @@ namespace Library
 		return result;
 	}
 
-	Datum Datum::operator||(const Datum& rhs)
+	Datum Datum::operator||(const Datum& rhs) const
 	{
 		if (!(mType == DatumType::BOOLEAN && rhs.Type() == DatumType::BOOLEAN))
 			throw std::exception("cannot compare Datums of given type");
@@ -305,7 +305,7 @@ namespace Library
 		return result;
 	}
 
-	Datum Datum::operator&&(const Datum& rhs)
+	Datum Datum::operator&&(const Datum& rhs) const
 	{
 		if (!(mType == DatumType::BOOLEAN && rhs.Type() == DatumType::BOOLEAN))
 			throw std::exception("cannot compare Datums of given type");
