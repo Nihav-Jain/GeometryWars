@@ -53,8 +53,13 @@ namespace Library
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
 
-				if(primitiveDatum.Type() != Datum::DatumType::REFERENCE)
-					primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
+				if (primitiveDatum.Type() != Datum::DatumType::REFERENCE)
+				{
+					if(primitiveDatum.StorageType() == Datum::DatumStorageType::EXTERNAL)
+						primitiveDatum.SetFromString(attributes["value"], 0);
+					else
+						primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
+				}
 				else
 				{
 					Datum* reference = sharedDataPtr->CurrentScopePtr->Search(attributes["value"]);
