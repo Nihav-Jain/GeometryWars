@@ -1,10 +1,23 @@
 #include "pch.h"
 
+
 void InitializeWindow(HINSTANCE instance, const std::wstring& className, const std::wstring windowTitle, int showCommand);
 LRESULT WINAPI WndProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam);
 POINT CenterWindow(int windowWidth, int windowHeight);
 void InitializeDirectX();
 void Shutdown(const std::wstring& className);
+//fmod stuff
+#define MUSIC_BEEP "Content/Music/retire.mp3"
+bool FileExists(const std::string& name);
+
+	FMOD_RESULT FmodResult;
+	FMOD::System *FmodSystem;
+	int32_t numberOfDrivers;
+	FMOD::Sound *audios[4];
+	FMOD::Channel *channels[4];
+
+void FMODErrorCheck(FMOD_RESULT result);
+void PlayMusic(int32_t  soundId, int32_t toLoopZeroToN, float_t volumeZeroToOne);
 
 UINT mScreenWidth = 1024;
 UINT mScreenHeight = 768;
@@ -38,6 +51,32 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	MSG message;
 	ZeroMemory(&message, sizeof(message));
+
+	/*
+	Fmod stuff
+	*/
+	// Create FMOD interface object
+	FmodResult = FMOD::System_Create(&FmodSystem);
+	FMODErrorCheck(FmodResult);
+	// Get number of available sound cards
+	FmodResult = FmodSystem->getNumDrivers(&numberOfDrivers);
+	FMODErrorCheck(FmodResult);
+
+	// No sound cards (disable sound)
+	if (numberOfDrivers == 0)
+	{
+		FmodResult = FmodSystem->setOutput(FMOD_OUTPUTTYPE_NOSOUND);
+		FMODErrorCheck(FmodResult);
+	}
+
+	//check if there is any problem for the init function
+	FmodResult = FmodSystem->init(100, FMOD_INIT_NORMAL, 0);
+	FMODErrorCheck(FmodResult);
+	
+	FmodResult = FmodSystem->createSound(MUSIC_BEEP, FMOD_DEFAULT, 0, &audios[0]);
+	FMODErrorCheck(FmodResult);
+
+	PlayMusic(0,2,1);
 
 	while (message.message != WM_QUIT)
 	{
@@ -241,4 +280,51 @@ void Shutdown(const std::wstring& className)
 	ReleaseObject(mDirect3DDevice);
 
 	UnregisterClass(className.c_str(), mWindow.hInstance);
+}
+
+
+void FMODErrorCheck(FMOD_RESULT result)
+{
+
+	if (result != FMOD_OK)
+	{
+		std::cout << "\7 FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
+		exit(-1);
+	}
+}
+
+
+void PlayMusic(int32_t  soundId, int32_t toLoopZeroToN, float_t volumeZeroToOne)
+{
+	// play the sound attached to corresponing audios and channels.
+	FmodResult = FmodSystem->playSound(audios[(int32_t)soundId], nullptr, false, &channels[(int32_t)soundId]);
+	FMODErrorCheck(FmodResult);
+	channels[(int32_t)soundId]->setMode(FMOD_LOOP_NORMAL);
+
+	//set the number of times audio should loop 
+	channels[(int32_t)soundId]->setLoopCount(toLoopZeroToN - 1);
+	// Set volume of audio
+	channels[(int32_t)soundId]->setVolume(volumeZeroToOne);
+
+	//Speed can be set for MOD/S3M/XM/IT/MID sequenced formats only.
+	//MP3, ogg, and wav are NOT such sequenced formats.
+	//So if we find such audios, we can use this function for Speed of music.
+	/*
+	audios[(int32_t)soundId]->setMusicSpeed(0.1f);
+	*/
+}
+
+
+bool FileExists(const std::string& name) {
+	std::ifstream myfile(name.c_str());
+
+	if (myfile.good()) {
+
+		myfile.close();
+		return true;
+	}
+	else {
+		myfile.close();
+		return false;
+	}   
 }
