@@ -35,6 +35,8 @@ namespace Library
 			NAME_END,
 			VALUE_START,
 			VALUE_END,
+			SPRITE_START,
+			SPRITE_END,
 			END
 		};
 

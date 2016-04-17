@@ -232,6 +232,7 @@
     <ClInclude Include="Sector.h" />
     <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="SList.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="World.h" />
@@ -247,6 +248,7 @@
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseHelperReaction.h" />
     <ClInclude Include="XmlParseHelperSector.h" />
+    <ClInclude Include="XmlParseHelperSprite.h" />
     <ClInclude Include="XmlParseHelperWorld.h" />
     <ClInclude Include="XmlParseMaster.h" />
     <ClInclude Include="XmlParseHelperTable.h" />
@@ -281,6 +283,7 @@
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperAction.cpp" />
@@ -294,6 +297,7 @@
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperReaction.cpp" />
     <ClCompile Include="XmlParseHelperSector.cpp" />
+    <ClCompile Include="XmlParseHelperSprite.cpp" />
     <ClCompile Include="XmlParseHelperWorld.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
     <ClCompile Include="XmlParseHelperTable.cpp" />
