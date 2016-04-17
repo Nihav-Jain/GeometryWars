@@ -12,15 +12,7 @@ namespace Library {
 	class Renderer
 	{
 	public:
-
-		enum class RenderDeviceType
-		{
-			OPENGL,
-			D3D
-		};
-
-		static Renderer * CreateRenderer(RenderDeviceType type);
-
+		Renderer(RenderDevice * device);
 		~Renderer();
 
 		Renderer(const Renderer &) = delete;
@@ -32,10 +24,7 @@ namespace Library {
 		void Update();
 
 	private:
-		Renderer(RenderDeviceType type);
-
 		RenderDevice * mDevice;
-		RenderDeviceType mDeviceType;
 		std::vector<Renderable*> mObjects;
 	};
 

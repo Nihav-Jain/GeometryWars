@@ -4,27 +4,14 @@
 
 namespace Library {
 
-	Renderer::Renderer(RenderDeviceType type) :
-		mDeviceType(type)
+	Renderer::Renderer(RenderDevice * device) :
+		mDevice(device)
 	{
 	}
 
 	Renderer::~Renderer()
 	{
 		// TODO Clean up
-	}
-
-	Renderer * Renderer::CreateRenderer(RenderDeviceType type)
-	{
-		Renderer * renderer = nullptr;
-		if (type == RenderDeviceType::OPENGL) {
-			renderer = new Renderer(type);
-		}
-		else {
-			throw std::exception("No implementation");
-		}
-
-		return renderer;
 	}
 
 	void Renderer::AddRenderable(Renderable * object)

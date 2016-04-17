@@ -70,16 +70,11 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(sprite->GetColor() == color);
 
+			Library::Renderer render(nullptr);
 
-			Library::Renderer * render = Renderer::CreateRenderer(Library::Renderer::RenderDeviceType::OPENGL);
+			render.AddRenderable(sprite);
 
-			Assert::IsTrue(render != nullptr);
-
-			render->AddRenderable(sprite);
-
-			render->Update();
-
-			delete render;
+			render.Update();
 
 		}
 
