@@ -58,5 +58,8 @@ namespace Library
 
 		SharedDataTable::ParserState mStartState;
 		SharedDataTable::ParserState mEndState;
+
+		std::uint32_t mIndex;
+		bool mIndexAttributeSpecified;
 	};
 }
