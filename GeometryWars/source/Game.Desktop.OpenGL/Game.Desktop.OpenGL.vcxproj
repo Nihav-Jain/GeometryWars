@@ -104,7 +104,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>No</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -117,7 +117,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"</Command>
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,7 +135,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>No</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -147,7 +148,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"</Command>
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
