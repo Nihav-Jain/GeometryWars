@@ -54,6 +54,8 @@ namespace Library {
 
 	void Sprite::Render(RenderDevice * device)
 	{
+		if (device == nullptr)
+			return;
 		device->UseShader(mShaderId);
 
 		glm::vec2 size(300, 400);
@@ -76,6 +78,9 @@ namespace Library {
 
 	void Sprite::Init(RenderDevice * device)
 	{
+		if (device == nullptr)
+			return;
+
 		mTextureId = device->LoadTexture(mImagePath);
 		mShaderId = device->LoadShader("Content/shader/sprite_v.glsl", "Content/shader/sprite_f.glsl");
 
