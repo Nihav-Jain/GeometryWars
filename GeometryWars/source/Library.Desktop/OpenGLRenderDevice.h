@@ -13,7 +13,12 @@ namespace Library {
 		OpenGLRenderDevice(const OpenGLRenderDevice &) = delete;
 		OpenGLRenderDevice & operator=(const OpenGLRenderDevice &) = delete;
 
+		void InitOpenGl();
+
 		virtual Viewport * CreateViewport() override;
+
+	private:
+
 	};
 
 }

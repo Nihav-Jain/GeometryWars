@@ -298,6 +298,9 @@
     <ClCompile Include="OpenGLRenderDevice.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game.Desktop.OpenGL\gl3w.c">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
