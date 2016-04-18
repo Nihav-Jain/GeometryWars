@@ -9,9 +9,10 @@ LRESULT WINAPI WndProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lP
 POINT CenterWindow(int windowWidth, int windowHeight);
 void InitializeDirectX();
 void Shutdown(const std::wstring& className);
-//fmod stuff
+
+#pragma region sound_FMOD
+
 #define MUSIC_BEEP "Content/Music/retire.mp3"
-bool FileExists(const std::string& name);
 
 	FMOD_RESULT FmodResult;
 	FMOD::System *FmodSystem;
@@ -21,6 +22,10 @@ bool FileExists(const std::string& name);
 
 void FMODErrorCheck(FMOD_RESULT result);
 void PlayMusic(int32_t  soundId, int32_t toLoopZeroToN, float_t volumeZeroToOne);
+bool FileExists(const std::string& name);
+
+#pragma endregion
+
 
 UINT mScreenWidth = 1024;
 UINT mScreenHeight = 768;
@@ -49,18 +54,19 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	std::wstring windowClassName = L"RenderingClass";
 
-	InitializeWindow(instance, windowClassName, L"DirectX Essentials", showCommand);
+	InitializeWindow(instance, windowClassName, L"Geometry Wars DirectX", showCommand);
 	InitializeDirectX();
 
 	MSG message;
 	ZeroMemory(&message, sizeof(message));
 
-	/*
-	Fmod stuff
-	*/
+
+#pragma region Fmodstuff
+
 	// Create FMOD interface object
 	FmodResult = FMOD::System_Create(&FmodSystem);
 	FMODErrorCheck(FmodResult);
+
 	// Get number of available sound cards
 	FmodResult = FmodSystem->getNumDrivers(&numberOfDrivers);
 	FMODErrorCheck(FmodResult);
@@ -75,11 +81,13 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	//check if there is any problem for the init function
 	FmodResult = FmodSystem->init(100, FMOD_INIT_NORMAL, 0);
 	FMODErrorCheck(FmodResult);
-	
+
 	FmodResult = FmodSystem->createSound(MUSIC_BEEP, FMOD_DEFAULT, 0, &audios[0]);
 	FMODErrorCheck(FmodResult);
 
-	PlayMusic(0,2,1);
+	PlayMusic(0, 2, 1);
+
+#pragma endregion
 
 	Game game;
 	game.Start();
@@ -322,7 +330,8 @@ void PlayMusic(int32_t  soundId, int32_t toLoopZeroToN, float_t volumeZeroToOne)
 }
 
 
-bool FileExists(const std::string& name) {
+bool FileExists(const std::string& name) 
+{
 	std::ifstream myfile(name.c_str());
 
 	if (myfile.good()) {

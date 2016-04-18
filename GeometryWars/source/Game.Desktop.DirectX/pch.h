@@ -4,7 +4,6 @@
 //
 
 #pragma once
-#pragma warning(disable: 4505)
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
@@ -24,10 +23,12 @@
 
 #include "GameException.h"
 
-//sound
+#pragma region sound_FMOD
 #include <fstream>
+#pragma warning(disable: 4505)
 #include "fmod.hpp"
 #include "fmod_errors.h"
+#pragma endregion
 
 namespace Library
 {

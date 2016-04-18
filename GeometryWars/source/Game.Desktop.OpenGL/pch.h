@@ -14,3 +14,12 @@
 #include "GL/gl3w.h"
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
+
+#pragma region sound_FMOD
+#include <fstream>
+#pragma warning(disable: 4505)
+#include "fmod.hpp"
+#include "fmod_errors.h"
+#pragma endregion
+
+
