@@ -6,47 +6,36 @@
 
 namespace Library {
 
-	OpenGLRenderDevice::OpenGLRenderDevice()
+	OpenGLRenderDevice::OpenGLRenderDevice() :
+		mWindow(nullptr)
 	{
 	}
 
 
 	OpenGLRenderDevice::~OpenGLRenderDevice()
 	{
-		/*
-			while (!glfwWindowShouldClose(window))
-	{
-		glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-
-	glfwDestroyWindow(window);
-	glfwTerminate();
-		*/
+		glfwDestroyWindow(mWindow);
+		glfwTerminate();
 	}
 
 	void OpenGLRenderDevice::InitOpenGl()
 	{
-		const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
-
 		if (!glfwInit())
 		{
 			throw std::exception("glfwInit falied");
 		}
 
-		GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Essentials", nullptr, nullptr);
-		if (window == nullptr)
+		mWindow = glfwCreateWindow(800, 600, "OpenGL Essentials", nullptr, nullptr);
+		if (mWindow == nullptr)
 		{
-			return -1;
+			throw std::exception("glfwCreateWindow falied");
 		}
 
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(mWindow);
 
 		if (gl3wInit() != 0)
 		{
-			return -1;
+			throw std::exception("gl3wInit falied");
 		}
 
 		glViewport(0, 0, 800, 600);
@@ -57,4 +46,17 @@ namespace Library {
 		return nullptr;
 	}
 
+	void OpenGLRenderDevice::Draw()
+	{
+		const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
+		glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
+
+		glfwSwapBuffers(mWindow);
+		glfwPollEvents();
+	}
+
+	bool OpenGLRenderDevice::IsValid()
+	{
+		return !glfwWindowShouldClose(mWindow);
+	}
 }

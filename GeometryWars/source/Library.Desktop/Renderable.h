@@ -10,6 +10,8 @@ namespace Library {
 	*/
 	class Renderable
 	{
+		friend class Renderer;
+
 	public:
 		Renderable() = default;
 		virtual ~Renderable() = default;

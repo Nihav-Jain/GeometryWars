@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Renderer.h"
+#include "RenderDevice.h"
 #include "Renderable.h"
 
 namespace Library {
@@ -23,6 +24,10 @@ namespace Library {
 	{
 		for (auto & obj : mObjects) {
 			obj->Render(mDevice);
+		}
+
+		if (mDevice != nullptr) {
+			mDevice->Draw();
 		}
 	}
 

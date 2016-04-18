@@ -71,9 +71,7 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(sprite->GetColor() == color);
 
-			OpenGLRenderDevice renderDevice;
-
-			Library::Renderer render(&renderDevice);
+			Library::Renderer render(nullptr);
 
 			render.AddRenderable(sprite);
 
