@@ -103,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -134,7 +134,7 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -167,7 +167,7 @@ IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMO
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -202,7 +202,7 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>

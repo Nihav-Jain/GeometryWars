@@ -4,7 +4,7 @@
 using namespace Library;
 
 
-#pragma region sound_FMOD
+#pragma region SoundFMOD
 
 #define MUSIC_BEEP "Content/Music/retire.mp3"
 
