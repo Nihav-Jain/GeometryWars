@@ -1,4 +1,5 @@
 #pragma once
+#include "RTTI.h"
 namespace Library
 {
 	/**

@@ -2,6 +2,7 @@
 
 #include "glm\mat4x4.hpp"
 #include "glm\vec4.hpp"
+#include "RTTI.h"
 
 namespace Library
 {
@@ -93,17 +94,17 @@ namespace Library
 			Datum& operator=(Scope& rhs);
 			Datum& operator=(Datum* rhs);
 
-			Datum operator+(const Datum& rhs);
-			Datum operator-(const Datum& rhs);
-			Datum operator*(const Datum& rhs);
-			Datum operator/(const Datum& rhs);
+			Datum operator+(const Datum& rhs) const;
+			Datum operator-(const Datum& rhs) const;
+			Datum operator*(const Datum& rhs) const;
+			Datum operator/(const Datum& rhs) const;
 
-			Datum operator||(const Datum& rhs);
-			Datum operator&&(const Datum& rhs);
-			Datum operator<(const Datum& rhs);
-			Datum operator>(const Datum& rhs);
-			Datum operator<=(const Datum& rhs);
-			Datum operator>=(const Datum& rhs);
+			Datum operator||(const Datum& rhs) const;
+			Datum operator&&(const Datum& rhs) const;
+			Datum operator<(const Datum& rhs) const;
+			Datum operator>(const Datum& rhs) const;
+			Datum operator<=(const Datum& rhs) const;
+			Datum operator>=(const Datum& rhs) const;
 
 			/**
 			 *	Gets the DatumType of this Datum

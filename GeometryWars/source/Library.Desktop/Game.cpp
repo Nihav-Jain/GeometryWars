@@ -40,6 +40,7 @@ namespace Library
 	Game::~Game()
 	{
 		SharedDataTable::ClearStateGraph();
+		ActionExpression::ClearStaticMemebers();
 	}
 
 	World& Game::GetWorld()
