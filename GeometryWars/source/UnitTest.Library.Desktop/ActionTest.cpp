@@ -204,6 +204,56 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(1, minResult->Get<std::int32_t>());
 		}
 
+		TEST_METHOD(ActionTestBeginPlay)
+		{
+			EntityFactory entityFactory;
+			ActionListFactory actionListFactory;
+			ActionListSwitchFactory switchFactory;
+			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+			ActionExpressionFactory expFactory;
+			ActionIfThenElseFactory ifFactory;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_beginplay_test.xml"));
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			Datum* worldResult = world.Find("worldInt1");
+			Assert::IsNotNull(worldResult);
+			Assert::AreEqual(2, worldResult->Get<std::int32_t>());
+
+			Datum* sectorResult = sector->Find("sectorInt1");
+			Assert::IsNotNull(sectorResult);
+			Assert::AreEqual(2, sectorResult->Get<std::int32_t>());
+
+			Datum* entityResult = entity->Find("entityInt1");
+			Assert::IsNotNull(entityResult);
+			Assert::AreEqual(2, entityResult->Get<std::int32_t>());
+
+			game.Start();
+
+			Assert::AreEqual(4, worldResult->Get<std::int32_t>());
+			Assert::AreEqual(4, sectorResult->Get<std::int32_t>());
+			Assert::AreEqual(4, entityResult->Get<std::int32_t>());
+
+			Datum* result = entity->Find("result");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(4, worldResult->Get<std::int32_t>());
+			Assert::AreEqual(4, sectorResult->Get<std::int32_t>());
+			Assert::AreEqual(4, entityResult->Get<std::int32_t>());
+
+			Assert::AreEqual(10, result->Get<std::int32_t>());
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif
