@@ -164,8 +164,8 @@ namespace Library {
 
 	void OpenGLRenderDevice::Draw()
 	{
-		//const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
-		//glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
+		const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
+		glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 	}

@@ -19,7 +19,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	Sprite sprite;
 	sprite.SetColor(glm::vec4(1, 0, 0, 0));
 	sprite.SetImagePath("Content/resource/mushroom.png");
-	sprite.SetPosition(glm::vec4(200, 200, 0, 0));
 
 	OpenGLRenderDevice renderDevice;
 	renderDevice.InitOpenGl();
@@ -27,11 +26,14 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	Renderer render(&renderDevice);
 	render.AddRenderable(&sprite);
 
+	glm::vec4 pos(1, 0, 0, 0);
 #pragma warning(push)
 #pragma warning(disable : 4127)
 	while (true) { // TODO remove always true
 #pragma warning(pop) 
 		render.Update();
+		pos.x += 1;
+		sprite.SetPosition(pos);
 	}
 
 	return 0;
