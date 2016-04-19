@@ -28,7 +28,7 @@ namespace Library {
 		}
 
 		if (mDevice != nullptr) {
-			mDevice->Draw();
+			mDevice->Invalid();
 		}
 	}
 

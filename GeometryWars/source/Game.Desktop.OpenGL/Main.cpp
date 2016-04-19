@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	Sprite sprite;
 	sprite.SetColor(glm::vec4(1, 0, 0, 0));
 	sprite.SetImagePath("Content/resource/mushroom.png");
-	sprite.SetPosition(glm::vec4(0, 0, 0, 0));
+	sprite.SetPosition(glm::vec4(200, 200, 0, 0));
 
 	OpenGLRenderDevice renderDevice;
 	renderDevice.InitOpenGl();

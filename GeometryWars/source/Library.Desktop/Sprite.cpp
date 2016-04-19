@@ -69,9 +69,10 @@ namespace Library {
 		model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
 		model = glm::scale(model, glm::vec3(size, 1.0f));
-
+		glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+		device->SetShaderMatrix4(mShaderId, "projection", projection);
 		device->SetShaderMatrix4(mShaderId, "model", model);
-		device->SetShaderVector4(mShaderId, "spriteColor", mColor);
+		device->UseTexture(mTextureId);
 		device->UseBuffer(mBufferId);
 		device->Draw();
 	}
@@ -82,7 +83,7 @@ namespace Library {
 			return;
 
 		mTextureId = device->LoadTexture(mImagePath);
-		mShaderId = device->LoadShader("Content/shader/sprite_v.glsl", "Content/shader/sprite_f.glsl");
+		mShaderId = device->LoadShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
 		float vertices[] = {
 			// Pos      // Tex

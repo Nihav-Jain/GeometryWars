@@ -5,6 +5,10 @@
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 
+#include <iostream>
+#include <fstream>
+#include <streambuf>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -53,9 +57,6 @@ namespace Library {
 
 	void OpenGLRenderDevice::Invalid()
 	{
-		const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
-		glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
-
 		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
 	}
@@ -75,6 +76,9 @@ namespace Library {
 				SOIL_FLAG_INVERT_Y
 				);
 
+		std::string result(SOIL_last_result());
+		printf("%s", result.c_str());
+
 		glBindTexture(GL_TEXTURE_2D, textureID);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -89,19 +93,46 @@ namespace Library {
 
 	std::uint32_t OpenGLRenderDevice::LoadShader(const std::string & vPath, const std::string & fPath)
 	{
-		GLuint fragmentShader;
-		const char *f_str = fPath.c_str();
+		std::ifstream t;
+		t.open(fPath);
+		std::string fShader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		t.close();
+
+		t.open(vPath);
+		std::string vShader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		t.close();
+
+		GLint success = 0;
+		char buf[256] = { 0 };
+
+		GLuint fragmentShader = 0;
+		
+		const char *f_str = fShader.c_str();
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, 1, &f_str, NULL);
 		glCompileShader(fragmentShader);
 
-		GLuint vertexShader;
-		const char *v_str = vPath.c_str();
-		vertexShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(fragmentShader, 1024, NULL, buf);
+			printf("%s", buf);
+		}
+
+		GLuint vertexShader = 0;
+		const char *v_str = vShader.c_str();
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexShader, 1, &v_str, NULL);
 		glCompileShader(vertexShader);
 
-		GLuint shaderProgram;
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(vertexShader, 1024, NULL, buf);
+			printf("%s", buf);
+		}
+
+		GLuint shaderProgram = 0;
 		shaderProgram = glCreateProgram();
 
 		glAttachShader(shaderProgram, vertexShader);
@@ -110,6 +141,12 @@ namespace Library {
 
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
+
+		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+		if (!success) {
+			glGetProgramInfoLog(shaderProgram, 512, NULL, buf);
+			printf("%s", buf);
+		}
 
 		return shaderProgram;
 	}
@@ -127,6 +164,8 @@ namespace Library {
 
 	void OpenGLRenderDevice::Draw()
 	{
+		//const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
+		//glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 	}
