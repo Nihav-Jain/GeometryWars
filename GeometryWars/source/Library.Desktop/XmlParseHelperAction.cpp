@@ -13,6 +13,8 @@ namespace Library
 	{
 		mRequiredAttributes.PushBack(ATTRIBUTE_NAME);
 		mRequiredAttributes.PushBack(ATTRIBUTE_CLASS);
+
+		mParentAttributeName = Entity::ATTRIBUTE_ACTIONS;
 	}
 
 	bool XmlParseHelperAction::StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes)
@@ -45,7 +47,7 @@ namespace Library
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		Action* currentAction = &Action::CreateAction(mDerivedActionClassName, mActionInstanceName, *sharedDataPtr->CurrentScopePtr);
+		Action* currentAction = &Action::CreateAction(mDerivedActionClassName, mActionInstanceName, *sharedDataPtr->CurrentScopePtr, mParentAttributeName);
 		ParseActionAttributes(*currentAction, attributes);
 		sharedDataPtr->CurrentScopePtr = currentAction;
 
