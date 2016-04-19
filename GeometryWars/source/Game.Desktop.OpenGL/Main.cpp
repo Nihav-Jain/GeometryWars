@@ -13,8 +13,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
 
-	//Game game;
-	//game.Start();
+	Game game;
+	game.Start();
 
 	Sprite sprite;
 	sprite.SetColor(glm::vec4(1, 0, 0, 0));
