@@ -161,6 +161,8 @@
     </ClInclude>
     <ClInclude Include="OpenGLRenderDevice.h">
       <Filter>Kernel\Graphic</Filter>
+    <ClInclude Include="XmlParseHelperBeginPlay.h">
+      <Filter>XmlParseHelpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +299,8 @@
     </ClCompile>
     <ClCompile Include="OpenGLRenderDevice.cpp">
       <Filter>Kernel\Graphic</Filter>
+    <ClCompile Include="XmlParseHelperBeginPlay.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

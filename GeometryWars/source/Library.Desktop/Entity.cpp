@@ -16,6 +16,7 @@ namespace Library
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ACTIONS);
+		//AddNestedScope(World::ATTRIBUTE_BEGIN_PLAY);
 	}
 
 	const std::string& Entity::Name() const
@@ -56,14 +57,23 @@ namespace Library
 		parent.Adopt(Sector::ATTRIBUTE_ENTITIES, *this);
 	}
 
+	void Entity::BeginPlay(WorldState& worldState)
+	{
+		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			beginPlayList->Update(worldState);
+		}
+	}
+
 	void Entity::Update(WorldState& worldState)
 	{
 		Datum& actions = Actions();
 		std::uint32_t i;
 		for (i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope>(i).As<Action>();
-			assert(action != nullptr);
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
 			worldState.action = action;
 			action->Update(worldState);
 		}

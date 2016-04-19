@@ -1,0 +1,19 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+			<integer name="switchInteger" value="10" />
+			<integer name="result" value="0"/>
+			<integer name="minResult" value="0"/>
+			<integer name="anotherInt" value="1"/>
+
+			<expression name="something">
+				<string name="expression">result = max(anotherInt, switchInteger)</string>
+			</expression>
+
+			<expression name="something2">
+				<string name="expression">minResult = min(anotherInt, switchInteger)</string>
+			</expression>
+
+		</entity>
+	</sector>
+</world>

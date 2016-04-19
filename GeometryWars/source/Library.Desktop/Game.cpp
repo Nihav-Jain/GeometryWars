@@ -11,7 +11,7 @@ namespace Library
 		mTableParser(), mPrimitivesParser(), mNameValueParser(),
 		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
 		mActionIf(), mActionIfCondition(), mActionIfThen(), mActionIfElse(),
-		mActionWhile(), mActionWhileLoop()
+		mActionWhile(), mActionWhileLoop(), mActionBeginPlay()
 	{
 		mSharedData.SetRootScope(mWorld);
 
@@ -35,11 +35,14 @@ namespace Library
 
 		mParseMaster.AddHelper(mActionWhile);
 		mParseMaster.AddHelper(mActionWhileLoop);
+
+		mParseMaster.AddHelper(mActionBeginPlay);
 	}
 
 	Game::~Game()
 	{
 		SharedDataTable::ClearStateGraph();
+		ActionExpression::ClearStaticMemebers();
 	}
 
 	World& Game::GetWorld()
@@ -60,6 +63,8 @@ namespace Library
 	void Game::Start()
 	{
 		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.BeginPlay();
 	}
 
 	void Game::Update()

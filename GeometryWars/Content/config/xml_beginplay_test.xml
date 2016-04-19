@@ -1,0 +1,58 @@
+<world name="NihavWorld">
+
+	<integer name="worldInt1" value="2" />
+	<integer name="two" value="2" />
+	<integer name="worldResult" value="0" />
+	
+	<beginplay>
+		<expression name="worldBeginPlayExp">
+			<string name="expression">worldInt1 = worldInt1 * two</string>
+		</expression>
+	</beginplay>
+	
+	<sector name="worldSector">
+		<integer name="sectorInt1" value="2" />
+		<integer name="sectorResult" value="0" />
+
+		<beginplay>
+			<expression name="sectorBeginPlayExp">
+				<string name="expression">sectorInt1 = sectorInt1 * two</string>
+			</expression>
+		</beginplay>
+
+		<entity class="Entity" name="actor">
+
+			<integer name="entityInt1" value="2" />
+			<integer name="entityResult" value="0" />
+
+			<beginplay>
+				<expression name="entityBeginPlayExp">
+					<string name="expression">entityInt1 = entityInt1 * two</string>
+				</expression>
+			</beginplay>
+
+			<integer name="switchInteger" value="15" />
+			<float name="switchFloat" value="10.10" />
+			<integer name="result" value="0"/>
+			<integer name="anotherInt" value="10"/>
+			
+			<if name="someCondition">
+				<condition>
+					<string name="expression">switchInteger &lt; switchFloat</string>
+				</condition>
+				<then>
+					<expression name="thenExp">
+						<string name="expression">result = switchInteger</string>
+					</expression>
+				</then>	<!-- ActionList -->
+				<else>
+					<expression name="elseExp">
+						<string name="expression">result = anotherInt</string>
+					</expression>
+				</else>	<!-- (optional) ActionList -->
+			</if>
+			
+
+		</entity>		
+	</sector>	
+</world>

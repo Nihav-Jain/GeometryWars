@@ -54,6 +54,8 @@ namespace Library
 		std::string mDerivedActionClassName;
 		/** name of the instance of this Action */
 		std::string mActionInstanceName;
+		/** name of the instance of this Action */
+		std::string mParentAttributeName;
 	};
 }
 
