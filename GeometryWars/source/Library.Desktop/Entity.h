@@ -85,6 +85,8 @@ namespace Library
 		 */
 		void SetSector(Sector& parent);
 
+		void BeginPlay(WorldState& worldState);
+
 		/**
 		 *	Calls the update method on all of its child Actions, called by the parent Sector's Update method
 		 *	Must be overriden by children of they want to dp anything extra

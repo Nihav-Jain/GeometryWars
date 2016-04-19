@@ -147,6 +147,9 @@
     <ClInclude Include="XmlParseHelperSprite.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="XmlParseHelperBeginPlay.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -269,6 +272,9 @@
       <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseHelperSprite.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>

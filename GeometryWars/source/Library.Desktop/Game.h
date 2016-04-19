@@ -37,6 +37,7 @@
 #include "XmlParseHelperActionEvent.h"
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
+#include "XmlParseHelperBeginPlay.h"
 
 namespace Library
 {
@@ -135,6 +136,7 @@ namespace Library
 
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
+		XmlParseHelperBeginPlay mActionBeginPlay;
 	};
 }
 

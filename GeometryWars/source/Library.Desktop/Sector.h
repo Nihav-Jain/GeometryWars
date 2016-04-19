@@ -98,6 +98,8 @@ namespace Library
 		 */
 		void SetWorld(World& parent);
 
+		void BeginPlay(WorldState& worldState);
+
 		/**
 		 *	Calls the update method on all of its child Entities, called by the parent World's Update method
 		 *	@param reference to the WorldState
