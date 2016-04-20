@@ -7,6 +7,8 @@
 namespace Library {
 
 	class Shader;
+	class Texture;
+	class RenderBuffer;
 
 	/**
 	* The renderable sprite class
@@ -44,9 +46,9 @@ namespace Library {
 		std::string mImagePath;
 		glm::vec4 mColor;
 
-		std::uint32_t mTextureId;
+		Texture * mTexture;
 		Shader * mShader;
-		std::uint32_t mBufferId;
+		RenderBuffer * mBuffer;
 	};
 }
 

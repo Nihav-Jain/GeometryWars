@@ -58,35 +58,17 @@ namespace Library {
 		return nullptr;
 	}
 
+	Texture * OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
+	{
+		mTextures.emplace_back();
+		mTextures.back().Init(imagePath);
+		return &mTextures.back();
+	}
+
 	void OpenGLRenderDevice::Invalid()
 	{
 		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
-	}
-
-	std::uint32_t OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
-	{
-		GLuint textureID = SOIL_load_OGL_texture
-			(
-				imagePath.c_str(),
-				SOIL_LOAD_AUTO,
-				SOIL_CREATE_NEW_ID,
-				SOIL_FLAG_INVERT_Y
-				);
-
-		std::string result(SOIL_last_result());
-		printf("%s", result.c_str());
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		// TODO: make sure the cast is safe
-		return textureID;
 	}
 
 	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
@@ -94,12 +76,6 @@ namespace Library {
 		mShaders.emplace_back();
 		mShaders.back().Init(vPath, fPath);
 		return &mShaders.back();
-	}
-
-	void OpenGLRenderDevice::UseTexture(std::uint32_t texture)
-	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
 	}
 
 	void OpenGLRenderDevice::Draw()
@@ -110,30 +86,10 @@ namespace Library {
 		glBindVertexArray(0);
 	}
 
-	std::uint32_t OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride)
+	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride)
 	{
-		GLuint VAO;
-		GLuint VBO;
-		GLfloat * vertices = data;
-		GLuint strideSize = stride;
-
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
-
-		glBindVertexArray(VAO);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, strideSize, (GLvoid*)0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-
-		return VAO;
-	}
-
-	void OpenGLRenderDevice::UseBuffer(std::uint32_t buffer)
-	{
-		glBindVertexArray(buffer);
+		mBuffers.emplace_back();
+		mBuffers.back().Init(data, size, stride);
+		return &mBuffers.back();
 	}
 }

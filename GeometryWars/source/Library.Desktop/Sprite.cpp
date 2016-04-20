@@ -2,6 +2,8 @@
 #include "Sprite.h"
 #include "RenderDevice.h"
 #include "Shader.h"
+#include "Texture.h"
+#include "RenderBuffer.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -17,7 +19,9 @@ namespace Library {
 	const std::string Sprite::ATTRIBUTE_COLOR = "color";
 
 	Sprite::Sprite() :
-		mShader(nullptr)
+		mTexture(nullptr),
+		mShader(nullptr),
+		mBuffer(nullptr)
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_IMAGE_PATH, 1, &mImagePath);
@@ -74,8 +78,8 @@ namespace Library {
 		glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 		mShader->SetMatrix4("projection", projection);
 		mShader->SetMatrix4("model", model);
-		device->UseTexture(mTextureId);
-		device->UseBuffer(mBufferId);
+		mTexture->Use();
+		mBuffer->Use();
 		device->Draw();
 	}
 
@@ -84,7 +88,7 @@ namespace Library {
 		if (device == nullptr)
 			return;
 
-		mTextureId = device->CreateTexture(mImagePath);
+		mTexture = device->CreateTexture(mImagePath);
 		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
 		float vertices[] = {
@@ -98,7 +102,7 @@ namespace Library {
 			1.0f, 0.0f, 1.0f, 0.0f
 		};
 
-		mBufferId = device->CreateBuffer(vertices, sizeof(vertices), 4 * sizeof(float));
+		mBuffer = device->CreateBuffer(vertices, sizeof(vertices), 4 * sizeof(float));
 	}
 
 }

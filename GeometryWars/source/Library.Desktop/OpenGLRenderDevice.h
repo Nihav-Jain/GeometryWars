@@ -1,6 +1,8 @@
 #pragma once
 #include "RenderDevice.h"
 #include "OpenGLShader.h"
+#include "OpenGLTexture.h"
+#include "OpenGLRenderBuffer.h"
 #include <vector>
 
 class GLFWwindow;
@@ -20,13 +22,9 @@ namespace Library {
 		void InitOpenGl();
 
 		virtual Viewport * CreateViewport() override;
-
-		virtual std::uint32_t CreateTexture(const std::string & imagePath) override;
-		virtual void UseTexture(std::uint32_t) override;
-
+		virtual Texture * CreateTexture(const std::string & imagePath) override;
 		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath) override;
-		virtual std::uint32_t CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride) override;
-		virtual void UseBuffer(std::uint32_t) override;
+		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride) override;
 
 		virtual void Draw() override;
 
@@ -37,6 +35,8 @@ namespace Library {
 		GLFWwindow * mWindow;
 
 		std::vector<OpenGLShader> mShaders;
+		std::vector<OpenGLTexture> mTextures;
+		std::vector<OpenGLRenderBuffer> mBuffers;
 	};
 
 }
