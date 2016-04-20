@@ -264,3 +264,13 @@ _Pvt_Extensions
 
 
 GeometryWars/build/GeometryWars.VC.db
+
+!GeometryWars/external/soil/*
+!GeometryWars/external/soil/lib/*
+!GeometryWars/external/soil/lib/Win32/*
+!GeometryWars/external/soil/lib/Win32/Debug/*
+!GeometryWars/external/soil/lib/Win32/Release/*
+!GeometryWars/external/soil/lib/x64/*
+!GeometryWars/external/soil/lib/x64/Debug/*
+!GeometryWars/external/soil/lib/x64/Release/*
+G

@@ -14,12 +14,15 @@ namespace Library
 	};
 
 	XmlParseHelperPrimitives::XmlParseHelperPrimitives() :
-		mCharData(), mCurrentDataName(), mStartState(SharedDataTable::ParserState::PRIMITIVE_START), mEndState(SharedDataTable::ParserState::PRIMITIVE_END)
+		mCharData(), mCurrentDataName(), mStartState(SharedDataTable::ParserState::PRIMITIVE_START), mEndState(SharedDataTable::ParserState::PRIMITIVE_END),
+		mIndex(0), mIndexAttributeSpecified(false)
 	{}
 
 	void XmlParseHelperPrimitives::Initialize()
 	{
 		mCharData = "";
+		mIndex = 0;
+		mIndexAttributeSpecified = false;
 	}
 
 	bool XmlParseHelperPrimitives::StartElementHandler(XmlParseMaster::SharedData& sharedData, const std::string& elementName, const Hashmap<std::string, std::string>& attributes)
@@ -32,6 +35,16 @@ namespace Library
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::PRIMITIVE_START))
 			throw std::exception("Invalid script syntax");
+
+		if (attributes.ContainsKey("index"))
+		{
+			sscanf_s(attributes["index"].c_str(), "%u", &mIndex);
+			mIndexAttributeSpecified = true;
+		}
+		else
+		{
+			mIndexAttributeSpecified = false;
+		}
 
 		// <integer name="variableName">
 		if (attributes.ContainsKey("name"))
@@ -52,13 +65,14 @@ namespace Library
 					throw std::exception("Invalid script syntax");
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 					throw std::exception("Invalid script syntax");
+				
+				std::uint32_t index = mIndex;
+				if (!mIndexAttributeSpecified)
+					index = (primitiveDatum.StorageType() == Datum::DatumStorageType::EXTERNAL) ? 0 : primitiveDatum.Size();
 
 				if (primitiveDatum.Type() != Datum::DatumType::REFERENCE)
 				{
-					if(primitiveDatum.StorageType() == Datum::DatumStorageType::EXTERNAL)
-						primitiveDatum.SetFromString(attributes["value"], 0);
-					else
-						primitiveDatum.SetFromString(attributes["value"], primitiveDatum.Size());
+					primitiveDatum.SetFromString(attributes["value"], index);
 				}
 				else
 				{
@@ -69,7 +83,7 @@ namespace Library
 						str << "LNK2001: unresolved external symbol: " << attributes["value"] << " :P ";
 						throw std::exception(str.str().c_str());
 					}
-					primitiveDatum = reference;
+					primitiveDatum.Set(reference, index);
 				}
 				mCurrentDataName = "";
 			}
@@ -92,8 +106,13 @@ namespace Library
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
 				throw std::exception("Invalid script syntax");
 			Datum& datum = sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName);
+
+			std::uint32_t index = mIndex;
+			if (!mIndexAttributeSpecified)
+				index = (datum.StorageType() == Datum::DatumStorageType::EXTERNAL) ? 0 : datum.Size();
+
 			if(datum.Type() != Datum::DatumType::REFERENCE)
-				datum.SetFromString(mCharData, datum.Size());
+				datum.SetFromString(mCharData, index);
 			else
 			{
 				Datum* reference = sharedDataPtr->CurrentScopePtr->Search(mCharData);
@@ -103,7 +122,7 @@ namespace Library
 					str << "LNK2001: unresolved external symbol: " << mCharData << " :P ";
 					throw std::exception(str.str().c_str());
 				}
-				datum = reference;
+				datum.Set(reference, index);
 			}
 		}
 
@@ -115,8 +134,13 @@ namespace Library
 		{
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(sharedDataPtr->DataName);
 			primitiveDatum.SetType(mElementMetaData[elementName]);
+
+			std::uint32_t index = mIndex;
+			if (!mIndexAttributeSpecified)
+				index = (primitiveDatum.StorageType() == Datum::DatumStorageType::EXTERNAL) ? 0 : primitiveDatum.Size();
+
 			if(primitiveDatum.Type() != Datum::DatumType::REFERENCE)
-				primitiveDatum.SetFromString(sharedDataPtr->DataValue, primitiveDatum.Size());
+				primitiveDatum.SetFromString(sharedDataPtr->DataValue, index);
 			else
 			{
 				Datum* reference = sharedDataPtr->CurrentScopePtr->Search(sharedDataPtr->DataName);
@@ -126,7 +150,7 @@ namespace Library
 					str << "LNK2001: unresolved external symbol: " << sharedDataPtr->DataName << " :P ";
 					throw std::exception(str.str().c_str());
 				}
-				primitiveDatum = reference;
+				primitiveDatum.Set(reference, index);
 			}
 		}
 

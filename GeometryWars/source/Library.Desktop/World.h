@@ -4,6 +4,7 @@
 #include "WorldState.h"
 #include "GameTime.h"
 #include "EventQueue.h"
+#include "ActionList.h"
 
 namespace Library
 {
@@ -31,7 +32,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~World();
+		virtual ~World() = default;
 
 		/**
 		 *	disallow copy construtor
@@ -82,6 +83,8 @@ namespace Library
 
 		Action* FindAction(const std::string& actionName) const;
 
+		void BeginPlay();
+
 		/**
 		 *	Calls the update method on all of its child Sectors
 		 *	Should be called every frame from the game loop
@@ -101,6 +104,7 @@ namespace Library
 		EventQueue& GetEventQueue();
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
+		static const std::string ATTRIBUTE_BEGIN_PLAY;
 
 	private:
 		std::string mName;

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "World.h"
+#include "ActionList.h"
 
 namespace Library
 {
@@ -7,20 +8,17 @@ namespace Library
 
 	const std::string World::ATTRIBUTE_NAME_SECTOR = "sectors";
 	const std::string World::ATTRIBUTE_NAME = "name";
+	const std::string World::ATTRIBUTE_BEGIN_PLAY = "beginplay";
 
 	World::World(const GameTime& gameTime) :
 		mName(), mWorldState(gameTime), mEventQueue()
 	{
 		mWorldState.world = this;
+
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
-	}
-
-	World::~World()
-	{
-		// debatable
-		// mEventQueue.Clear(*mWorldState.mGameTime);
+		//AddNestedScope(ATTRIBUTE_BEGIN_PLAY);
 	}
 
 	const std::string& World::Name() const
@@ -80,6 +78,25 @@ namespace Library
 		return Action::FindAction(actionName, Actions());
 	}
 
+	void World::BeginPlay()
+	{
+		Datum* beginPlayDatum = Find(ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum!= nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			beginPlayList->Update(mWorldState);
+
+			std::uint32_t i;
+			Datum& sectors = Sectors();
+			for (i = 0; i < sectors.Size(); i++)
+			{
+				Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+				mWorldState.sector = sector;
+				sector->BeginPlay(mWorldState);
+			}
+		}
+	}
+
 	void World::Update()
 	{
 		mWorldState.sector = nullptr;
@@ -93,8 +110,7 @@ namespace Library
 		Datum& actions = Actions();
 		for (i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope>(i).As<Action>();
-			assert(action != nullptr);
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
 			mWorldState.action = action;
 			action->Update(mWorldState);
 		}
@@ -102,8 +118,7 @@ namespace Library
 		Datum& sectors = Sectors();
 		for (i = 0; i < sectors.Size(); i++)
 		{
-			Sector* sector = sectors.Get<Scope>(i).As<Sector>();
-			assert(sector != nullptr);
+			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);
 		}

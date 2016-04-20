@@ -37,6 +37,7 @@
 #include "XmlParseHelperActionEvent.h"
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
+#include "XmlParseHelperBeginPlay.h"
 
 namespace Library
 {
@@ -181,6 +182,7 @@ namespace Library
 
 
 
+
 #pragma region SoundFmodMemberDeclarations
 
 	FMOD_RESULT mFmodResult;
@@ -190,6 +192,9 @@ namespace Library
 	FMOD::Channel *mChannels[4];
 
 #pragma endregion
+
+
+		XmlParseHelperBeginPlay mActionBeginPlay;
 
 	};
 }

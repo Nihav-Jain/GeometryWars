@@ -11,7 +11,7 @@ namespace Library
 		mTableParser(), mPrimitivesParser(), mNameValueParser(),
 		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
 		mActionIf(), mActionIfCondition(), mActionIfThen(), mActionIfElse(),
-		mActionWhile(), mActionWhileLoop()
+		mActionWhile(), mActionWhileLoop(), mActionBeginPlay()
 	{
 		Init();
 	}
@@ -66,11 +66,15 @@ namespace Library
 
 		mParseMaster.AddHelper(mActionWhile);
 		mParseMaster.AddHelper(mActionWhileLoop);
+
+		mParseMaster.AddHelper(mActionBeginPlay);
 	}
 
 	void Game::Start()
 	{
 		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.BeginPlay();
 	}
 
 	void Game::Update()
@@ -136,9 +140,9 @@ namespace Library
 		//Speed can be set for MOD/S3M/XM/IT/MID sequenced formats only.
 		//MP3, ogg, and wav are NOT such sequenced formats.
 		//So if we find such audios, we can use this function for Speed of music.
-		/*
-		audios[(int32_t)soundId]->setMusicSpeed(0.1f);
-		*/
+		/**
+		 *	audios[(int32_t)soundId]->setMusicSpeed(0.1f);
+		 */
 	}
 
 	const FMOD::System & Game::GetFmodSystem()
