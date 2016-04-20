@@ -64,12 +64,7 @@ namespace Library {
 		glfwPollEvents();
 	}
 
-	bool OpenGLRenderDevice::IsValid()
-	{
-		return !glfwWindowShouldClose(mWindow);
-	}
-
-	std::uint32_t OpenGLRenderDevice::LoadTexture(const std::string & imagePath)
+	std::uint32_t OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
 	{
 		GLuint textureID = SOIL_load_OGL_texture
 			(
@@ -94,75 +89,17 @@ namespace Library {
 		return textureID;
 	}
 
-	std::uint32_t OpenGLRenderDevice::LoadShader(const std::string & vPath, const std::string & fPath)
+	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
 	{
-		std::ifstream t;
-		t.open(fPath);
-		std::string fShader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-		t.close();
-
-		t.open(vPath);
-		std::string vShader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-		t.close();
-
-		GLint success = 0;
-		char buf[256] = { 0 };
-
-		GLuint fragmentShader = 0;
-		
-		const char *f_str = fShader.c_str();
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &f_str, NULL);
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(fragmentShader, 1024, NULL, buf);
-			printf("%s", buf);
-		}
-
-		GLuint vertexShader = 0;
-		const char *v_str = vShader.c_str();
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &v_str, NULL);
-		glCompileShader(vertexShader);
-
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 1024, NULL, buf);
-			printf("%s", buf);
-		}
-
-		GLuint shaderProgram = 0;
-		shaderProgram = glCreateProgram();
-
-		glAttachShader(shaderProgram, vertexShader);
-		glAttachShader(shaderProgram, fragmentShader);
-		glLinkProgram(shaderProgram);
-
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
-		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-		if (!success) {
-			glGetProgramInfoLog(shaderProgram, 512, NULL, buf);
-			printf("%s", buf);
-		}
-
-		return shaderProgram;
+		mShaders.emplace_back();
+		mShaders.back().Init(vPath, fPath);
+		return &mShaders.back();
 	}
 
 	void OpenGLRenderDevice::UseTexture(std::uint32_t texture)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
-	}
-
-	void OpenGLRenderDevice::UseShader(std::uint32_t shaderProgram)
-	{
-		glUseProgram(shaderProgram);
 	}
 
 	void OpenGLRenderDevice::Draw()
@@ -198,15 +135,5 @@ namespace Library {
 	void OpenGLRenderDevice::UseBuffer(std::uint32_t buffer)
 	{
 		glBindVertexArray(buffer);
-	}
-
-	void OpenGLRenderDevice::SetShaderMatrix4(std::uint32_t id, const std::string & name, const glm::mat4 & value)
-	{
-		glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
-	}
-
-	void OpenGLRenderDevice::SetShaderVector4(std::uint32_t id, const std::string & name, const glm::vec4 & value)
-	{
-		glUniform3f(glGetUniformLocation(id, name.c_str()), value.x, value.y, value.z);
 	}
 }

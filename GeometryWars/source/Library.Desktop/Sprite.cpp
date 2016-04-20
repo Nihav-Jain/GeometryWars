@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Sprite.h"
 #include "RenderDevice.h"
+#include "Shader.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -15,7 +16,8 @@ namespace Library {
 	const std::string Sprite::ATTRIBUTE_IMAGE_PATH = "imagePath";
 	const std::string Sprite::ATTRIBUTE_COLOR = "color";
 
-	Sprite::Sprite()
+	Sprite::Sprite() :
+		mShader(nullptr)
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_IMAGE_PATH, 1, &mImagePath);
@@ -56,7 +58,7 @@ namespace Library {
 	{
 		if (device == nullptr)
 			return;
-		device->UseShader(mShaderId);
+		mShader->Use();
 
 		glm::vec2 size(300, 400);
 		float rotate = 45.0f;
@@ -70,8 +72,8 @@ namespace Library {
 
 		model = glm::scale(model, glm::vec3(size, 1.0f));
 		glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
-		device->SetShaderMatrix4(mShaderId, "projection", projection);
-		device->SetShaderMatrix4(mShaderId, "model", model);
+		mShader->SetMatrix4("projection", projection);
+		mShader->SetMatrix4("model", model);
 		device->UseTexture(mTextureId);
 		device->UseBuffer(mBufferId);
 		device->Draw();
@@ -82,8 +84,8 @@ namespace Library {
 		if (device == nullptr)
 			return;
 
-		mTextureId = device->LoadTexture(mImagePath);
-		mShaderId = device->LoadShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
+		mTextureId = device->CreateTexture(mImagePath);
+		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
 		float vertices[] = {
 			// Pos      // Tex

@@ -3,7 +3,6 @@
 
 #include "Sprite.h"
 #include "Renderer.h"
-#include "OpenGLRenderDevice.h"
 
 #include "XmlParseMaster.h"
 #include "SharedDataTable.h"
