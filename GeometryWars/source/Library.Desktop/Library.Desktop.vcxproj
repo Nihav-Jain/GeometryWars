@@ -208,6 +208,7 @@
     <ClInclude Include="ActionListSwitch.h" />
     <ClInclude Include="ActionWhileLoop.h" />
     <ClInclude Include="Attributed.h" />
+    <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="DefaultReserveStrategy.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="ActionListSwitch.cpp" />
     <ClCompile Include="ActionWhileLoop.cpp" />
     <ClCompile Include="Attributed.cpp" />
+    <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="Datum.cpp" />
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />

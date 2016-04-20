@@ -33,17 +33,26 @@ namespace Library
 		void SetType(const std::string& type);
 		void SetType(GameObjectType type);
 
+		Action* GetComponent(const std::string& typeName) const;
+		bool HasComponent(const std::string& typeName) const;
+
+		virtual void OnOverlapBegin(const GameObject& other);
+
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_ROTATION;
 		static const std::string ATTRIBUTE_SCALE;
+
+		static const std::string SECTOR_PLAYER;
+		static const std::string SECTOR_ENEMIES;
+		static const std::string SECTOR_BULLETS;
+		static const Hashmap<std::string, GameObjectType> SectorTypeStrings;
 
 	protected:
 		glm::vec4 mPosition, mRotation, mScale;
 		GameObjectType mType;
 
-	private:
-		static const Hashmap<std::string, GameObjectType> SectorTypeStrings;
-		
 	};
+
+	CONCRETE_ENTITY_FACTORY(GameObject);
 
 }

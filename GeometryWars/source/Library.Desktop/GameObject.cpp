@@ -9,13 +9,18 @@ namespace Library
 	const std::string GameObject::ATTRIBUTE_ROTATION = "rotation";
 	const std::string GameObject::ATTRIBUTE_SCALE = "scale";
 
-	// TODO : Make these sector names static const somewhere?
+	// TODO : Move these somewhere else?
+	const std::string GameObject::SECTOR_PLAYER = "playerSector";
+	const std::string GameObject::SECTOR_ENEMIES = "enemiesSector";
+	const std::string GameObject::SECTOR_BULLETS = "bulletsSector";
+
+
 #pragma warning (disable:4592)
 	const Hashmap<std::string, GameObject::GameObjectType> GameObject::SectorTypeStrings =
 	{
-		{ "playerSector",	GameObject::GameObjectType::PLAYER },
-		{ "enemiesSector",	GameObject::GameObjectType::ENEMY },
-		{ "bulletsSector",	GameObject::GameObjectType::BULLET }
+		{ GameObject::SECTOR_PLAYER,	GameObject::GameObjectType::PLAYER },
+		{ GameObject::SECTOR_ENEMIES,	GameObject::GameObjectType::ENEMY },
+		{ GameObject::SECTOR_BULLETS,	GameObject::GameObjectType::BULLET }
 	};
 #pragma warning (default:4592)
 
@@ -70,6 +75,21 @@ namespace Library
 	void GameObject::SetType(GameObjectType type)
 	{
 		mType = type;
+	}
+
+	Action* GameObject::GetComponent(const std::string & typeName) const
+	{		
+		return FindAction(typeName);
+	}
+
+	bool GameObject::HasComponent(const std::string & typeName) const
+	{
+		return (GetComponent(typeName) != nullptr);
+	}
+
+	void GameObject::OnOverlapBegin(const GameObject & other)
+	{
+		UNREFERENCED_PARAMETER(other);
 	}
 }
 

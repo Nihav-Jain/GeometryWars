@@ -7,7 +7,7 @@ namespace Library
 	Game::Game() :
 		mGameClock(), mGameTime(), mWorld(mGameTime),
 		mSharedData(), mParseMaster(mSharedData),
-		mWorldParser(), mSectorParser(), mEntityParser(), mActionParser(),
+		mWorldParser(), mSectorParser(), mEntityParser(), mGameObjectParser(), mActionParser(),
 		mTableParser(), mPrimitivesParser(), mNameValueParser(),
 		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
 		mActionIf(), mActionIfCondition(), mActionIfThen(), mActionIfElse(),
@@ -18,6 +18,7 @@ namespace Library
 		mParseMaster.AddHelper(mWorldParser);
 		mParseMaster.AddHelper(mSectorParser);
 		mParseMaster.AddHelper(mEntityParser);
+		mParseMaster.AddHelper(mGameObjectParser);
 		mParseMaster.AddHelper(mActionParser);
 		mParseMaster.AddHelper(mTableParser);
 		mParseMaster.AddHelper(mPrimitivesParser);
