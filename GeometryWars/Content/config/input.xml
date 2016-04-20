@@ -1,0 +1,75 @@
+<world name="Steven's Universe">
+	<action class="InputManager" name="InputManager Action">
+		<!-- InputHandlers is a list that will hold all types of Input Handlers.					-->
+		<!-- Every InputHandler will have the following characteristics:							-->
+		<!--	ButtonMapping:	HashMap (hence Scope) mapping the Event's Subtype with the button	-->
+		<!--																						-->
+		<!-- There are two handlers to be planned...												-->
+		
+		<!-- KeyBoardHandler: Handles Keyboard Events -->
+		<entity name="InputHandlers" class="KeyBoardHandler">
+			<scope name="ButtonMapping">	<!-- Done using KeyCodes to map to the respective buttons -->
+				<string name="MoveLeft"		value="10"/>	<!-- Keycode Left Arrow	-->
+				<string name="MoveRight"	value="11"/>	<!-- Keycode Right Arrow-->
+				<string name="Jump"			value="9"/>		<!-- Keycode Up Arrow	-->
+				<string name="MoveLeft"		value="10"/>	<!-- Keycode A			-->
+				<string name="MoveRight"	value="11"/>	<!-- Keycode S			-->
+				<string name="Jump"			value="9"/>		<!-- Keycode D			-->
+															<!-- etc...				-->
+			</scope>
+		</entity>
+		
+		<!-- XBoxControllerHandlerHandler: Handles XBox Controller Events -->
+		<entity name="InputHandlers" class="XBoxControllerHandler">
+			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
+				<string name="MoveLeft"		value="X"/>
+				<string name="MoveRight"	value="Y"/>
+				<string name="Jump"			value="A"/>
+				<string name="Jump?"		value="B"/>
+				<string name="Start"		value=""/>
+				<string name="o _o"			value="DPAD_UP"/>
+				<string name="o_ o"			value="DPAD_DOWN"/>
+				<string name="o. o"			value="DPAD_LEFT"/>
+				<string name="o_ o"			value="DPAD_RIGHT"/>
+				<string name="o__o"			value="LEFT_THUMB"/>
+				<string name="x . x"		value="RIGHT_THUMB"/>
+				<string name="ERROR"		value="LEFT_SHOULDER"/>		<!-- Shoulder's as button is debateable -->
+				<string name="404"			value="RIGHT_SHOULDER"/>
+			</scope>
+		</entity>
+	</action>
+	
+	<sector name="Sector">
+		<entity class="Entity" name="Character">
+			<integer name="VelX"		value="0"/>
+			<integer name="VelY"		value="0"/>
+			<integer name="Speed"		value="10"/>
+			<integer name="JumpSpeed"	value="5"/>
+			
+			<reaction class="ReactionAttributed" name="OnMoveLeft">
+				<string name="subtype" value="MoveLeft"/>
+				
+				<expression name="modify">
+					<string name="expression">VelX = VelX - Speed</string>
+				</expression>
+			</reaction>
+			
+			<reaction class="ReactionAttributed" name="OnMoveRight">
+				<string name="subtype" value="MoveLeft"/>
+				
+				<expression name="modify">
+					<string name="expression">VelX = VelX + Speed</string>
+				</expression>
+			</reaction>
+			
+			<reaction class="ReactionAttributed" name="OnJump">
+				<string name="subtype" value="Jump"/>
+				
+				<expression name="modify">
+					<string name="expression">VelY = JumpSpeed</string>
+				</expression>
+			</reaction>
+			
+		</entity>
+	</sector>
+</world>

@@ -190,7 +190,6 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(sector);
 			Entity* entity = sector->FindEntity("actor");
 			Assert::IsNotNull(entity);
-			Assert::IsNotNull(entity);
 
 			Datum* result = entity->Find("result");
 			Assert::IsNotNull(result);
