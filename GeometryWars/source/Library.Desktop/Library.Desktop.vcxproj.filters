@@ -160,11 +160,13 @@
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLRenderDevice.h">
-        <Filter>Kernel\Graphic\opengl</Filter>
+      <Filter>Kernel\Graphic\opengl</Filter>
     </ClInclude>
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="XmlParseHelperGameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -307,6 +309,8 @@
     <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="XmlParseHelperGameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

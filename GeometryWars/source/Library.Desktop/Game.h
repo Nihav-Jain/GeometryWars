@@ -22,6 +22,8 @@
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
 
+#include "GameObject.h"
+
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"

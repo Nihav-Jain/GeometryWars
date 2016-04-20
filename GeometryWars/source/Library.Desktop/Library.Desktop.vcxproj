@@ -219,6 +219,7 @@
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClock.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
@@ -250,6 +251,7 @@
     <ClInclude Include="XmlParseHelperActionWhile.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
+    <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseHelperReaction.h" />
@@ -283,6 +285,7 @@
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="OpenGLRenderDevice.cpp" />
     <ClCompile Include="RenderDevice.cpp" />
@@ -310,6 +313,7 @@
     <ClCompile Include="XmlParseHelperActionWhile.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
+    <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperReaction.cpp" />
