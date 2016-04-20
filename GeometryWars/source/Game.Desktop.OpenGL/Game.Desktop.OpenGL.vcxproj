@@ -118,7 +118,8 @@
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
-IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)"</Command>
+IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\lib\$(Platform)\$(Configuration)\SOIL.pdb" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,7 +150,8 @@ IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
-IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)"</Command>
+IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\lib\$(Platform)\$(Configuration)\SOIL.pdb" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
