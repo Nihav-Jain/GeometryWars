@@ -21,6 +21,9 @@
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
+#include "ActionEvent.h"
+#include "Reaction.h"
+#include "ReactionAttributed.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
@@ -137,6 +140,16 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+
+		EntityFactory mEntityFactory;
+		ActionListFactory mActionListFactory;
+		ActionListSwitchFactory mActionSwitchFactory;
+		ActionListSwitch::ActionListSwitchCaseFactory mActionCaseFactory;
+		ActionWhileLoopFactory mActionWhileFactory;
+		ActionIfThenElseFactory mActionIfFactory;
+		ActionExpressionFactory mActionExpressionFactory;
+		ActionEventFactory mActionEventFactory;
+		ReactionAttributedFactory mReactionFactory;
 	};
 }
 

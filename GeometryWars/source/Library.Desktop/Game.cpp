@@ -6,12 +6,7 @@ namespace Library
 
 	Game::Game() :
 		mGameClock(), mGameTime(), mWorld(mGameTime),
-		mSharedData(), mParseMaster(mSharedData),
-		mWorldParser(), mSectorParser(), mEntityParser(), mActionParser(),
-		mTableParser(), mPrimitivesParser(), mNameValueParser(),
-		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
-		mActionIf(), mActionIfCondition(), mActionIfThen(), mActionIfElse(),
-		mActionWhile(), mActionWhileLoop(), mActionBeginPlay()
+		mSharedData(), mParseMaster(mSharedData)
 	{
 		mSharedData.SetRootScope(mWorld);
 

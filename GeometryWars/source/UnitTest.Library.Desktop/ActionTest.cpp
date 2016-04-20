@@ -43,12 +43,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ActionTestList)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-
 			Game game;
 
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_action_test.xml"));
@@ -100,13 +94,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ActionTestIfThenElse)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ActionIfThenElseFactory ifFactory;
-
 			Game game;
 
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_if_else_test.xml"));
@@ -139,13 +126,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ActionTestWhile)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ActionIfThenElseFactory ifFactory;
-			ActionWhileLoopFactory whileFactory;
 			Game game;
 
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_while_test.xml"));
@@ -168,9 +148,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ActionTestExpressionFunctionCalls)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionExpressionFactory expFactory;
 			Game game;
 
 			ActionExpression::AddFunction("min", ActionExpression::FunctionDefinition(2, [](const Vector<Datum>& params)
@@ -206,13 +183,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ActionTestBeginPlay)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ActionIfThenElseFactory ifFactory;
-
 			Game game;
 
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_beginplay_test.xml"));
