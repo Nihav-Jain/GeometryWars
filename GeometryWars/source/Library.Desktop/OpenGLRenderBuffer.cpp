@@ -17,13 +17,23 @@
 namespace Library {
 
 	OpenGLRenderBuffer::OpenGLRenderBuffer() :
-		mVAO(0)
+		mVAO(0),
+		mVBO(0)
 	{
 	}
 
 
 	OpenGLRenderBuffer::~OpenGLRenderBuffer()
 	{
+		if (mVAO != 0) {
+			glDeleteVertexArrays(1, &mVAO);
+			mVAO = 0;
+		}
+
+		if (mVBO != 0) {
+			glDeleteBuffers(1,&mVBO);
+			mVBO = 0;
+		}
 	}
 
 	void OpenGLRenderBuffer::Init(float * data, std::uint32_t size, std::uint32_t stride)

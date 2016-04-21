@@ -15,6 +15,7 @@ namespace Library {
 		virtual void Use() override;
 	private:
 		GLuint mVAO;
+		GLuint mVBO;
 	};
 
 }
