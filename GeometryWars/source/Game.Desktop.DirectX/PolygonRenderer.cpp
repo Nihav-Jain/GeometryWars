@@ -5,9 +5,12 @@
 #include "Utility.h"
 
 using namespace Library;
-PolygonRenderer::PolygonRenderer(ID3D11Device1 & device, ID3D11DeviceContext & context): m_device(&device), m_context(&context), m_pixel_shader(nullptr), m_vertex_shader(nullptr), m_vertex_buffer(m_vertex_buffer)
+PolygonRenderer::PolygonRenderer(ID3D11Device1 & device, ID3D11DeviceContext & context): m_device(&device), m_context(&context), m_pixel_shader(nullptr), m_vertex_shader(nullptr), m_vertex_buffer(m_vertex_buffer),
+mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
+	0.0f, 1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f, 0.0f,
+	0.0f, 0.0f, 0.0f, 1.0f))
 {
-
 	////////////////////Move this to util
 
 	WCHAR buffer[MAX_PATH];
@@ -55,6 +58,14 @@ PolygonRenderer::PolygonRenderer(ID3D11Device1 & device, ID3D11DeviceContext & c
 	ZeroMemory(&vertexSubResourceData, sizeof(vertexSubResourceData));
 	vertexSubResourceData.pSysMem = vertices;
 	ThrowIfFailed(device.CreateBuffer(&vertexBufferDesc, &vertexSubResourceData, &m_vertex_buffer), "ID3D11Device::CreateBuffer() failed.");
+
+	// Create a constant buffer
+	D3D11_BUFFER_DESC constantBufferDesc;
+	ZeroMemory(&constantBufferDesc, sizeof(constantBufferDesc));
+	constantBufferDesc.ByteWidth = sizeof(CBufferPerObject);
+	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+	ThrowIfFailed(device.CreateBuffer(&constantBufferDesc, nullptr, &mConstantBuffer), "ID3D11Device::CreateBuffer() failed.");
 }
 
 PolygonRenderer::~PolygonRenderer()
@@ -63,6 +74,12 @@ PolygonRenderer::~PolygonRenderer()
 
 void PolygonRenderer::Draw()
 {
+	static float angle = 0.0f;
+
+	angle += 0.001f;
+
+	XMStoreFloat4x4(&mWorldMatrix, XMMatrixRotationZ(angle));
+
 	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_context->IASetInputLayout(m_input_layout);
 
@@ -72,6 +89,9 @@ void PolygonRenderer::Draw()
 
 	m_context->VSSetShader(m_vertex_shader, nullptr, 0);
 	m_context->PSSetShader(m_pixel_shader, nullptr, 0);
+
+	m_context->UpdateSubresource(mConstantBuffer, 0, nullptr, &mWorldMatrix, 0, 0);
+	m_context->VSSetConstantBuffers(0, 1, &mConstantBuffer);
 
 	m_context->Draw(6, 0);
 }

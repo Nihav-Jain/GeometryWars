@@ -1,3 +1,8 @@
+cbuffer CBufferPerObject
+{
+	float4x4 ViewModelProjection : WORLDVIEWPROJECTION;
+};
+
 struct VS_INPUT
 {
 	float4 Position: POSITION;
@@ -14,7 +19,7 @@ VS_OUTPUT main(VS_INPUT IN)
 {
 	VS_OUTPUT OUT = (VS_OUTPUT)0;
 
-	OUT.Position = IN.Position;
+	OUT.Position = mul(IN.Position, ViewModelProjection);
 	OUT.Color = IN.Color;
 
 	return OUT;
