@@ -26,7 +26,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	Renderer render(&renderDevice);
 	render.AddRenderable(&sprite);
 
-	glm::vec4 pos(1, 0, 0, 0);
+	glm::vec4 pos(0, 0, 0, 0);
 #pragma warning(push)
 #pragma warning(disable : 4127)
 	while (true) { // TODO remove always true
