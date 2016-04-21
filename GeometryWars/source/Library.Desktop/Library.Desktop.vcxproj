@@ -208,6 +208,7 @@
     <ClInclude Include="ActionListSwitch.h" />
     <ClInclude Include="ActionWhileLoop.h" />
     <ClInclude Include="Attributed.h" />
+    <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
     <ClInclude Include="DefaultReserveStrategy.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClock.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
@@ -256,6 +258,7 @@
     <ClInclude Include="XmlParseHelperActionWhile.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
+    <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseHelperReaction.h" />
@@ -280,6 +283,7 @@
     <ClCompile Include="ActionListSwitch.cpp" />
     <ClCompile Include="ActionWhileLoop.cpp" />
     <ClCompile Include="Attributed.cpp" />
+    <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="Datum.cpp" />
     <ClCompile Include="DefaultHash.cpp" />
     <ClCompile Include="DefaultReserveStrategy.cpp" />
@@ -289,6 +293,7 @@
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="OpenGLRenderBuffer.cpp" />
     <ClCompile Include="OpenGLRenderDevice.cpp" />
@@ -322,6 +327,7 @@
     <ClCompile Include="XmlParseHelperActionWhile.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
+    <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperReaction.cpp" />

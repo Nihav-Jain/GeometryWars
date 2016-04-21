@@ -22,11 +22,14 @@
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
 
+#include "GameObject.h"
+
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
+#include "XmlParseHelperGameObject.h"
 #include "XmlParseHelperAction.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
@@ -119,6 +122,7 @@ namespace Library
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
+		XmlParseHelperGameObject mGameObjectParser;
 		XmlParseHelperAction mActionParser;
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
