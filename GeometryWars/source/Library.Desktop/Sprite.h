@@ -5,6 +5,11 @@
 #include "Renderable.h"
 
 namespace Library {
+
+	class Shader;
+	class Texture;
+	class RenderBuffer;
+
 	/**
 	* The renderable sprite class
 	* TODO: Add trasnformation to the entiy trasnformation accordingly
@@ -29,12 +34,21 @@ namespace Library {
 		const std::string & GetImagePath() const;
 		const glm::vec4 & GetColor() const;
 
+		void SetPosition(const glm::vec4 & position);
+		void SetImagePath(const std::string & imagePath);
+		void SetColor(const glm::vec4 & color);
+
+		virtual void Init(RenderDevice * device) override;
 		virtual void Render(RenderDevice * device) override;
 
 	private:
 		glm::vec4 mPosition;
 		std::string mImagePath;
 		glm::vec4 mColor;
+
+		Texture * mTexture;
+		Shader * mShader;
+		RenderBuffer * mBuffer;
 	};
 }
 

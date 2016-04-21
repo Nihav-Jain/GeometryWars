@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Game.h"
+#include "Renderer.h"
+#include "OpenGLRenderDevice.h"
+#include "Sprite.h" // TODO just for testing
 
 using namespace Library;
 
@@ -10,43 +13,28 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
 
-	const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
-
-	if (!glfwInit())
-	{
-		return -1;
-	}
-
-	GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Essentials", nullptr, nullptr);
-	if (window == nullptr)
-	{
-		return -1;
-	}
-
-	glfwMakeContextCurrent(window);
-
-	if (gl3wInit() != 0)
-	{
-		return -1;
-	}
-
 	Game game;
 	game.Start();
 
-	glViewport(0, 0, 800, 600);
+	Sprite sprite;
+	sprite.SetColor(glm::vec4(1, 0, 0, 0));
+	sprite.SetImagePath("Content/resource/mushroom.png");
 
-	while (!glfwWindowShouldClose(window))
-	{
-		glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
+	OpenGLRenderDevice renderDevice;
+	renderDevice.InitOpenGl();
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+	Renderer render(&renderDevice);
+	render.AddRenderable(&sprite);
 
-		game.Update();
+	glm::vec4 pos(1, 0, 0, 0);
+#pragma warning(push)
+#pragma warning(disable : 4127)
+	while (true) { // TODO remove always true
+#pragma warning(pop) 
+		render.Update();
+		pos.x += 1;
+		sprite.SetPosition(pos);
 	}
-
-	glfwDestroyWindow(window);
-	glfwTerminate();
 
 	return 0;
 }

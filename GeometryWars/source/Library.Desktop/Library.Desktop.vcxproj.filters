@@ -160,9 +160,28 @@
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLRenderDevice.h">
-      <Filter>Kernel\Graphic</Filter>
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBuffer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderBuffer.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLShader.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -297,10 +316,32 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game.Desktop.OpenGL\gl3w.c">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
     <ClCompile Include="OpenGLRenderDevice.cpp">
-      <Filter>Kernel\Graphic</Filter>
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
     <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBuffer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLShader.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLTexture.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderBuffer.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +392,9 @@
     </Filter>
     <Filter Include="Kernel\Graphic">
       <UniqueIdentifier>{a512568e-1bf5-4b59-8364-517228890d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Graphic\opengl">
+      <UniqueIdentifier>{b7662a6a-e35e-4827-bc80-8e5550aff84c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
