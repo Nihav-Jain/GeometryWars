@@ -1,11 +1,11 @@
-cbuffer CBufferPerObject
+cbuffer CVertexBufferPerObject
 {
 	float4x4 ViewModelProjection : WORLDVIEWPROJECTION;
 };
 
 struct VS_INPUT
 {
-	float4 Position: POSITION;
+	float4 Position : POSITION;
 	float4 Color : COLOR;
 };
 

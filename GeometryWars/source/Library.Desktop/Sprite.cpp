@@ -75,9 +75,8 @@ namespace Library {
 		model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
 		model = glm::scale(model, glm::vec3(size, 1.0f));
-		glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
-		mShader->SetMatrix4("projection", projection);
-		mShader->SetMatrix4("model", model);
+		glm::mat4 view_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+		mShader->SetMatrix4("model_view_projection", view_projection * model);
 		mTexture->Use();
 		mBuffer->Use();
 		device->Draw();
