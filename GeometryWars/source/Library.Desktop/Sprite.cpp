@@ -47,7 +47,7 @@ namespace Library {
 		glm::vec4 pos = mPosition->Get<glm::vec4>();
 		glm::vec4 rotate = mRotation->Get<glm::vec4>();
 		glm::vec4 scale = mScale->Get<glm::vec4>();
-		
+
 		// TODO: Handle nullptr case
 		model = glm::translate(model, glm::vec3(pos));
 		model = glm::rotate(model, rotate.x, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -56,8 +56,8 @@ namespace Library {
 
 		// TODO: Get Viewport size
 		glm::mat4 projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, -1.0f, 1.0f);
-		mShader->SetMatrix4("projection", projection);
-		mShader->SetMatrix4("model", model);
+		mShader->SetMatrix4("model_view_projection", projection * model);
+		
 		mTexture->Use();
 		mBuffer->Use();
 		device->Draw();
@@ -81,7 +81,7 @@ namespace Library {
 		mPosition = Search("position");
 		mRotation = Search("rotation");
 		mScale = Search("scale");
-		
+
 		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
 		float vertices[] = {

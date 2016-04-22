@@ -99,15 +99,15 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD.LIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <BuildLog>
@@ -131,15 +131,15 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD.LIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <BuildLog>
@@ -165,7 +165,7 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -174,8 +174,8 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <BuildLog>
@@ -199,7 +199,7 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -208,8 +208,8 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -222,10 +222,24 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OpenGLRenderBuffer.h" />
+    <ClInclude Include="OpenGLRenderDevice.h" />
+    <ClInclude Include="OpenGLShader.h" />
+    <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gl3w.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OpenGLRenderBuffer.cpp" />
+    <ClCompile Include="OpenGLRenderDevice.cpp" />
+    <ClCompile Include="OpenGLShader.cpp" />
+    <ClCompile Include="OpenGLTexture.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
