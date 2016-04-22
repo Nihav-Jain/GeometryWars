@@ -62,7 +62,6 @@
       <Filter>TestHelpers</Filter>
     </ClCompile>
     <ClCompile Include="ReactionTest.cpp" />
-    <ClCompile Include="SpriteTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

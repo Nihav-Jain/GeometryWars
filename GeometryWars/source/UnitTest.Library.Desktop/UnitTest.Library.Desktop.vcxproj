@@ -271,7 +271,6 @@
     <ClCompile Include="ReactionTest.cpp" />
     <ClCompile Include="ScopeTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
-    <ClCompile Include="SpriteTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="TestSharedData.cpp" />
     <ClCompile Include="VectorTest.cpp" />

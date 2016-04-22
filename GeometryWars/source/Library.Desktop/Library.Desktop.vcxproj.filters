@@ -182,7 +182,7 @@
     </ClInclude>
     <ClInclude Include="OpenGLTexture.h">
       <Filter>Kernel\Graphic\opengl</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -192,6 +192,7 @@
     <ClInclude Include="CircleColliderComponent.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -351,7 +352,7 @@
     </ClCompile>
     <ClCompile Include="OpenGLRenderBuffer.cpp">
       <Filter>Kernel\Graphic\opengl</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -361,6 +362,7 @@
     <ClCompile Include="CircleColliderComponent.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

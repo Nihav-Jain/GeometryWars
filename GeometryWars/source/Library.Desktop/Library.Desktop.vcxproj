@@ -246,6 +246,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="World.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />

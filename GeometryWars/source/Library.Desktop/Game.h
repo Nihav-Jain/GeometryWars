@@ -22,6 +22,9 @@
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
 
+#include "Image.h"
+#include "Sprite.h"
+
 #include "GameObject.h"
 
 #include "SharedDataTable.h"
@@ -41,6 +44,7 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperSprite.h"
 
 namespace Library
 {
@@ -141,6 +145,8 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+
+		XmlParseHelperSprite mSpriteParser;
 	};
 }
 

@@ -3,6 +3,7 @@
 #include "RenderDevice.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Image.h"
 #include "RenderBuffer.h"
 
 #include <glm/glm.hpp>
@@ -13,49 +14,19 @@ namespace Library {
 
 	RTTI_DEFINITIONS(Sprite);
 
-	const std::uint32_t Sprite::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 2;
-	const std::string Sprite::ATTRIBUTE_POSITION = "position";
-	const std::string Sprite::ATTRIBUTE_IMAGE_PATH = "imagePath";
-	const std::string Sprite::ATTRIBUTE_COLOR = "color";
+
+	const std::uint32_t Sprite::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 1;
+	const std::string Sprite::ATTRIBUTE_TEXTURE2D = "texture2d";
 
 	Sprite::Sprite() :
 		mTexture(nullptr),
 		mShader(nullptr),
-		mBuffer(nullptr)
+		mBuffer(nullptr),
+		mPosition(nullptr),
+		mRotation(nullptr),
+		mScale(nullptr),
+		mSize(nullptr)
 	{
-		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
-		AddExternalAttribute(ATTRIBUTE_IMAGE_PATH, 1, &mImagePath);
-		AddExternalAttribute(ATTRIBUTE_COLOR, 1, &mColor);
-	}
-
-	const glm::vec4 & Sprite::GetPosition() const
-	{
-		return mPosition;
-	}
-
-	const std::string & Sprite::GetImagePath() const
-	{
-		return mImagePath;
-	}
-
-	const glm::vec4 & Sprite::GetColor() const
-	{
-		return mColor;
-	}
-
-	void Sprite::SetPosition(const glm::vec4 & position)
-	{
-		mPosition = position;
-	}
-
-	void Sprite::SetImagePath(const std::string & imagePath)
-	{
-		mImagePath = imagePath;
-	}
-
-	void Sprite::SetColor(const glm::vec4 & color)
-	{
-		mColor = color;
 	}
 
 	void Sprite::Render(RenderDevice * device)
@@ -65,13 +36,16 @@ namespace Library {
 		mShader->Use();
 
 		glm::vec2 size(100, 100);
-		float rotate = 0.0f;
 
 		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(mPosition)); 
-		model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(size, 1.0f));
 
+		// TODO: Handle nullptr case
+		model = glm::translate(model, glm::vec3(*mPosition)); 
+		model = glm::rotate(model, mPosition->x, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3((*mSize).x, (*mSize).y, 1.0f));
+		model = glm::scale(model, glm::vec3((*mScale).x, (*mScale).y, 1.0f));
+
+		// TODO: Get Viewport size
 		glm::mat4 projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, -1.0f, 1.0f);
 		mShader->SetMatrix4("projection", projection);
 		mShader->SetMatrix4("model", model);
@@ -85,11 +59,22 @@ namespace Library {
 		if (device == nullptr)
 			return;
 
-		mTexture = device->CreateTexture(mImagePath);
+		Image * image = FindAction("image")->As<Image>();
+		assert(image != nullptr);
+
+		image->Init(device);
+		image->GetImageInfo(&mTexture, &mSize);
+
+		assert(mTexture != nullptr);
+
+		// TODO: Handle failed case
+		mPosition = &Search("position")->Get<glm::vec4>();
+		mRotation = &Search("rotation")->Get<glm::vec4>();
+		mScale = &Search("scale")->Get<glm::vec4>();
+		
 		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
 		float vertices[] = {
-			// Pos      // Tex
 			0.0f, 1.0f, 0.0f, 1.0f,
 			1.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 0.0f,
