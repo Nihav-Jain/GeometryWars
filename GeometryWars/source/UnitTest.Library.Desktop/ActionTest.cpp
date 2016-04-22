@@ -307,6 +307,40 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10, someInt->Get<std::int32_t>());
 		}
 
+		TEST_METHOD(ActionTestDestroyEntity)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_destroy_entity_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Assert::AreEqual(2U, sector->Entities().Size());
+
+			Entity* anotherEntity = sector->FindEntity("anotherEntity");
+			Assert::IsNotNull(anotherEntity);
+			Datum* anotherInt = anotherEntity->Find("anotherInt");
+			Assert::IsNotNull(anotherInt);
+			Assert::AreEqual(10, anotherInt->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(2U, sector->Entities().Size());
+			Assert::AreEqual(20, anotherInt->Get<std::int32_t>());
+
+			game.Update();
+			Assert::AreEqual(2U, sector->Entities().Size());
+			Assert::AreEqual(40, anotherInt->Get<std::int32_t>());
+
+			game.Update();
+			Assert::AreEqual(1U, sector->Entities().Size());
+			anotherEntity = sector->FindEntity("anotherEntity");
+			Assert::IsNull(anotherEntity);
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif
