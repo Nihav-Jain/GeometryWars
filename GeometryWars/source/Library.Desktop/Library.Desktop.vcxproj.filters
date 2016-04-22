@@ -141,9 +141,6 @@
     <ClInclude Include="XmlParseHelperActionWhile.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
     <ClInclude Include="XmlParseHelperSprite.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -183,6 +180,9 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="XmlParseHelperImage.h">
       <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Kernel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -302,9 +302,6 @@
     <ClCompile Include="XmlParseHelperActionWhile.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Kernel</Filter>
-    </ClCompile>
     <ClCompile Include="XmlParseHelperSprite.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
@@ -341,6 +338,9 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp">
       <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Kernel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

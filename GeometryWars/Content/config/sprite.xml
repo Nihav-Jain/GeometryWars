@@ -12,12 +12,12 @@
 			<expression name="change_scale">
 				<string name="expression">scale = scale + delta</string>
 			</expression>
-			<sprite class="Sprite" name="sprite1">
+			<sprite_renderer name="sprite1">
 				<image name="image">
 					<string name="path" value="Content/resource/mushroom.png"/>
 					<vector name="size" value="vec4(100, 100, 0, 0)"/>
 				</image>
-			</sprite>
+			</sprite_renderer>
 		</gameobject>		
 	</sector>	
 </world>

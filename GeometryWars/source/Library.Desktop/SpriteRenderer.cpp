@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Sprite.h"
+#include "SpriteRenderer.h"
 #include "RenderDevice.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -14,11 +14,11 @@
 
 namespace Library {
 
-	RTTI_DEFINITIONS(Sprite);
+	RTTI_DEFINITIONS(SpriteRenderer);
 
-	const std::string Sprite::ATTRIBUTE_TEXTURE2D = "texture2d";
+	const std::string SpriteRenderer::ATTRIBUTE_TEXTURE2D = "texture2d";
 
-	Sprite::Sprite() :
+	SpriteRenderer::SpriteRenderer() :
 		mInited(false),
 		mTexture(nullptr),
 		mShader(nullptr),
@@ -30,7 +30,7 @@ namespace Library {
 	{
 	}
 
-	void Sprite::Render(RenderDevice * device)
+	void SpriteRenderer::Render(RenderDevice * device)
 	{
 		if (!mInited) {
 			Init(device);
@@ -63,7 +63,7 @@ namespace Library {
 		device->Draw();
 	}
 
-	void Sprite::Init(RenderDevice * device)
+	void SpriteRenderer::Init(RenderDevice * device)
 	{
 		mInited = true;
 		if (device == nullptr)

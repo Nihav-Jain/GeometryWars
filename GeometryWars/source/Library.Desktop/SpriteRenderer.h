@@ -14,18 +14,18 @@ namespace Library {
 	* The renderable sprite class
 	* TODO: Add trasnformation to the entiy trasnformation accordingly
 	*/
-	class Sprite : public ActionList, public Renderable
+	class SpriteRenderer : public ActionList, public Renderable
 	{
-		RTTI_DECLARATIONS(Sprite, ActionList);
+		RTTI_DECLARATIONS(SpriteRenderer, ActionList);
 
 	public:
 		static const std::string ATTRIBUTE_TEXTURE2D;
 
-		Sprite();
-		virtual ~Sprite() = default;
+		SpriteRenderer();
+		virtual ~SpriteRenderer() = default;
 
-		Sprite(const Sprite & rhs) = delete;
-		Sprite & operator=(const Sprite & rhs) = delete;
+		SpriteRenderer(const SpriteRenderer & rhs) = delete;
+		SpriteRenderer & operator=(const SpriteRenderer & rhs) = delete;
 
 		const std::string & GetImageTexture() const;
 		void SetImageTexture(const glm::vec4 & color);

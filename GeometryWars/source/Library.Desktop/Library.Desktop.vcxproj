@@ -239,7 +239,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="SList.h" />
-    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Image.h" />
@@ -302,7 +302,7 @@
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
-    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Viewport.cpp" />

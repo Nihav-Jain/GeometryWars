@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "XmlParseHelperSprite.h"
-#include "Sprite.h"
+#include "SpriteRenderer.h"
 #include "Renderer.h"
 #include "Entity.h"
 
 namespace Library {
-	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite";
+	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite_renderer";
 
 	XmlParseHelperSprite::XmlParseHelperSprite()
 	{
@@ -29,7 +29,7 @@ namespace Library {
 
 		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 		Scope* parent = sharedDataPtr->CurrentScopePtr;
-		Sprite * sprite = new Sprite();
+		SpriteRenderer * sprite = new SpriteRenderer();
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
 		
 		Renderer::GetInstance()->AddRenderable(sprite);
