@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Game.h"
+#include "ReactionAttributed.h"
+#include "InputManager.h"
+#include "TestClass.h"
 
 using namespace Library;
 
@@ -9,6 +12,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(previousInstance);
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
+
+	TestClass c;
+	UNREFERENCED_PARAMETER(c);
 
 	const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
 
@@ -31,6 +37,20 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	}
 
 	Game game;
+	EntityFactory entityFactory;
+	ActionListFactory actionListFactory;
+	ActionListSwitchFactory switchFactory;
+	ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
+	ActionExpressionFactory expFactory;
+	ReactionAttributedFactory reactionAttributedFactory;
+
+	KeyBoardHandlerFactory khf;
+	XBoxControllerHandlerFactory xchf;
+
+	OutputDebugString(L"LOOK AT ME!");
+	OutputDebugStringA("HELPOPO AT ME!");
+	OutputDebugStringW(L"WORLD AT ME!");
+	game.ParseMaster().ParseFromFile("../../Content/config/input.xml");
 	game.Start();
 
 	glViewport(0, 0, 800, 600);

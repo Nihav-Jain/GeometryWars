@@ -104,7 +104,7 @@
     </BuildLog>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;Expat.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -131,7 +131,7 @@
     </BuildLog>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;Expat.lib;Xinput.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -223,6 +223,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IEventSubscriber.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Reaction.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
