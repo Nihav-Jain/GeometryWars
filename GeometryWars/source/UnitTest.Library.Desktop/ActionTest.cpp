@@ -12,6 +12,8 @@
 #include "XmlParseHelperActionSwitch.h"
 #include "XmlParseHelperActionExpression.h"
 
+#include "SampleEntity.h"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
 
@@ -271,6 +273,38 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(glm::mat4x4(10) == matResult->Get<glm::mat4>());
 			Assert::AreEqual(135, intResult2->Get<std::int32_t>());
 
+		}
+
+		TEST_METHOD(ActionTestCreateEntity)
+		{
+			SampleEntityFactory sampleEntityFactory;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_create_entity_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			
+			Assert::AreEqual(1U, sector->Entities().Size());
+
+			game.Update();
+			Assert::AreEqual(3U, sector->Entities().Size());
+
+			Entity* sampleEntity = sector->FindEntity("sampleEntity");
+			Assert::IsNotNull(sampleEntity);
+			Assert::IsTrue(sampleEntity->Is(SampleEntity::TypeIdClass()));
+
+			Datum* someInt = sampleEntity->Find("someInt");
+			Assert::IsNotNull(someInt);
+			Assert::AreEqual(0, someInt->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, someInt->Get<std::int32_t>());
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
