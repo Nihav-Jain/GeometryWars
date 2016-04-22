@@ -5,6 +5,8 @@
 
 namespace Library {
 
+	Renderer * Renderer::sInstance = nullptr;
+
 	Renderer::Renderer(RenderDevice * device) :
 		mDevice(device)
 	{
@@ -17,7 +19,6 @@ namespace Library {
 
 	void Renderer::AddRenderable(Renderable * object)
 	{
-		object->Init(mDevice);
 		mObjects.push_back(object);
 	}
 

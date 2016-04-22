@@ -17,6 +17,10 @@ namespace Library
 
 		void GetImageInfo(Texture ** texture, glm::vec4 ** size);
 
+		virtual void Update(WorldState& worldState) {
+			(worldState);
+		};
+
 	private:
 		Texture * mTexture;
 

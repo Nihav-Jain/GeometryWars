@@ -193,6 +193,9 @@
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="Image.h" />
+    <ClInclude Include="XmlParseHelperImage.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -363,6 +366,9 @@
       <Filter>Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="XmlParseHelperImage.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

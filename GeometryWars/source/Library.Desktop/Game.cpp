@@ -6,7 +6,7 @@ namespace Library
 
 	Game::Game() :
 		mGameClock(), mGameTime(), mWorld(mGameTime),
-		mSharedData(), mParseMaster(mSharedData)
+		mSharedData(), mParseMaster(mSharedData), mRenderer(nullptr)
 	{
 		mSharedData.SetRootScope(mWorld);
 
@@ -31,7 +31,8 @@ namespace Library
 		mParseMaster.AddHelper(mActionWhile);
 		mParseMaster.AddHelper(mActionWhileLoop);
 
-		mParseMaster.AddHelper(mActionBeginPlay);
+		mParseMaster.AddHelper(mSpriteParser);
+		mParseMaster.AddHelper(mImageParser);
 	}
 
 	Game::~Game()
@@ -62,12 +63,29 @@ namespace Library
 		mWorld.BeginPlay();
 	}
 
+	void Game::Start(const std::string & config)
+	{
+		mParseMaster.ParseFromFile(config);
+
+		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.BeginPlay();
+	}
+
 	void Game::Update()
 	{
 		mGameClock.UpdateGameTime(mGameTime);
 		mWorld.Update();
+		if (mRenderer != nullptr)
+			mRenderer->Update();
 	}
 
 	void Game::Destroy()
 	{}
+
+	void Game::SetRendererDevice(RenderDevice * device)
+	{
+		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
+		mRenderer = Renderer::GetInstance(device);
+	}
 }

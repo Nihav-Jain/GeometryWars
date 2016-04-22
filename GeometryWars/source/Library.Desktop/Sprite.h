@@ -21,7 +21,7 @@ namespace Library {
 	public:
 		static const std::string ATTRIBUTE_TEXTURE2D;
 
-		Sprite(void *);
+		Sprite();
 		virtual ~Sprite() = default;
 
 		Sprite(const Sprite & rhs) = delete;
@@ -30,10 +30,11 @@ namespace Library {
 		const std::string & GetImageTexture() const;
 		void SetImageTexture(const glm::vec4 & color);
 
-		virtual void Init(RenderDevice * device) override;
 		virtual void Render(RenderDevice * device) override;
 
 	private:
+		void Init(RenderDevice * device);
+		bool mInited;
 		Texture * mTexture;
 		Shader * mShader;
 		RenderBuffer * mBuffer;
@@ -43,7 +44,5 @@ namespace Library {
 		glm::vec4 * mScale;
 		glm::vec4 * mSize;
 	};
-
-	CONCRETE_FACTORY_WITH_CTXT(Sprite, Sprite);
 }
 

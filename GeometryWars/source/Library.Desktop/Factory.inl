@@ -26,15 +26,6 @@ namespace Library
 	}
 
 	template<typename AbstractProductT>
-	AbstractProductT* Factory<AbstractProductT>::Create(const std::string& className, void * ctxt)
-	{
-		const Factory* const factoryInstance = Find(className);
-		if (factoryInstance == nullptr)
-			return nullptr;
-		return factoryInstance->CreateWithContxt(ctxt);
-	}
-
-	template<typename AbstractProductT>
 	typename Factory<AbstractProductT>::Iterator Factory<AbstractProductT>::begin()
 	{
 		return sFactories.begin();

@@ -17,7 +17,8 @@ namespace Library {
 
 	const std::string Sprite::ATTRIBUTE_TEXTURE2D = "texture2d";
 
-	Sprite::Sprite(void * ctxt) :
+	Sprite::Sprite() :
+		mInited(false),
 		mTexture(nullptr),
 		mShader(nullptr),
 		mBuffer(nullptr),
@@ -26,13 +27,14 @@ namespace Library {
 		mScale(nullptr),
 		mSize(nullptr)
 	{
-		// TODO: So ugly
-		Renderer * renderer = reinterpret_cast<Renderer*>(ctxt);
-		renderer->AddRenderable(this);
 	}
 
 	void Sprite::Render(RenderDevice * device)
 	{
+		if (!mInited) {
+			Init(device);
+		}
+
 		if (device == nullptr)
 			return;
 		mShader->Use();
@@ -43,7 +45,7 @@ namespace Library {
 
 		// TODO: Handle nullptr case
 		model = glm::translate(model, glm::vec3(*mPosition)); 
-		model = glm::rotate(model, mPosition->x, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, mRotation->x, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3((*mSize).x, (*mSize).y, 1.0f));
 		model = glm::scale(model, glm::vec3((*mScale).x, (*mScale).y, 1.0f));
 
@@ -58,6 +60,7 @@ namespace Library {
 
 	void Sprite::Init(RenderDevice * device)
 	{
+		mInited = true;
 		if (device == nullptr)
 			return;
 

@@ -12,20 +12,19 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
 
-	Game game;
-	game.Start();
-
 
 	OpenGLRenderDevice renderDevice;
 	renderDevice.InitOpenGl();
 
-	Renderer render(&renderDevice);
+	Game game;
+	game.SetRendererDevice(&renderDevice);
+	game.Start("Content/config/sprite.xml");
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
 	while (true) { // TODO remove always true
 #pragma warning(pop) 
-		render.Update();
+		game.Update();
 	}
 
 	return 0;

@@ -260,6 +260,7 @@
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperGameObject.h" />
+    <ClInclude Include="XmlParseHelperImage.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseHelperReaction.h" />
@@ -330,6 +331,7 @@
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperGameObject.cpp" />
+    <ClCompile Include="XmlParseHelperImage.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperReaction.cpp" />
