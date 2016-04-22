@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Image.h"
 #include "RenderBuffer.h"
+#include "Renderer.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,11 +15,9 @@ namespace Library {
 
 	RTTI_DEFINITIONS(Sprite);
 
-
-	const std::uint32_t Sprite::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 1;
 	const std::string Sprite::ATTRIBUTE_TEXTURE2D = "texture2d";
 
-	Sprite::Sprite() :
+	Sprite::Sprite(void * ctxt) :
 		mTexture(nullptr),
 		mShader(nullptr),
 		mBuffer(nullptr),
@@ -27,6 +26,9 @@ namespace Library {
 		mScale(nullptr),
 		mSize(nullptr)
 	{
+		// TODO: So ugly
+		Renderer * renderer = reinterpret_cast<Renderer*>(ctxt);
+		renderer->AddRenderable(this);
 	}
 
 	void Sprite::Render(RenderDevice * device)

@@ -21,18 +21,15 @@
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
-
-#include "Image.h"
-#include "Sprite.h"
-
-#include "GameObject.h"
+#include "ActionEvent.h"
+#include "Reaction.h"
+#include "ReactionAttributed.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
-#include "XmlParseHelperGameObject.h"
 #include "XmlParseHelperAction.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
@@ -44,7 +41,6 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
-#include "XmlParseHelperSprite.h"
 
 namespace Library
 {
@@ -126,7 +122,6 @@ namespace Library
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
-		XmlParseHelperGameObject mGameObjectParser;
 		XmlParseHelperAction mActionParser;
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
@@ -146,7 +141,15 @@ namespace Library
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
 
-		XmlParseHelperSprite mSpriteParser;
+		EntityFactory mEntityFactory;
+		ActionListFactory mActionListFactory;
+		ActionListSwitchFactory mActionSwitchFactory;
+		ActionListSwitch::ActionListSwitchCaseFactory mActionCaseFactory;
+		ActionWhileLoopFactory mActionWhileFactory;
+		ActionIfThenElseFactory mActionIfFactory;
+		ActionExpressionFactory mActionExpressionFactory;
+		ActionEventFactory mActionEventFactory;
+		ReactionAttributedFactory mReactionFactory;
 	};
 }
 

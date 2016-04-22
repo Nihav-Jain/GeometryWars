@@ -37,6 +37,14 @@ namespace Library
 		 */
 		virtual AbstractProductT* Create() const = 0;
 
+
+		/**
+		*	Virtual constructor for the class registered with the Factory
+		*	IMPORTANT - the caller owns the memory for this object and thus needs to delete it
+		*	@return pointer to the class object
+		*/
+		virtual AbstractProductT* CreateWithContxt(void * ctxt) const = 0;
+
 		/**
 		 *	Getter for the Factory instance for the given class name
 		 *	@param name of the class whose factory is to be found
@@ -50,6 +58,13 @@ namespace Library
 		 *	@return pointer to the class object
 		 */
 		static AbstractProductT* Create(const std::string& className);
+
+		/**
+		*	Getter for the object of the given class name
+		*	@param name of the class whose object is to be created
+		*	@return pointer to the class object
+		*/
+		static AbstractProductT* Create(const std::string& className, void * ctxt);
 
 		/**
 		 *	Gets the Iterator pointing to first factory of this abstract factory group
@@ -81,11 +96,11 @@ namespace Library
 		static Hashmap<std::string, const Factory* const> sFactories;
 	};
 
-		/**
-		 *	Use this macro to create and register a Factory for the given concrete type
-		 *	@param concrete type for who the factory is to be created
-		 *	@param abstract type of the group this Factory will belong to
-		 */
+	/**
+	 *	Use this macro to create and register a Factory for the given concrete type
+	 *	@param concrete type for who the factory is to be created
+	 *	@param abstract type of the group this Factory will belong to
+	 */
 #define CONCRETE_FACTORY(ConcreteProductType, AbstractProductType)				\
 	class ConcreteProductType ## Factory : public Factory<AbstractProductType>	\
 	{																			\
@@ -105,6 +120,36 @@ namespace Library
 			virtual AbstractProductType* Create() const override				\
 			{																	\
 				return new ConcreteProductType();								\
+			}																	\
+			virtual AbstractProductType* CreateWithContxt(void * ctxt) const override		\
+			{																	\
+				(ctxt);throw std::exception("no implmentation");				\
+			}																	\
+	};
+
+#define CONCRETE_FACTORY_WITH_CTXT(ConcreteProductType, AbstractProductType)	\
+	class ConcreteProductType ## Factory : public Factory<AbstractProductType>	\
+	{																			\
+		public:																	\
+			ConcreteProductType ## Factory()									\
+			{																	\
+				Add(*this);														\
+			}																	\
+			virtual ~ConcreteProductType ## Factory()							\
+			{																	\
+				Remove(*this);													\
+			}																	\
+			virtual std::string ClassName() const override						\
+			{																	\
+				return #ConcreteProductType;									\
+			}																	\
+			virtual AbstractProductType* Create() const override				\
+			{																	\
+				throw std::exception("no implmentation");						\
+			}																	\
+			virtual AbstractProductType* CreateWithContxt(void * ctxt) const override		\
+			{																	\
+				return new ConcreteProductType(ctxt);							\
 			}																	\
 	};
 }

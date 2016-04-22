@@ -21,7 +21,7 @@ namespace Library {
 	public:
 		static const std::string ATTRIBUTE_TEXTURE2D;
 
-		Sprite();
+		Sprite(void *);
 		virtual ~Sprite() = default;
 
 		Sprite(const Sprite & rhs) = delete;
@@ -43,5 +43,7 @@ namespace Library {
 		glm::vec4 * mScale;
 		glm::vec4 * mSize;
 	};
+
+	CONCRETE_FACTORY_WITH_CTXT(Sprite, Sprite);
 }
 

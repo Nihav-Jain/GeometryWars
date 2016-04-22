@@ -4,7 +4,7 @@
 			<vector name="position" value="vec4(0, 0, 0, 0)"/>
 			<vector name="rotation" value="vec4(45, 0, 0, 0)"/>
 			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
-			<sprite name="sprite1">
+			<sprite class="Sprite" name="sprite1">
 				<image name="image">
 					<string name="path" value="Content/resource/mushroom.png"/>
 					<vector name="size" value="vec4(100, 100, 0, 0)"/>
