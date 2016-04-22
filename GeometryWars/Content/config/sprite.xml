@@ -4,12 +4,13 @@
 			<vector name="position" value="vec4(0, 0, 0, 0)"/>
 			<vector name="rotation" value="vec4(45, 0, 0, 0)"/>
 			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
-			<vector name="delta" value="vec4(0.1, 0, 0, 0)"/>
-			<expression name="change_pos">
-				<string name="expression">position = position + delta</string>
-			</expression>
+			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
+			<vector name="delta2" value="vec4(0.001, 0.001, 0, 0)"/>
 			<expression name="change_rot">
 				<string name="expression">rotation = rotation + delta</string>
+			</expression>
+			<expression name="change_scale">
+				<string name="expression">scale = scale + delta</string>
 			</expression>
 			<sprite class="Sprite" name="sprite1">
 				<image name="image">
