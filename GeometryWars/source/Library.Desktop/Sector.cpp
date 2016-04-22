@@ -10,7 +10,7 @@ namespace Library
 	const std::string Sector::ATTRIBUTE_NAME = "name";
 
 	Sector::Sector() :
-		mName()
+		mName(), mEntityListByType()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
@@ -45,6 +45,14 @@ namespace Library
 
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
+
+		for (auto& pair : mEntityListByType)
+		{
+			if (entity->Is(pair.first))
+				pair.second.PushBack(entity);
+		}
+		if(!mEntityListByType.ContainsKey(entity->TypeIdInstance()))
+			mEntityListByType[entity->TypeIdInstance()].PushBack(entity);
 
 		return *entity;
 	}
@@ -153,6 +161,20 @@ namespace Library
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}
+	}
+
+	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
+	{
+		return mEntityListByType[typeId];
+	}
+
+	void Sector::AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId)
+	{
+		if (typeId == Attributed::TypeIdClass())
+			return;
+
+		mEntityListByType[typeId].PushBack(entity->AssertiveAs<Entity>());
+		//AddEntityToTypeMap(entity, entot)
 	}
 
 }

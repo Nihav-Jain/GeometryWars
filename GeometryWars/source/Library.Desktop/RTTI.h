@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include "pch.h"
+#include "Graph.h"
 
 namespace Library
 {
@@ -56,7 +57,18 @@ namespace Library
 		{
 			return this == rhs;
 		}
+
+		virtual std::uint64_t ParentTypeId() const = 0;
+
+		static std::uint64_t TypeIdClass() { return 0; }
+
+	private:
+		static Graph<std::uint64_t>::Traversor RootTraversor;
+		static Graph<std::uint64_t> ClassHeirarchy;
 	};
+
+	Graph<std::uint64_t> RTTI::ClassHeirarchy;
+	Graph<std::uint64_t>::Traversor RTTI::RootTraversor = RTTI::ClassHeirarchy.AddVertex(0U);
 
 #define RTTI_DECLARATIONS(Type, ParentType)																	 \
 		public:                                                                                              \
@@ -85,8 +97,12 @@ namespace Library
 				else                                                                                         \
 					{ return Parent::Is(name); }                                                             \
 			}                                                                                                \
+			virtual std::uint64_t ParentTypeId() const override												 \
+			{																								 \
+				return Parent::TypeIdClass();																 \
+			}																								 \
 			private:                                                                                         \
 				static std::uint64_t sRunTimeTypeId;
 
-#define RTTI_DEFINITIONS(Type) std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);
+#define RTTI_DEFINITIONS(Type) std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);			 
 }

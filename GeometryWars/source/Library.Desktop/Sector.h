@@ -108,11 +108,18 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 
+		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
+
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
 
 	private:
+		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
+
 		std::string mName;
+
+		typedef Hashmap<std::uint64_t, Vector<Entity*>> EntityTypeMap;
+		EntityTypeMap mEntityListByType;
 	};
 
 }

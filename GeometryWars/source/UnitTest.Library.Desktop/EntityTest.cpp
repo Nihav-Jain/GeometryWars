@@ -268,6 +268,13 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
 		}
 
+		//TEST_METHOD(EntityTestRTTI)
+		//{
+		//	Entity entity;
+		//	Assert::IsTrue(entity.Is(Attributed::TypeIdClass()));
+		//	Assert::AreEqual(Attributed::TypeIdClass(), entity.ParentTypeId());
+		//}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif
