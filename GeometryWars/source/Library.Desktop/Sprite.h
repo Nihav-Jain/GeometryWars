@@ -39,9 +39,9 @@ namespace Library {
 		Shader * mShader;
 		RenderBuffer * mBuffer;
 
-		glm::vec4 * mPosition;
-		glm::vec4 * mRotation;
-		glm::vec4 * mScale;
+		Datum * mPosition;
+		Datum * mRotation;
+		Datum * mScale;
 		glm::vec4 * mSize;
 	};
 }

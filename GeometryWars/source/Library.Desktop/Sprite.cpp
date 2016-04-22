@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <math.h>
 
 namespace Library {
 
@@ -43,11 +44,15 @@ namespace Library {
 
 		glm::mat4 model;
 
+		glm::vec4 pos = mPosition->Get<glm::vec4>();
+		glm::vec4 rotate = mRotation->Get<glm::vec4>();
+		glm::vec4 scale = mScale->Get<glm::vec4>();
+		
 		// TODO: Handle nullptr case
-		model = glm::translate(model, glm::vec3(*mPosition)); 
-		model = glm::rotate(model, mRotation->x, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(pos));
+		model = glm::rotate(model, rotate.x, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3((*mSize).x, (*mSize).y, 1.0f));
-		model = glm::scale(model, glm::vec3((*mScale).x, (*mScale).y, 1.0f));
+		model = glm::scale(model, glm::vec3(scale.x, scale.y, 1.0f));
 
 		// TODO: Get Viewport size
 		glm::mat4 projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, -1.0f, 1.0f);
@@ -73,9 +78,9 @@ namespace Library {
 		assert(mTexture != nullptr);
 
 		// TODO: Handle failed case
-		mPosition = &Search("position")->Get<glm::vec4>();
-		mRotation = &Search("rotation")->Get<glm::vec4>();
-		mScale = &Search("scale")->Get<glm::vec4>();
+		mPosition = Search("position");
+		mRotation = Search("rotation");
+		mScale = Search("scale");
 		
 		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
