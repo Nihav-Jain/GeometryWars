@@ -24,7 +24,7 @@ namespace Library {
 
 	void Renderer::Update()
 	{
-		for (auto & obj : mObjects) {
+		for (auto obj : mObjects) {
 			obj->Render(mDevice);
 		}
 

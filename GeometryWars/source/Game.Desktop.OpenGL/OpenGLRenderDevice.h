@@ -34,9 +34,9 @@ namespace Library {
 
 		GLFWwindow * mWindow;
 
-		std::vector<OpenGLShader> mShaders;
-		std::vector<OpenGLTexture> mTextures;
-		std::vector<OpenGLRenderBuffer> mBuffers;
+		std::vector<OpenGLShader*> mShaders;
+		std::vector<OpenGLTexture*> mTextures;
+		std::vector<OpenGLRenderBuffer*> mBuffers;
 	};
 
 }

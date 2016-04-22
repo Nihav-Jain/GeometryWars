@@ -23,6 +23,18 @@ namespace Library {
 
 	OpenGLRenderDevice::~OpenGLRenderDevice()
 	{
+		for (auto ptr : mShaders) {
+			delete ptr;
+		}
+
+		for (auto ptr : mBuffers) {
+			delete ptr;
+		}
+
+		for (auto ptr : mTextures) {
+			delete ptr;
+		}
+
 		glfwDestroyWindow(mWindow);
 		glfwTerminate();
 	}
@@ -60,9 +72,10 @@ namespace Library {
 
 	Texture * OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
 	{
-		mTextures.emplace_back();
-		mTextures.back().Init(imagePath);
-		return &mTextures.back();
+		OpenGLTexture * texture = new OpenGLTexture();
+		texture->Init(imagePath);
+		mTextures.push_back(texture);
+		return texture;
 	}
 
 	void OpenGLRenderDevice::Invalid()
@@ -73,9 +86,10 @@ namespace Library {
 
 	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
 	{
-		mShaders.emplace_back();
-		mShaders.back().Init(vPath, fPath);
-		return &mShaders.back();
+		OpenGLShader * shader = new OpenGLShader();
+		shader->Init(vPath, fPath);
+		mShaders.push_back(shader);
+		return shader;
 	}
 
 	void OpenGLRenderDevice::Draw()
@@ -88,8 +102,9 @@ namespace Library {
 
 	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride)
 	{
-		mBuffers.emplace_back();
-		mBuffers.back().Init(data, size, stride);
-		return &mBuffers.back();
+		OpenGLRenderBuffer * buffer = new OpenGLRenderBuffer();
+		buffer->Init(data, size, stride);
+		mBuffers.push_back(buffer);
+		return buffer;
 	}
 }
