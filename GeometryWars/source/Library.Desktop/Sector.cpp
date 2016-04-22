@@ -134,6 +134,16 @@ namespace Library
 		}
 
 		Datum& entities = Entities();
+		for (i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			if (entity->IsPendingDestroy())
+			{
+				delete entity;
+				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
+			}
+		}
+
 		// size is cached so that if an ActionCreateEntity is encountered, the new Entities Update method is not called in this frame
 		// similarly, ActionDestroyEntity will not destroy the entity immediately, it will do it on the next frame update
 		std::uint32_t size = entities.Size();

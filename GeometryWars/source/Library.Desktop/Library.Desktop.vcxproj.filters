@@ -186,6 +186,9 @@
     <ClInclude Include="ActionCreateEntity.h">
       <Filter>Kernel\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="ActionDestroyEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -347,6 +350,9 @@
       <Filter>Kernel\Graphic\opengl</Filter>
     </ClCompile>
     <ClCompile Include="ActionCreateEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionDestroyEntity.cpp">
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
   </ItemGroup>

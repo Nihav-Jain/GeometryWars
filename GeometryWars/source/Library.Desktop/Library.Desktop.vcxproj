@@ -202,6 +202,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionCreateEntity.h" />
+    <ClInclude Include="ActionDestroyEntity.h" />
     <ClInclude Include="ActionEvent.h" />
     <ClInclude Include="ActionExpression.h" />
     <ClInclude Include="ActionIfThenElse.h" />
@@ -275,6 +276,7 @@
     </ClCompile>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionCreateEntity.cpp" />
+    <ClCompile Include="ActionDestroyEntity.cpp" />
     <ClCompile Include="ActionEvent.cpp" />
     <ClCompile Include="ActionExpression.cpp" />
     <ClCompile Include="ActionIfThenElse.cpp" />

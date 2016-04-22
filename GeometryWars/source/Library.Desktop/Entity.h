@@ -94,12 +94,16 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState);
 
+		bool IsPendingDestroy() const;
+		void MarkForDestroy(WorldState& worldState);
+
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
 		static const std::string ATTRIBUTE_ACTIONS;
 
 	private:
 		std::string mName;
+		bool mIsPendingDestroy;
 	};
 
 #define CONCRETE_ENTITY_FACTORY(ConcreteEntityType) CONCRETE_FACTORY(ConcreteEntityType, Entity);

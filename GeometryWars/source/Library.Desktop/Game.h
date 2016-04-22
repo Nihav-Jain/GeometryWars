@@ -23,6 +23,7 @@
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
 #include "ActionCreateEntity.h"
+#include "ActionDestroyEntity.h"
 
 #include "ActionEvent.h"
 #include "Reaction.h"
@@ -153,7 +154,8 @@ namespace Library
 		ActionExpressionFactory mActionExpressionFactory;
 		ActionEventFactory mActionEventFactory;
 		ReactionAttributedFactory mReactionFactory;
-		ActionCreateEntityFactory mCreateActionFactory;
+		ActionCreateEntityFactory mCreateEntityFactory;
+		ActionDestroyEntityFactory mDestroyEntityFactory;
 	};
 }
 
