@@ -239,6 +239,35 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(sector2Entity->operator[]("position").Get<glm::vec4>() == glm::vec4(50, 0, 0, 0));
 		}
 
+		TEST_METHOD(EntityTestSameNameEntities)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_multi_entity_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			
+			Vector<Entity*> listOfEntities = sector->FindAllEntities("actor");
+			Assert::AreEqual(2U, listOfEntities.Size());
+
+			Datum* intResult = listOfEntities[0]->Find("intResult");
+			Assert::IsNotNull(intResult);
+			Assert::AreEqual(0, intResult->Get<std::int32_t>());
+
+			Datum* floatResult = listOfEntities[1]->Find("floatResult");
+			Assert::IsNotNull(floatResult);
+			Assert::AreEqual(0.0f, floatResult->Get<std::float_t>());
+
+			game.Update();
+
+			Assert::AreEqual(100, intResult->Get<std::int32_t>());
+			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

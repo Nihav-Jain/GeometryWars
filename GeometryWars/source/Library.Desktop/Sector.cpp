@@ -15,7 +15,6 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
-		//AddNestedScope(World::ATTRIBUTE_BEGIN_PLAY);
 	}
 	
 	const std::string& Sector::Name() const
@@ -55,12 +54,25 @@ namespace Library
 		const Datum& entities = Entities();
 		for (std::uint32_t i = 0; i < entities.Size(); i++)
 		{
-			Entity* entity = entities.Get<Scope>(i).As<Entity>();
-			assert(entity != nullptr);
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->Name() == entityName)
 				return entity;
 		}
 		return nullptr;
+	}
+
+	Vector<Entity*> Sector::FindAllEntities(const std::string& entityName) const
+	{
+		Vector<Entity*> listOfEntities;
+
+		const Datum& entities = Entities();
+		for (std::uint32_t i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			if (entity->Name() == entityName)
+				listOfEntities.PushBack(entity);
+		}
+		return listOfEntities;
 	}
 
 	Datum& Sector::Actions()
