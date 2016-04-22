@@ -31,6 +31,7 @@ namespace Library
 		mParseMaster.AddHelper(mActionWhile);
 		mParseMaster.AddHelper(mActionWhileLoop);
 
+		mParseMaster.AddHelper(mActionBeginPlay);
 		mParseMaster.AddHelper(mSpriteParser);
 		mParseMaster.AddHelper(mImageParser);
 	}
