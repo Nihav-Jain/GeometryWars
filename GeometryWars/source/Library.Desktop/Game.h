@@ -16,11 +16,14 @@
 #include "Sector.h"
 #include "Entity.h"
 #include "Action.h"
+
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
+#include "ActionCreateEntity.h"
+
 #include "ActionEvent.h"
 #include "Reaction.h"
 #include "ReactionAttributed.h"
@@ -150,6 +153,7 @@ namespace Library
 		ActionExpressionFactory mActionExpressionFactory;
 		ActionEventFactory mActionEventFactory;
 		ReactionAttributedFactory mReactionFactory;
+		ActionCreateEntityFactory mCreateActionFactory;
 	};
 }
 
