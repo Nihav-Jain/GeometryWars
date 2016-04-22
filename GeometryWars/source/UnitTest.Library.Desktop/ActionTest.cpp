@@ -224,6 +224,55 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10, result->Get<std::int32_t>());
 		}
 
+		TEST_METHOD(ActionTestExpressionLiteral)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_literal_test.xml"));
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			game.Start();
+
+			Datum* result = entity->Find("intResult");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			Datum* floatResult = entity->Find("floatResult");
+			Assert::IsNotNull(floatResult);
+			Assert::AreEqual(0.0f, floatResult->Get<std::float_t>());
+
+			Datum* stringResult = entity->Find("strResult");
+			Assert::IsNotNull(stringResult);
+			Assert::IsTrue("asclkn" == stringResult->Get<std::string>());
+
+			Datum* vecResult = entity->Find("vecResult");
+			Assert::IsNotNull(vecResult);
+			Assert::IsTrue(glm::vec4(0, 0, 0, 0) == vecResult->Get<glm::vec4>());
+
+			Datum* matResult = entity->Find("matResult");
+			Assert::IsNotNull(matResult);
+			Assert::IsTrue(glm::mat4x4(0) == matResult->Get<glm::mat4>());
+
+			Datum* intResult2 = entity->Find("intResult2");
+			Assert::IsNotNull(intResult2);
+			Assert::AreEqual(0, intResult2->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(100, result->Get<std::int32_t>());
+			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
+			Assert::IsTrue("some string" == stringResult->Get<std::string>());
+			Assert::IsTrue(glm::vec4(10, 20, 30, 40) == vecResult->Get<glm::vec4>());
+			Assert::IsTrue(glm::mat4x4(10) == matResult->Get<glm::mat4>());
+			Assert::AreEqual(135, intResult2->Get<std::int32_t>());
+
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

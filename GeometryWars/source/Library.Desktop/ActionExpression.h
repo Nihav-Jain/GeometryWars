@@ -114,6 +114,7 @@ namespace Library
 		typedef Datum(ActionExpression::*Arithmetic)(Datum&, Datum&);
 		static const Hashmap<std::string, Arithmetic> mOperations;
 
+		std::uint32_t mTempVariableCounter;
 
 		/**
 		 *	trims the delimiter string from the end of given string
