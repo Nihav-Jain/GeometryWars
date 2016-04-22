@@ -201,6 +201,24 @@ namespace Library
 		// Obtain current gamepad state for all players
 		UpdateState();
 		(state);
+		std::stringstream message;
+		bool hasMessage = false;
+		for (int i = 0; i < 4; ++i)
+		{
+			if (!LStick_InDeadzone(i))
+			{
+				if(!hasMessage)
+					message << "Player " << (i + 1) << " has triggered: ";
+				message << "LeftStick_X:" << LeftStick_X(i);
+				hasMessage = true;
+			}
+		}
+
+		if (hasMessage)
+		{
+			message << "\n";
+			OutputDebugStringA(message.str().c_str());
+		}
 	}
 
 

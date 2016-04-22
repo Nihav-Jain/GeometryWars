@@ -14,9 +14,9 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TestClass.h" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionDebug.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TestClass.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionDebug.h" />
   </ItemGroup>
 </Project>

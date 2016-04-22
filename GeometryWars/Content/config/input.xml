@@ -60,10 +60,20 @@
 				</expression>
 			</action> -->
 			
+			<action class="ActionDebug" name="Debug">
+				<!--<string name="message">Hello World!</string>-->
+			
+				<expression name="modify">
+					<string name="expression">message = {"Hello World Again!"}</string>
+				</expression>
+			</action>
 			<!-- Event-Driven Button Callbacks -->
 			<reaction class="ReactionAttributed" name="OnMoveLeft">
 				<string name="subtype" value="MoveLeft"/>
 				
+				<action class="ActionDebug" name="Debug">
+					<string name="message">Hello!</string>
+				</action>
 				<expression name="modify">
 					<string name="expression">PosX = PosX - Speed</string>
 				</expression>

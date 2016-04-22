@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "InputManager.h"
+#include "ActionDebug.h"
 #include "Renderer.h"
 #include "OpenGLRenderDevice.h"
 #include "Sprite.h" // TODO just for testing
@@ -18,10 +19,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	KeyBoardHandlerFactory khf;
 	XBoxControllerHandlerFactory xchf;
+	ActionDebugFactory adf;
 
 	OutputDebugString(L"LOOK AT ME!");
 	OutputDebugStringA("HELPOPO AT ME!");
 	OutputDebugStringW(L"WORLD AT ME!");
+	game.ParseMaster().ParseFromFile("../../Content/config/input.xml");
 	game.Start();
 
 	Sprite sprite;
@@ -40,6 +43,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	while (true) { // TODO remove always true
 #pragma warning(pop) 
 		render.Update();
+		game.Update();
 		pos.x += 1;
 		sprite.SetPosition(pos);
 	}
