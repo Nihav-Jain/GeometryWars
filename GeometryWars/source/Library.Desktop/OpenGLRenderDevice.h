@@ -1,5 +1,9 @@
 #pragma once
 #include "RenderDevice.h"
+#include "OpenGLShader.h"
+#include "OpenGLTexture.h"
+#include "OpenGLRenderBuffer.h"
+#include <vector>
 
 class GLFWwindow;
 
@@ -15,22 +19,12 @@ namespace Library {
 		OpenGLRenderDevice(const OpenGLRenderDevice &) = delete;
 		OpenGLRenderDevice & operator=(const OpenGLRenderDevice &) = delete;
 
-		virtual bool IsValid() override;
-
 		void InitOpenGl();
 
 		virtual Viewport * CreateViewport() override;
-
-		virtual std::uint32_t LoadTexture(const std::string & imagePath) override;
-		virtual void UseTexture(std::uint32_t) override;
-
-		virtual std::uint32_t LoadShader(const std::string & vPath, const std::string & fPath) override;
-		virtual void UseShader(std::uint32_t) override;
-		virtual void SetShaderMatrix4(std::uint32_t id, const std::string & name, const glm::mat4 & value) override;
-		virtual void SetShaderVector4(std::uint32_t id, const std::string & name, const glm::vec4 & value) override;
-
-		virtual std::uint32_t CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride) override;
-		virtual void UseBuffer(std::uint32_t) override;
+		virtual Texture * CreateTexture(const std::string & imagePath) override;
+		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath) override;
+		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride) override;
 
 		virtual void Draw() override;
 
@@ -39,6 +33,10 @@ namespace Library {
 		virtual void Invalid() override;
 
 		GLFWwindow * mWindow;
+
+		std::vector<OpenGLShader> mShaders;
+		std::vector<OpenGLTexture> mTextures;
+		std::vector<OpenGLRenderBuffer> mBuffers;
 	};
 
 }

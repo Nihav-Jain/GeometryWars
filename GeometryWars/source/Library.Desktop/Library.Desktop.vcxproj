@@ -223,8 +223,12 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IEventSubscriber.h" />
+    <ClInclude Include="OpenGLRenderBuffer.h" />
     <ClInclude Include="OpenGLRenderDevice.h" />
+    <ClInclude Include="OpenGLShader.h" />
+    <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="Renderable.h" />
+    <ClInclude Include="RenderBuffer.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
@@ -234,10 +238,12 @@
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scope.h" />
     <ClInclude Include="Sector.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="SharedDataTable.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stack.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="World.h" />
@@ -284,7 +290,11 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="OpenGLRenderBuffer.cpp" />
     <ClCompile Include="OpenGLRenderDevice.cpp" />
+    <ClCompile Include="OpenGLShader.cpp" />
+    <ClCompile Include="OpenGLTexture.cpp" />
+    <ClCompile Include="RenderBuffer.cpp" />
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -297,8 +307,10 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
