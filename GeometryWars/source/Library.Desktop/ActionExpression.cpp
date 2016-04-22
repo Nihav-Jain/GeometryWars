@@ -41,7 +41,7 @@ namespace Library
 	Hashmap<std::string, ActionExpression::FunctionDefinition> ActionExpression::mDefinedFunctions;
 
 	ActionExpression::ActionExpression() :
-		mPostfixExpression(nullptr)
+		mPostfixExpression(nullptr), mTempVariableCounter(0)
 	{
 		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
 		
@@ -100,6 +100,7 @@ namespace Library
 		return mDefinedFunctions.ContainsKey(functionName);
 	}
 
+	// https://en.wikipedia.org/wiki/Shunting-yard_algorithm#The_algorithm_in_detail
 	void ActionExpression::ConvertExpressionToPostfix()
 	{
 		std::string& expression = (*this)[ATTRIBUTE_EXPRESSION].Get<std::string>();
@@ -108,7 +109,7 @@ namespace Library
 			Stack<std::string> operatorStack;
 			mPostfixExpression = new SList<std::string>();
 
-			std::string allOperators = "(),=-+*/&|<>!";
+			std::string allOperators = "(){},=-+*/&|<>!";
 			std::string trimDelimiter = " \f\n\r\t\v";
 			std::uint32_t indexOfComma = (std::uint32_t)allOperators.find(',');
 
@@ -143,6 +144,51 @@ namespace Library
 						currentOperator.push_back(expression.at(pos));
 					}
 					assert(mOperatorPrecedence.ContainsKey(currentOperator));
+				}
+
+				if (currentOperator == "{")
+				{
+					prev = pos + 1;
+					pos = (std::uint32_t)expression.find("}", prev);
+					std::string literal = expression.substr(prev, pos - prev);
+					std::string tempName = std::string("temp" + std::to_string(mTempVariableCounter));
+					Datum& tempLiteral = AppendAuxiliaryAttribute(tempName);
+
+					std::uint32_t quote = (std::uint32_t)literal.find("\"");
+					if (quote != std::string::npos)
+					{
+						std::uint32_t endQuote = (std::uint32_t)literal.find_last_of("\"");
+						assert(endQuote != std::string::npos);
+						literal = literal.substr(quote + 1, endQuote - quote - 1);
+						tempLiteral.SetType(Datum::DatumType::STRING);
+					}
+					else if (literal.find("vec4") != std::string::npos)
+					{
+						tempLiteral.SetType(Datum::DatumType::VECTOR4);
+					}
+					else if (literal.find("mat4x4") != std::string::npos)
+					{
+						tempLiteral.SetType(Datum::DatumType::MATRIX4x4);
+					}
+					else if (literal.find(".") != std::string::npos)
+					{
+						tempLiteral.SetType(Datum::DatumType::FLOAT);
+					}
+					else if (literal == "true" || literal == "false")
+					{
+						tempLiteral.SetType(Datum::DatumType::BOOLEAN);
+					}
+					else
+					{
+						tempLiteral.SetType(Datum::DatumType::INTEGER);
+					}
+
+					tempLiteral.SetFromString(literal, 0);
+					mPostfixExpression->PushBack(tempName);
+
+					mTempVariableCounter++;
+					prev = pos + 1;
+					continue;
 				}
 
 				if (currentOperator == ",")

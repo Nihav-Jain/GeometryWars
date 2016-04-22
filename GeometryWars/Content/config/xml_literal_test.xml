@@ -1,0 +1,42 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+
+			<integer name="intResult" value="0"/>
+			<expression name="exp1">
+				<string name="expression">intResult = {100}</string>
+			</expression>
+
+			<float name="floatResult" value="0"/>
+			<expression name="exp2">
+				<string name="expression">floatResult = {10.12}</string>
+			</expression>
+			
+			<string name="strResult" value="asclkn"/>
+			<expression name="exp3">
+				<string name="expression">strResult = {"some string"}</string>
+			</expression>
+			
+			<vector name="vecResult" value="vec4(0, 0, 0, 0)"/>
+			<expression name="exp4">
+				<string name="expression">vecResult = {vec4(10, 20, 30, 40)}</string>
+			</expression>
+			
+			<matrix name="matResult" value="mat4x4((0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0))"/>
+			<expression name="exp5">
+				<string name="expression">matResult = {mat4x4((10, 0, 0, 0), (0, 10, 0, 0), (0, 0, 10, 0), (0, 0, 0, 10))}</string>
+			</expression>
+
+			<expression name="exp5">
+				<string name="expression">matResult = {mat4x4((10, 0, 0, 0), (0, 10, 0, 0), (0, 0, 10, 0), (0, 0, 0, 10))}</string>
+			</expression>
+
+			<integer name="anotherInt" value="25"/>
+			<integer name="intResult2" value="0"/>
+			<expression name="exp6">
+				<string name="expression">intResult2 = intResult + {10} + anotherInt</string>
+			</expression>
+
+		</entity>		
+	</sector>	
+</world>
