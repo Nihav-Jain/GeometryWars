@@ -85,13 +85,13 @@ namespace Library {
 		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
 
 		float vertices[] = {
-			0.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f,
+			-0.5f, 0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, 1.0f, 0.0f,
+			-0.5f, -0.5f, 0.0f, 0.0f,
 
-			0.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 1.0f, 1.0f,
-			1.0f, 0.0f, 1.0f, 0.0f
+			-0.5f, 0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, 1.0f, 1.0f,
+			0.5f, -0.5f, 1.0f, 0.0f
 		};
 
 		mBuffer = device->CreateBuffer(vertices, sizeof(vertices), 4 * sizeof(float));
