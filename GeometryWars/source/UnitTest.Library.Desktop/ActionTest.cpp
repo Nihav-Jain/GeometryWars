@@ -76,6 +76,10 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(worldResult);
 			Assert::AreEqual(0, worldResult->Get<std::int32_t>());
 
+			Datum* appendString = entity->Find("appendString");
+			Assert::IsNotNull(appendString);
+			Assert::IsTrue("somestring" == appendString->Get<std::string>());
+
 			game.Update();
 
 			Datum* result = entity->Find("result");
@@ -92,6 +96,8 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(*someVector == glm::vec4(20, 40, 60, 80));
 			Assert::AreEqual(3, worldResult->Get<std::int32_t>());
+
+			Assert::IsTrue(appendString->Get<std::string>() == "somestring = 10");
 		}
 
 		TEST_METHOD(ActionTestIfThenElse)

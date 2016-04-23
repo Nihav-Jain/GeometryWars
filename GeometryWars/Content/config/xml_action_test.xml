@@ -39,7 +39,12 @@
 			<integer name="xyz" value="10"/>
 			<integer name="result" value="0"/>
 			<integer name="result2" value="0"/>
-			
+
+			<string name="appendString" value="somestring"/>
+			<expression name="appendExp">
+				<string name="expression">appendString = appendString + {" = "} + abc</string>
+			</expression>
+
 			<expression name="exp1">
 				<string name="expression">result = switchInteger + abc - C</string>
 			</expression>
