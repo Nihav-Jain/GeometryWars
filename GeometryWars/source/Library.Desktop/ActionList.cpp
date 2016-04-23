@@ -35,8 +35,11 @@ namespace Library
 		{
 			Action* action = actions.Get<Scope>(i).As<Action>();
 			assert(action != nullptr);
-			worldState.action = action;
-			action->Update(worldState);
+			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
+			{
+				worldState.action = action;
+				action->Update(worldState);
+			}
 		}
 	}
 }

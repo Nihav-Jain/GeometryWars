@@ -74,8 +74,11 @@ namespace Library
 		for (i = 0; i < actions.Size(); i++)
 		{
 			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
-			worldState.action = action;
-			action->Update(worldState);
+			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
+			{
+				worldState.action = action;
+				action->Update(worldState);
+			}
 		}
 	}
 

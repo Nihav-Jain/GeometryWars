@@ -341,6 +341,35 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNull(anotherEntity);
 		}
 
+		TEST_METHOD(ActionTestCanEverTick)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_canevertick_test.xml"));
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			game.Start();
+
+			Datum* result = entity->Find("intResult");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			Datum* floatResult = entity->Find("floatResult");
+			Assert::IsNotNull(floatResult);
+			Assert::AreEqual(0.0f, floatResult->Get<std::float_t>());
+
+			game.Update();
+
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
+
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

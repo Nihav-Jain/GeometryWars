@@ -80,8 +80,9 @@ namespace Library
 		{
 			if (currentAction->operator[](i).Size() < 1 )
 			{
+				const Scope::SymbolPair& pair = currentAction->GetPair(i);
 				std::stringstream str;
-				str << "Prescribed Attribute #" << i << " of instance " << currentAction->Name() << " not initialized.";
+				str << "Prescribed Attribute " << pair.first << " of instance " << currentAction->Name() << " not initialized.";
 				throw std::exception(str.str().c_str());
 			}
 		}

@@ -114,6 +114,10 @@ namespace Library
 		static const std::string ATTRIBUTE_NAME;
 
 	private:
+		void UpdateSectorActions(WorldState& worldState);
+		void DeletePendingDestroyEntities();
+		void UpdateSectorEntities(WorldState& worldState);
+
 		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
 
 		std::string mName;

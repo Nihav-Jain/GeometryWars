@@ -132,15 +132,34 @@ namespace Library
 
 	void Sector::Update(WorldState& worldState)
 	{
+		UpdateSectorActions(worldState);
+		DeletePendingDestroyEntities();
+		UpdateSectorEntities(worldState);
+	}
+
+	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
+	{
+		return mEntityListByType[typeId];
+	}
+
+	void Sector::UpdateSectorActions(WorldState& worldState)
+	{
 		Datum& actions = Actions();
 		std::uint32_t i;
 		for (i = 0; i < actions.Size(); i++)
 		{
 			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
-			worldState.action = action;
-			action->Update(worldState);
+			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
+			{
+				worldState.action = action;
+				action->Update(worldState);
+			}
 		}
+	}
 
+	void Sector::DeletePendingDestroyEntities()
+	{
+		std::uint32_t i;
 		Datum& entities = Entities();
 		for (i = 0; i < entities.Size(); i++)
 		{
@@ -151,7 +170,12 @@ namespace Library
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
 			}
 		}
+	}
 
+	void Sector::UpdateSectorEntities(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& entities = Entities();
 		// size is cached so that if an ActionCreateEntity is encountered, the new Entities Update method is not called in this frame
 		// similarly, ActionDestroyEntity will not destroy the entity immediately, it will do it on the next frame update
 		std::uint32_t size = entities.Size();
@@ -161,11 +185,6 @@ namespace Library
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}
-	}
-
-	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
-	{
-		return mEntityListByType[typeId];
 	}
 
 	void Sector::AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId)
