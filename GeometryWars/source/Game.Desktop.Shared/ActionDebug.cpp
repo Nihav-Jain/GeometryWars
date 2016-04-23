@@ -6,12 +6,13 @@ namespace Library {
 	RTTI_DEFINITIONS(ActionDebug)
 	ActionDebug::ActionDebug() : mMessage() 
 	{
-		AddExternalAttribute("message", 1, &mMessage);
+		AddInternalAttribute("message","", 1);
+		mMessage = &((*this)["message"].Get<std::string>());
 	}
 	ActionDebug::~ActionDebug() {}
 	void ActionDebug::Update(WorldState & state) 
 	{
 		ActionList::Update(state);
-		OutputDebugStringA(mMessage.c_str());
+		OutputDebugStringA((*this)["message"].Get<std::string>().c_str());
 	}
 }

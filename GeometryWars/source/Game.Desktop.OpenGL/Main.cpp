@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	OutputDebugString(L"LOOK AT ME!");
 	OutputDebugStringA("HELPOPO AT ME!");
 	OutputDebugStringW(L"WORLD AT ME!");
-	game.ParseMaster().ParseFromFile("../../Content/config/input.xml");
+	game.ParseMaster().ParseFromFile("Content/config/input.xml");
 	game.Start();
 
 	Sprite sprite;

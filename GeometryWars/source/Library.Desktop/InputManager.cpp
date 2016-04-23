@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "InputManager.h"
+#include "Event.h"
+#include "Datum.h"
+#include "EventMessageAttributed.h"
 #include <winerror.h>
 
 #pragma once
@@ -13,10 +16,61 @@ namespace Library
 	**************************/
 	RTTI_DEFINITIONS(InputHandler)
 
+	const std::string InputHandler::ATTR_BUTTON_MAP = "ButtonMapping";
+	const std::string InputHandler::sIOEventTypeToString[] = { "PlayerConnected", "PlayerDisconnected" };
+
+	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
+	{
+		return sIOEventTypeToString[static_cast<std::int32_t>(type)];
+	}
+
+
 	InputHandler::InputHandler()
 	{
-		// HashMap (hence Scope) which maps the Event's Subtype with the Buttons
-		AddNestedScope("ButtonMapping");
+		// XML-Define Button Mapping which maps the Event's Subtype with the Buttons
+		AddNestedScope(ATTR_BUTTON_MAP);
+	}
+
+	Scope& InputHandler::GetButtonMapping()
+	{
+		Datum* buttonMappingDatum = Find(ATTR_BUTTON_MAP);
+		assert(buttonMappingDatum != nullptr && buttonMappingDatum->Type() == Datum::DatumType::TABLE);
+		return buttonMappingDatum->Get<Scope>();
+	}
+
+	void InputHandler::SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* buttonMap)
+	{
+		// Test if ButtonMapping is passed in (for the purpose of speed)
+		if (buttonMap == nullptr)
+		{
+			buttonMap = &(GetButtonMapping());
+		}
+
+		// Set Subtype based on Button Mapping
+		Datum& subTypeForEvent = (*buttonMap)[buttonEventName];
+		// Set Message's WorldState
+		message.SetWorldState(state);
+
+		// Send Event for Every Event Name mapped to this button
+		for (std::uint32_t i = 0; i < subTypeForEvent.Size(); ++i)
+		{
+			// Set SubType based on Event Names in ButtonMapping scope
+			message.SetSubtype(subTypeForEvent.Get<std::string>(i));
+			// Send Event
+			std::shared_ptr<Event<EventMessageAttributed>> buttonChangeEvent = std::make_shared<Event<EventMessageAttributed>>(message);
+			state.world->GetEventQueue().Send(buttonChangeEvent);
+		}
+	}
+
+	void InputHandler::SendIOEvent(const EIOEventType & eventType, WorldState& state, EventMessageAttributed & message)
+	{
+		// Set Subtype based on IOEventType
+		message.SetSubtype(GetIOEventType(eventType));
+		// Set Message's WorldState
+		message.SetWorldState(state);
+		// Send Event
+		std::shared_ptr<Event<EventMessageAttributed>> buttonChangeEvent = std::make_shared<Event<EventMessageAttributed>>(message);
+		state.world->GetEventQueue().Send(buttonChangeEvent);
 	}
 
 	/*************************
@@ -24,9 +78,6 @@ namespace Library
 	**************************/
 	RTTI_DEFINITIONS(KeyBoardHandler)
 
-	void KeyBoardHandler::Initialize()
-	{
-	}
 	void KeyBoardHandler::Update(WorldState& state)
 	{
 		(state);
@@ -36,16 +87,32 @@ namespace Library
 	**	XBox Controller CPP	**
 	**************************/
 	RTTI_DEFINITIONS(XBoxControllerHandler)
+
+	Hashmap<std::string, std::int32_t> XBoxControllerHandler::XBoxButtonMapping({
+		std::pair<std::string, std::int32_t>("A",				XINPUT_GAMEPAD_A),
+		std::pair<std::string, std::int32_t>("B",				XINPUT_GAMEPAD_B),
+		std::pair<std::string, std::int32_t>("X",				XINPUT_GAMEPAD_X),
+		std::pair<std::string, std::int32_t>("Y",				XINPUT_GAMEPAD_Y),
+		std::pair<std::string, std::int32_t>("DPAD_UP",			XINPUT_GAMEPAD_DPAD_UP),
+		std::pair<std::string, std::int32_t>("DPAD_DOWN",		XINPUT_GAMEPAD_DPAD_DOWN),
+		std::pair<std::string, std::int32_t>("DPAD_LEFT",		XINPUT_GAMEPAD_DPAD_LEFT),
+		std::pair<std::string, std::int32_t>("DPAD_RIGHT",		XINPUT_GAMEPAD_DPAD_RIGHT),
+		std::pair<std::string, std::int32_t>("LEFT_SHOULDER",	XINPUT_GAMEPAD_LEFT_SHOULDER),
+		std::pair<std::string, std::int32_t>("RIGHT_SHOULDER",	XINPUT_GAMEPAD_RIGHT_SHOULDER),
+		std::pair<std::string, std::int32_t>("LEFT_THUMB",		XINPUT_GAMEPAD_LEFT_THUMB),
+		std::pair<std::string, std::int32_t>("RIGHT_THUMB",		XINPUT_GAMEPAD_RIGHT_THUMB),
+		std::pair<std::string, std::int32_t>("START",			XINPUT_GAMEPAD_START),
+		std::pair<std::string, std::int32_t>("BACK",			XINPUT_GAMEPAD_BACK)
+	});
 	
 	XBoxControllerHandler::XBoxControllerHandler()
 	{
 		// Expose bIsPlayersConnected to the XML
 		AddExternalAttribute("IsPlayersConnected", 4, bIsPlayersConnected);
+		// NOTE: Exposing the State of the Button will be for future iterations
 	}
 
-	XBoxControllerHandler::~XBoxControllerHandler()
-	{
-	}
+	XBoxControllerHandler::~XBoxControllerHandler()	{}
 
 	bool XBoxControllerHandler::IsConnected(std::int32_t player)
 	{
@@ -169,55 +236,86 @@ namespace Library
 		// Set the vibration state for that player
 		XInputSetState(player, &VibrationState);
 	}
-
-	void XBoxControllerHandler::UpdateState()
+	
+	bool XBoxControllerHandler::GetButtonPressed(std::int32_t player, std::string button)
 	{
-		// Get the State of ALL Players (if any)
-		bool isConnected = false;
-		for (int i = 0; i < 4; ++i)
-		{
-			// Zero memory
-			RtlSecureZeroMemory(&mState[i], sizeof(XINPUT_STATE));
-
-			// Get the state of the gamepad
-			DWORD Result = XInputGetState(i, &mState[i]);
-
-			// Update Connections
-			bIsPlayersConnected[i] = (Result == ERROR_SUCCESS);
-			isConnected = isConnected || (Result == ERROR_SUCCESS);
-		}
-
-		if (isConnected)
-		{
-
-		}
+		// Compare Gamepad's button bits to see if the button of choice got pressed
+		return ((mState[player].Gamepad.wButtons & XBoxButtonMapping[button]) != 0);
 	}
-
-	void XBoxControllerHandler::Initialize()
-	{}
 
 	void XBoxControllerHandler::Update(WorldState& state)
 	{
-		// Obtain current gamepad state for all players
-		UpdateState();
-		(state);
-		std::stringstream message;
-		bool hasMessage = false;
+		// Obtain Current XBox Controller State for All Players
+		XINPUT_STATE currentState[4];
+		bool currentPlayersConnected[4];
 		for (int i = 0; i < 4; ++i)
 		{
-			if (!LStick_InDeadzone(i))
+			// Zero memory
+			RtlSecureZeroMemory(&currentState[i], sizeof(XINPUT_STATE));
+
+			// Get the state of the gamepad
+			DWORD Result = XInputGetState(i, &currentState[i]);
+
+			// Update Connections
+			currentPlayersConnected[i] = (Result == ERROR_SUCCESS);
+		}
+
+		// Test For Events (Button Changes, Player Connection Changes, etc.)
+		Scope& ButtonMapping = GetButtonMapping();
+		for (int player = 0; player < 4; ++player)
+		{
+			// State of Player connection changed
+			if (bIsPlayersConnected[player] != currentPlayersConnected[player])
 			{
-				if(!hasMessage)
-					message << "Player " << (i + 1) << " has triggered: ";
-				message << "LeftStick_X:" << LeftStick_X(i);
-				hasMessage = true;
+				// Player's Connection State Changed, Send Event
+				EventMessageAttributed message;
+				message.AppendAuxiliaryAttribute("PlayerNumber") = player;
+					
+				// Determine whether event is connection gain or lost
+				EIOEventType type = (currentPlayersConnected[player]) ? EIOEventType::PLAYER_CONNECTED : EIOEventType::PLAYER_DISCONNECTED;
+
+				// Send Player Connection Change Event
+				SendIOEvent(type, state, message);
+			}
+
+			// Terminate Event Checks for player if player is not connected
+			if (!currentPlayersConnected[player])
+			{
+				continue;
+			}
+
+			// Detect Changes for the Button states between Frames
+			// Note:	wButton is a WORD that represents a boolean array for button states
+			//			XOR between previous and current state will result in marking only the bits of the buttons that changed
+			WORD buttonStateChanges = (mState[player].Gamepad.wButtons ^ currentState[player].Gamepad.wButtons);
+
+			//  Quickly Check for Button Changes (0 if no button has changed)
+			if (buttonStateChanges)
+			{
+				// Loop through all Buttons and their button states
+				for (auto& buttonPair : XBoxButtonMapping)
+				{
+					// Check if Button has changed since last frame
+					if (buttonStateChanges & buttonPair.second)
+					{
+						bool isButtonPressed = ((currentState[player].Gamepad.wButtons & buttonPair.second) != 0);
+
+						// Button State Changed, Enqueue Button changed event
+						EventMessageAttributed message;
+						message.AppendAuxiliaryAttribute("PlayerNumber") = player;	// Store Player Number
+						message.AppendAuxiliaryAttribute("IsButtonPressed") = isButtonPressed;
+
+						SendButtonEvent(buttonPair.first, state, message, &ButtonMapping);
+					}
+				}
 			}
 		}
 
-		if (hasMessage)
+		// Update All Current Results
+		for (int player = 0; player < 4; ++player)
 		{
-			message << "\n";
-			OutputDebugStringA(message.str().c_str());
+			mState[player] = currentState[player];
+			bIsPlayersConnected[player] = currentPlayersConnected[player];
 		}
 	}
 
