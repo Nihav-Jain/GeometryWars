@@ -46,11 +46,11 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		for (auto& pair : mEntityListByType)
-		{
-			if (entity->Is(pair.first))
-				pair.second.PushBack(entity);
-		}
+		//for (auto& pair : mEntityListByType)
+		//{
+		//	if (entity->Is(pair.first))
+		//		pair.second.PushBack(entity);
+		//}
 		if(!mEntityListByType.ContainsKey(entity->TypeIdInstance()))
 			mEntityListByType[entity->TypeIdInstance()].PushBack(entity);
 
@@ -166,6 +166,7 @@ namespace Library
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->IsPendingDestroy())
 			{
+				mEntityListByType[entity->TypeIdInstance()].Remove(entity);
 				delete entity;
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
 			}
