@@ -355,6 +355,7 @@
     <ClCompile Include="ActionDestroyEntity.cpp">
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="RTTI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
