@@ -47,11 +47,39 @@ namespace Library
 		
 		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum>& params)
 		{
-			assert(params.Size() >= 2);
+			assert(params.Size() == 2);
 			Datum result;
 			result = ( (params[0] >= params[1]).Get<bool>() ) ? params[0] : params[1];
 			return result;
 		} ));
+
+		mDefinedFunctions.Insert("array", FunctionDefinition(2, [](const Vector<Datum>& params)
+		{
+			assert(params.Size() == 2);
+			Datum result;
+			std::int32_t index = params[1].Get<std::int32_t>();
+			switch (params[0].Type())
+			{
+			case Datum::DatumType::INTEGER:
+				result = params[0].Get<std::int32_t>(index);
+				break;
+			case Datum::DatumType::FLOAT:
+				result = params[0].Get<std::float_t>(index);
+				break;
+			case Datum::DatumType::STRING:
+				result = params[0].Get<std::string>(index);
+				break;
+			case Datum::DatumType::VECTOR4:
+				result = params[0].Get<glm::vec4>(index);
+				break;
+			case Datum::DatumType::MATRIX4x4:
+				result = params[0].Get<glm::mat4x4>(index);
+				break;
+			default:
+				break;
+			}
+			return result;
+		}));
 
 		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
