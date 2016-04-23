@@ -203,6 +203,7 @@ namespace Library
 
 		Traversor AddVertex(const T& vertexData);
 		Traversor AddVertex(T& vertexData, Traversor& parentVertex);
+		Traversor AddParentVertex(T& vertexData, Traversor& childVertex);
 		void CreateEdge(Traversor& tailVertex, Traversor& headVertex);
 
 		Traversor Begin() const;

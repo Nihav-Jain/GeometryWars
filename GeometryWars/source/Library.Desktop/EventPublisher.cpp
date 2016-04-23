@@ -5,7 +5,7 @@ namespace Library
 {
 	using namespace std::chrono;
 
-	RTTI_DEFINITIONS(EventPublisher);
+	RTTI_DEFINITIONS(EventPublisher, RTTI);
 
 	EventPublisher::EventPublisher(const Vector<IEventSubscriber*>& subscriberList) :
 		mSubscriberList(&subscriberList), mTimeEnqueued(), mDelay()

@@ -4,7 +4,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Sector);
+	RTTI_DEFINITIONS(Sector, Attributed);
 
 	const std::string Sector::ATTRIBUTE_ENTITIES = "entities";
 	const std::string Sector::ATTRIBUTE_NAME = "name";

@@ -99,7 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.DirectX\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.DirectX\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -159,7 +159,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.DirectX\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -192,7 +192,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.DirectX\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>

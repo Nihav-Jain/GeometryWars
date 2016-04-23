@@ -6,7 +6,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Entity);
+	RTTI_DEFINITIONS(Entity, Attributed);
 
 	const std::uint32_t Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
 	const std::string Entity::ATTRIBUTE_NAME = "name";

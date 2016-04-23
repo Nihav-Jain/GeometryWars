@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionExpression);
+	RTTI_DEFINITIONS(ActionExpression, Action);
 
 	const std::string ActionExpression::ATTRIBUTE_EXPRESSION = "expression";
 	const Hashmap<std::string, std::uint32_t> ActionExpression::mOperatorPrecedence = {

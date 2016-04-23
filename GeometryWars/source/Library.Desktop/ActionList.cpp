@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionList);
+	RTTI_DEFINITIONS(ActionList, Action);
 
 	const std::string ActionList::ATTRIBUTE_ACTIONS = "actions";
 

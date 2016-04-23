@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Action);
+	RTTI_DEFINITIONS(Action, Attributed);
 
 	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 2;
 	const std::string Action::ATTRIBUTE_NAME = "name";

@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionIfThenElse);
+	RTTI_DEFINITIONS(ActionIfThenElse, ActionList);
 
 	const std::string ActionIfThenElse::ATTRIBUTE_CONDITIONAL_EXP = "condition";
 	const std::string ActionIfThenElse::ATTRIBUTE_THEN = "then";

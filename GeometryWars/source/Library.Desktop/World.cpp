@@ -4,7 +4,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(World);
+	RTTI_DEFINITIONS(World, Attributed);
 
 	const std::string World::ATTRIBUTE_NAME_SECTOR = "sectors";
 	const std::string World::ATTRIBUTE_NAME = "name";

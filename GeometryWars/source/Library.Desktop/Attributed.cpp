@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Attributed);
+	RTTI_DEFINITIONS(Attributed, Scope);
 
 	Attributed::Attributed()
 	{

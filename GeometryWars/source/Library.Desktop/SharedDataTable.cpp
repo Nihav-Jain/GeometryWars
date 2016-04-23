@@ -4,7 +4,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(SharedDataTable);
+	RTTI_DEFINITIONS(SharedDataTable, XmlParseMaster::SharedData);
 
 	//Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
 

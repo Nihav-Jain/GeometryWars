@@ -11,7 +11,7 @@
 
 namespace Library {
 
-	RTTI_DEFINITIONS(Sprite);
+	RTTI_DEFINITIONS(Sprite, Attributed);
 
 	const std::uint32_t Sprite::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 2;
 	const std::string Sprite::ATTRIBUTE_POSITION = "position";

@@ -2,7 +2,7 @@
 #include "FooRTTI.h"
 using namespace Library;
 
-RTTI_DEFINITIONS(FooRTTI);
+RTTI_DEFINITIONS(FooRTTI, RTTI);
 
 FooRTTI::FooRTTI(int data) :
 	mData(data), mPointerData(new int(data))

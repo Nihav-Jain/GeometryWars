@@ -8,7 +8,7 @@ namespace Library
 
 	template<typename T>
 	Graph<T>::Graph() :
-		mVertexList(), mEdgeList()
+		mVertexList(0), mEdgeList(0)
 	{}
 
 	template<typename T>
@@ -30,6 +30,15 @@ namespace Library
 	{
 		Vertex& newVertex = **(mVertexList.PushBack(new Vertex(vertexData)));
 		CreateEdge(newVertex, *parentVertex.mCurrentVertex);
+		Traversor currentVertexTraversor(newVertex, this);
+		return currentVertexTraversor;
+	}
+
+	template<typename T>
+	typename Graph<T>::Traversor Graph<T>::AddParentVertex(T& vertexData, Traversor& childVertex)
+	{
+		Vertex& newVertex = **(mVertexList.PushBack(new Vertex(vertexData)));
+		CreateEdge(*childVertex.mCurrentVertex, newVertex);
 		Traversor currentVertexTraversor(newVertex, this);
 		return currentVertexTraversor;
 	}
