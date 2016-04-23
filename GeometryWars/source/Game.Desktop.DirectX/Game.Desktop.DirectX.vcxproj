@@ -107,7 +107,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -136,7 +136,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -169,7 +169,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -202,7 +202,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>

@@ -54,8 +54,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(EntityTestSimple)
 		{
-			EntityFactory entityFactory;
-
+			EntityFactory entotyFactory;
 			GameClock gameClock;
 			gameClock.Reset();
 			GameTime gameTime;

@@ -15,6 +15,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
+		//AddNestedScope(World::ATTRIBUTE_BEGIN_PLAY);
 	}
 	
 	const std::string& Sector::Name() const
@@ -90,14 +91,32 @@ namespace Library
 		parent.Adopt(World::ATTRIBUTE_NAME_SECTOR, *this);
 	}
 
+	void Sector::BeginPlay(WorldState& worldState)
+	{
+		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			beginPlayList->Update(worldState);
+
+			std::uint32_t i;
+			Datum& entities = Entities();
+			for (i = 0; i < entities.Size(); i++)
+			{
+				Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+				worldState.entity = entity;
+				entity->BeginPlay(worldState);
+			}
+		}
+	}
+
 	void Sector::Update(WorldState& worldState)
 	{
 		Datum& actions = Actions();
 		std::uint32_t i;
 		for (i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope>(i).As<Action>();
-			assert(action != nullptr);
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
 			worldState.action = action;
 			action->Update(worldState);
 		}
@@ -105,8 +124,7 @@ namespace Library
 		Datum& entities = Entities();
 		for (i = 0; i < entities.Size(); i++)
 		{
-			Entity* entity = entities.Get<Scope>(i).As<Entity>();
-			assert(entity != nullptr);
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}

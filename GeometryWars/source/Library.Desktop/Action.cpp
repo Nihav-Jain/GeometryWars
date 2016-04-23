@@ -39,13 +39,13 @@ namespace Library
 		return nullptr;
 	}
 
-	Action& Action::CreateAction(const std::string& actionClassName, const std::string& actionInstanceName, Scope& parentScope)
+	Action& Action::CreateAction(const std::string& actionClassName, const std::string& actionInstanceName, Scope& parentScope, const std::string& attributeName)
 	{
 		Action* action = Factory<Action>::Create(actionClassName);
 		assert(action != nullptr);
 		action->SetName(actionInstanceName);
 
-		parentScope.Adopt(Entity::ATTRIBUTE_ACTIONS, *action);
+		parentScope.Adopt(attributeName, *action);
 
 		return *action;
 	}

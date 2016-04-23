@@ -3,7 +3,7 @@
 
 # User-specific files
 *.suo
-*.user
+# *.user for Game.Desktop.OpenGL debugging
 *.userosscache
 *.sln.docstates
 
@@ -253,3 +253,12 @@ _Pvt_Extensions
 !GeometryWars/external/glfw/lib/x64/Debug/*
 !GeometryWars/external/glfw/lib/x64/Release/*
 GeometryWars/build/GeometryWars.VC.db
+
+!GeometryWars/external/soil/*
+!GeometryWars/external/soil/lib/*
+!GeometryWars/external/soil/lib/Win32/*
+!GeometryWars/external/soil/lib/Win32/Debug/*
+!GeometryWars/external/soil/lib/Win32/Release/*
+!GeometryWars/external/soil/lib/x64/*
+!GeometryWars/external/soil/lib/x64/Debug/*
+!GeometryWars/external/soil/lib/x64/Release/*
