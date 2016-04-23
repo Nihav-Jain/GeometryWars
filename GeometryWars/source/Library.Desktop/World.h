@@ -105,8 +105,14 @@ namespace Library
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
+		static const std::string ATTRIBUTE_REACTIONS;
 
 	private:
+		void ScriptedBeginPlay();
+		void SectorsBeginPlay();
+		void ActionsBeginPlay();
+		void ReactionsBeginPlay();
+
 		void UpdateWorldActions();
 		void UpdateWorldSectors();
 

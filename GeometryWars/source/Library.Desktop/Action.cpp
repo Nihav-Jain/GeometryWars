@@ -26,6 +26,11 @@ namespace Library
 		mName = name;
 	}
 
+	void Action::BeginPlay(WorldState& worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+	}
+
 	void Action::PostParsingProcess()
 	{}
 

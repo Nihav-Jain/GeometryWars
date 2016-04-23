@@ -55,6 +55,8 @@ namespace Library
 		 */
 		Action* FindAction(const std::string& actionName) const;
 
+		virtual void BeginPlay(WorldState& worldState) override;
+
 		/**
 		 *	Calls the update method on all of its child Actions, called by the parent Action / Entity / Sector / World's Update method
 		 *	@param reference to the WorldState
@@ -62,6 +64,10 @@ namespace Library
 		virtual void Update(WorldState& worldState) override;
 
 	private:
+		void ScriptedBeginPlay(WorldState& worldState);
+		void ActionsBeginPlay(WorldState& worldState);
+		void ReactionsBeginPlay(WorldState& worldState);
+
 		static const std::string ATTRIBUTE_ACTIONS;
 	};
 

@@ -9,6 +9,7 @@ namespace Library
 	const std::string World::ATTRIBUTE_NAME_SECTOR = "sectors";
 	const std::string World::ATTRIBUTE_NAME = "name";
 	const std::string World::ATTRIBUTE_BEGIN_PLAY = "beginplay";
+	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
 
 	World::World(const GameTime& gameTime) :
 		mName(), mWorldState(gameTime), mEventQueue()
@@ -79,21 +80,10 @@ namespace Library
 
 	void World::BeginPlay()
 	{
-		Datum* beginPlayDatum = Find(ATTRIBUTE_BEGIN_PLAY);
-		if (beginPlayDatum!= nullptr && beginPlayDatum->Size() > 0)
-		{
-			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
-			beginPlayList->Update(mWorldState);
-
-			std::uint32_t i;
-			Datum& sectors = Sectors();
-			for (i = 0; i < sectors.Size(); i++)
-			{
-				Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
-				mWorldState.sector = sector;
-				sector->BeginPlay(mWorldState);
-			}
-		}
+		ScriptedBeginPlay();
+		SectorsBeginPlay();
+		ActionsBeginPlay();
+		ReactionsBeginPlay();
 	}
 
 	void World::Update()
@@ -115,6 +105,52 @@ namespace Library
 	EventQueue& World::GetEventQueue()
 	{
 		return mEventQueue;
+	}
+
+	void World::ScriptedBeginPlay()
+	{
+		Datum* beginPlayDatum = Find(ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			beginPlayList->BeginPlay(mWorldState);
+			beginPlayList->Update(mWorldState);
+		}
+	}
+
+	void World::SectorsBeginPlay()
+	{
+		std::uint32_t i;
+		Datum& sectors = Sectors();
+		for (i = 0; i < sectors.Size(); i++)
+		{
+			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+			mWorldState.sector = sector;
+			sector->BeginPlay(mWorldState);
+		}
+	}
+
+	void World::ActionsBeginPlay()
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			actions.Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(mWorldState);
+		}
+	}
+
+	void World::ReactionsBeginPlay()
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				reactions->Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(mWorldState);
+			}
+		}
 	}
 
 	void World::UpdateWorldActions()

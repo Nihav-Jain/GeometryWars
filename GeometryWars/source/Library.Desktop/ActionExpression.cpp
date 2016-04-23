@@ -71,8 +71,9 @@ namespace Library
 			delete mPostfixExpression;
 	}
 
-	void ActionExpression::PostParsingProcess()
+	void ActionExpression::BeginPlay(WorldState& worldState)
 	{
+		UNREFERENCED_PARAMETER(worldState);
 		ConvertExpressionToPostfix();
 	}
 

@@ -39,7 +39,7 @@ namespace Library
 		/**
 		 *	disallow copy assignment operator
 		 */
-		Sector& operator=(const Sector& rhs);
+		Sector& operator=(const Sector& rhs) = delete;
 
 		/**
 		 *	Getter for the name of this Sector
@@ -114,6 +114,11 @@ namespace Library
 		static const std::string ATTRIBUTE_NAME;
 
 	private:
+		void ScriptedBeginPlay(WorldState& worldState);
+		void EntitiesBeginPlay(WorldState& worldState);
+		void ActionsBeginPlay(WorldState& worldState);
+		void ReactionsBeginPlay(WorldState& worldState);
+
 		void UpdateSectorActions(WorldState& worldState);
 		void DeletePendingDestroyEntities();
 		void UpdateSectorEntities(WorldState& worldState);

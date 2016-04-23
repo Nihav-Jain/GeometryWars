@@ -59,12 +59,9 @@ namespace Library
 
 	void Entity::BeginPlay(WorldState& worldState)
 	{
-		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
-		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
-		{
-			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
-			beginPlayList->Update(worldState);
-		}
+		ScriptedBeginPlay(worldState);
+		ActionsBeginPlay(worldState);
+		ReactionsBeginPlay(worldState);
 	}
 
 	void Entity::Update(WorldState& worldState)
@@ -92,6 +89,40 @@ namespace Library
 		if (worldState.action == nullptr || !worldState.action->Is(ActionDestroyEntity::TypeIdClass()))
 			throw std::exception("Only ActionDestroyEntity can mark an entity for destory.");
 		mIsPendingDestroy = true;
+	}
+
+	void Entity::ScriptedBeginPlay(WorldState& worldState)
+	{
+		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			beginPlayList->BeginPlay(worldState);
+			beginPlayList->Update(worldState);
+		}
+	}
+
+	void Entity::ActionsBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			actions.Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(worldState);
+		}
+	}
+
+	void Entity::ReactionsBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(World::ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				reactions->Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(worldState);
+			}
+		}
 	}
 
 }

@@ -102,6 +102,10 @@ namespace Library
 		static const std::string ATTRIBUTE_ACTIONS;
 
 	private:
+		void ScriptedBeginPlay(WorldState& worldState);
+		void ActionsBeginPlay(WorldState& worldState);
+		void ReactionsBeginPlay(WorldState& worldState);
+
 		std::string mName;
 		bool mIsPendingDestroy;
 	};

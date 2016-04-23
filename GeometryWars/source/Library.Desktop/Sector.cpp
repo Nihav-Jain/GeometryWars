@@ -113,21 +113,10 @@ namespace Library
 
 	void Sector::BeginPlay(WorldState& worldState)
 	{
-		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
-		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
-		{
-			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
-			beginPlayList->Update(worldState);
-
-			std::uint32_t i;
-			Datum& entities = Entities();
-			for (i = 0; i < entities.Size(); i++)
-			{
-				Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
-				worldState.entity = entity;
-				entity->BeginPlay(worldState);
-			}
-		}
+		ScriptedBeginPlay(worldState);
+		EntitiesBeginPlay(worldState);
+		ActionsBeginPlay(worldState);
+		ReactionsBeginPlay(worldState);
 	}
 
 	void Sector::Update(WorldState& worldState)
@@ -140,6 +129,52 @@ namespace Library
 	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
 	{
 		return mEntityListByType[typeId];
+	}
+
+	void Sector::ScriptedBeginPlay(WorldState& worldState)
+	{
+		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			beginPlayList->BeginPlay(worldState);
+			beginPlayList->Update(worldState);
+		}
+	}
+
+	void Sector::EntitiesBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& entities = Entities();
+		for (i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			worldState.entity = entity;
+			entity->BeginPlay(worldState);
+		}
+	}
+
+	void Sector::ActionsBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			actions.Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(worldState);
+		}
+	}
+
+	void Sector::ReactionsBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(World::ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				reactions->Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(worldState);
+			}
+		}
 	}
 
 	void Sector::UpdateSectorActions(WorldState& worldState)
