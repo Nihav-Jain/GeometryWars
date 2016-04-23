@@ -65,6 +65,11 @@
 				<string name="expression">arrResult3 = array(intArr, {2})</string>
 			</expression>
 
+			<integer name="arrSize" value="0"/>
+			<expression name="appendExp">
+				<string name="expression">arrSize = arraySize(intArr)</string>
+			</expression>
+
 			<expression name="exp1">
 				<string name="expression">result = switchInteger + abc - C</string>
 			</expression>

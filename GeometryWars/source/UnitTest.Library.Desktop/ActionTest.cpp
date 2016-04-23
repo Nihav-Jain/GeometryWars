@@ -92,6 +92,10 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(arrResult3);
 			Assert::AreEqual(0, arrResult3->Get<std::int32_t>());
 
+			Datum* arrSize = entity->Find("arrSize");
+			Assert::IsNotNull(arrSize);
+			Assert::AreEqual(0, arrSize->Get<std::int32_t>());
+
 			game.Update();
 
 			Datum* result = entity->Find("result");
@@ -114,6 +118,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10, arrResult1->Get<std::int32_t>());
 			Assert::AreEqual(20, arrResult2->Get<std::int32_t>());
 			Assert::AreEqual(30, arrResult3->Get<std::int32_t>());
+			Assert::AreEqual(4, arrSize->Get<std::int32_t>());
 		}
 
 		TEST_METHOD(ActionTestIfThenElse)

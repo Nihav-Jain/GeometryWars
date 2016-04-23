@@ -53,6 +53,14 @@ namespace Library
 			return result;
 		} ));
 
+		mDefinedFunctions.Insert("arraySize", FunctionDefinition(1, [](const Vector<Datum>& params)
+		{
+			assert(params.Size() == 1);
+			Datum result;
+			result = static_cast<std::int32_t>(params[0].Size());
+			return result;
+		}));
+
 		mDefinedFunctions.Insert("array", FunctionDefinition(2, [](const Vector<Datum>& params)
 		{
 			assert(params.Size() == 2);
