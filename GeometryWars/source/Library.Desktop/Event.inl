@@ -3,7 +3,8 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS_T(Event<T>);
+	template <typename T>
+	RTTI_DEFINITIONS(Event<T>);
 
 	template <typename T>
 	Vector<IEventSubscriber*> Event<T>::mSubscriberList(0);

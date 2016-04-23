@@ -58,12 +58,7 @@ namespace Library
 			return this == rhs;
 		}
 
-		virtual std::uint64_t ParentTypeId() const = 0;
-
 		static std::uint64_t TypeIdClass() { return 0; }
-	private:
-		static Graph<std::uint64_t>::Traversor RootTraversor;
-		static Graph<std::uint64_t> ClassHeirarchy;
 	};
 
 #define RTTI_DECLARATIONS(Type, ParentType)																	 \
@@ -93,21 +88,9 @@ namespace Library
 				else                                                                                         \
 					{ return Parent::Is(name); }                                                             \
 			}                                                                                                \
-			virtual std::uint64_t ParentTypeId() const override												 \
-			{																								 \
-				return Parent::TypeIdClass();																 \
-			}																								 \
 			private:                                                                                         \
-				static Library::Graph<std::uint64_t>::Traversor TypeTraversor;								 \
 				static std::uint64_t sRunTimeTypeId;
 
 #define RTTI_DEFINITIONS(Type)																				 \
-	std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);			 \
-	typename Graph<std::uint64_t>::Traversor Type::TypeTraversor = RTTI::;
-	
-#define RTTI_DEFINITIONS_T(Type)																			 \
-	template <typename T>																					 \
-	std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);			 \
-	template <typename T>																					 \
-	typename Graph<std::uint64_t>::Traversor Type::TypeTraversor;
+	std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);
 }
