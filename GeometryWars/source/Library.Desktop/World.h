@@ -5,6 +5,7 @@
 #include "GameTime.h"
 #include "EventQueue.h"
 #include "ActionList.h"
+#include "AudioManager.h"
 
 namespace Library
 {
@@ -103,6 +104,18 @@ namespace Library
 		 */
 		EventQueue& GetEventQueue();
 
+
+		/**
+		*	SetAudioManager - Set the address of contained variableof audio manager
+		*/
+		void SetAudioManager(AudioManager &audioManager);
+
+		/**
+		*	GetAudioManager - Get the reference to contained variableof audio manager
+		*	@return reference to the contained variable of audio manager
+		*/
+		AudioManager& GetAudioManager();
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 
@@ -110,6 +123,8 @@ namespace Library
 		std::string mName;
 		WorldState mWorldState;
 		EventQueue mEventQueue;
+
+		AudioManager *mAudioManager;
 
 		static const std::string ATTRIBUTE_NAME;
 

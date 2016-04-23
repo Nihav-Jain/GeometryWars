@@ -22,6 +22,12 @@
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
 
+#include "ActionLoadMusic.h"
+#include "ActionPlayMusic.h"
+#include "ActionTogglePauseMusic.h"
+#include "ActionStopMusic.h"
+
+
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
@@ -72,7 +78,7 @@ namespace Library
 		Game& operator=(const Game& rhs) = delete;
 
 		/**
-		*	Init - All inits required go here.
+		*	Init - All inits required, go here.
 		*/
 		void Init();
 
@@ -118,43 +124,13 @@ namespace Library
 		 */
 		void Destroy();
 
-#pragma region SoundFmodMethodDeclarations
-
-#define MUSIC_BEEP "Content/Music/retire.mp3"
-
-		/**
-		*	InitMusic - Do initialization for music i.e. FMOD.
-		*/
-		void InitMusic();
-
-
-		/**
-		*	InitMusic - Do initialization for music i.e. FMOD.
-		*	@result - const reference of result to display the error if required.
-		*/
-		void FMODErrorCheck(const FMOD_RESULT& result);
-
-		/**
-		*	PlayMusic - Play Music with given sound id
-		*	@soundId - send sound id as a copy
-		*	@toLoopZeroToN -  zero and one for only one loop. 2 for two loops. n for n loops
-		*	@volumeZeroToOne - volume from 0.0f to 1.0f
-		*/
-		void PlayMusic(int32_t  soundId, int32_t toLoopZeroToN = 0, float_t volumeZeroToOne = 1.0f);
-
-		/**
-		*	GetFmodSystem - gert the FMOD System
-		*	@return const reference to game time
-		*/
-		const FMOD::System& GetFmodSystem();
-
-#pragma endregion
 
 	private:
 
 		GameClock mGameClock;
 		GameTime mGameTime;
 		World mWorld;
+		AudioManager mAudioManager;
 		
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
@@ -179,20 +155,6 @@ namespace Library
 
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
-
-
-
-
-#pragma region SoundFmodMemberDeclarations
-
-	FMOD_RESULT mFmodResult;
-	FMOD::System *mFmodSystem;
-	int32_t mNumberOfDrivers;
-	FMOD::Sound *mAudios[4];
-	FMOD::Channel *mChannels[4];
-
-#pragma endregion
-
 
 		XmlParseHelperBeginPlay mActionBeginPlay;
 

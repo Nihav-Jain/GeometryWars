@@ -134,4 +134,14 @@ namespace Library
 		return mEventQueue;
 	}
 
+	void World::SetAudioManager(AudioManager & audioManager)
+	{
+		mAudioManager = &audioManager;
+	}
+
+	AudioManager & World::GetAudioManager()
+	{
+		return (*mAudioManager);
+	}
+
 }
