@@ -184,6 +184,10 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Kernel</Filter>
     </ClInclude>
+    <ClInclude Include="XmlParseHelperPolygon.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -342,6 +346,10 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
+    <ClCompile Include="XmlParseHelperPolygon.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

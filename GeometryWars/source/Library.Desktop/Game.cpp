@@ -33,6 +33,7 @@ namespace Library
 
 		mParseMaster.AddHelper(mActionBeginPlay);
 		mParseMaster.AddHelper(mSpriteParser);
+		mParseMaster.AddHelper(mPolygonParser);
 		mParseMaster.AddHelper(mImageParser);
 	}
 

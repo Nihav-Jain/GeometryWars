@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	Game game;
 	game.SetRendererDevice(&renderDevice);
-	game.Start("Content/config/sprite.xml");
+	game.Start("Content/config/polygon.xml");
 
 #pragma warning(push)
 #pragma warning(disable : 4127)

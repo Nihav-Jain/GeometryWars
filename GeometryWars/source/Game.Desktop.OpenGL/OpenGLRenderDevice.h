@@ -24,9 +24,10 @@ namespace Library {
 		virtual Viewport * CreateViewport() override;
 		virtual Texture * CreateTexture(const std::string & imagePath) override;
 		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath) override;
-		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride) override;
+		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
+			std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt) override;
 
-		virtual void Draw() override;
+		virtual void Draw(DrawMode mode, std::uint32_t counts) override;
 
 	private:
 		// The actuall draw call

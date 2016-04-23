@@ -11,35 +11,38 @@ namespace Library {
 	class RenderBuffer;
 
 	/**
-	* The renderable sprite class
+	* The renderable polygon class
 	* TODO: Add trasnformation to the entiy trasnformation accordingly
 	*/
-	class SpriteRenderer : public ActionList, public Renderable
+	class PolygonRenderer : public ActionList, public Renderable
 	{
-		RTTI_DECLARATIONS(SpriteRenderer, ActionList);
+		RTTI_DECLARATIONS(PolygonRenderer, ActionList);
 
 	public:
-		static const std::string ATTRIBUTE_TEXTURE2D;
+		static const std::string ATTRIBUTE_INDICES;
+		static const std::string ATTRIBUTE_POINTS;
 
-		SpriteRenderer();
-		virtual ~SpriteRenderer() = default;
+		PolygonRenderer();
+		virtual ~PolygonRenderer() = default;
 
-		SpriteRenderer(const SpriteRenderer & rhs) = delete;
-		SpriteRenderer & operator=(const SpriteRenderer & rhs) = delete;
+		PolygonRenderer(const PolygonRenderer & rhs) = delete;
+		PolygonRenderer & operator=(const PolygonRenderer & rhs) = delete;
 
 		virtual void Render(RenderDevice * device) override;
 
 	private:
 		void Init(RenderDevice * device);
 		bool mInited;
-		Texture * mTexture;
 		Shader * mShader;
 		RenderBuffer * mBuffer;
+
+		glm::vec4 mColor;
 
 		Datum * mPosition;
 		Datum * mRotation;
 		Datum * mScale;
-		glm::vec4 * mSize;
+		Datum * mIndices;
+		Datum * mPoints;
 	};
 }
 

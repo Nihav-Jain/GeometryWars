@@ -11,8 +11,6 @@
 
 #include "Renderer.h"
 #include "RenderDevice.h"
-#include "XmlParseHelperSprite.h"
-#include "XmlParseHelperImage.h"
 
 #include "RTTI.h"
 #include "Datum.h"
@@ -46,6 +44,9 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperSprite.h"
+#include "XmlParseHelperPolygon.h"
+#include "XmlParseHelperImage.h"
 
 namespace Library
 {
@@ -157,6 +158,7 @@ namespace Library
 		XmlParseHelperBeginPlay mActionBeginPlay;
 
 		XmlParseHelperSprite mSpriteParser;
+		XmlParseHelperPolygon mPolygonParser;
 		XmlParseHelperImage mImageParser;
 
 		EntityFactory mEntityFactory;

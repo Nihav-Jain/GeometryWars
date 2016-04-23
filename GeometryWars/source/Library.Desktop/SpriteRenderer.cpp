@@ -40,8 +40,6 @@ namespace Library {
 			return;
 		mShader->Use();
 
-		glm::vec2 size(100, 100);
-
 		glm::mat4 model;
 
 		glm::vec4 pos = mPosition->Get<glm::vec4>();
@@ -94,7 +92,7 @@ namespace Library {
 			0.5f, -0.5f, 1.0f, 0.0f
 		};
 
-		mBuffer = device->CreateBuffer(vertices, sizeof(vertices), 4 * sizeof(float));
+		mBuffer = device->CreateBuffer(vertices, sizeof(vertices), 4 * sizeof(float), nullptr, 0, 4);
 	}
 
 }

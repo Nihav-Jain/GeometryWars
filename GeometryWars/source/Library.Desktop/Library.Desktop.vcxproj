@@ -225,6 +225,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IEventSubscriber.h" />
+    <ClInclude Include="PolygonRenderer.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="RenderBuffer.h" />
     <ClInclude Include="RenderDevice.h" />
@@ -258,6 +259,7 @@
     <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperImage.h" />
     <ClInclude Include="XmlParseHelperNameValue.h" />
+    <ClInclude Include="XmlParseHelperPolygon.h" />
     <ClInclude Include="XmlParseHelperPrimitives.h" />
     <ClInclude Include="XmlParseHelperReaction.h" />
     <ClInclude Include="XmlParseHelperSector.h" />
@@ -287,6 +289,7 @@
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="PolygonRenderer.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
     <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="pch.cpp">
@@ -319,6 +322,7 @@
     <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp" />
     <ClCompile Include="XmlParseHelperNameValue.cpp" />
+    <ClCompile Include="XmlParseHelperPolygon.cpp" />
     <ClCompile Include="XmlParseHelperPrimitives.cpp" />
     <ClCompile Include="XmlParseHelperReaction.cpp" />
     <ClCompile Include="XmlParseHelperSector.cpp" />
