@@ -122,7 +122,7 @@ namespace Library
 	void Sector::Update(WorldState& worldState)
 	{
 		UpdateSectorActions(worldState);
-		DeletePendingDestroyEntities();
+		DeletePendingDestroyEntities(worldState);
 		UpdateSectorEntities(worldState);
 	}
 
@@ -259,7 +259,7 @@ namespace Library
 		}
 	}
 
-	void Sector::DeletePendingDestroyEntities()
+	void Sector::DeletePendingDestroyEntities(WorldState& worldState)
 	{
 		std::uint32_t i;
 		Datum& entities = Entities();
@@ -268,6 +268,7 @@ namespace Library
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->IsPendingDestroy())
 			{
+				entity->OnDestroy(worldState);
 				mEntityListByType[entity->TypeIdInstance()].Remove(entity);
 				delete entity;
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped

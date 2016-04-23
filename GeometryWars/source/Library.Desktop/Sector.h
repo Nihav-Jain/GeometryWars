@@ -127,7 +127,7 @@ namespace Library
 		void ReactionsOnDestroy(WorldState& worldState);
 
 		void UpdateSectorActions(WorldState& worldState);
-		void DeletePendingDestroyEntities();
+		void DeletePendingDestroyEntities(WorldState& worldState);
 		void UpdateSectorEntities(WorldState& worldState);
 
 		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
