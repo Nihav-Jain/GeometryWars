@@ -183,6 +183,12 @@
     <ClInclude Include="OpenGLTexture.h">
       <Filter>Kernel\Graphic\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="ActionCreateEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionDestroyEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -342,6 +348,12 @@
     </ClCompile>
     <ClCompile Include="OpenGLRenderBuffer.cpp">
       <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCreateEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionDestroyEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

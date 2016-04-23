@@ -80,6 +80,8 @@ namespace Library
 		 */
 		Entity* FindEntity(const std::string& entityName) const;
 
+		Vector<Entity*> FindAllEntities(const std::string& entityName) const;
+
 		Datum& Actions();
 
 		const Datum& Actions() const;
@@ -106,11 +108,22 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 
+		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
+
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
 
 	private:
+		void UpdateSectorActions(WorldState& worldState);
+		void DeletePendingDestroyEntities();
+		void UpdateSectorEntities(WorldState& worldState);
+
+		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
+
 		std::string mName;
+
+		typedef Hashmap<std::uint64_t, Vector<Entity*>> EntityTypeMap;
+		EntityTypeMap mEntityListByType;
 	};
 
 }

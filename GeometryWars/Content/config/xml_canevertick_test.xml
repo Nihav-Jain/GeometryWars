@@ -1,0 +1,18 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+
+			<integer name="intResult" value="0"/>
+			<expression name="exp1">
+				<bool name="canEverTick" value="false" index="0"/>
+				<string name="expression">intResult = {100}</string>
+			</expression>
+
+			<float name="floatResult" value="0"/>
+			<expression name="exp2">
+				<string name="expression">floatResult = {10.12}</string>
+			</expression>
+			
+		</entity>		
+	</sector>	
+</world>

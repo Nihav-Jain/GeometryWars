@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include "pch.h"
+#include "Graph.h"
 
 namespace Library
 {
@@ -56,6 +57,8 @@ namespace Library
 		{
 			return this == rhs;
 		}
+
+		static std::uint64_t TypeIdClass() { return 0; }
 	};
 
 #define RTTI_DECLARATIONS(Type, ParentType)																	 \
@@ -88,5 +91,6 @@ namespace Library
 			private:                                                                                         \
 				static std::uint64_t sRunTimeTypeId;
 
-#define RTTI_DEFINITIONS(Type) std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);
+#define RTTI_DEFINITIONS(Type)																				 \
+	std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);
 }

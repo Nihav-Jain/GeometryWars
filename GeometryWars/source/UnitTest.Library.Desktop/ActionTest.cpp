@@ -12,6 +12,8 @@
 #include "XmlParseHelperActionSwitch.h"
 #include "XmlParseHelperActionExpression.h"
 
+#include "SampleEntity.h"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Library;
 
@@ -270,6 +272,101 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(glm::vec4(10, 20, 30, 40) == vecResult->Get<glm::vec4>());
 			Assert::IsTrue(glm::mat4x4(10) == matResult->Get<glm::mat4>());
 			Assert::AreEqual(135, intResult2->Get<std::int32_t>());
+
+		}
+
+		TEST_METHOD(ActionTestCreateEntity)
+		{
+			SampleEntityFactory sampleEntityFactory;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_create_entity_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			
+			Assert::AreEqual(1U, sector->Entities().Size());
+
+			game.Update();
+			Assert::AreEqual(3U, sector->Entities().Size());
+
+			Entity* sampleEntity = sector->FindEntity("sampleEntity");
+			Assert::IsNotNull(sampleEntity);
+			Assert::IsTrue(sampleEntity->Is(SampleEntity::TypeIdClass()));
+
+			Datum* someInt = sampleEntity->Find("someInt");
+			Assert::IsNotNull(someInt);
+			Assert::AreEqual(0, someInt->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, someInt->Get<std::int32_t>());
+		}
+
+		TEST_METHOD(ActionTestDestroyEntity)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_destroy_entity_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Assert::AreEqual(2U, sector->Entities().Size());
+
+			Entity* anotherEntity = sector->FindEntity("anotherEntity");
+			Assert::IsNotNull(anotherEntity);
+			Datum* anotherInt = anotherEntity->Find("anotherInt");
+			Assert::IsNotNull(anotherInt);
+			Assert::AreEqual(10, anotherInt->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(2U, sector->Entities().Size());
+			Assert::AreEqual(20, anotherInt->Get<std::int32_t>());
+
+			game.Update();
+			Assert::AreEqual(2U, sector->Entities().Size());
+			Assert::AreEqual(40, anotherInt->Get<std::int32_t>());
+
+			game.Update();
+			Assert::AreEqual(1U, sector->Entities().Size());
+			anotherEntity = sector->FindEntity("anotherEntity");
+			Assert::IsNull(anotherEntity);
+		}
+
+		TEST_METHOD(ActionTestCanEverTick)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_canevertick_test.xml"));
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			game.Start();
+
+			Datum* result = entity->Find("intResult");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			Datum* floatResult = entity->Find("floatResult");
+			Assert::IsNotNull(floatResult);
+			Assert::AreEqual(0.0f, floatResult->Get<std::float_t>());
+
+			game.Update();
+
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
 
 		}
 

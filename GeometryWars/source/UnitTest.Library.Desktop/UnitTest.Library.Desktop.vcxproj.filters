@@ -63,6 +63,7 @@
     </ClCompile>
     <ClCompile Include="ReactionTest.cpp" />
     <ClCompile Include="SpriteTest.cpp" />
+    <ClCompile Include="SampleEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="BarSubscriber.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="SampleEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestHelpers">
