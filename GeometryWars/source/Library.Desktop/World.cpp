@@ -10,6 +10,7 @@ namespace Library
 	const std::string World::ATTRIBUTE_NAME = "name";
 	const std::string World::ATTRIBUTE_BEGIN_PLAY = "beginplay";
 	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
+	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
 
 	World::World(const GameTime& gameTime) :
 		mName(), mWorldState(gameTime), mEventQueue()
@@ -97,6 +98,14 @@ namespace Library
 		UpdateWorldSectors();
 	}
 
+	void World::OnDestroy()
+	{
+		ScriptedOnDestroy();
+		SectorsOnDestroy();
+		ActionsOnDestroy();
+		ReactionsOnDestroy();
+	}
+
 	WorldState& World::GetWorldState()
 	{
 		return mWorldState;
@@ -113,6 +122,7 @@ namespace Library
 		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
 		{
 			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			mWorldState.action = beginPlayList;
 			beginPlayList->BeginPlay(mWorldState);
 			beginPlayList->Update(mWorldState);
 		}
@@ -128,6 +138,7 @@ namespace Library
 			mWorldState.sector = sector;
 			sector->BeginPlay(mWorldState);
 		}
+		mWorldState.sector = nullptr;
 	}
 
 	void World::ActionsBeginPlay()
@@ -136,7 +147,9 @@ namespace Library
 		Datum& actions = Actions();
 		for (i = 0; i < actions.Size(); i++)
 		{
-			actions.Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(mWorldState);
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			mWorldState.action = action;
+			action->BeginPlay(mWorldState);
 		}
 	}
 
@@ -148,7 +161,60 @@ namespace Library
 		{
 			for (i = 0; i < reactions->Size(); i++)
 			{
-				reactions->Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(mWorldState);
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				mWorldState.action = reaction;
+				reaction->BeginPlay(mWorldState);
+			}
+		}
+	}
+
+	void World::ScriptedOnDestroy()
+	{
+		Datum* onDestroyDatum = Find(ATTRIBUTE_ON_DESTROY);
+		if (onDestroyDatum != nullptr && onDestroyDatum->Size() > 0)
+		{
+			ActionList* onDestroyList = onDestroyDatum->Get<Scope>().AssertiveAs<ActionList>();
+			mWorldState.action = onDestroyList;
+			onDestroyList->OnDestroy(mWorldState);
+		}
+	}
+
+	void World::SectorsOnDestroy()
+	{
+		std::uint32_t i;
+		Datum& sectors = Sectors();
+		for (i = 0; i < sectors.Size(); i++)
+		{
+			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+			mWorldState.sector = sector;
+			sector->OnDestroy(mWorldState);
+		}
+		mWorldState.sector = nullptr;
+	}
+
+	void World::ActionsOnDestroy()
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			mWorldState.action = action;
+			action->OnDestroy(mWorldState);
+		}
+	}
+
+	void World::ReactionsOnDestroy()
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				mWorldState.action = reaction;
+				reaction->OnDestroy(mWorldState);
 			}
 		}
 	}

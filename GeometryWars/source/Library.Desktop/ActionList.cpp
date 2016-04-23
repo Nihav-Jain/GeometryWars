@@ -29,8 +29,6 @@ namespace Library
 
 	void ActionList::BeginPlay(WorldState& worldState)
 	{
-		worldState.action = this;
-
 		ScriptedBeginPlay(worldState);
 		ActionsBeginPlay(worldState);
 		ReactionsBeginPlay(worldState);
@@ -51,12 +49,20 @@ namespace Library
 		}
 	}
 
+	void ActionList::OnDestroy(WorldState& worldState)
+	{
+		ScriptedOnDestroy(worldState);
+		ActionsOnDestroy(worldState);
+		ReactionsOnDestroy(worldState);
+	}
+
 	void ActionList::ScriptedBeginPlay(WorldState& worldState)
 	{
 		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
 		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
 		{
 			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			worldState.action = beginPlayList;
 			beginPlayList->BeginPlay(worldState);
 			beginPlayList->Update(worldState);
 		}
@@ -68,7 +74,9 @@ namespace Library
 		Datum& actions = Actions();
 		for (i = 0; i < actions.Size(); i++)
 		{
-			actions.Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(worldState);
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			worldState.action = action;
+			action->BeginPlay(worldState);
 		}
 	}
 
@@ -80,7 +88,47 @@ namespace Library
 		{
 			for (i = 0; i < reactions->Size(); i++)
 			{
-				reactions->Get<Scope>(i).AssertiveAs<Action>()->BeginPlay(worldState);
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				worldState.action = reaction;
+				reaction->BeginPlay(worldState);
+			}
+		}
+	}
+
+	void ActionList::ScriptedOnDestroy(WorldState& worldState)
+	{
+		Datum* onDestroyDatum = Find(World::ATTRIBUTE_ON_DESTROY);
+		if (onDestroyDatum != nullptr && onDestroyDatum->Size() > 0)
+		{
+			ActionList* onDestroyList = onDestroyDatum->Get<Scope>().AssertiveAs<ActionList>();
+			worldState.action = onDestroyList;
+			onDestroyList->OnDestroy(worldState);
+		}
+	}
+
+	void ActionList::ActionsOnDestroy(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			worldState.action = action;
+			action->OnDestroy(worldState);
+		}
+	}
+
+	void ActionList::ReactionsOnDestroy(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(World::ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				worldState.action = reaction;
+				reaction->OnDestroy(worldState);
 			}
 		}
 	}

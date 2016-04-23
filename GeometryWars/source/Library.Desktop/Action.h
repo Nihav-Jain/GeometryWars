@@ -59,6 +59,8 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState) = 0;
 
+		virtual void OnDestroy(WorldState& worldState);
+
 		/**
 		 *	Will be called by the EndElementHandler of Action parser
 		 *	Can be used for processing the Action after the whole element has been parsed

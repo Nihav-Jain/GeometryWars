@@ -108,6 +108,8 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 
+		void OnDestroy(WorldState& worldState);
+
 		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
 
 		static const std::string ATTRIBUTE_ENTITIES;
@@ -118,6 +120,11 @@ namespace Library
 		void EntitiesBeginPlay(WorldState& worldState);
 		void ActionsBeginPlay(WorldState& worldState);
 		void ReactionsBeginPlay(WorldState& worldState);
+
+		void ScriptedOnDestroy(WorldState& worldState);
+		void EntitiesOnDestroy(WorldState& worldState);
+		void ActionsOnDestroy(WorldState& worldState);
+		void ReactionsOnDestroy(WorldState& worldState);
 
 		void UpdateSectorActions(WorldState& worldState);
 		void DeletePendingDestroyEntities();

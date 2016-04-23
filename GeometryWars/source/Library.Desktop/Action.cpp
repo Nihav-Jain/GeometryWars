@@ -31,6 +31,11 @@ namespace Library
 		UNREFERENCED_PARAMETER(worldState);
 	}
 
+	void Action::OnDestroy(WorldState& worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+	}
+
 	void Action::PostParsingProcess()
 	{}
 

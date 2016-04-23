@@ -85,7 +85,7 @@ namespace Library
 		 */
 		void SetSector(Sector& parent);
 
-		void BeginPlay(WorldState& worldState);
+		virtual void BeginPlay(WorldState& worldState);
 
 		/**
 		 *	Calls the update method on all of its child Actions, called by the parent Sector's Update method
@@ -93,6 +93,8 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState);
+
+		virtual void OnDestroy(WorldState& worldState);
 
 		bool IsPendingDestroy() const;
 		void MarkForDestroy(WorldState& worldState);
@@ -105,6 +107,10 @@ namespace Library
 		void ScriptedBeginPlay(WorldState& worldState);
 		void ActionsBeginPlay(WorldState& worldState);
 		void ReactionsBeginPlay(WorldState& worldState);
+
+		void ScriptedOnDestroy(WorldState& worldState);
+		void ActionsOnDestroy(WorldState& worldState);
+		void ReactionsOnDestroy(WorldState& worldState);
 
 		std::string mName;
 		bool mIsPendingDestroy;

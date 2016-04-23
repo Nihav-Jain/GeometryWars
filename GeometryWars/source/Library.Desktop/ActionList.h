@@ -63,10 +63,16 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState) override;
 
+		virtual void OnDestroy(WorldState& worldState) override;
+
 	private:
 		void ScriptedBeginPlay(WorldState& worldState);
 		void ActionsBeginPlay(WorldState& worldState);
 		void ReactionsBeginPlay(WorldState& worldState);
+
+		void ScriptedOnDestroy(WorldState& worldState);
+		void ActionsOnDestroy(WorldState& worldState);
+		void ReactionsOnDestroy(WorldState& worldState);
 
 		static const std::string ATTRIBUTE_ACTIONS;
 	};
