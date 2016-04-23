@@ -26,7 +26,7 @@ namespace Library
 	}
 
 	template<typename T>
-	typename Graph<T>::Traversor Graph<T>::AddVertex(T& vertexData, Traversor& parentVertex)
+	typename Graph<T>::Traversor Graph<T>::AddVertex(const T& vertexData, Traversor& parentVertex)
 	{
 		Vertex& newVertex = **(mVertexList.PushBack(new Vertex(vertexData)));
 		CreateEdge(newVertex, *parentVertex.mCurrentVertex);
@@ -35,7 +35,7 @@ namespace Library
 	}
 
 	template<typename T>
-	typename Graph<T>::Traversor Graph<T>::AddParentVertex(T& vertexData, Traversor& childVertex)
+	typename Graph<T>::Traversor Graph<T>::AddParentVertex(const T& vertexData, Traversor& childVertex)
 	{
 		Vertex& newVertex = **(mVertexList.PushBack(new Vertex(vertexData)));
 		CreateEdge(*childVertex.mCurrentVertex, newVertex);

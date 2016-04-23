@@ -114,7 +114,12 @@ namespace Library
 		static const std::string ATTRIBUTE_NAME;
 
 	private:
-		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
+		void UpdateSectorActions(WorldState& worldState);
+		void DeletePendingDestroyEntites();
+		void UpdateEntites(WorldState& worldState);
+
+		void AddEntityToTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor);
+		void RemoveEntityFromTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor);
 
 		std::string mName;
 

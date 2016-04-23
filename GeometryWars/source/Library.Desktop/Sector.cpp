@@ -46,13 +46,8 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		for (auto& pair : mEntityListByType)
-		{
-			if (entity->Is(pair.first))
-				pair.second.PushBack(entity);
-		}
-		if(!mEntityListByType.ContainsKey(entity->TypeIdInstance()))
-			mEntityListByType[entity->TypeIdInstance()].PushBack(entity);
+		Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
+		AddEntityToTypeMap(*entity, entityTypeTraversor);
 
 		return *entity;
 	}
@@ -132,6 +127,18 @@ namespace Library
 
 	void Sector::Update(WorldState& worldState)
 	{
+		UpdateSectorActions(worldState);
+		DeletePendingDestroyEntites();
+		UpdateEntites(worldState);
+	}
+
+	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
+	{
+		return mEntityListByType[typeId];
+	}
+
+	void Sector::UpdateSectorActions(WorldState& worldState)
+	{
 		Datum& actions = Actions();
 		std::uint32_t i;
 		for (i = 0; i < actions.Size(); i++)
@@ -140,17 +147,29 @@ namespace Library
 			worldState.action = action;
 			action->Update(worldState);
 		}
+	}
 
+	void Sector::DeletePendingDestroyEntites()
+	{
+		std::uint32_t i;
 		Datum& entities = Entities();
 		for (i = 0; i < entities.Size(); i++)
 		{
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->IsPendingDestroy())
 			{
+				Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
+				RemoveEntityFromTypeMap(*entity, entityTypeTraversor);
 				delete entity;
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
 			}
 		}
+	}
+
+	void Sector::UpdateEntites(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& entities = Entities();
 
 		// size is cached so that if an ActionCreateEntity is encountered, the new Entities Update method is not called in this frame
 		// similarly, ActionDestroyEntity will not destroy the entity immediately, it will do it on the next frame update
@@ -163,18 +182,22 @@ namespace Library
 		}
 	}
 
-	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
+	void Sector::AddEntityToTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor)
 	{
-		return mEntityListByType[typeId];
+		if (**typeIdTraversor == Attributed::TypeIdClass())
+			return;
+		mEntityListByType[**typeIdTraversor].PushBack(&entity);
+		typeIdTraversor.TraverseToCurrentChild();
+		AddEntityToTypeMap(entity, typeIdTraversor);
 	}
 
-	void Sector::AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId)
+	void Sector::RemoveEntityFromTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor)
 	{
-		if (typeId == Attributed::TypeIdClass())
+		if (**typeIdTraversor == Attributed::TypeIdClass())
 			return;
-
-		mEntityListByType[typeId].PushBack(entity->AssertiveAs<Entity>());
-		//AddEntityToTypeMap(entity, entot)
+		mEntityListByType[**typeIdTraversor].Remove(&entity);
+		typeIdTraversor.TraverseToCurrentChild();
+		RemoveEntityFromTypeMap(entity, typeIdTraversor);
 	}
 
 }

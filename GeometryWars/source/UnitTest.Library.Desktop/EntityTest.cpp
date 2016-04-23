@@ -268,11 +268,18 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
 		}
 
-		//TEST_METHOD(EntityTestRTTI)
+		//TEST_METHOD(EntityTestSectorEntityList)
 		//{
-		//	Entity entity;
-		//	Assert::IsTrue(entity.Is(Attributed::TypeIdClass()));
-		//	Assert::AreEqual(Attributed::TypeIdClass(), entity.ParentTypeId());
+		//	Game game;
+
+		//	Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_multi_entity_test.xml"));
+
+		//	game.Start();
+
+		//	World& world = game.GetWorld();
+		//	Sector* sector = world.FindSector("worldSector");
+		//	Assert::IsNotNull(sector);
+
 		//}
 
 #if defined(DEBUG) | defined(_DEBUG)
