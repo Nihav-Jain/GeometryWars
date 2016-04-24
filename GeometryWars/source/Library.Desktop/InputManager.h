@@ -13,6 +13,10 @@ namespace Library
 	{
 		RTTI_DECLARATIONS(InputHandler, Action)
 	protected:
+		// To help calculate and set input state durations
+		static const std::chrono::milliseconds zero_ms;
+		static const std::chrono::milliseconds negative_ms;
+
 		// IOEventTypes - Represents common events among all input devices
 		enum class EIOEventType
 		{
@@ -25,7 +29,8 @@ namespace Library
 		// Easy Accessor to retrieve the XML-Defined Button Mapping
 		Scope& GetButtonMapping();
 		// Easy Method Call to Send Button Pressed Events
-		void SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* ButtonMapping = nullptr);
+		//void SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* ButtonMapping = nullptr);
+		void SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, const Datum& eventNames);
 		// Easy Method Call to Send Common Input Events
 		void SendIOEvent(const EIOEventType & eventType, WorldState& state, EventMessageAttributed & message);
 		
@@ -34,13 +39,22 @@ namespace Library
 		static const std::string ATTR_BUTTON_MAP;
 		// Array used to map enumerated EIOEventType to string
 		static const std::string sIOEventTypeToString[static_cast<std::int32_t>(EIOEventType::NUMBER_OF_IO_EVENT_TYPES)];
-
 	public:
 		InputHandler();
 		virtual ~InputHandler() = default;
 	};
 
 
+	struct Button
+	{
+		std::chrono::milliseconds	Duration;	// If negative, button not pressed (released), if positive, duration of press in milliseconds, if zero, just pressed
+	};
+
+	struct KeyState
+	{
+		std::int32_t	Key;
+		Button			Info;
+	};
 
 	// KeyBoard Input Event Handler
 	class KeyBoardHandler final : public InputHandler
@@ -52,6 +66,38 @@ namespace Library
 	CONCRETE_ACTION_FACTORY(KeyBoardHandler)
 
 
+	struct Trigger
+	{
+		std::chrono::milliseconds	Duration;	// If negative, trigger not pressed (released), if positive, duration of press in milliseconds
+		std::int32_t				Magnitude;	// 1-Dimensional Data
+		std::float_t	UnitMagnitude()	const { return Magnitude / 255.0f; }
+	};
+
+	struct AnalogStick
+	{
+		std::chrono::milliseconds	Duration;	// If negative, analog is still, if positive, duration of activity in milliseconds
+		std::int32_t	MagnitudeX, MagnitudeY;
+		std::float_t	UnitMagnitudeX() const { return (static_cast<float>(MagnitudeX) / 32768.0f); }
+		std::float_t	UnitMagnitudeY() const { return (static_cast<float>(MagnitudeY) / 32768.0f); }
+		glm::vec2		UnitVector2D() const { return glm::normalize(glm::vec2(MagnitudeX, MagnitudeY)); }
+		glm::vec4		UnitVector4D() const { return glm::normalize(glm::vec4(MagnitudeX, MagnitudeY, 0, 0)); }
+	};
+
+	// XBox Controller Information
+	struct XBoxControllerState
+	{
+		// Buttons
+		Button A, B, X, Y;
+		Button DPad_Up, DPad_Down, DPad_Left, DPad_Right;
+		Button Left_Shoulder, Right_Shoulder;
+		Button Left_Thumbstick, Right_Thumbstick;
+		Button Start, Back;
+		// Trigger
+		Trigger LeftTrigger, RightTrigger;
+		// Analog
+		AnalogStick LeftStick, RightStick;
+	};
+
 	// XBox Controller Input Event Handler
 	class XBoxControllerHandler final : public InputHandler
 	{
@@ -61,42 +107,28 @@ namespace Library
 		static const std::uint32_t MAX_PLAYERS = 4;						// Maximum Players this handler can support
 
 		// GamePad States
-		XINPUT_STATE mState[MAX_PLAYERS];		// GamePad State for each player (max. 4)
-		bool bIsPlayersConnected[MAX_PLAYERS];	// Checks which players are connected
+		//XINPUT_STATE mState[MAX_PLAYERS];				// GamePad State for each player (max. 4)
+		bool bIsPlayersConnected[MAX_PLAYERS];			// Checks which players are connected
+		XBoxControllerState mPlayerState[MAX_PLAYERS];
+		WORD mButtonState[MAX_PLAYERS];					// Boolean Array of the Button states
 
 	private:
-		// NOTE:	Most of the Methods I got from a tutorial site, and were used for
-		//			Testing if XInput worked and to guide the structure of the Update call
-		//			All of the work is actually done in the Update(WorldState&) Call
-		//			Future iterations of this Handler will clean up and make them useful
-		//			For now, they are not being used...
-		bool IsConnected(std::int32_t player);	// Check for player connection
-
-		// Thumbstick functions
-		// - Return true if stick is inside deadzone, false if outside
-		bool LStick_InDeadzone(std::int32_t player);
-		bool RStick_InDeadzone(std::int32_t player);
-
-		float LeftStick_X(std::int32_t player);  // Return X axis of left stick
-		float LeftStick_Y(std::int32_t player);  // Return Y axis of left stick
-		float RightStick_X(std::int32_t player); // Return X axis of right stick
-		float RightStick_Y(std::int32_t player); // Return Y axis of right stick
-
-		// Trigger functions
-		float LeftTrigger(std::int32_t player);  // Return value of left trigger
-		float RightTrigger(std::int32_t player); // Return value of right trigger
-
 		// Vibrate the gamepad (0.0f cancel, 1.0f max speed)
 		void Rumble(std::int32_t player, float a_fLeftMotor = 0.0f, float a_fRightMotor = 0.0f);
 
-		// Button functions
-		// - 'Pressed' - Return true if pressed, false if not
-		bool GetButtonPressed(std::int32_t player, std::string button);
-
+		void ChangeButtonState(Button& playerButton, const std::chrono::milliseconds& deltaTime, bool IsPressed);
+		void ChangeTriggerState(Trigger& playerTrigger, const std::chrono::milliseconds& deltaTime, const SHORT& magnitude, const SHORT& threshold);
+		void ChangeAnalogState(AnalogStick& playerAnalog, const std::chrono::milliseconds& deltaTime, const SHORT& magnitudeX, const SHORT& magnitudeY, const SHORT& threshold);
+		void UpdatePlayerState(std::uint32_t player, XINPUT_STATE& currentPlayerState, std::chrono::milliseconds deltaTime);
 	public:
 		XBoxControllerHandler();
 		~XBoxControllerHandler() override;
 
+		// Check for player connection
+		bool IsConnected(std::uint32_t player);	
+		// Get Player State
+		const XBoxControllerState& GetPlayerState(std::uint32_t player);
+		// Update XBox Controller state
 		void Update(WorldState& state) override;
 	};
 	CONCRETE_ACTION_FACTORY(XBoxControllerHandler)

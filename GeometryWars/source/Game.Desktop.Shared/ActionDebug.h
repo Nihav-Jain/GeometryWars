@@ -7,8 +7,6 @@ namespace Library
 	class ActionDebug : public ActionList
 	{
 		RTTI_DECLARATIONS(ActionDebug, ActionList)
-	private:
-		std::string * mMessage;
 	public:
 		ActionDebug();
 		~ActionDebug();

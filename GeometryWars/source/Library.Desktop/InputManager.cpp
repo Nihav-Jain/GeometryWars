@@ -16,8 +16,10 @@ namespace Library
 	**************************/
 	RTTI_DEFINITIONS(InputHandler)
 
-	const std::string InputHandler::ATTR_BUTTON_MAP = "ButtonMapping";
-	const std::string InputHandler::sIOEventTypeToString[] = { "PlayerConnected", "PlayerDisconnected" };
+	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
+	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
+	const std::chrono::milliseconds InputHandler::zero_ms					= std::chrono::milliseconds::zero();
+	const std::chrono::milliseconds InputHandler::negative_ms				= std::chrono::milliseconds(-1);
 
 	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
 	{
@@ -38,24 +40,17 @@ namespace Library
 		return buttonMappingDatum->Get<Scope>();
 	}
 
-	void InputHandler::SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* buttonMap)
+	//void InputHandler::SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* buttonMap)
+	void InputHandler::SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, const Datum& eventNames)
 	{
-		// Test if ButtonMapping is passed in (for the purpose of speed)
-		if (buttonMap == nullptr)
-		{
-			buttonMap = &(GetButtonMapping());
-		}
-
-		// Set Subtype based on Button Mapping
-		Datum& subTypeForEvent = (*buttonMap)[buttonEventName];
 		// Set Message's WorldState
 		message.SetWorldState(state);
 
 		// Send Event for Every Event Name mapped to this button
-		for (std::uint32_t i = 0; i < subTypeForEvent.Size(); ++i)
+		for (std::uint32_t i = 0; i < eventNames.Size(); ++i)
 		{
 			// Set SubType based on Event Names in ButtonMapping scope
-			message.SetSubtype(subTypeForEvent.Get<std::string>(i));
+			message.SetSubtype(eventNames.Get<std::string>(i));
 			// Send Event
 			std::shared_ptr<Event<EventMessageAttributed>> buttonChangeEvent = std::make_shared<Event<EventMessageAttributed>>(message);
 			state.world->GetEventQueue().Send(buttonChangeEvent);
@@ -108,113 +103,35 @@ namespace Library
 	XBoxControllerHandler::XBoxControllerHandler()
 	{
 		// Expose bIsPlayersConnected to the XML
-		AddExternalAttribute("IsPlayersConnected", 4, bIsPlayersConnected);
+		AddExternalAttribute("IsPlayersConnected", MAX_PLAYERS, bIsPlayersConnected);
 		// NOTE: Exposing the State of the Button will be for future iterations
+
+		// Initialize variables
+		for (int player = 0; player < MAX_PLAYERS; ++player)
+		{
+			bIsPlayersConnected[player] = false;
+			mButtonState[player] = 0;
+		}
 	}
 
 	XBoxControllerHandler::~XBoxControllerHandler()	{}
 
-	bool XBoxControllerHandler::IsConnected(std::int32_t player)
+	bool XBoxControllerHandler::IsConnected(std::uint32_t player)
 	{
+		if (player >= MAX_PLAYERS)
+		{
+			throw std::exception("Out of Bounds Exception");
+		}
 		return bIsPlayersConnected[player];
 	}
 
-	bool XBoxControllerHandler::LStick_InDeadzone(std::int32_t player)
+	const XBoxControllerState & XBoxControllerHandler::GetPlayerState(std::uint32_t player)
 	{
-		// Obtain the X & Y axes of the stick
-       short sX = mState[player].Gamepad.sThumbLX;
-	   short sY = mState[player].Gamepad.sThumbLY;
-
-	   // X axis is outside of deadzone
-	   if (sX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
-		   sX < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
-		   return false;
-
-	   // Y axis is outside of deadzone
-	   if (sY > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
-		   sY < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
-		   return false;
-
-	   // One (or both axes) axis is inside of deadzone
-	   return true;
-	}
-
-	bool XBoxControllerHandler::RStick_InDeadzone(std::int32_t player)
-	{
-		// Obtain the X & Y axes of the stick
-		short sX = mState[player].Gamepad.sThumbRX;
-		short sY = mState[player].Gamepad.sThumbRY;
-
-		// X axis is outside of deadzone
-		if (sX > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE ||
-			sX < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
-			return false;
-
-		// Y axis is outside of deadzone
-		if (sY > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE ||
-			sY < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
-			return false;
-
-		// One (or both axes) axis is inside of deadzone
-		return true;
-	}
-
-	float XBoxControllerHandler::LeftStick_X(std::int32_t player)
-	{
-		// Obtain X axis of left stick
-		short sX = mState[player].Gamepad.sThumbLX;
-
-		// Return axis value, converted to a float
-		return (static_cast<float>(sX) / 32768.0f);
-	}
-
-	float XBoxControllerHandler::LeftStick_Y(std::int32_t player)
-	{
-		// Obtain Y axis of left stick
-		short sY = mState[player].Gamepad.sThumbLY;
-
-		// Return axis value, converted to a float
-		return (static_cast<float>(sY) / 32768.0f);
-	}
-
-	float XBoxControllerHandler::RightStick_X(std::int32_t player)
-	{
-		// Obtain Y axis of left stick
-		short sY = mState[player].Gamepad.sThumbRX;
-
-		// Return axis value, converted to a float
-		return (static_cast<float>(sY) / 32768.0f);
-	}
-
-	float XBoxControllerHandler::RightStick_Y(std::int32_t player)
-	{
-		// Obtain Y axis of left stick
-		short sY = mState[player].Gamepad.sThumbRY;
-
-		// Return axis value, converted to a float
-		return (static_cast<float>(sY) / 32768.0f);
-	}
-
-	float XBoxControllerHandler::LeftTrigger(std::int32_t player)
-	{
-		// Obtain value of left trigger
-        BYTE Trigger = mState[player].Gamepad.bLeftTrigger;
-
-		if (Trigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
-			return Trigger / 255.0f;
-
-		return 0.0f; // Trigger was not pressed
-	}
-
-	float XBoxControllerHandler::RightTrigger(std::int32_t player)
-	{
-		// Obtain value of right trigger
-		BYTE Trigger = mState[player].Gamepad.bRightTrigger;
-
-		if (Trigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
-			return Trigger / 255.0f;
-
-		return 0.0f; // Trigger was not pressed
+		if (player >= MAX_PLAYERS)
+		{
+			throw std::exception("Out of Bounds Exception");
+		}
+		return mPlayerState[player];
 	}
 
 	void XBoxControllerHandler::Rumble(std::int32_t player, float a_fLeftMotor, float a_fRightMotor)
@@ -236,19 +153,127 @@ namespace Library
 		// Set the vibration state for that player
 		XInputSetState(player, &VibrationState);
 	}
-	
-	bool XBoxControllerHandler::GetButtonPressed(std::int32_t player, std::string button)
+
+	void XBoxControllerHandler::ChangeButtonState(Button& playerButton, const std::chrono::milliseconds& deltaTime, bool IsPressed)
 	{
-		// Compare Gamepad's button bits to see if the button of choice got pressed
-		return ((mState[player].Gamepad.wButtons & XBoxButtonMapping[button]) != 0);
+		std::chrono::milliseconds& playerButtonDuration = playerButton.Duration;
+		if (IsPressed)
+		{
+			if (playerButtonDuration < zero_ms)
+			{	// If this is the first frame being pressed, start at zero duration
+				playerButtonDuration = zero_ms;
+			}
+			else
+			{	// else start accumulating the duration
+				playerButtonDuration += deltaTime;
+			}
+		}
+		else
+		{	// Negative Duration is equivalent to not being pressed
+			playerButtonDuration = negative_ms;
+		}
 	}
+	void XBoxControllerHandler::ChangeTriggerState(Trigger& playerTrigger, const std::chrono::milliseconds& deltaTime, const SHORT& magnitude, const SHORT& threshold)
+	{
+		if (magnitude > threshold)
+		{
+			if (playerTrigger.Duration < zero_ms)
+			{	// If this is the first frame being pressed, start at zero duration
+				playerTrigger.Duration = zero_ms;
+			}
+			else
+			{	// else start accumulating the duration
+				playerTrigger.Duration += deltaTime;
+			}
+			playerTrigger.Magnitude = magnitude;
+		}
+		else
+		{	// Negative Duration is equivalent to not being pressed
+			playerTrigger.Duration = negative_ms;
+			playerTrigger.Magnitude = 0;
+		}
+	}
+
+	void XBoxControllerHandler::ChangeAnalogState(AnalogStick& playerAnalog, const std::chrono::milliseconds& deltaTime, const SHORT& magnitudeX, const SHORT& magnitudeY, const SHORT& threshold)
+	{
+		bool IsInUse = false;
+		const SHORT magnitudeYFlipped = (magnitudeY != -32768) ? -magnitudeY : 32767;	// Negated with Overflow handling
+
+		if (magnitudeX > threshold || magnitudeX < -threshold)
+		{
+			playerAnalog.MagnitudeX = magnitudeX;
+			IsInUse = true;
+		}
+		else
+		{
+			playerAnalog.MagnitudeX = 0;
+		}
+
+		if (magnitudeYFlipped > threshold || magnitudeYFlipped < -threshold)
+		{
+			playerAnalog.MagnitudeY = magnitudeYFlipped;
+			IsInUse = true;
+		}
+		else
+		{
+			playerAnalog.MagnitudeY = 0;
+		}
+
+		if(IsInUse)
+		{
+			if (playerAnalog.Duration < zero_ms)
+			{	// If this is the first frame being pressed, start at zero duration
+				playerAnalog.Duration = zero_ms;
+			}
+			else
+			{	// else start accumulating the duration
+				playerAnalog.Duration += deltaTime;
+			}
+		}
+		else
+		{	// Negative Duration is equivalent to not being pressed
+			playerAnalog.Duration = negative_ms;
+		}
+	}
+
+#define X_CHECK(Value)	((Value) != 0)
+	void XBoxControllerHandler::UpdatePlayerState(std::uint32_t player, XINPUT_STATE & currentPlayerState, std::chrono::milliseconds deltaTime)
+	{
+		WORD& currentPlayerButtonState = currentPlayerState.Gamepad.wButtons;
+		XBoxControllerState& playerState = mPlayerState[player];
+
+		// Update Button State
+		ChangeButtonState(playerState.A,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_A));
+		ChangeButtonState(playerState.B,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_B));
+		ChangeButtonState(playerState.X,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_X));
+		ChangeButtonState(playerState.Y,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_Y));
+		ChangeButtonState(playerState.DPad_Up,			deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_UP));
+		ChangeButtonState(playerState.DPad_Down,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_DOWN));
+		ChangeButtonState(playerState.DPad_Left,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_LEFT));
+		ChangeButtonState(playerState.DPad_Right,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_RIGHT));
+		ChangeButtonState(playerState.Left_Shoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER));
+		ChangeButtonState(playerState.Right_Shoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_SHOULDER));
+		ChangeButtonState(playerState.Left_Thumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_THUMB));
+		ChangeButtonState(playerState.Right_Thumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_THUMB));
+		ChangeButtonState(playerState.Start,			deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_START));
+		ChangeButtonState(playerState.Back,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_BACK));
+			
+		// Update Trigger State
+		ChangeTriggerState(playerState.LeftTrigger, deltaTime, currentPlayerState.Gamepad.bLeftTrigger, XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+		ChangeTriggerState(playerState.RightTrigger, deltaTime, currentPlayerState.Gamepad.bRightTrigger, XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+			
+		// Update Analog State
+		ChangeAnalogState(playerState.LeftStick, deltaTime, currentPlayerState.Gamepad.sThumbLX, currentPlayerState.Gamepad.sThumbLY, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+		ChangeAnalogState(playerState.RightStick, deltaTime, currentPlayerState.Gamepad.sThumbRX, currentPlayerState.Gamepad.sThumbRY, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	}
+#undef XCHECK
 
 	void XBoxControllerHandler::Update(WorldState& state)
 	{
 		// Obtain Current XBox Controller State for All Players
-		XINPUT_STATE currentState[4];
-		bool currentPlayersConnected[4];
-		for (int i = 0; i < 4; ++i)
+		XINPUT_STATE currentState[MAX_PLAYERS];
+		bool currentPlayersConnected[MAX_PLAYERS];
+		for (int i = 0; i < MAX_PLAYERS; ++i)
 		{
 			// Zero memory
 			RtlSecureZeroMemory(&currentState[i], sizeof(XINPUT_STATE));
@@ -262,7 +287,7 @@ namespace Library
 
 		// Test For Events (Button Changes, Player Connection Changes, etc.)
 		Scope& ButtonMapping = GetButtonMapping();
-		for (int player = 0; player < 4; ++player)
+		for (std::int32_t player = 0; player < MAX_PLAYERS; ++player)
 		{
 			// State of Player connection changed
 			if (bIsPlayersConnected[player] != currentPlayersConnected[player])
@@ -278,6 +303,9 @@ namespace Library
 				SendIOEvent(type, state, message);
 			}
 
+			// Update Current Player Connection Results
+			bIsPlayersConnected[player] = currentPlayersConnected[player];
+
 			// Terminate Event Checks for player if player is not connected
 			if (!currentPlayersConnected[player])
 			{
@@ -286,36 +314,40 @@ namespace Library
 
 			// Detect Changes for the Button states between Frames
 			// Note:	wButton is a WORD that represents a boolean array for button states
+
 			//			XOR between previous and current state will result in marking only the bits of the buttons that changed
-			WORD buttonStateChanges = (mState[player].Gamepad.wButtons ^ currentState[player].Gamepad.wButtons);
+			WORD& playersCurrentButtonState = currentState[player].Gamepad.wButtons;
+			WORD buttonStateChanges = (mButtonState[player] ^ playersCurrentButtonState);
 
 			//  Quickly Check for Button Changes (0 if no button has changed)
 			if (buttonStateChanges)
 			{
 				// Loop through all Buttons and their button states
-				for (auto& buttonPair : XBoxButtonMapping)
+				for (std::uint32_t i = 0; i < ButtonMapping.Size(); ++i)
 				{
+					auto& buttonPair = ButtonMapping.GetPair(i);
+					std::string buttonName = buttonPair.first;
+					const Datum& eventNames = buttonPair.second;
+					std::int32_t buttonMask = XBoxButtonMapping[buttonName];
+
 					// Check if Button has changed since last frame
-					if (buttonStateChanges & buttonPair.second)
+					if (buttonStateChanges & buttonMask)
 					{
-						bool isButtonPressed = ((currentState[player].Gamepad.wButtons & buttonPair.second) != 0);
+						bool isButtonPressed = ((playersCurrentButtonState & buttonMask) != 0);
 
 						// Button State Changed, Enqueue Button changed event
 						EventMessageAttributed message;
 						message.AppendAuxiliaryAttribute("PlayerNumber") = player;	// Store Player Number
 						message.AppendAuxiliaryAttribute("IsButtonPressed") = isButtonPressed;
 
-						SendButtonEvent(buttonPair.first, state, message, &ButtonMapping);
+						SendButtonEvent(buttonName, state, message, eventNames);
 					}
 				}
 			}
-		}
 
-		// Update All Current Results
-		for (int player = 0; player < 4; ++player)
-		{
-			mState[player] = currentState[player];
-			bIsPlayersConnected[player] = currentPlayersConnected[player];
+			// Update Current Player State Results
+			mButtonState[player] = playersCurrentButtonState;
+			UpdatePlayerState(player, currentState[player], state.mGameTime->ElapsedGameTime());
 		}
 	}
 

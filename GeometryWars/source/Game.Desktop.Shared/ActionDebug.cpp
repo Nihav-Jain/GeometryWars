@@ -4,15 +4,23 @@
 namespace Library {
 
 	RTTI_DEFINITIONS(ActionDebug)
-	ActionDebug::ActionDebug() : mMessage() 
+	ActionDebug::ActionDebug()
 	{
-		AddInternalAttribute("message","", 1);
-		mMessage = &((*this)["message"].Get<std::string>());
+		AddInternalAttribute("message", "", 1);
 	}
 	ActionDebug::~ActionDebug() {}
 	void ActionDebug::Update(WorldState & state) 
 	{
 		ActionList::Update(state);
-		OutputDebugStringA((*this)["message"].Get<std::string>().c_str());
+		Datum& messages = (*this)["message"];
+		for (std::uint32_t i = 0; i < messages.Size(); ++i)
+		{
+			std::string& message = messages.Get<std::string>(i);
+			if (!message.empty())
+			{
+				OutputDebugStringA(message.c_str());
+				OutputDebugStringA("\n");
+			}
+		}
 	}
 }
