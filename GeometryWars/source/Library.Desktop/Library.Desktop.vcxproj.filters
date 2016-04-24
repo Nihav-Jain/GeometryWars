@@ -1,32 +1,196 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Game.Desktop.OpenGL\gl3w.c" />
-    <ClCompile Include="Action.cpp" />
-    <ClCompile Include="ActionEvent.cpp" />
-    <ClCompile Include="ActionExpression.cpp" />
-    <ClCompile Include="ActionIfThenElse.cpp" />
-    <ClCompile Include="ActionList.cpp" />
-    <ClCompile Include="ActionListSwitch.cpp" />
-    <ClCompile Include="ActionWhileLoop.cpp" />
-    <ClCompile Include="Attributed.cpp" />
-    <ClCompile Include="Datum.cpp" />
-    <ClCompile Include="DefaultHash.cpp" />
-    <ClCompile Include="DefaultReserveStrategy.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EventMessageAttributed.cpp" />
-    <ClCompile Include="EventPublisher.cpp" />
-    <ClCompile Include="EventQueue.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameClock.cpp" />
-    <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="OpenGLRenderBuffer.cpp" />
-    <ClCompile Include="OpenGLRenderDevice.cpp" />
-    <ClCompile Include="OpenGLShader.cpp" />
-    <ClCompile Include="OpenGLTexture.cpp" />
-    <ClCompile Include="RenderBuffer.cpp" />
-    <ClCompile Include="RenderDevice.cpp" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="RTTI.h" />
+    <ClInclude Include="Vector.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="SList.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Hashmap.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="IXmlParseHelper.h" />
+    <ClInclude Include="XmlParseMaster.h" />
+    <ClInclude Include="Factory.h" />
+    <ClInclude Include="XmlParseHelperTable.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperPrimitives.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperNameValue.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperWorld.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperSector.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperEntity.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAction.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Datum.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Attributed.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Scope.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionList.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClock.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedDataTable.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionListSwitch.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionSwitch.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultReserveStrategy.h">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultHash.h">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionExpression.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionExpression.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="IEventSubscriber.h">
+      <Filter>Kernel\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPublisher.h">
+      <Filter>Kernel\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Kernel\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Kernel\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Reaction.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="ReactionAttributed.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMessageAttributed.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEvent.h">
+      <Filter>Kernel\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperReaction.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionEvent.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionIfThenElse.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionIf.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionWhileLoop.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperActionWhile.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperSprite.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderable.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderDevice.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderDevice.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperBeginPlay.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBuffer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderBuffer.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLShader.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCreateEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionDestroyEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Reaction.cpp" />
     <ClCompile Include="ReactionAttributed.cpp" />
@@ -55,7 +219,168 @@
     <ClCompile Include="XmlParseHelperSprite.cpp" />
     <ClCompile Include="XmlParseHelperWorld.cpp" />
     <ClCompile Include="XmlParseMaster.cpp" />
-    <ClCompile Include="XmlParseHelperTable.cpp" />
+    <ClCompile Include="XmlParseHelperTable.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperPrimitives.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperNameValue.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperWorld.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperSector.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperEntity.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAction.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Datum.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Attributed.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Scope.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Sector.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldState.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionList.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClock.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedDataTable.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionListSwitch.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionSwitch.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultHash.cpp">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultReserveStrategy.cpp">
+      <Filter>Containers\DefaultAlgos</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionExpression.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionExpression.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPublisher.cpp">
+      <Filter>Kernel\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Kernel\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Reaction.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="ReactionAttributed.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMessageAttributed.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionEvent.cpp">
+      <Filter>Kernel\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperReaction.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionEvent.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionIfThenElse.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionIf.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionWhileLoop.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperActionWhile.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperSprite.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderDevice.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game.Desktop.OpenGL\gl3w.c">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderDevice.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperBeginPlay.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBuffer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLShader.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLTexture.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderBuffer.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCreateEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionDestroyEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />

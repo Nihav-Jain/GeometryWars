@@ -18,7 +18,6 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
-		//AddNestedScope(ATTRIBUTE_BEGIN_PLAY);
 	}
 
 	const std::string& World::Name() const
@@ -104,24 +103,8 @@ namespace Library
 		mWorldState.action = nullptr;
 
 		mEventQueue.Update(*mWorldState.mGameTime);
-
-		std::uint32_t i;
-
-		Datum& actions = Actions();
-		for (i = 0; i < actions.Size(); i++)
-		{
-			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
-			mWorldState.action = action;
-			action->Update(mWorldState);
-		}
-
-		Datum& sectors = Sectors();
-		for (i = 0; i < sectors.Size(); i++)
-		{
-			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
-			mWorldState.sector = sector;
-			sector->Update(mWorldState);
-		}
+		UpdateWorldActions();
+		UpdateWorldSectors();
 	}
 
 	WorldState& World::GetWorldState()
@@ -132,6 +115,33 @@ namespace Library
 	EventQueue& World::GetEventQueue()
 	{
 		return mEventQueue;
+	}
+
+	void World::UpdateWorldActions()
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
+			{
+				mWorldState.action = action;
+				action->Update(mWorldState);
+			}
+		}
+	}
+
+	void World::UpdateWorldSectors()
+	{
+		std::uint32_t i;
+		Datum& sectors = Sectors();
+		for (i = 0; i < sectors.Size(); i++)
+		{
+			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+			mWorldState.sector = sector;
+			sector->Update(mWorldState);
+		}
 	}
 
 }

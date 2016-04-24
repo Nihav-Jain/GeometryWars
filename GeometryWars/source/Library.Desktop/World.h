@@ -107,6 +107,9 @@ namespace Library
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 
 	private:
+		void UpdateWorldActions();
+		void UpdateWorldSectors();
+
 		std::string mName;
 		WorldState mWorldState;
 		EventQueue mEventQueue;
