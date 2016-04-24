@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "FooRTTI.h"
+using namespace Library;
 
 RTTI_DEFINITIONS(FooRTTI);
 

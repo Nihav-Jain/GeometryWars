@@ -5,13 +5,15 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Action);
 
-	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 2;
+	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
 	const std::string Action::ATTRIBUTE_NAME = "name";
+	const std::string Action::ATTRIBUTE_CAN_EVER_TICK = "canEverTick";
 	
 	Action::Action() :
 		mName()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddInternalAttribute(ATTRIBUTE_CAN_EVER_TICK, true, 1);
 	}
 
 	const std::string& Action::Name() const

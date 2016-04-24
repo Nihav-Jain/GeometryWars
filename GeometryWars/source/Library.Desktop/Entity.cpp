@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Sector.h"
 #include "Action.h"
+#include "ActionDestroyEntity.h"
 
 namespace Library
 {
@@ -12,11 +13,10 @@ namespace Library
 	const std::string Entity::ATTRIBUTE_ACTIONS = "actions";
 
 	Entity::Entity() :
-		mName()
+		mName(), mIsPendingDestroy(false)
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ACTIONS);
-		//AddNestedScope(World::ATTRIBUTE_BEGIN_PLAY);
 	}
 
 	const std::string& Entity::Name() const
@@ -74,9 +74,24 @@ namespace Library
 		for (i = 0; i < actions.Size(); i++)
 		{
 			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
-			worldState.action = action;
-			action->Update(worldState);
+			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
+			{
+				worldState.action = action;
+				action->Update(worldState);
+			}
 		}
+	}
+
+	bool Entity::IsPendingDestroy() const
+	{
+		return mIsPendingDestroy;
+	}
+
+	void Entity::MarkForDestroy(WorldState& worldState)
+	{
+		if (worldState.action == nullptr || !worldState.action->Is(ActionDestroyEntity::TypeIdClass()))
+			throw std::exception("Only ActionDestroyEntity can mark an entity for destory.");
+		mIsPendingDestroy = true;
 	}
 
 }

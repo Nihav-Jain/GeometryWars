@@ -16,11 +16,18 @@
 #include "Sector.h"
 #include "Entity.h"
 #include "Action.h"
+
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
+#include "ActionCreateEntity.h"
+#include "ActionDestroyEntity.h"
+
+#include "ActionEvent.h"
+#include "Reaction.h"
+#include "ReactionAttributed.h"
 
 #include "GameObject.h"
 
@@ -141,6 +148,18 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+
+		EntityFactory mEntityFactory;
+		ActionListFactory mActionListFactory;
+		ActionListSwitchFactory mActionSwitchFactory;
+		ActionListSwitch::ActionListSwitchCaseFactory mActionCaseFactory;
+		ActionWhileLoopFactory mActionWhileFactory;
+		ActionIfThenElseFactory mActionIfFactory;
+		ActionExpressionFactory mActionExpressionFactory;
+		ActionEventFactory mActionEventFactory;
+		ReactionAttributedFactory mReactionFactory;
+		ActionCreateEntityFactory mCreateEntityFactory;
+		ActionDestroyEntityFactory mDestroyEntityFactory;
 	};
 }
 

@@ -58,7 +58,7 @@ namespace Library
 			/**
 			 *	Constructor for SList, initializes an empty list
 			 */
-			Vertex(T& vertexData);
+			Vertex(const T& vertexData);
 
 			/**
 			 *	Copy constructor for SList
@@ -201,7 +201,7 @@ namespace Library
 		 */
 		~Graph();
 
-		Traversor AddVertex(T& vertexData);
+		Traversor AddVertex(const T& vertexData);
 		Traversor AddVertex(T& vertexData, Traversor& parentVertex);
 		void CreateEdge(Traversor& tailVertex, Traversor& headVertex);
 

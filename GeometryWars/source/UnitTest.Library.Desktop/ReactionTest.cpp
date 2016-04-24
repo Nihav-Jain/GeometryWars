@@ -44,14 +44,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ReactionTestReaction)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ReactionAttributedFactory reactionAttributedFactory;
-			ActionEventFactory actionEventFactory;
-
 			Game game;
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test.xml"));
 			game.Start();
@@ -100,14 +92,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ReactionTestMultipleSubtypes)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ReactionAttributedFactory reactionAttributedFactory;
-			ActionEventFactory actionEventFactory;
-
 			Game game;
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test_subtype.xml"));
 			game.Start();
@@ -150,14 +134,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ReactionTestNotNotified)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ReactionAttributedFactory reactionAttributedFactory;
-			ActionEventFactory actionEventFactory;
-
 			Game game;
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test_notnotified.xml"));
 			game.Start();
@@ -199,13 +175,6 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(ReactionTestArguments)
 		{
-			EntityFactory entityFactory;
-			ActionListFactory actionListFactory;
-			ActionListSwitchFactory switchFactory;
-			ActionListSwitch::ActionListSwitchCaseFactory switchCaseFactory;
-			ActionExpressionFactory expFactory;
-			ReactionAttributedFactory reactionAttributedFactory;
-			ActionEventFactory actionEventFactory;
 
 			Game game;
 			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_reaction_test_arguments.xml"));

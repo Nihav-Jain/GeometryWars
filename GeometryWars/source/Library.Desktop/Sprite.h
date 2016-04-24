@@ -5,6 +5,11 @@
 #include "Renderable.h"
 
 namespace Library {
+
+	class Shader;
+	class Texture;
+	class RenderBuffer;
+
 	/**
 	* The renderable sprite class
 	* TODO: Add trasnformation to the entiy trasnformation accordingly
@@ -41,9 +46,9 @@ namespace Library {
 		std::string mImagePath;
 		glm::vec4 mColor;
 
-		std::uint32_t mTextureId;
-		std::uint32_t mShaderId;
-		std::uint32_t mBufferId;
+		Texture * mTexture;
+		Shader * mShader;
+		RenderBuffer * mBuffer;
 	};
 }
 

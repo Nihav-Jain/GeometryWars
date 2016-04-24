@@ -165,6 +165,7 @@
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="GameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -173,6 +174,31 @@
     </ClInclude>
     <ClInclude Include="CircleColliderComponent.h">
       <Filter>Game\Components</Filter>
+=======
+    <ClInclude Include="RenderBuffer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderBuffer.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLShader.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCreateEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionDestroyEntity.h">
+      <Filter>Kernel\Actions</Filter>
+>>>>>>> master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +342,7 @@
     <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="GameObject.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -324,6 +351,31 @@
     </ClCompile>
     <ClCompile Include="CircleColliderComponent.cpp">
       <Filter>Game\Components</Filter>
+=======
+    <ClCompile Include="RenderBuffer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLShader.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLTexture.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderBuffer.cpp">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCreateEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionDestroyEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+>>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
