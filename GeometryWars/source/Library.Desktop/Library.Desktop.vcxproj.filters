@@ -165,7 +165,6 @@
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="GameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -174,7 +173,7 @@
     </ClInclude>
     <ClInclude Include="CircleColliderComponent.h">
       <Filter>Game\Components</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="RenderBuffer.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
@@ -198,7 +197,6 @@
     </ClInclude>
     <ClInclude Include="ActionDestroyEntity.h">
       <Filter>Kernel\Actions</Filter>
->>>>>>> master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -342,7 +340,6 @@
     <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="GameObject.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -351,7 +348,7 @@
     </ClCompile>
     <ClCompile Include="CircleColliderComponent.cpp">
       <Filter>Game\Components</Filter>
-=======
+	</ClCompile>
     <ClCompile Include="RenderBuffer.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
@@ -375,7 +372,6 @@
     </ClCompile>
     <ClCompile Include="ActionDestroyEntity.cpp">
       <Filter>Kernel\Actions</Filter>
->>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

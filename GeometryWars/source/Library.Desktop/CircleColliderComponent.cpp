@@ -7,12 +7,14 @@ namespace Library
 
 	const std::string CircleColliderComponent::ATTRIBUTE_RADIUS = "radius";
 	const std::string CircleColliderComponent::ATTRIBUTE_ENABLED = "enabled";
+	const std::string CircleColliderComponent::ATTRIBUTE_CHANNEL = "channel";
 
 	CircleColliderComponent::CircleColliderComponent()
-		: mRadius(), mEnabled(true), mOwner(nullptr), mCollidableEntities(nullptr)
+		: mRadius(), mEnabled(true), mCollisionChannel(), mOwner(nullptr), mCollidableEntities(nullptr)
 	{
 		AddExternalAttribute(ATTRIBUTE_RADIUS, 1, &mRadius);
 		AddExternalAttribute(ATTRIBUTE_ENABLED, 1, &mEnabled);
+		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
 	const std::float_t & CircleColliderComponent::Radius() const
@@ -38,7 +40,7 @@ namespace Library
 		mEnabled = isEnabled;
 	}
 
-	const GameObject & CircleColliderComponent::Owner() const
+	const GameObject& CircleColliderComponent::Owner() const
 	{
 		return *mOwner;
 	}
@@ -49,10 +51,10 @@ namespace Library
 
 		if (mCollidableEntities != nullptr)
 		{
-			for (std::uint32_t i = mCollidableEntities->Size(); i < mCollidableEntities->Size(); ++i)
+			for (Entity* entity : *mCollidableEntities)
 			{
-				GameObject *other = (*mCollidableEntities)[i].As<GameObject>();
-				if (other != nullptr && IsColliding(*other))
+				GameObject *other = entity->AssertiveAs<GameObject>();
+				if (IsColliding(*other))
 				{
 					mOwner->OnOverlapBegin(*other);
 				}
@@ -67,20 +69,14 @@ namespace Library
 		assert(parent != nullptr);
 		GameObject *owner = parent->As<GameObject>();
 		assert(owner != nullptr);
-
 		mOwner = owner;
 
 		// Get entities that can be collided with
-		switch (mOwner->Type())
+		Sector *sector = parent->GetParent()->AssertiveAs<Sector>();
+		Entity *collidableEntityType = sector->FindEntity(mCollisionChannel);
+		if (collidableEntityType != nullptr)
 		{
-			case GameObject::GameObjectType::ENEMY:
-				mCollidableEntities = &mOwner->GetSector()->GetWorld()->FindSector(GameObject::SECTOR_PLAYER)->Entities();
-				break;
-			case GameObject::GameObjectType::BULLET:
-				mCollidableEntities = &mOwner->GetSector()->GetWorld()->FindSector(GameObject::SECTOR_ENEMIES)->Entities();
-				break;
-			default:
-				break;
+			mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdClass());
 		}
 	}
 

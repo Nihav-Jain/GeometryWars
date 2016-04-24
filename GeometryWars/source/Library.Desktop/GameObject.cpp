@@ -9,23 +9,8 @@ namespace Library
 	const std::string GameObject::ATTRIBUTE_ROTATION = "rotation";
 	const std::string GameObject::ATTRIBUTE_SCALE = "scale";
 
-	// TODO : Move these somewhere else?
-	const std::string GameObject::SECTOR_PLAYER = "playerSector";
-	const std::string GameObject::SECTOR_ENEMIES = "enemiesSector";
-	const std::string GameObject::SECTOR_BULLETS = "bulletsSector";
-
-
-#pragma warning (disable:4592)
-	const Hashmap<std::string, GameObject::GameObjectType> GameObject::SectorTypeStrings =
-	{
-		{ GameObject::SECTOR_PLAYER,	GameObject::GameObjectType::PLAYER },
-		{ GameObject::SECTOR_ENEMIES,	GameObject::GameObjectType::ENEMY },
-		{ GameObject::SECTOR_BULLETS,	GameObject::GameObjectType::BULLET }
-	};
-#pragma warning (default:4592)
-
 	GameObject::GameObject()
-		: mType(GameObjectType::INVALID), mPosition(), mRotation(), mScale(1.0f)
+		: mPosition(), mRotation(), mScale(1.0f)
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
@@ -60,21 +45,6 @@ namespace Library
 	void GameObject::SetScale(const glm::vec4 & scale)
 	{
 		mScale = scale;
-	}
-
-	GameObject::GameObjectType GameObject::Type() const
-	{
-		return mType;
-	}
-
-	void GameObject::SetType(const std::string & type)
-	{
-		mType = SectorTypeStrings[type];
-	}
-
-	void GameObject::SetType(GameObjectType type)
-	{
-		mType = type;
 	}
 
 	Action* GameObject::GetComponent(const std::string & typeName) const

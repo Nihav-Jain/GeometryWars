@@ -9,14 +9,6 @@ namespace Library
 
 	public:
 
-		enum class GameObjectType
-		{
-			INVALID,
-			PLAYER,
-			ENEMY,
-			BULLET
-		};
-
 		GameObject();
 		virtual ~GameObject() = default;
 
@@ -29,10 +21,6 @@ namespace Library
 		const glm::vec4& Scale() const;
 		void SetScale(const glm::vec4& scale);
 
-		GameObjectType Type() const;
-		void SetType(const std::string& type);
-		void SetType(GameObjectType type);
-
 		Action* GetComponent(const std::string& typeName) const;
 		bool HasComponent(const std::string& typeName) const;
 
@@ -42,14 +30,8 @@ namespace Library
 		static const std::string ATTRIBUTE_ROTATION;
 		static const std::string ATTRIBUTE_SCALE;
 
-		static const std::string SECTOR_PLAYER;
-		static const std::string SECTOR_ENEMIES;
-		static const std::string SECTOR_BULLETS;
-		static const Hashmap<std::string, GameObjectType> SectorTypeStrings;
-
 	protected:
 		glm::vec4 mPosition, mRotation, mScale;
-		GameObjectType mType;
 
 	};
 
