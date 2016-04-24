@@ -46,8 +46,8 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
-		AddEntityToTypeMap(*entity, entityTypeTraversor);
+		//Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
+		//AddEntityToTypeMap(*entity, entityTypeTraversor);
 
 		return *entity;
 	}
@@ -158,8 +158,8 @@ namespace Library
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->IsPendingDestroy())
 			{
-				Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
-				RemoveEntityFromTypeMap(*entity, entityTypeTraversor);
+				//Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
+				//RemoveEntityFromTypeMap(*entity, entityTypeTraversor);
 				delete entity;
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
 			}

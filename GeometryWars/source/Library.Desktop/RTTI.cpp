@@ -3,6 +3,6 @@
 
 namespace Library
 {
-	Graph<std::uint64_t> RTTI::ClassHeirarchy;
-	Graph<std::uint64_t>::Traversor RTTI::TypeTraversor = RTTI::ClassHeirarchy.AddVertex(0U);
+	Hashmap<std::uint64_t const*, std::uint64_t const*> RTTI::ClassHeirarchy(0);
+	const std::uint64_t RTTI::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&RTTI::sRunTimeTypeId);
 }
