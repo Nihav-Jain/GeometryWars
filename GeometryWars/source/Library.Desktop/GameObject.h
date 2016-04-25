@@ -21,6 +21,9 @@ namespace Library
 		const glm::vec4& Scale() const;
 		void SetScale(const glm::vec4& scale);
 
+		const std::float_t& MoveSpeed() const;
+		void SetMoveSpeed(const std::float_t& moveSpeed);
+
 		Action* GetComponent(const std::string& typeName) const;
 		bool HasComponent(const std::string& typeName) const;
 
@@ -29,9 +32,11 @@ namespace Library
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_ROTATION;
 		static const std::string ATTRIBUTE_SCALE;
+		static const std::string ATTRIBUTE_MOVESPEED;
 
 	protected:
 		glm::vec4 mPosition, mRotation, mScale;
+		std::float_t mMoveSpeed;
 
 	};
 

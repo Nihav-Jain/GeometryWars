@@ -8,13 +8,15 @@ namespace Library
 	const std::string GameObject::ATTRIBUTE_POSITION = "position";
 	const std::string GameObject::ATTRIBUTE_ROTATION = "rotation";
 	const std::string GameObject::ATTRIBUTE_SCALE = "scale";
+	const std::string GameObject::ATTRIBUTE_MOVESPEED = "speed";
 
 	GameObject::GameObject()
-		: mPosition(), mRotation(), mScale(1.0f)
+		: mPosition(), mRotation(), mScale(1.0f), mMoveSpeed()
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
 		AddExternalAttribute(ATTRIBUTE_SCALE, 1, &mScale);
+		AddExternalAttribute(ATTRIBUTE_MOVESPEED, 1, &mMoveSpeed);
 	}
 
 	const glm::vec4 & GameObject::Position() const
@@ -45,6 +47,16 @@ namespace Library
 	void GameObject::SetScale(const glm::vec4 & scale)
 	{
 		mScale = scale;
+	}
+
+	const std::float_t & GameObject::MoveSpeed() const
+	{
+		return mMoveSpeed;
+	}
+
+	void GameObject::SetMoveSpeed(const std::float_t & moveSpeed)
+	{
+		mMoveSpeed = moveSpeed;
 	}
 
 	Action* GameObject::GetComponent(const std::string & typeName) const

@@ -74,6 +74,7 @@ namespace Library
 		// Get entities that can be collided with
 		Sector *sector = parent->GetParent()->AssertiveAs<Sector>();
 		Entity *collidableEntityType = sector->FindEntity(mCollisionChannel);
+
 		if (collidableEntityType != nullptr)
 		{
 			mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdClass());
