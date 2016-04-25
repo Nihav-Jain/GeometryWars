@@ -112,6 +112,8 @@ namespace Library
 		 */
 		virtual void Clear() override;
 
+		static void ClearStaticMembers();
+
 	protected:
 		/**
 		 *	Adds a signature as an internal prescribed attribute, see overloads for various supported data types
@@ -158,7 +160,9 @@ namespace Library
 		Datum& AddEmptyInternalSignature(const std::string& name, Datum::DatumType type, std::uint32_t size);
 		Datum& AddEmptySignature(const std::string& name);
 
-		Vector<std::string> mPrescribedAttributes;
+		bool IsParentPrescribedAttribute(const std::string& attributeName, const std::uint64_t* parentTypeIdPtr) const;
+		std::uint32_t PrescribedAttributeCount(const std::uint64_t* parentTypeIdPtr) const;
+
+		static Hashmap<std::uint64_t, Vector<std::string>> mPrescribedAttributes;
 	};
 }
-

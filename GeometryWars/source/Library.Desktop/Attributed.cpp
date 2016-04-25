@@ -3,7 +3,9 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Attributed);
+	RTTI_DEFINITIONS(Attributed, Scope);
+
+	Hashmap<std::uint64_t, Vector<std::string>> Attributed::mPrescribedAttributes;
 
 	Attributed::Attributed()
 	{
@@ -11,13 +13,13 @@ namespace Library
 	}
 
 	Attributed::Attributed(const Attributed& rhs) :
-		Scope::Scope(rhs), mPrescribedAttributes(rhs.mPrescribedAttributes)
+		Scope::Scope(rhs)
 	{
 		(*this)["this"] = this;
 	}
 
 	Attributed::Attributed(Attributed&& rhs) :
-		Scope::Scope(std::move(rhs)), mPrescribedAttributes(std::move(rhs.mPrescribedAttributes))
+		Scope::Scope(std::move(rhs))
 	{
 		(*this)["this"] = this;
 	}
@@ -29,8 +31,6 @@ namespace Library
 			Clear();
 
 			Scope::operator=(rhs);
-
-			mPrescribedAttributes = rhs.mPrescribedAttributes;
 
 			(*this)["this"] = this;
 		}
@@ -44,7 +44,6 @@ namespace Library
 			Clear();
 
 			Scope::operator=(std::move(rhs));
-			mPrescribedAttributes = std::move(rhs.mPrescribedAttributes);
 
 			(*this)["this"] = this;
 		}
@@ -53,7 +52,12 @@ namespace Library
 
 	bool Attributed::IsPrescribedAttribute(const std::string& name) const
 	{
-		return (mPrescribedAttributes.Find(name) != mPrescribedAttributes.end());
+		Vector<std::string>& prescribedAttributes = mPrescribedAttributes[TypeIdInstance()];
+		if (prescribedAttributes.Find(name) == prescribedAttributes.end())
+		{
+			return IsParentPrescribedAttribute(name, RTTI::ClassHeirarchy()[TypeIdInstance()]);
+		}
+		return true;
 	}
 
 	bool Attributed::IsAuxiliaryAttribute(const std::string& name) const
@@ -82,7 +86,7 @@ namespace Library
 
 	std::uint32_t Attributed::AuxiliaryBegin() const
 	{
-		return mPrescribedAttributes.Size();
+		return mPrescribedAttributes[TypeIdInstance()].Size() + PrescribedAttributeCount(RTTI::ClassHeirarchy()[TypeIdInstance()]);
 	}
 
 	void Attributed::CopyAuxiliaryAttributesFromAnotherAttributed(const Attributed& anotherAttributed)
@@ -112,6 +116,11 @@ namespace Library
 	void Attributed::Clear()
 	{
 		Scope::Clear();
+		mPrescribedAttributes.Clear();
+	}
+
+	void Attributed::ClearStaticMembers()
+	{
 		mPrescribedAttributes.Clear();
 	}
 
@@ -268,13 +277,13 @@ namespace Library
 
 	void Attributed::DefineUniqueAttributeName(const std::string& name)
 	{
-		if (IsAttribute(name))
+		if (!IsPrescribedAttribute(name))
 		{
-			std::stringstream str;
-			str << "Attribute " << name << " already exists.";
-			throw std::exception(str.str().c_str());
+			//std::stringstream str;
+			//str << "Attribute " << name << " already exists.";
+			//throw std::exception(str.str().c_str());
+			mPrescribedAttributes[this->TypeIdInstance()].PushBack(name);
 		}
-		mPrescribedAttributes.PushBack(name);
 	}
 
 	Datum& Attributed::AddEmptyInternalSignature(const std::string& name, Datum::DatumType type, std::uint32_t size)
@@ -289,6 +298,23 @@ namespace Library
 	{
 		DefineUniqueAttributeName(name);
 		return Append(name);
+	}
+
+	bool Attributed::IsParentPrescribedAttribute(const std::string& attributeName, const std::uint64_t* parentTypeIdPtr) const
+	{
+		if (*parentTypeIdPtr == Scope::TypeIdClass())
+			return false;
+		Vector<std::string>& prescribedAttributes = mPrescribedAttributes[*parentTypeIdPtr];
+		if (prescribedAttributes.Find(attributeName) == prescribedAttributes.end())
+			return IsParentPrescribedAttribute(attributeName, RTTI::ClassHeirarchy()[*parentTypeIdPtr]);
+		return true;
+	}
+
+	std::uint32_t Attributed::PrescribedAttributeCount(const std::uint64_t* parentTypeIdPtr) const
+	{
+		if (*parentTypeIdPtr == Scope::TypeIdClass())
+			return 0;
+		return mPrescribedAttributes[*parentTypeIdPtr].Size() + PrescribedAttributeCount(RTTI::ClassHeirarchy()[*parentTypeIdPtr]);
 	}
 
 #pragma endregion

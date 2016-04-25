@@ -5,7 +5,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ReactionAttributed);
+	RTTI_DEFINITIONS(ReactionAttributed, Reaction);
 
 	ReactionAttributed::ReactionAttributed()
 	{

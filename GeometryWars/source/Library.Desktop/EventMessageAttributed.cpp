@@ -4,7 +4,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(EventMessageAttributed);
+	RTTI_DEFINITIONS(EventMessageAttributed, Attributed);
 
 	const std::string EventMessageAttributed::ATTRIBUTE_SUBTYPE = "subtype";
 	const std::string EventMessageAttributed::ATTRIBUTE_ARGUMENTS = "arguments";

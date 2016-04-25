@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionDestroyEntity);
+	RTTI_DEFINITIONS(ActionDestroyEntity, Action);
 
 	const std::string ActionDestroyEntity::ATTRIBUTE_ENTITY_INSTANCE_NAME = "entityInstanceName";
 
