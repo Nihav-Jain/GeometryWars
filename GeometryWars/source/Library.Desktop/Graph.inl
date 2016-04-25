@@ -102,7 +102,7 @@ namespace Library
 #pragma region Vertex
 	template<typename T>
 	Graph<T>::Vertex::Vertex(const T& vertexData) :
-		mEdgeList(), mData(vertexData)
+		mEdgeList(0), mData(vertexData)
 	{}
 
 	template<typename T>
