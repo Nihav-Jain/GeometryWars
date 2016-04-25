@@ -5,6 +5,19 @@
 
 namespace Library
 {
+	struct RTTIData
+	{
+	public:
+		RTTIData() :
+			ChildTypeID(nullptr), ParentTypeID(nullptr)
+		{}
+		RTTIData(const std::uint64_t* childId, const std::uint64_t* parentId) :
+			ChildTypeID(childId), ParentTypeID(parentId)
+		{}
+		const std::uint64_t* ChildTypeID;
+		const std::uint64_t* ParentTypeID;
+	};
+
 	class RTTI
 	{
 	public:
@@ -60,7 +73,7 @@ namespace Library
 
 		static std::uint64_t TypeIdClass() { return 0; }
 		
-		static Hashmap<std::uint64_t const*, std::uint64_t const*> ClassHeirarchy;
+		static Vector<RTTIData> ClassHeirarchy;
 	protected:
 		static const std::uint64_t sRunTimeTypeId;
 	};
@@ -68,8 +81,8 @@ namespace Library
 #define RTTI_DECLARATIONS(Type, ParentType)																	 \
 		protected:																							 \
 			static const std::uint64_t sRunTimeTypeId;														 \
-		private:																							 \
-			static const Library::Hashmap<std::uint64_t const*, std::uint64_t const*>::Iterator sClassHeirarchyItr;	 \
+			static const std::uint64_t* ParentTypeId;														 \
+			static Library::Vector<Library::RTTIData>::Iterator ParentItr;										 \
 		public:                                                                                              \
 			typedef ParentType Parent;                                                                       \
 			static std::string TypeName() { return std::string(#Type); }                                     \
@@ -99,11 +112,14 @@ namespace Library
 
 #define RTTI_DEFINITIONS(Type, ParentType)																	 \
 	const std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);		 \
-	const Hashmap<std::uint64_t const*, std::uint64_t const*>::Iterator Type::sClassHeirarchyItr = RTTI::ClassHeirarchy.Insert(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
+	const std::uint64_t* Type::ParentTypeId = &ParentType::sRunTimeTypeId;									 \
+	Vector<RTTIData>::Iterator Type::ParentItr = RTTI::ClassHeirarchy.PushBack(RTTIData(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId));
 	
 #define RTTI_DEFINITIONS_T(Type, ParentType)																 \
 	template <typename T>																					 \
 	const std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);		 \
 	template <typename T>																					 \
-	const Hashmap<std::uint64_t const*, std::uint64_t const*>::Iterator Type::sClassHeirarchyItr = RTTI::ClassHeirarchy.Insert(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
+	const std::uint64_t* Type::ParentTypeId = &ParentType::sRunTimeTypeId;									 \
+	template <typename T>																					 \
+	Vector<RTTIData>::Iterator Type::ParentItr = RTTI::ClassHeirarchy.PushBack(RTTIData(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId));
 }
