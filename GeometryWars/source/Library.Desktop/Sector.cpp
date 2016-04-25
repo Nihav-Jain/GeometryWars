@@ -212,26 +212,6 @@ namespace Library
 		worldState.entity = nullptr;
 	}
 
-	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
-	{
-		return mEntityListByType[typeId];
-	}
-
-	void Sector::UpdateSectorActions(WorldState& worldState)
-	{
-		Datum& actions = Actions();
-		std::uint32_t i;
-		for (i = 0; i < actions.Size(); i++)
-		{
-			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
-			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
-			{
-				worldState.action = action;
-				action->Update(worldState);
-			}
-		}
-	}
-
 	void Sector::ActionsOnDestroy(WorldState& worldState)
 	{
 		std::uint32_t i;

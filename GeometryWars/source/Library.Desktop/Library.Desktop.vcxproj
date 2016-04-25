@@ -310,6 +310,7 @@
     <ClCompile Include="Reaction.cpp" />
     <ClCompile Include="ReactionAttributed.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RTTI.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="Shader.cpp" />
