@@ -3,15 +3,21 @@
 
 namespace Library
 {
-	Hashmap<std::string, std::string>* RTTI::ClassHeirarchyPtr = &RTTI::ClassHeirarchy();
 	const std::uint64_t RTTI::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&RTTI::sRunTimeTypeId);
+	Graph<const std::uint64_t*>::Traversor RTTI::ParentItr = RTTI::ClassHeirarchy().AddVertex(nullptr);
 	const RTTI::RTTIClassHeirarchyDeleter RTTI::sDeleter;
 
-	Hashmap<std::string, std::string>& RTTI::ClassHeirarchy()
+	Graph<const std::uint64_t*>& RTTI::ClassHeirarchy()
 	{
-		static Hashmap<std::string, std::string>* map = new Hashmap<std::string, std::string>();
+		static Graph<const std::uint64_t*>* map = new Graph<const std::uint64_t*>();
 		return *map;
 	}
+
+	RTTI::RTTIClassHeirarchyDeleter::RTTIClassHeirarchyDeleter() :
+		// this ensures that the static hashmap is constructed before the completetion of the constrcutor of RTTIClassHeirarchyDeleter
+		// which, in turn, ensures that the static ClassHeirarchy hashmap ptr will not be deleted before the destructor of RTTIClassHeirarchyDeleter
+		mJustAPtr(&RTTI::ClassHeirarchy())	
+	{}
 
 	RTTI::RTTIClassHeirarchyDeleter::~RTTIClassHeirarchyDeleter()
 	{
