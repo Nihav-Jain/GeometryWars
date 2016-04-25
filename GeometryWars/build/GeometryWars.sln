@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library.Desktop", "..\source\Library.Desktop\Library.Desktop.vcxproj", "{2B9673CD-FABE-4471-90C4-30F5B64A117B}"
 EndProject
@@ -26,6 +26,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{6cf53473-585d-4693-a26d-8560fa995351}*SharedItemsImports = 4
 		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{a0e11a2f-cb1d-4b2d-a32c-bb00151b4d53}*SharedItemsImports = 4
+		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{2b9673cd-fabe-4471-90c4-30f5b64a117b}*SharedItemsImports = 4
 		..\source\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
