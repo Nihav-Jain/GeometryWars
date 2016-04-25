@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Player);
+	RTTI_DEFINITIONS(Player, GameObject);
 
 	const std::string Player::ATTRIBUTE_ATTACKSPEED = "attack speed";
 	const std::string Player::ATTRIBUTE_LIVES = "lives";

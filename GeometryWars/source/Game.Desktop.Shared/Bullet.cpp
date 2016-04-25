@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Bullet);
+	RTTI_DEFINITIONS(Bullet, GameObject);
 
 	Bullet::Bullet()
 	{

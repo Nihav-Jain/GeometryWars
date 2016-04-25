@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Enemy);
+	RTTI_DEFINITIONS(Enemy, GameObject);
 
 	Enemy::Enemy()
 	{

@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(CircleColliderComponent);
+	RTTI_DEFINITIONS(CircleColliderComponent, Action);
 
 	const std::string CircleColliderComponent::ATTRIBUTE_RADIUS = "radius";
 	const std::string CircleColliderComponent::ATTRIBUTE_ENABLED = "enabled";
