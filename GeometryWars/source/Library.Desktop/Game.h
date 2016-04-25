@@ -16,6 +16,7 @@
 #include "Sector.h"
 #include "Entity.h"
 #include "Action.h"
+#include "Event.h"
 
 #include "ActionList.h"
 #include "ActionListSwitch.h"
