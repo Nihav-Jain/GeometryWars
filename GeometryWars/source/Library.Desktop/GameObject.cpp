@@ -57,9 +57,10 @@ namespace Library
 		return (GetComponent(typeName) != nullptr);
 	}
 
-	void GameObject::OnOverlapBegin(const GameObject & other)
+	void GameObject::OnOverlapBegin(const GameObject & other, WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(other);
+		UNREFERENCED_PARAMETER(worldState);
 	}
 }
 

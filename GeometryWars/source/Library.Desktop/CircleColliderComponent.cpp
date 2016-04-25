@@ -56,7 +56,7 @@ namespace Library
 				GameObject *other = entity->AssertiveAs<GameObject>();
 				if (IsColliding(*other))
 				{
-					mOwner->OnOverlapBegin(*other);
+					mOwner->OnOverlapBegin(*other, worldState);
 				}
 			}
 		}		

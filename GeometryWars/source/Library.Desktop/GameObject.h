@@ -24,7 +24,7 @@ namespace Library
 		Action* GetComponent(const std::string& typeName) const;
 		bool HasComponent(const std::string& typeName) const;
 
-		virtual void OnOverlapBegin(const GameObject& other);
+		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState);
 
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_ROTATION;
