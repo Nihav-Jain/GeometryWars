@@ -46,7 +46,7 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		//Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
+		//Graph<const std::uint64_t*>::Traversor entityTypeTraversor = entity->TypeTraversor();
 		//AddEntityToTypeMap(*entity, entityTypeTraversor);
 
 		return *entity;
@@ -158,7 +158,7 @@ namespace Library
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->IsPendingDestroy())
 			{
-				//Graph<uint64_t*>::Traversor entityTypeTraversor = entity->GetTypeTraversor();
+				//Graph<const std::uint64_t*>::Traversor entityTypeTraversor = entity->TypeTraversor();
 				//RemoveEntityFromTypeMap(*entity, entityTypeTraversor);
 				delete entity;
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
@@ -182,7 +182,7 @@ namespace Library
 		}
 	}
 
-	void Sector::AddEntityToTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor)
+	void Sector::AddEntityToTypeMap(Entity& entity, Graph<const std::uint64_t*>::Traversor& typeIdTraversor)
 	{
 		if (**typeIdTraversor == Attributed::TypeIdClass())
 			return;
@@ -191,7 +191,7 @@ namespace Library
 		AddEntityToTypeMap(entity, typeIdTraversor);
 	}
 
-	void Sector::RemoveEntityFromTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor)
+	void Sector::RemoveEntityFromTypeMap(Entity& entity, Graph<const std::uint64_t*>::Traversor& typeIdTraversor)
 	{
 		if (**typeIdTraversor == Attributed::TypeIdClass())
 			return;

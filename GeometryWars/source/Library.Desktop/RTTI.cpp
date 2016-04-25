@@ -4,12 +4,11 @@
 namespace Library
 {
 	const std::uint64_t RTTI::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&RTTI::sRunTimeTypeId);
-	Graph<const std::uint64_t*>::Traversor RTTI::ParentItr = RTTI::ClassHeirarchy().AddVertex(nullptr);
 	const RTTI::RTTIClassHeirarchyDeleter RTTI::sDeleter;
 
-	Graph<const std::uint64_t*>& RTTI::ClassHeirarchy()
+	Hashmap<const std::uint64_t*, const std::uint64_t*>& RTTI::ClassHeirarchy()
 	{
-		static Graph<const std::uint64_t*>* map = new Graph<const std::uint64_t*>();
+		static Hashmap<const std::uint64_t*, const std::uint64_t*>* map = new Hashmap<const std::uint64_t*, const std::uint64_t*>();
 		return *map;
 	}
 

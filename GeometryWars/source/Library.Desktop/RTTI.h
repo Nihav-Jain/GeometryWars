@@ -72,13 +72,11 @@ namespace Library
 		}
 
 		static std::uint64_t TypeIdClass() { return 0; }
-		virtual Graph<const std::uint64_t*>::Traversor TypeTraversor() const = 0;
 		
-		static Graph<const std::uint64_t*>& ClassHeirarchy();
+		static Hashmap<const std::uint64_t*, const std::uint64_t*>& ClassHeirarchy();
 
 	protected:
 		static const std::uint64_t sRunTimeTypeId;
-		static Graph<const std::uint64_t*>::Traversor ParentItr;
 
 	private:
 		class RTTIClassHeirarchyDeleter
@@ -87,7 +85,7 @@ namespace Library
 			RTTIClassHeirarchyDeleter();
 			~RTTIClassHeirarchyDeleter();
 		private:
-			Graph<const std::uint64_t*>* mJustAPtr;
+			Hashmap<const std::uint64_t*, const std::uint64_t*>* mJustAPtr;
 		};
 		static const RTTIClassHeirarchyDeleter sDeleter;
 	};
@@ -95,7 +93,7 @@ namespace Library
 #define RTTI_DECLARATIONS(Type, ParentType)																	 \
 		protected:																							 \
 			static const std::uint64_t sRunTimeTypeId;														 \
-			static Library::Graph<const std::uint64_t*>::Traversor ParentItr;								 \
+			static const Library::Hashmap<const std::uint64_t*, const std::uint64_t*>::Iterator ParentItr;	 \
 		public:                                                                                              \
 			typedef ParentType Parent;                                                                       \
 			static std::string TypeName() { return std::string(#Type); }                                     \
@@ -121,19 +119,16 @@ namespace Library
 					{ return true; }                                                                         \
 				else                                                                                         \
 					{ return Parent::Is(name); }                                                             \
-			}																								 \
-			virtual Library::Graph<const std::uint64_t*>::Traversor TypeTraversor() const					 \
-			{																								 \
-				return Type::ParentItr;																		 \
 			}
+
 
 #define RTTI_DEFINITIONS(Type, ParentType)																	 \
 	const std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);		 \
-	Graph<const std::uint64_t*>::Traversor Type::ParentItr = RTTI::ClassHeirarchy().AddParentVertex(&Type::sRunTimeTypeId, ParentType::ParentItr);
+	const Hashmap<const std::uint64_t*, const std::uint64_t*>::Iterator Type::ParentItr = RTTI::ClassHeirarchy().Insert(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
 	
 #define RTTI_DEFINITIONS_T(Type, ParentType)																 \
 	template <typename T>																					 \
 	const std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);		 \
 	template <typename T>																					 \
-	Graph<const std::uint64_t*>::Traversor Type::ParentItr = RTTI::ClassHeirarchy().AddParentVertex(&Type::sRunTimeTypeId, ParentType::ParentItr);
+	const Hashmap<const std::uint64_t*, const std::uint64_t*>::Iterator Type::ParentItr = RTTI::ClassHeirarchy().Insert(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
 }

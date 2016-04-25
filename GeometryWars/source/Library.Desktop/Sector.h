@@ -118,8 +118,8 @@ namespace Library
 		void DeletePendingDestroyEntites();
 		void UpdateEntites(WorldState& worldState);
 
-		void AddEntityToTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor);
-		void RemoveEntityFromTypeMap(Entity& entity, Graph<std::uint64_t*>::Traversor& typeIdTraversor);
+		void AddEntityToTypeMap(Entity& entity, Graph<const std::uint64_t*>::Traversor& typeIdTraversor);
+		void RemoveEntityFromTypeMap(Entity& entity, Graph<const std::uint64_t*>::Traversor& typeIdTraversor);
 
 		std::string mName;
 

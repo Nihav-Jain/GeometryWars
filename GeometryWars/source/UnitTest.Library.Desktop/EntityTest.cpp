@@ -19,6 +19,7 @@
 #include "XmlParseHelperNameValue.h"
 
 #include "ActorEntity.h"
+#include "SampleEntity.h"
 #include "Game.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -270,9 +271,12 @@ namespace UnitTestLibraryDesktop
 
 		//TEST_METHOD(EntityTestSectorEntityList)
 		//{
+		//	ActorEntityFactory aFac;
+		//	SampleEntityFactory sFac;
+
 		//	Game game;
 
-		//	Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_multi_entity_test.xml"));
+		//	Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_entitylist_test.xml"));
 
 		//	game.Start();
 
@@ -280,6 +284,9 @@ namespace UnitTestLibraryDesktop
 		//	Sector* sector = world.FindSector("worldSector");
 		//	Assert::IsNotNull(sector);
 
+		//	Assert::AreEqual(8U, sector->GetAllEntitiesOfType(Entity::TypeIdClass()).Size());
+		//	Assert::AreEqual(3U, sector->GetAllEntitiesOfType(ActorEntity::TypeIdClass()).Size());
+		//	Assert::AreEqual(4U, sector->GetAllEntitiesOfType(SampleEntity::TypeIdClass()).Size());
 		//}
 
 #if defined(DEBUG) | defined(_DEBUG)
