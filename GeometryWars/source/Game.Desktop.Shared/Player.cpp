@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "../../source/Library.Desktop/Game.h"
 #include "Player.h"
 
 namespace Library

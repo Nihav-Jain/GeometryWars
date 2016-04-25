@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "../../source/Library.Desktop/Game.h"
 #include "Bullet.h"
 
 namespace Library
