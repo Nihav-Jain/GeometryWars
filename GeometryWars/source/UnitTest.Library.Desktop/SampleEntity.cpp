@@ -4,7 +4,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(SampleEntity);
+RTTI_DEFINITIONS(SampleEntity, Entity);
 
 SampleEntity::SampleEntity()
 {

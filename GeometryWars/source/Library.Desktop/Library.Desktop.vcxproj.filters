@@ -198,6 +198,9 @@
     <ClInclude Include="ActionDestroyEntity.h">
       <Filter>Kernel\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="XmlParseHelperOnDestroy.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -373,6 +376,10 @@
     <ClCompile Include="ActionDestroyEntity.cpp">
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="XmlParseHelperOnDestroy.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="RTTI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">

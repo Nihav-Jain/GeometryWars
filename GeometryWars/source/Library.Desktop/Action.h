@@ -49,6 +49,8 @@ namespace Library
 		 */
 		void SetName(const std::string& name);
 
+		virtual void BeginPlay(WorldState& worldState);
+
 		/**
 		 *	Will be called by the parent Entity / Sector / World's Update method every frame
 		 *	Should be used to implement the main logic of a apecialized Action / Component
@@ -56,6 +58,8 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState) = 0;
+
+		virtual void OnDestroy(WorldState& worldState);
 
 		/**
 		 *	Will be called by the EndElementHandler of Action parser

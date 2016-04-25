@@ -4,9 +4,9 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(SharedDataTable);
+	RTTI_DEFINITIONS(SharedDataTable, XmlParseMaster::SharedData);
 
-	//Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
+	Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
 
 	SharedDataTable::SharedDataTable() :
 		mRootScope(nullptr), CurrentScopePtr(nullptr), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
@@ -258,7 +258,7 @@ namespace Library
 
 	void SharedDataTable::ClearStateGraph()
 	{
-		//ParserStateAutomata.Clear();
+		ParserStateAutomata.Clear();
 	}
 
 	bool SharedDataTable::CheckStateTransition(ParserState expectedState)

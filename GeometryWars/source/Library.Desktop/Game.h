@@ -48,6 +48,7 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperOnDestroy.h"
 
 namespace Library
 {
@@ -118,6 +119,7 @@ namespace Library
 		void Destroy();
 
 	private:
+		void AddParseHelpers();
 
 		GameClock mGameClock;
 		GameTime mGameTime;
@@ -148,6 +150,7 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+		XmlParseHelperOnDestroy mActionOnDestroy;
 
 		EntityFactory mEntityFactory;
 		ActionListFactory mActionListFactory;
