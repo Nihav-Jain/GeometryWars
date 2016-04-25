@@ -16,6 +16,7 @@ namespace Library
 	{
 		SharedDataTable::ClearStateGraph();
 		ActionExpression::ClearStaticMemebers();
+		Attributed::ClearStaticMembers();
 	}
 
 	World& Game::GetWorld()

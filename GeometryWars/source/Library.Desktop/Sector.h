@@ -133,8 +133,6 @@ namespace Library
 		void DeletePendingDestroyEntities(WorldState& worldState);
 		void UpdateSectorEntities(WorldState& worldState);
 
-		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
-
 		std::string mName;
 
 		typedef Hashmap<std::uint64_t, Vector<Entity*>> EntityTypeMap;
