@@ -73,7 +73,7 @@ namespace Library
 
 		static std::uint64_t TypeIdClass() { return 0; }
 		
-		static Hashmap<const std::uint64_t*, const std::uint64_t*>& ClassHeirarchy();
+		static Hashmap<std::uint64_t, const std::uint64_t*>& ClassHeirarchy();
 
 	protected:
 		static const std::uint64_t sRunTimeTypeId;
@@ -85,7 +85,7 @@ namespace Library
 			RTTIClassHeirarchyDeleter();
 			~RTTIClassHeirarchyDeleter();
 		private:
-			Hashmap<const std::uint64_t*, const std::uint64_t*>* mJustAPtr;
+			Hashmap<std::uint64_t, const std::uint64_t*>* mJustAPtr;
 		};
 		static const RTTIClassHeirarchyDeleter sDeleter;
 	};
@@ -93,7 +93,7 @@ namespace Library
 #define RTTI_DECLARATIONS(Type, ParentType)																	 \
 		protected:																							 \
 			static const std::uint64_t sRunTimeTypeId;														 \
-			static const Library::Hashmap<const std::uint64_t*, const std::uint64_t*>::Iterator ParentItr;	 \
+			static const Library::Hashmap<std::uint64_t, const std::uint64_t*>::Iterator ParentItr;	 \
 		public:                                                                                              \
 			typedef ParentType Parent;                                                                       \
 			static std::string TypeName() { return std::string(#Type); }                                     \
@@ -124,11 +124,11 @@ namespace Library
 
 #define RTTI_DEFINITIONS(Type, ParentType)																	 \
 	const std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);		 \
-	const Hashmap<const std::uint64_t*, const std::uint64_t*>::Iterator Type::ParentItr = RTTI::ClassHeirarchy().Insert(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
+	const Hashmap<std::uint64_t, const std::uint64_t*>::Iterator Type::ParentItr = RTTI::ClassHeirarchy().Insert(Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
 	
 #define RTTI_DEFINITIONS_T(Type, ParentType)																 \
 	template <typename T>																					 \
 	const std::uint64_t Type::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&Type::sRunTimeTypeId);		 \
 	template <typename T>																					 \
-	const Hashmap<const std::uint64_t*, const std::uint64_t*>::Iterator Type::ParentItr = RTTI::ClassHeirarchy().Insert(&Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
+	const Hashmap<std::uint64_t, const std::uint64_t*>::Iterator Type::ParentItr = RTTI::ClassHeirarchy().Insert(Type::sRunTimeTypeId, &ParentType::sRunTimeTypeId);
 }

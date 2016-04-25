@@ -46,8 +46,8 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		//Graph<const std::uint64_t*>::Traversor entityTypeTraversor = entity->TypeTraversor();
-		//AddEntityToTypeMap(*entity, entityTypeTraversor);
+		mEntityListByType[entity->TypeIdInstance()].PushBack(entity);
+		AddEntityToTypeMap(*entity, RTTI::ClassHeirarchy()[entity->TypeIdInstance()]);
 
 		return *entity;
 	}
@@ -158,8 +158,8 @@ namespace Library
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->IsPendingDestroy())
 			{
-				//Graph<const std::uint64_t*>::Traversor entityTypeTraversor = entity->TypeTraversor();
-				//RemoveEntityFromTypeMap(*entity, entityTypeTraversor);
+				mEntityListByType[entity->TypeIdInstance()].Remove(entity);
+				RemoveEntityFromTypeMap(*entity, RTTI::ClassHeirarchy()[entity->TypeIdInstance()]);
 				delete entity;
 				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
 			}
@@ -182,22 +182,22 @@ namespace Library
 		}
 	}
 
-	void Sector::AddEntityToTypeMap(Entity& entity, Graph<const std::uint64_t*>::Traversor& typeIdTraversor)
+	void Sector::AddEntityToTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr)
 	{
-		if (**typeIdTraversor == Attributed::TypeIdClass())
+		if (*parentTypeIdPtr == Attributed::TypeIdClass())
 			return;
-		mEntityListByType[**typeIdTraversor].PushBack(&entity);
-		typeIdTraversor.TraverseToCurrentChild();
-		AddEntityToTypeMap(entity, typeIdTraversor);
+		mEntityListByType[*parentTypeIdPtr].PushBack(&entity);
+		parentTypeIdPtr = RTTI::ClassHeirarchy()[*parentTypeIdPtr];
+		AddEntityToTypeMap(entity, parentTypeIdPtr);
 	}
 
-	void Sector::RemoveEntityFromTypeMap(Entity& entity, Graph<const std::uint64_t*>::Traversor& typeIdTraversor)
+	void Sector::RemoveEntityFromTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr)
 	{
-		if (**typeIdTraversor == Attributed::TypeIdClass())
+		if (*parentTypeIdPtr == Attributed::TypeIdClass())
 			return;
-		mEntityListByType[**typeIdTraversor].Remove(&entity);
-		typeIdTraversor.TraverseToCurrentChild();
-		RemoveEntityFromTypeMap(entity, typeIdTraversor);
+		mEntityListByType[*parentTypeIdPtr].Remove(&entity);
+		parentTypeIdPtr = RTTI::ClassHeirarchy()[*parentTypeIdPtr];
+		RemoveEntityFromTypeMap(entity, parentTypeIdPtr);
 	}
 
 }

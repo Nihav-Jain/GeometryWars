@@ -6,9 +6,9 @@ namespace Library
 	const std::uint64_t RTTI::sRunTimeTypeId = reinterpret_cast<std::uint64_t>(&RTTI::sRunTimeTypeId);
 	const RTTI::RTTIClassHeirarchyDeleter RTTI::sDeleter;
 
-	Hashmap<const std::uint64_t*, const std::uint64_t*>& RTTI::ClassHeirarchy()
+	Hashmap<std::uint64_t, const std::uint64_t*>& RTTI::ClassHeirarchy()
 	{
-		static Hashmap<const std::uint64_t*, const std::uint64_t*>* map = new Hashmap<const std::uint64_t*, const std::uint64_t*>();
+		static Hashmap<std::uint64_t, const std::uint64_t*>* map = new Hashmap<std::uint64_t, const std::uint64_t*>();
 		return *map;
 	}
 

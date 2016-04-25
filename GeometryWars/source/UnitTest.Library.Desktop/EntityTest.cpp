@@ -269,25 +269,25 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
 		}
 
-		//TEST_METHOD(EntityTestSectorEntityList)
-		//{
-		//	ActorEntityFactory aFac;
-		//	SampleEntityFactory sFac;
+		TEST_METHOD(EntityTestSectorEntityList)
+		{
+			ActorEntityFactory aFac;
+			SampleEntityFactory sFac;
 
-		//	Game game;
+			Game game;
 
-		//	Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_entitylist_test.xml"));
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_entitylist_test.xml"));
 
-		//	game.Start();
+			game.Start();
 
-		//	World& world = game.GetWorld();
-		//	Sector* sector = world.FindSector("worldSector");
-		//	Assert::IsNotNull(sector);
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
 
-		//	Assert::AreEqual(8U, sector->GetAllEntitiesOfType(Entity::TypeIdClass()).Size());
-		//	Assert::AreEqual(3U, sector->GetAllEntitiesOfType(ActorEntity::TypeIdClass()).Size());
-		//	Assert::AreEqual(4U, sector->GetAllEntitiesOfType(SampleEntity::TypeIdClass()).Size());
-		//}
+			Assert::AreEqual(8U, sector->GetAllEntitiesOfType(Entity::TypeIdClass()).Size());
+			Assert::AreEqual(3U, sector->GetAllEntitiesOfType(ActorEntity::TypeIdClass()).Size());
+			Assert::AreEqual(4U, sector->GetAllEntitiesOfType(SampleEntity::TypeIdClass()).Size());
+		}
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
