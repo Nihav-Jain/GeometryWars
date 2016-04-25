@@ -39,7 +39,7 @@ namespace Library
 		/**
 		 *	disallow copy assignment operator
 		 */
-		Sector& operator=(const Sector& rhs);
+		Sector& operator=(const Sector& rhs) = delete;
 
 		/**
 		 *	Getter for the name of this Sector
@@ -108,18 +108,32 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 
+		void OnDestroy(WorldState& worldState);
+
 		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
 
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
 
 	private:
-		void UpdateSectorActions(WorldState& worldState);
-		void DeletePendingDestroyEntites();
-		void UpdateEntites(WorldState& worldState);
-
 		void AddEntityToTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr);
 		void RemoveEntityFromTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr);
+
+		void ScriptedBeginPlay(WorldState& worldState);
+		void EntitiesBeginPlay(WorldState& worldState);
+		void ActionsBeginPlay(WorldState& worldState);
+		void ReactionsBeginPlay(WorldState& worldState);
+
+		void ScriptedOnDestroy(WorldState& worldState);
+		void EntitiesOnDestroy(WorldState& worldState);
+		void ActionsOnDestroy(WorldState& worldState);
+		void ReactionsOnDestroy(WorldState& worldState);
+
+		void UpdateSectorActions(WorldState& worldState);
+		void DeletePendingDestroyEntities(WorldState& worldState);
+		void UpdateSectorEntities(WorldState& worldState);
+
+		void AddEntityToTypeMap(RTTI* entity, std::uint64_t typeId);
 
 		std::string mName;
 

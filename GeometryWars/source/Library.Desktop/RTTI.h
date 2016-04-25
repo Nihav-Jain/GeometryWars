@@ -5,18 +5,6 @@
 
 namespace Library
 {
-	struct RTTIData
-	{
-	public:
-		RTTIData() :
-			ChildTypeID(nullptr), ParentTypeID(nullptr)
-		{}
-		RTTIData(const std::uint64_t* childId, const std::uint64_t* parentId) :
-			ChildTypeID(childId), ParentTypeID(parentId)
-		{}
-		const std::uint64_t* ChildTypeID;
-		const std::uint64_t* ParentTypeID;
-	};
 
 	class RTTI
 	{
