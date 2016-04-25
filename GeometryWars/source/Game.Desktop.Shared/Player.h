@@ -21,7 +21,7 @@ namespace Library
 
 		std::int32_t Lives() const;
 		void SetLives(std::int32_t lives);
-		void PlayerDeath();
+		void PlayerDeath(WorldState& worldState);
 
 		std::int32_t Bombs() const;
 		void SetBombs(std::int32_t bombs);

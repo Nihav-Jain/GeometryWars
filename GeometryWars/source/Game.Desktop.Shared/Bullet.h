@@ -12,6 +12,10 @@ namespace Library
 		Bullet();
 		virtual ~Bullet() = default;
 
+		void BulletDeath(WorldState& worldState);
+
+		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
+
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);

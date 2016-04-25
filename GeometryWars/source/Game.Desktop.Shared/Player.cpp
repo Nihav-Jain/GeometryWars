@@ -38,7 +38,7 @@ namespace Library
 		mLives = lives;
 	}
 
-	void Player::PlayerDeath()
+	void Player::PlayerDeath(WorldState& worldState)
 	{
 		// Check for gameover
 		if (mLives == 0)
@@ -48,6 +48,7 @@ namespace Library
 		else
 		{
 			--mLives;
+			MarkForDestroy(worldState);
 		}
 	}
 

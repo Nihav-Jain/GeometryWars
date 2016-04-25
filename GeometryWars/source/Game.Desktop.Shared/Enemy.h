@@ -12,10 +12,14 @@ namespace Library
 		Enemy();
 		virtual ~Enemy() = default;
 
+		void EnemyDeath(WorldState& worldState);
+
+		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
+
 
 	protected:
 
-		// TODO: What member variables does every enemy need?
+		//class Player* mPlayer;	// Cache the player? What about multiplayer?
 
 	};
 
