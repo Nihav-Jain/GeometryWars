@@ -1,0 +1,9 @@
+<root>	
+ <Sector  name="" />
+ <Entity  name=""  class="" />
+ <Action  name=""  class="" />
+ <integer name="" value="">(fill in char data here)</integer>
+ <vector name="" value="vec4(0, 0, 0, 0)" />
+ <beginplay/>
+ <comment/>
+</root> 
