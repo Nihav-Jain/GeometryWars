@@ -236,6 +236,7 @@
     <ClInclude Include="FooRTTI.h" />
     <ClInclude Include="FooSubscriber.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SampleEntity.h" />
     <ClInclude Include="TestSharedData.h" />
     <ClInclude Include="XmlParseHelper.h" />
   </ItemGroup>
@@ -269,6 +270,7 @@
     </ClCompile>
     <ClCompile Include="FooTest.cpp" />
     <ClCompile Include="ReactionTest.cpp" />
+    <ClCompile Include="SampleEntity.cpp" />
     <ClCompile Include="ScopeTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
     <ClCompile Include="SpriteTest.cpp" />

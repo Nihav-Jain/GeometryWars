@@ -1,0 +1,27 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+
+			<integer name="intResult" value="0"/>
+			<expression name="exp1">
+				<string name="expression">intResult = {100}</string>
+			</expression>
+
+		</entity>
+
+		<entity class="Entity" name="actor">
+			<float name="floatResult" value="0"/>
+			<expression name="exp2">
+				<string name="expression">floatResult = {10.12}</string>
+			</expression>
+		</entity>
+
+		<entity class="Entity" name="anotherActor">
+			<string name="stringResult" value="init"/>
+			<expression name="exp2">
+				<string name="expression">stringResult = {"expression evaluated"}</string>
+			</expression>
+		</entity>
+
+	</sector>	
+</world>

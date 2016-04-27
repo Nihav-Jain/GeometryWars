@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Scope);
+	RTTI_DEFINITIONS(Scope, RTTI);
 
 	const std::uint32_t Scope::DEFAULT_TABLE_SIZE;
 

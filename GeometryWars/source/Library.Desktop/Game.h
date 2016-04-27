@@ -16,11 +16,15 @@
 #include "Sector.h"
 #include "Entity.h"
 #include "Action.h"
+
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
+#include "ActionCreateEntity.h"
+#include "ActionDestroyEntity.h"
+
 #include "ActionEvent.h"
 #include "Reaction.h"
 #include "ReactionAttributed.h"
@@ -41,6 +45,7 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperOnDestroy.h"
 
 namespace Library
 {
@@ -111,6 +116,7 @@ namespace Library
 		void Destroy();
 
 	private:
+		void AddParseHelpers();
 
 		GameClock mGameClock;
 		GameTime mGameTime;
@@ -140,6 +146,7 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+		XmlParseHelperOnDestroy mActionOnDestroy;
 
 		EntityFactory mEntityFactory;
 		ActionListFactory mActionListFactory;
@@ -150,6 +157,8 @@ namespace Library
 		ActionExpressionFactory mActionExpressionFactory;
 		ActionEventFactory mActionEventFactory;
 		ReactionAttributedFactory mReactionFactory;
+		ActionCreateEntityFactory mCreateEntityFactory;
+		ActionDestroyEntityFactory mDestroyEntityFactory;
 	};
 }
 

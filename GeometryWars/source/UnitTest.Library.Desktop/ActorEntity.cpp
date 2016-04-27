@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "ActorEntity.h"
 
-RTTI_DEFINITIONS(ActorEntity);
+using namespace Library;
+
+RTTI_DEFINITIONS(ActorEntity, Entity);
 
 ActorEntity::ActorEntity()
 {

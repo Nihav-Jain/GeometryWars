@@ -3,15 +3,17 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Action);
+	RTTI_DEFINITIONS(Action, Attributed);
 
-	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 2;
+	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
 	const std::string Action::ATTRIBUTE_NAME = "name";
+	const std::string Action::ATTRIBUTE_CAN_EVER_TICK = "canEverTick";
 	
 	Action::Action() :
 		mName()
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddInternalAttribute(ATTRIBUTE_CAN_EVER_TICK, true, 1);
 	}
 
 	const std::string& Action::Name() const
@@ -22,6 +24,16 @@ namespace Library
 	void Action::SetName(const std::string& name)
 	{
 		mName = name;
+	}
+
+	void Action::BeginPlay(WorldState& worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+	}
+
+	void Action::OnDestroy(WorldState& worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
 	}
 
 	void Action::PostParsingProcess()
