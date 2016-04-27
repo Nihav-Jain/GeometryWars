@@ -63,7 +63,9 @@
     </ClCompile>
     <ClCompile Include="ReactionTest.cpp" />
     <ClCompile Include="SpriteTest.cpp" />
-    <ClCompile Include="SampleEntity.cpp" />
+    <ClCompile Include="SampleEntity.cpp">
+      <Filter>TestHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -112,7 +114,9 @@
     <ClInclude Include="BarSubscriber.h">
       <Filter>TestHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="SampleEntity.h" />
+    <ClInclude Include="SampleEntity.h">
+      <Filter>TestHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestHelpers">

@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionWhileLoop);
+	RTTI_DEFINITIONS(ActionWhileLoop, ActionList);
 
 	const std::string ActionWhileLoop::ATTRIBUTE_CONDITIONAL_EXP = "condition";
 	const std::string ActionWhileLoop::ATTRIBUTE_LOOP = "loop";

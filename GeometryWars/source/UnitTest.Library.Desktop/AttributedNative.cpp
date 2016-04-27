@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(AttributedNative);
+RTTI_DEFINITIONS(AttributedNative, Attributed);
 
 AttributedNative::AttributedNative()
 {

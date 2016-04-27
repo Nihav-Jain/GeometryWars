@@ -291,7 +291,7 @@ namespace Library
 		mParseMaster(parseMaster), mDepth(depth)
 	{}
 
-	RTTI_DEFINITIONS(XmlParseMaster::SharedData);
+	RTTI_DEFINITIONS(XmlParseMaster::SharedData, RTTI);
 
 #pragma endregion
 }

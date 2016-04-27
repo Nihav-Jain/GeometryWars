@@ -4,11 +4,13 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(World);
+	RTTI_DEFINITIONS(World, Attributed);
 
 	const std::string World::ATTRIBUTE_NAME_SECTOR = "sectors";
 	const std::string World::ATTRIBUTE_NAME = "name";
 	const std::string World::ATTRIBUTE_BEGIN_PLAY = "beginplay";
+	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
+	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
 
 	World::World(const GameTime& gameTime) :
 		mName(), mWorldState(gameTime), mEventQueue()
@@ -79,21 +81,10 @@ namespace Library
 
 	void World::BeginPlay()
 	{
-		Datum* beginPlayDatum = Find(ATTRIBUTE_BEGIN_PLAY);
-		if (beginPlayDatum!= nullptr && beginPlayDatum->Size() > 0)
-		{
-			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
-			beginPlayList->Update(mWorldState);
-
-			std::uint32_t i;
-			Datum& sectors = Sectors();
-			for (i = 0; i < sectors.Size(); i++)
-			{
-				Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
-				mWorldState.sector = sector;
-				sector->BeginPlay(mWorldState);
-			}
-		}
+		ScriptedBeginPlay();
+		SectorsBeginPlay();
+		ActionsBeginPlay();
+		ReactionsBeginPlay();
 	}
 
 	void World::Update()
@@ -107,6 +98,14 @@ namespace Library
 		UpdateWorldSectors();
 	}
 
+	void World::OnDestroy()
+	{
+		ScriptedOnDestroy();
+		SectorsOnDestroy();
+		ActionsOnDestroy();
+		ReactionsOnDestroy();
+	}
+
 	WorldState& World::GetWorldState()
 	{
 		return mWorldState;
@@ -115,6 +114,109 @@ namespace Library
 	EventQueue& World::GetEventQueue()
 	{
 		return mEventQueue;
+	}
+
+	void World::ScriptedBeginPlay()
+	{
+		Datum* beginPlayDatum = Find(ATTRIBUTE_BEGIN_PLAY);
+		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
+		{
+			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			mWorldState.action = beginPlayList;
+			beginPlayList->BeginPlay(mWorldState);
+			beginPlayList->Update(mWorldState);
+		}
+	}
+
+	void World::SectorsBeginPlay()
+	{
+		std::uint32_t i;
+		Datum& sectors = Sectors();
+		for (i = 0; i < sectors.Size(); i++)
+		{
+			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+			mWorldState.sector = sector;
+			sector->BeginPlay(mWorldState);
+		}
+		mWorldState.sector = nullptr;
+	}
+
+	void World::ActionsBeginPlay()
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			mWorldState.action = action;
+			action->BeginPlay(mWorldState);
+		}
+	}
+
+	void World::ReactionsBeginPlay()
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				mWorldState.action = reaction;
+				reaction->BeginPlay(mWorldState);
+			}
+		}
+	}
+
+	void World::ScriptedOnDestroy()
+	{
+		Datum* onDestroyDatum = Find(ATTRIBUTE_ON_DESTROY);
+		if (onDestroyDatum != nullptr && onDestroyDatum->Size() > 0)
+		{
+			ActionList* onDestroyList = onDestroyDatum->Get<Scope>().AssertiveAs<ActionList>();
+			mWorldState.action = onDestroyList;
+			onDestroyList->OnDestroy(mWorldState);
+		}
+	}
+
+	void World::SectorsOnDestroy()
+	{
+		std::uint32_t i;
+		Datum& sectors = Sectors();
+		for (i = 0; i < sectors.Size(); i++)
+		{
+			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+			mWorldState.sector = sector;
+			sector->OnDestroy(mWorldState);
+		}
+		mWorldState.sector = nullptr;
+	}
+
+	void World::ActionsOnDestroy()
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			mWorldState.action = action;
+			action->OnDestroy(mWorldState);
+		}
+	}
+
+	void World::ReactionsOnDestroy()
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				mWorldState.action = reaction;
+				reaction->OnDestroy(mWorldState);
+			}
+		}
 	}
 
 	void World::UpdateWorldActions()

@@ -91,6 +91,8 @@ namespace Library
 		 */
 		void Update();
 
+		void OnDestroy();
+
 		/**
 		 *	Getter for world state
 		 *	@return reference to WorldState
@@ -105,8 +107,20 @@ namespace Library
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
+		static const std::string ATTRIBUTE_REACTIONS;
+		static const std::string ATTRIBUTE_ON_DESTROY;
 
 	private:
+		void ScriptedBeginPlay();
+		void SectorsBeginPlay();
+		void ActionsBeginPlay();
+		void ReactionsBeginPlay();
+
+		void ScriptedOnDestroy();
+		void SectorsOnDestroy();
+		void ActionsOnDestroy();
+		void ReactionsOnDestroy();
+
 		void UpdateWorldActions();
 		void UpdateWorldSectors();
 

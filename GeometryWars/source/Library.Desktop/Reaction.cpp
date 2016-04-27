@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Reaction);
+	RTTI_DEFINITIONS(Reaction, ActionList);
 
 	Reaction::Reaction()
 	{}

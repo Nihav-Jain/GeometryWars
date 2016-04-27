@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(AttributedFoo);
+RTTI_DEFINITIONS(AttributedFoo, Attributed);
 
 AttributedFoo::AttributedFoo()
 {

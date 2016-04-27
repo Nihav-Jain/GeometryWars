@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(TestSharedData);
+RTTI_DEFINITIONS(TestSharedData, XmlParseMaster::SharedData);
 
 TestSharedData::TestSharedData() :
 	mData(std::string())

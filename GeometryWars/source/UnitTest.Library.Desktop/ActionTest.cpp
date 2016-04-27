@@ -76,6 +76,26 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(worldResult);
 			Assert::AreEqual(0, worldResult->Get<std::int32_t>());
 
+			Datum* appendString = entity->Find("appendString");
+			Assert::IsNotNull(appendString);
+			Assert::IsTrue("somestring" == appendString->Get<std::string>());
+
+			Datum* arrResult1 = entity->Find("arrResult1");
+			Assert::IsNotNull(arrResult1);
+			Assert::AreEqual(0, arrResult1->Get<std::int32_t>());
+
+			Datum* arrResult2 = entity->Find("arrResult2");
+			Assert::IsNotNull(arrResult2);
+			Assert::AreEqual(0, arrResult2->Get<std::int32_t>());
+
+			Datum* arrResult3 = entity->Find("arrResult3");
+			Assert::IsNotNull(arrResult3);
+			Assert::AreEqual(0, arrResult3->Get<std::int32_t>());
+
+			Datum* arrSize = entity->Find("arrSize");
+			Assert::IsNotNull(arrSize);
+			Assert::AreEqual(0, arrSize->Get<std::int32_t>());
+
 			game.Update();
 
 			Datum* result = entity->Find("result");
@@ -92,6 +112,13 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(*someVector == glm::vec4(20, 40, 60, 80));
 			Assert::AreEqual(3, worldResult->Get<std::int32_t>());
+
+			Assert::IsTrue(appendString->Get<std::string>() == "somestring = 10");
+
+			Assert::AreEqual(10, arrResult1->Get<std::int32_t>());
+			Assert::AreEqual(20, arrResult2->Get<std::int32_t>());
+			Assert::AreEqual(30, arrResult3->Get<std::int32_t>());
+			Assert::AreEqual(4, arrSize->Get<std::int32_t>());
 		}
 
 		TEST_METHOD(ActionTestIfThenElse)
