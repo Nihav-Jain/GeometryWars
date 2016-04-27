@@ -1,9 +1,26 @@
 <root>	
- <Sector  name="" />
- <Entity  name=""  class="" />
- <Action  name=""  class="" />
- <integer name="" value="">(fill in char data here)</integer>
+ <sector  name="" />
+ <entity  name=""  class="" />
+ <action  name=""  class="" />
+ <integer name="" value=""/>
+ <float name="" value=""/>
+ <string name="" value="">(char data)</string>
  <vector name="" value="vec4(0, 0, 0, 0)" />
+ <matrix name="" value="mat4x4((0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 0))"/>
+ <bool name="boolResult" value="false" />
+ <ref name="boolResult" value="false" />
+ <scope name="worldScope"/>
  <beginplay/>
  <comment/>
+ <if/>
+ <condition/>
+ <then/>
+ <else/>
+ <switch name="switch1" switchValue="switchInteger" />
+ <case name="case1" caseValue="10" />
+ <expression name="appendExp" />
+ <reaction name="testReaction" class="ReactionAttributed"/>
+ <event name="mouseDownEvent" subtype="mousedown"/>
+ <while name="something"/>
+ <loop/>
 </root> 
