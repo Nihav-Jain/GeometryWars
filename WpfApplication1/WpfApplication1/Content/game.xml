@@ -1,0 +1,10 @@
+<world>
+  <Sector name="">
+    <integer name="" value="">(fill in charru data here)g</integer>
+    <integer name="" value="">(fill in char datyujna here)</integer>
+  </Sector>
+  <Sector name="">
+    <!---->
+  </Sector>
+  <Sector name="" />
+</world>
