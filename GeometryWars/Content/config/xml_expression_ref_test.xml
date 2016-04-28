@@ -10,6 +10,10 @@
 				<string name="expression">intResult = someIntPtr + {100}</string>
 			</expression>
 
+			<expression name="exp2">
+				<string name="expression">someIntPtr = {100}</string>
+			</expression>
+
 		</entity>		
 	</sector>	
 </world>

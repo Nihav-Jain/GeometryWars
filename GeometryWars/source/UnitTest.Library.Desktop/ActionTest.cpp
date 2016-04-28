@@ -426,6 +426,7 @@ namespace UnitTestLibraryDesktop
 			game.Update();
 
 			Assert::AreEqual(110, result->Get<std::int32_t>());
+			Assert::AreEqual(100, someInt->Get<std::int32_t>());
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)
