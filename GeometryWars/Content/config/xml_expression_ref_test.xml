@@ -1,0 +1,15 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+
+			<integer name="someInt" value="10" />
+			<integer name="intResult" value="0"/>
+			<ref name="someIntPtr" value="someInt"/>
+			
+			<expression name="exp1">
+				<string name="expression">intResult = someIntPtr + {100}</string>
+			</expression>
+
+		</entity>		
+	</sector>	
+</world>

@@ -171,7 +171,6 @@ namespace Library
 				currentOperator.push_back(expression.at(pos));
 
 				// check if the operator has more than 1 characters
-				// TODO: more rigourous checking
 				if (allOperators.find(expression.at(pos)) > indexOfComma)
 				{
 					std::uint32_t nextCharacterIndex = (std::uint32_t)allOperators.find(expression.at(pos + 1));
@@ -357,6 +356,8 @@ namespace Library
 			{
 				Datum* operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);
+				if (operand->Type() == Datum::DatumType::REFERENCE)
+					operand = &operand->Get<Datum>();
 				evaluationStack.Push(operand);
 				postfixExpression.PopFront();
 			}
