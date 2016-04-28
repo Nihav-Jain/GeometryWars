@@ -3,7 +3,7 @@
 
 namespace Library {
 
-	RTTI_DEFINITIONS(ActionDebug)
+	RTTI_DEFINITIONS(ActionDebug, ActionList)
 	ActionDebug::ActionDebug()
 	{
 		AddInternalAttribute("message", "", 1);

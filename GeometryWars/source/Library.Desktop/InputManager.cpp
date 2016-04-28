@@ -14,7 +14,7 @@ namespace Library
 	/*************************
 	**	Input Handler CPP	**
 	**************************/
-	RTTI_DEFINITIONS(InputHandler)
+	RTTI_DEFINITIONS(InputHandler, Action)
 
 	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
 	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
@@ -71,7 +71,7 @@ namespace Library
 	/*************************
 	**	KeyboardHandler CPP	**
 	**************************/
-	RTTI_DEFINITIONS(KeyBoardHandler)
+	RTTI_DEFINITIONS(KeyBoardHandler, InputHandler)
 
 	void KeyBoardHandler::Update(WorldState& state)
 	{
@@ -81,7 +81,7 @@ namespace Library
 	/*************************
 	**	XBox Controller CPP	**
 	**************************/
-	RTTI_DEFINITIONS(XBoxControllerHandler)
+	RTTI_DEFINITIONS(XBoxControllerHandler, InputHandler)
 
 	Hashmap<std::string, std::int32_t> XBoxControllerHandler::XBoxButtonMapping({
 		std::pair<std::string, std::int32_t>("A",				XINPUT_GAMEPAD_A),
