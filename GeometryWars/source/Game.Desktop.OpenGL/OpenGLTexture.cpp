@@ -24,6 +24,10 @@ namespace Library {
 
 	OpenGLTexture::~OpenGLTexture()
 	{
+		if (mTextureId != 0) {
+			glDeleteTextures(1, &mTextureId);
+			mTextureId = 0;
+		}
 	}
 
 	void OpenGLTexture::Init(const std::string & imagePath)

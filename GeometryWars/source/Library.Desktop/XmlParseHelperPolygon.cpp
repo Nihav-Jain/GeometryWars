@@ -1,17 +1,17 @@
 #include "pch.h"
-#include "XmlParseHelperSprite.h"
-#include "SpriteRenderer.h"
+#include "XmlParseHelperPolygon.h"
+#include "PolygonRenderer.h"
 #include "Renderer.h"
 #include "Entity.h"
 
 namespace Library {
-	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite_renderer";
+	const std::string XmlParseHelperPolygon::ELEMENT_NAME = "polygon_renderer";
 
-	XmlParseHelperSprite::XmlParseHelperSprite()
+	XmlParseHelperPolygon::XmlParseHelperPolygon()
 	{
 	}
 
-	bool XmlParseHelperSprite::StartElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName, const Hashmap<std::string, std::string>& attributes)
+	bool XmlParseHelperPolygon::StartElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName, const Hashmap<std::string, std::string>& attributes)
 	{
 		UNREFERENCED_PARAMETER(attributes);
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
@@ -29,16 +29,16 @@ namespace Library {
 
 		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 		Scope* parent = sharedDataPtr->CurrentScopePtr;
-		SpriteRenderer * sprite = new SpriteRenderer();
-		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
-		
-		Renderer::GetInstance()->AddRenderable(sprite);
-		sharedDataPtr->CurrentScopePtr = sprite;
+		PolygonRenderer * polygon = new PolygonRenderer();
+		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *polygon);
+
+		Renderer::GetInstance()->AddRenderable(polygon);
+		sharedDataPtr->CurrentScopePtr = polygon;
 
 		return true;
 	}
 
-	bool XmlParseHelperSprite::EndElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName)
+	bool XmlParseHelperPolygon::EndElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName)
 	{
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
@@ -58,8 +58,8 @@ namespace Library {
 		return true;
 	}
 
-	IXmlParseHelper * XmlParseHelperSprite::Clone() const
+	IXmlParseHelper * XmlParseHelperPolygon::Clone() const
 	{
-		return new XmlParseHelperSprite();
+		return new XmlParseHelperPolygon();
 	}
 }

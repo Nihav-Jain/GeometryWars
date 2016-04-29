@@ -141,9 +141,6 @@
     <ClInclude Include="XmlParseHelperActionWhile.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
     <ClInclude Include="XmlParseHelperSprite.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLRenderDevice.h">
-      <Filter>Kernel\Graphic\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -174,14 +168,24 @@
     <ClInclude Include="Shader.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLRenderBuffer.h">
-      <Filter>Kernel\Graphic\opengl</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLShader.h">
-      <Filter>Kernel\Graphic\opengl</Filter>
+    <ClInclude Include="XmlParseHelperGameObject.h">
+      <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLTexture.h">
-      <Filter>Kernel\Graphic\opengl</Filter>
+    <ClInclude Include="CircleColliderComponent.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="XmlParseHelperImage.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperPolygon.h">
+      <Filter>XmlParseHelpers</Filter>
     </ClInclude>
     <ClInclude Include="ActionCreateEntity.h">
       <Filter>Kernel\Actions</Filter>
@@ -191,6 +195,12 @@
     </ClInclude>
     <ClInclude Include="XmlParseHelperOnDestroy.h">
       <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Kernel\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonRenderer.h">
+      <Filter>Kernel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,9 +320,6 @@
     <ClCompile Include="XmlParseHelperActionWhile.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Kernel</Filter>
-    </ClCompile>
     <ClCompile Include="XmlParseHelperSprite.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
@@ -324,12 +331,6 @@
     </ClCompile>
     <ClCompile Include="Viewport.cpp">
       <Filter>Kernel\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game.Desktop.OpenGL\gl3w.c">
-      <Filter>Kernel\Graphic\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLRenderDevice.cpp">
-      <Filter>Kernel\Graphic\opengl</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
@@ -343,14 +344,24 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLShader.cpp">
-      <Filter>Kernel\Graphic\opengl</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLTexture.cpp">
-      <Filter>Kernel\Graphic\opengl</Filter>
+    <ClCompile Include="XmlParseHelperGameObject.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLRenderBuffer.cpp">
-      <Filter>Kernel\Graphic\opengl</Filter>
+    <ClCompile Include="CircleColliderComponent.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="XmlParseHelperImage.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperPolygon.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="ActionCreateEntity.cpp">
       <Filter>Kernel\Actions</Filter>
@@ -362,6 +373,12 @@
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="RTTI.cpp" />
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Kernel\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -412,8 +429,11 @@
     <Filter Include="Kernel\Graphic">
       <UniqueIdentifier>{a512568e-1bf5-4b59-8364-517228890d86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kernel\Graphic\opengl">
-      <UniqueIdentifier>{b7662a6a-e35e-4827-bc80-8e5550aff84c}</UniqueIdentifier>
+    <Filter Include="Game\Components">
+      <UniqueIdentifier>{38000e7e-7760-4e5c-bdd0-28fb8350c519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Input">
+      <UniqueIdentifier>{47b9067a-1920-4c6a-9348-923f2602694f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

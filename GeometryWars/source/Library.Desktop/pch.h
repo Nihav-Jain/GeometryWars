@@ -17,8 +17,12 @@
 #include <utility>
 #include <string>
 
+#include <iostream>
+#include <fstream>
+
 #include "RTTI.h"
 #include "glm\glm.hpp"
+#include <expat.h>
 
 #pragma region Containers
 
@@ -36,3 +40,4 @@
 #include "Entity.h"
 #include "Sector.h"
 #include "World.h"
+#include "GameObject.h"

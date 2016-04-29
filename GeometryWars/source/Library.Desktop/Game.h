@@ -9,6 +9,9 @@
 #include "GameClock.h"
 #include "GameTime.h"
 
+#include "Renderer.h"
+#include "RenderDevice.h"
+
 #include "RTTI.h"
 #include "Datum.h"
 #include "Scope.h"
@@ -45,6 +48,9 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperSprite.h"
+#include "XmlParseHelperPolygon.h"
+#include "XmlParseHelperImage.h"
 #include "XmlParseHelperOnDestroy.h"
 
 namespace Library
@@ -60,7 +66,7 @@ namespace Library
 	public:
 
 		/**
-		 *	parameterless constructor, initializes the members 
+		 *	parameterless constructor, initializes the members
 		 */
 		Game();
 
@@ -98,10 +104,16 @@ namespace Library
 		const GameTime& GetGameTime() const;
 
 		/**
+		*	Resets the game clock and other things to be initialized before starting the game loop
+		*	Must be called before entering the game loop
+		*/
+		void Start();
+
+		/**
 		 *	Resets the game clock and other things to be initialized before starting the game loop
 		 *	Must be called before entering the game loop
 		 */
-		void Start();
+		void Start(const std::string & config);
 
 		/**
 		 *	Updates the game clock and calls Update on the game World
@@ -115,13 +127,17 @@ namespace Library
 		 */
 		void Destroy();
 
+		void SetRendererDevice(RenderDevice * device);
+
 	private:
 		void AddParseHelpers();
 
 		GameClock mGameClock;
 		GameTime mGameTime;
 		World mWorld;
-		
+
+		Renderer * mRenderer;
+
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
 
@@ -148,6 +164,10 @@ namespace Library
 		XmlParseHelperBeginPlay mActionBeginPlay;
 		XmlParseHelperOnDestroy mActionOnDestroy;
 
+		XmlParseHelperSprite mSpriteParser;
+		XmlParseHelperPolygon mPolygonParser;
+		XmlParseHelperImage mImageParser;
+
 		EntityFactory mEntityFactory;
 		ActionListFactory mActionListFactory;
 		ActionListSwitchFactory mActionSwitchFactory;
@@ -161,4 +181,3 @@ namespace Library
 		ActionDestroyEntityFactory mDestroyEntityFactory;
 	};
 }
-

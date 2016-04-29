@@ -1,17 +1,16 @@
 #include "pch.h"
-#include "XmlParseHelperSprite.h"
-#include "SpriteRenderer.h"
-#include "Renderer.h"
-#include "Entity.h"
+#include "XmlParseHelperImage.h"
+#include "Image.h"
+
 
 namespace Library {
-	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite_renderer";
+	const std::string XmlParseHelperImage::ELEMENT_NAME = "image";
 
-	XmlParseHelperSprite::XmlParseHelperSprite()
+	XmlParseHelperImage::XmlParseHelperImage()
 	{
 	}
 
-	bool XmlParseHelperSprite::StartElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName, const Hashmap<std::string, std::string>& attributes)
+	bool XmlParseHelperImage::StartElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName, const Hashmap<std::string, std::string>& attributes)
 	{
 		UNREFERENCED_PARAMETER(attributes);
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
@@ -27,18 +26,16 @@ namespace Library {
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 		Scope* parent = sharedDataPtr->CurrentScopePtr;
-		SpriteRenderer * sprite = new SpriteRenderer();
-		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
-		
-		Renderer::GetInstance()->AddRenderable(sprite);
-		sharedDataPtr->CurrentScopePtr = sprite;
+		Image * image = new Image();
+		image->SetName(attributes["name"]);
+		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *image);
+		sharedDataPtr->CurrentScopePtr = image;
 
 		return true;
 	}
 
-	bool XmlParseHelperSprite::EndElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName)
+	bool XmlParseHelperImage::EndElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName)
 	{
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
@@ -58,8 +55,8 @@ namespace Library {
 		return true;
 	}
 
-	IXmlParseHelper * XmlParseHelperSprite::Clone() const
+	IXmlParseHelper * XmlParseHelperImage::Clone() const
 	{
-		return new XmlParseHelperSprite();
+		return new XmlParseHelperImage();
 	}
 }
