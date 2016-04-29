@@ -49,6 +49,7 @@ namespace Library
 		assert(transitionToStateRouter);
 
 		GameObject* currentGameObject = sharedDataPtr->CurrentScopePtr->As<GameObject>();
+		UNREFERENCED_PARAMETER(currentGameObject);
 		assert(currentGameObject != nullptr);
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 
