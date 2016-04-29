@@ -12,6 +12,14 @@ namespace Library {
 	class Renderer
 	{
 	public:
+		// TODO: Remove this !!!!!!!!
+		static Renderer * GetInstance(RenderDevice * device = nullptr) {
+			if (sInstance == nullptr)
+				sInstance = new Renderer(device);
+			return  sInstance;
+		};
+
+
 		Renderer(RenderDevice * device);
 		~Renderer();
 
@@ -24,6 +32,10 @@ namespace Library {
 		void Update();
 
 	private:
+		// TODO: Remove this !!!!!!!!
+		static Renderer * sInstance;
+
+
 		RenderDevice * mDevice;
 		std::vector<Renderable*> mObjects;
 	};
