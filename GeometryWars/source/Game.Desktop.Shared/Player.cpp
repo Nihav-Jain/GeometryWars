@@ -11,7 +11,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_BOMBS = "bombs";
 
 	Player::Player()
-		: mAttackSpeed(), mLives(), mBombs()
+		: mAttackSpeed(), mLives(3), mBombs()
 	{
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
 		AddExternalAttribute(ATTRIBUTE_LIVES, 1, &mLives);

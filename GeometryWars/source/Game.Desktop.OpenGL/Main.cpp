@@ -17,9 +17,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	OpenGLRenderDevice renderDevice;
 	renderDevice.InitOpenGl();
 
+	XBoxControllerHandlerFactory xchf;
+	ActionDebugFactory adf;
+
 	Game game;
 	game.SetRendererDevice(&renderDevice);
-	game.Start("Content/config/polygon.xml");
+	game.Start("../../../../../Content/config/player_test.xml");
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
