@@ -14,7 +14,7 @@
 
 namespace Library {
 
-	RTTI_DEFINITIONS(SpriteRenderer);
+	RTTI_DEFINITIONS(SpriteRenderer, ActionList);
 
 	const std::string SpriteRenderer::ATTRIBUTE_TEXTURE2D = "texture2d";
 

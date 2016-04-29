@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(GameObject);
+	RTTI_DEFINITIONS(GameObject, Entity);
 
 	const std::string GameObject::ATTRIBUTE_POSITION = "position";
 	const std::string GameObject::ATTRIBUTE_ROTATION = "rotation";

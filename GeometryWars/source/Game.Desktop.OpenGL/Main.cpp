@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Game.h"
+#include "InputManager.h"
+#include "ActionDebug.h"
 #include "Renderer.h"
 #include "OpenGLRenderDevice.h"
 
@@ -11,7 +13,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(previousInstance);
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
-
 
 	OpenGLRenderDevice renderDevice;
 	renderDevice.InitOpenGl();

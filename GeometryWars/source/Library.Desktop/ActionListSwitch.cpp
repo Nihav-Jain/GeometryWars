@@ -6,7 +6,7 @@ namespace Library
 
 #pragma region ActionListSwitch
 
-	RTTI_DEFINITIONS(ActionListSwitch);
+	RTTI_DEFINITIONS(ActionListSwitch, ActionList);
 
 	const std::string ActionListSwitch::ATTRIBUTE_SWITCH_VALUE = "switchValue";
 
@@ -120,7 +120,7 @@ namespace Library
 
 #pragma region ActionListSwitchCase
 
-	RTTI_DEFINITIONS(ActionListSwitch::ActionListSwitchCase);
+	RTTI_DEFINITIONS(ActionListSwitch::ActionListSwitchCase, ActionList);
 
 	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_CASE_VALUE	= "caseValue";
 	const std::string ActionListSwitch::ActionListSwitchCase::ATTRIBUTE_BREAK		= "break";

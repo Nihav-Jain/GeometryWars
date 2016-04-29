@@ -187,7 +187,21 @@
     <ClInclude Include="XmlParseHelperPolygon.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="PolygonRenderer.h" />
+    <ClInclude Include="ActionCreateEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionDestroyEntity.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperOnDestroy.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Kernel\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonRenderer.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -349,7 +363,22 @@
     <ClCompile Include="XmlParseHelperPolygon.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="PolygonRenderer.cpp" />
+    <ClCompile Include="ActionCreateEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionDestroyEntity.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperOnDestroy.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="RTTI.cpp" />
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Kernel\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp">
+      <Filter>Kernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -402,6 +431,9 @@
     </Filter>
     <Filter Include="Game\Components">
       <UniqueIdentifier>{38000e7e-7760-4e5c-bdd0-28fb8350c519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Input">
+      <UniqueIdentifier>{47b9067a-1920-4c6a-9348-923f2602694f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

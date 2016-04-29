@@ -19,11 +19,15 @@
 #include "Sector.h"
 #include "Entity.h"
 #include "Action.h"
+
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
+#include "ActionCreateEntity.h"
+#include "ActionDestroyEntity.h"
+
 #include "ActionEvent.h"
 #include "Reaction.h"
 #include "ReactionAttributed.h"
@@ -47,6 +51,7 @@
 #include "XmlParseHelperSprite.h"
 #include "XmlParseHelperPolygon.h"
 #include "XmlParseHelperImage.h"
+#include "XmlParseHelperOnDestroy.h"
 
 namespace Library
 {
@@ -61,7 +66,7 @@ namespace Library
 	public:
 
 		/**
-		 *	parameterless constructor, initializes the members 
+		 *	parameterless constructor, initializes the members
 		 */
 		Game();
 
@@ -125,13 +130,14 @@ namespace Library
 		void SetRendererDevice(RenderDevice * device);
 
 	private:
+		void AddParseHelpers();
 
 		GameClock mGameClock;
 		GameTime mGameTime;
 		World mWorld;
 
 		Renderer * mRenderer;
-		
+
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
 
@@ -156,6 +162,7 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+		XmlParseHelperOnDestroy mActionOnDestroy;
 
 		XmlParseHelperSprite mSpriteParser;
 		XmlParseHelperPolygon mPolygonParser;
@@ -170,6 +177,7 @@ namespace Library
 		ActionExpressionFactory mActionExpressionFactory;
 		ActionEventFactory mActionEventFactory;
 		ReactionAttributedFactory mReactionFactory;
+		ActionCreateEntityFactory mCreateEntityFactory;
+		ActionDestroyEntityFactory mDestroyEntityFactory;
 	};
 }
-

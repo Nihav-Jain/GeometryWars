@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Game.h"
 #include "PolygonRenderer.h"
+#include "ReactionAttributed.h"
+#include "InputManager.h"
+#include "ActionDebug.h"
 
 using namespace Library;
 
@@ -44,6 +47,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	ZeroMemory(&message, sizeof(message));
 
 	Game game;
+
+	KeyBoardHandlerFactory khf;
+	XBoxControllerHandlerFactory xchf;
+	ActionDebugFactory adf;
+	
+	game.ParseMaster().ParseFromFile("../../Content/config/input.xml");
 	game.Start();
 
 	PolygonRenderer poly(*mDirect3DDevice, *mDirect3DDeviceContext);

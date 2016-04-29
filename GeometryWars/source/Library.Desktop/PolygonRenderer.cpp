@@ -14,7 +14,7 @@
 
 namespace Library {
 
-	RTTI_DEFINITIONS(PolygonRenderer);
+	RTTI_DEFINITIONS(PolygonRenderer, ActionList);
 
 	const std::string PolygonRenderer::ATTRIBUTE_INDICES = "indices";
 	const std::string PolygonRenderer::ATTRIBUTE_POINTS = "points";

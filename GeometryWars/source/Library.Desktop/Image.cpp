@@ -4,7 +4,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Image);
+	RTTI_DEFINITIONS(Image, Action);
 
 	const std::string Image::ATTRIBUTE_PATH = "path";
 	const std::string Image::ATTRIBUTE_SIZE = "size";

@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(AttributedExternalError);
+RTTI_DEFINITIONS(AttributedExternalError, Attributed);
 
 AttributedExternalError::AttributedExternalError()
 {

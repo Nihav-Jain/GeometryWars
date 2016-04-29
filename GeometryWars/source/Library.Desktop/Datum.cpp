@@ -1190,6 +1190,9 @@ namespace Library
 		case DatumType::FLOAT:
 			result = Get<std::int32_t>() + rhs.Get<std::float_t>();
 			break;
+		case DatumType::STRING:
+			result = std::to_string(Get<std::int32_t>()) + rhs.Get<std::string>();
+			break;
 		default:
 			throw std::exception("INTEGER type Datums can only be added to Datums of type INTEGER and FLOAT");
 			break;
@@ -1209,6 +1212,9 @@ namespace Library
 		case DatumType::FLOAT:
 			result = Get<std::float_t>() + rhs.Get<std::float_t>();
 			break;
+		case DatumType::STRING:
+			result = std::to_string(Get<std::float_t>()) + rhs.Get<std::string>();
+			break;
 		default:
 			throw std::exception("FLOAT type Datums can only be added to Datums of type INTEGER and FLOAT");
 			break;
@@ -1222,8 +1228,20 @@ namespace Library
 		Datum result;
 		switch (rhs.Type())
 		{
+		case DatumType::INTEGER:
+			result = Get<std::string>() + std::to_string(rhs.Get<std::int32_t>());
+			break;
+		case DatumType::FLOAT:
+			result = Get<std::string>() + std::to_string(rhs.Get<std::float_t>());
+			break;
 		case DatumType::STRING:
 			result = Get<std::string>() + rhs.Get<std::string>();
+			break;
+		case DatumType::VECTOR4:
+			result = Get<std::string>() + glm::to_string(rhs.Get<glm::vec4>());
+			break;
+		case DatumType::MATRIX4x4:
+			result = Get<std::string>() + glm::to_string(rhs.Get<glm::mat4x4>());
 			break;
 		default:
 			throw std::exception("STRING type Datums can only be added to Datums of type STRING");
@@ -1241,6 +1259,9 @@ namespace Library
 		case DatumType::VECTOR4:
 			result = Get<glm::vec4>() + rhs.Get<glm::vec4>();
 			break;
+		case DatumType::STRING:
+			result = glm::to_string(Get<glm::vec4>()) + rhs.Get<std::string>();
+			break;
 		default:
 			throw std::exception("VECTOR4 type Datums can only be added to Datums of type VECTOR4");
 			break;
@@ -1256,6 +1277,9 @@ namespace Library
 		{
 		case DatumType::MATRIX4x4:
 			result = Get<glm::mat4x4>() + rhs.Get<glm::mat4x4>();
+			break;
+		case DatumType::STRING:
+			result = glm::to_string(Get<glm::mat4x4>()) + rhs.Get<std::string>();
 			break;
 		default:
 			throw std::exception("MATRIX4x4 type Datums can only be added to Datums of type MATRIX4x4");

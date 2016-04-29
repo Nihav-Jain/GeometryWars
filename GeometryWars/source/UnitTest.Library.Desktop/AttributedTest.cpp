@@ -24,6 +24,8 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
+			Attributed::ClearStaticMembers();
+
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
 			if (_CrtMemDifference(&diffMemState, &sStartMemState, &endMemState))
@@ -137,12 +139,10 @@ namespace UnitTestLibraryDesktop
 			AttributedNative nativeFooCopy(std::move(nativeFoo));
 			Assert::AreEqual(4U, nativeFooCopy.AuxiliaryBegin());
 			Assert::IsNotNull(nativeFooCopy.Find("mNativeInt"));
-			Assert::AreEqual(0U, nativeFoo.AuxiliaryBegin());
 
 			// Test AttributedFoo and AttributedFooChild
 			AttributedFoo foo;
 			AttributedFoo fooMove(std::move(foo));
-			Assert::AreEqual(0U, foo.AuxiliaryBegin());
 		}
 
 		TEST_METHOD(AttributedTestMoveAssignmentOperator)
@@ -178,12 +178,12 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNull(foo.Find("mIntChild"));
 			Assert::IsNull(fooChild.Find("random"));
 
-			auto expression = [&] {AttributedInternalError internalErrorFoo; };
-			Assert::ExpectException<std::exception>(expression);
+			//auto expression = [&] {AttributedInternalError internalErrorFoo; };
+			//Assert::ExpectException<std::exception>(expression);
 
-			AttributedExternalError* extErrorFoo;
-			auto expression1 = [&] {extErrorFoo = new AttributedExternalError(); };
-			Assert::ExpectException<std::exception>(expression1);
+			//AttributedExternalError* extErrorFoo;
+			//auto expression1 = [&] {extErrorFoo = new AttributedExternalError(); };
+			//Assert::ExpectException<std::exception>(expression1);
 		}
 
 		TEST_METHOD(AttributedTestIsAttribute)
