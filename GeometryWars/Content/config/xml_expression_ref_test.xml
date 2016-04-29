@@ -1,5 +1,10 @@
 <world name="NihavWorld">
 	<sector name="worldSector">
+
+		<scope name="sectorScope">
+			<integer name="sectorInt" value="20"/>
+		</scope>
+		
 		<entity class="Entity" name="actor">
 
 			<integer name="someInt" value="10" />
@@ -12,6 +17,11 @@
 
 			<expression name="exp2">
 				<string name="expression">someIntPtr = {100}</string>
+			</expression>
+
+			<integer name="anotherResult" value="0" />
+			<expression name="exp3">
+				<string name="expression">anotherResult = worldSector.sectorScope.sectorInt + {100}</string>
 			</expression>
 
 		</entity>		

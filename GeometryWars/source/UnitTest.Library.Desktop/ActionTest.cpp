@@ -423,10 +423,15 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(someIntPtr);
 			Assert::IsTrue(someInt == &someIntPtr->Get<Datum>());
 
+			Datum* anotherResult = entity->Find("anotherResult");
+			Assert::IsNotNull(anotherResult);
+			Assert::AreEqual(0, anotherResult->Get<std::int32_t>());
+
 			game.Update();
 
 			Assert::AreEqual(110, result->Get<std::int32_t>());
 			Assert::AreEqual(100, someInt->Get<std::int32_t>());
+			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

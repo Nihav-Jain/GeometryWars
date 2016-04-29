@@ -116,7 +116,7 @@ namespace Library
 	void ActionExpression::Update(WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
-		EvaluateExpression();
+		EvaluateExpression(*worldState.world);
 	}
 
 	void ActionExpression::ClearStaticMemebers()
@@ -298,7 +298,7 @@ namespace Library
 		}
 	}
 
-	void ActionExpression::EvaluateExpression()
+	void ActionExpression::EvaluateExpression(const World& world)
 	{
 		Stack<Datum*> evaluationStack;
 		SList<std::string> postfixExpression(*mPostfixExpression);
@@ -354,7 +354,11 @@ namespace Library
 			}
 			else
 			{
-				Datum* operand = Search(postfixExpression.Front());
+				Datum* operand = nullptr;
+				if (postfixExpression.Front().find('.') != std::string::npos)
+					operand = world.ComplexSearch(postfixExpression.Front(), *this);
+				else
+					operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);
 				if (operand->Type() == Datum::DatumType::REFERENCE)
 					operand = &operand->Get<Datum>();

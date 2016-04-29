@@ -105,12 +105,16 @@ namespace Library
 		 */
 		EventQueue& GetEventQueue();
 
+		Datum* ComplexSearch(const std::string& name, const Scope& caller) const;
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 		static const std::string ATTRIBUTE_REACTIONS;
 		static const std::string ATTRIBUTE_ON_DESTROY;
 
 	private:
+		Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false) const;
+
 		void ScriptedBeginPlay();
 		void SectorsBeginPlay();
 		void ActionsBeginPlay();

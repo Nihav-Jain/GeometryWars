@@ -116,6 +116,90 @@ namespace Library
 		return mEventQueue;
 	}
 
+	Datum* World::ComplexSearch(const std::string& name, const Scope& caller) const
+	{
+		std::string referenceName = name;
+		Scope* targetScope = nullptr;
+
+		std::uint32_t pos = (std::uint32_t)referenceName.find('.');
+		if (pos == std::string::npos)
+			return Search(referenceName);
+		else
+		{
+			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), caller, true);
+			if (targetScope == nullptr)
+				return nullptr;
+			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
+		}
+
+		while ((pos = (std::uint32_t)referenceName.find('.')) != std::string::npos)
+		{
+			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), *targetScope);
+			if (targetScope == nullptr)
+				return nullptr;
+			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
+		}
+		return targetScope->Find(referenceName);
+	}
+
+	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch) const
+	{
+		Scope* scopeToFind = nullptr;
+		Datum* referenceToFind = caller.Find(name);
+		if (referenceToFind == nullptr)
+		{
+			if (caller.Is(Entity::TypeIdClass()))
+			{
+				Entity& callerEntity = *caller.AssertiveAs<Entity>();
+				Action* action = callerEntity.FindAction(name);
+				if (action != nullptr)
+					scopeToFind = action;
+			}
+			else if (caller.Is(ActionList::TypeIdClass()))
+			{
+				ActionList& callerAction = *caller.AssertiveAs<ActionList>();
+				Action* action = callerAction.FindAction(name);
+				if (action != nullptr)
+					scopeToFind = action;
+			}
+			else if (caller.Is(Sector::TypeIdClass()))
+			{
+				Sector& callerSector = *caller.AssertiveAs<Sector>();
+				Attributed* attribute = callerSector.FindEntity(name);
+				if (attribute == nullptr)
+					attribute = callerSector.FindAction(name);
+				
+				// cannot use else here
+				if (attribute != nullptr)
+					scopeToFind = attribute;
+			}
+			else if (caller.Is(World::TypeIdClass()))
+			{
+				World& callerWorld = *caller.AssertiveAs<World>();
+				Attributed* attribute = callerWorld.FindSector(name);
+				if (attribute == nullptr)
+				{
+					attribute = callerWorld.FindAction(name);
+					if (attribute == nullptr && name == callerWorld.Name())
+						attribute = &callerWorld;
+				}
+
+				// cannot use else here
+				if (attribute != nullptr)
+					scopeToFind = attribute;
+			}
+		}
+
+		if (scopeToFind == nullptr)
+		{
+			if (referenceToFind != nullptr)
+				scopeToFind = &referenceToFind->Get<Scope>();
+			else if(caller.GetParent() != nullptr && doRecursiveSearch)
+				scopeToFind = ComplexSearchHelper(name, *caller.GetParent(), doRecursiveSearch);
+		}
+		return scopeToFind;
+	}
+
 	void World::ScriptedBeginPlay()
 	{
 		Datum* beginPlayDatum = Find(ATTRIBUTE_BEGIN_PLAY);
