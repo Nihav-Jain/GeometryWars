@@ -396,7 +396,36 @@ namespace Library
 
 	Datum ActionExpression::Assign(Datum& lhs, Datum& rhs)
 	{
-		lhs = rhs;
+		if (lhs.StorageType() == Datum::DatumStorageType::EXTERNAL)
+		{
+			switch (lhs.Type())
+			{
+			case Datum::DatumType::INTEGER:
+				lhs.Set(rhs.Get<std::int32_t>());
+				break;
+			case Datum::DatumType::FLOAT:
+				lhs.Set(rhs.Get<std::float_t>());
+				break;
+			case Datum::DatumType::STRING:
+				lhs.Set(rhs.Get<std::string>());
+				break;
+			case Datum::DatumType::VECTOR4:
+				lhs.Set(rhs.Get<glm::vec4>());
+				break;
+			case Datum::DatumType::MATRIX4x4:
+				lhs.Set(rhs.Get<glm::mat4x4>());
+				break;
+			case Datum::DatumType::BOOLEAN:
+				lhs.Set(rhs.Get<bool>());
+				break;
+			default:
+				std::stringstream str;
+				str << "Invalid operation. Cannot perform assignment on external datum of type " << Datum::DatumTypeToString[lhs.Type()];
+				throw std::exception(str.str().c_str());
+			}
+		}
+		else
+			lhs = rhs;
 		return Datum();
 	}
 

@@ -211,7 +211,9 @@
     <ClInclude Include="PolygonRenderer.h">
       <Filter>Kernel</Filter>
     </ClInclude>
-    <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
+    <ClInclude Include="XmlParseHelperCircleColliderComponent.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -398,7 +400,9 @@
     <ClCompile Include="PolygonRenderer.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
-    <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
+    <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
