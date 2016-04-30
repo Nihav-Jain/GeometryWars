@@ -80,7 +80,6 @@ namespace Library {
 
 	void OpenGLRenderDevice::Invalid()
 	{
-		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
 	}
 
@@ -112,6 +111,7 @@ namespace Library {
 		}
 		
 		glBindVertexArray(0);
+		glfwSwapBuffers(mWindow);
 	}
 
 	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
