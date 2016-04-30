@@ -35,6 +35,10 @@
 #include "Reaction.h"
 #include "ReactionAttributed.h"
 
+#include "Image.h"
+#include "SpriteRenderer.h"
+//#include "PolygonRenderer.h"
+
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
@@ -186,5 +190,9 @@ namespace Library
 		ReactionAttributedFactory mReactionFactory;
 		ActionCreateEntityFactory mCreateEntityFactory;
 		ActionDestroyEntityFactory mDestroyEntityFactory;
+
+		ImageFactory mImageFactory;
+		//PolygonRendererFactory mPolygonRendererFactory;
+		SpriteRendererFactory mSpriteRendererFactory;
 	};
 }

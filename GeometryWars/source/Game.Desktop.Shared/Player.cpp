@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "../../source/Library.Desktop/SpriteRenderer.h"
+#include "../../source/Library.Desktop/Image.h"
+#include "../../source/Library.Desktop/Texture.h"
 
 namespace Library
 {
@@ -62,7 +65,15 @@ namespace Library
 			mCanAttack = false;
 			mShoot = false;
 
-			// TODO: Spawn Bullet with velocity of mHeading
+			// TODO: Load this prototype from an xml file
+			Bullet* newBullet = GetSector()->CreateEntity(Bullet::TypeName(), "bullet").AssertiveAs<Bullet>();
+			newBullet->SetPosition(mPosition);
+			newBullet->SetVelocity(mHeading * Bullet::DEFAULT_SPEED);
+			SpriteRenderer *bulletRenderer = Action::CreateAction(SpriteRenderer::TypeName(), "bulletRenderer", *newBullet, Entity::ATTRIBUTE_ACTIONS).AssertiveAs<SpriteRenderer>();
+			Image *bulletImage = bulletRenderer->CreateAction(Image::TypeName(), "image", *bulletRenderer, ActionList::ATTRIBUTE_ACTIONS).AssertiveAs<Image>();
+			bulletImage->SetPath(Bullet::DEFAULT_IMAGE);
+			bulletImage->SetSize(Bullet::DEFAULT_SIZE);
+			Renderer::GetInstance()->AddRenderable(bulletRenderer);
 
 			// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
 			//       and have a Reaction (in XML) to that event that sets mCanAttack to true

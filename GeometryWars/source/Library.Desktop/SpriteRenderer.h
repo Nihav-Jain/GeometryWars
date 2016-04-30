@@ -41,5 +41,7 @@ namespace Library {
 		Datum * mScale;
 		glm::vec4 * mSize;
 	};
+
+	CONCRETE_ACTION_FACTORY(SpriteRenderer);
 }
 

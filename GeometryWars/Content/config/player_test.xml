@@ -57,7 +57,7 @@
 			<vector name="heading" value="vec4(0, 0, 0, 0)" />
 			<float name="speed" value="10" />
 			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
-			<vector name="scale" value="vec4(100, 100, 1, 0)"/>
+			<vector name="scale" value="vec4(10, 10, 1, 0)"/>
 			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
 			<float name="attack speed" value="0.1" />
 			<bool name="can attack" value="true" />
@@ -107,7 +107,7 @@
 									<string name="expression">velocity = velocity - speed * {vec4(1, 0, 0, 0)}</string>
 								</expression>
 								<expression name="rotate">
-									<string name="expression">rotation = {vec4(90, 0, 0, 0)}</string>
+									<string name="expression">rotation = {vec4(1.571, 0, 0, 0)}</string>
 								</expression>
 							</then>
 							<else>
@@ -134,7 +134,7 @@
 									<string name="expression">velocity = velocity + speed * {vec4(1, 0, 0, 0)}</string>
 								</expression>
 								<expression name="rotate">
-									<string name="expression">rotation = {vec4(270, 0, 0, 0)}</string>
+									<string name="expression">rotation = {vec4(4.712, 0, 0, 0)}</string>
 								</expression>
 							</then>
 							<else>
@@ -189,7 +189,7 @@
 									<string name="expression">velocity = velocity - speed * {vec4(0, 1, 0, 0)}</string>
 								</expression>
 								<expression name="rotate">
-									<string name="expression">rotation = {vec4(180, 0, 0, 0)}</string>
+									<string name="expression">rotation = {vec4(3.142, 0, 0, 0)}</string>
 								</expression>
 							</then>
 							<else>
@@ -204,7 +204,7 @@
 			
 			<!-- UPDATING POSITION HERE -->
 			<expression name="modify">
-				<string name="expression">position = position + {vec4(1, 0, 0, 0)}</string>
+				<string name="expression">position = position + velocity</string>
 			</expression>
 			
 			<!-- Shoot SubType -->
@@ -214,6 +214,7 @@
 				<expression name="modify">
 					<string name="expression">shoot = {true}</string>
 				</expression>
+        
 				
 				<!--
 				<if name="CheckPlayer">

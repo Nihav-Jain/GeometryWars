@@ -65,6 +65,8 @@ namespace Library
 
 		virtual void OnDestroy(WorldState& worldState) override;
 
+		static const std::string ATTRIBUTE_ACTIONS;
+
 	private:
 		void ScriptedBeginPlay(WorldState& worldState);
 		void ActionsBeginPlay(WorldState& worldState);
@@ -73,8 +75,7 @@ namespace Library
 		void ScriptedOnDestroy(WorldState& worldState);
 		void ActionsOnDestroy(WorldState& worldState);
 		void ReactionsOnDestroy(WorldState& worldState);
-
-		static const std::string ATTRIBUTE_ACTIONS;
+		
 	};
 
 	CONCRETE_ACTION_FACTORY(ActionList);

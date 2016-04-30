@@ -14,6 +14,11 @@ namespace Library
 
 		static const std::string ATTRIBUTE_VELOCITY;
 
+		// TODO: Remove these once bullet prototype exists in xml
+		static const std::float_t DEFAULT_SPEED;
+		static const glm::vec4 DEFAULT_SIZE;
+		static const std::string DEFAULT_IMAGE;
+
 		const glm::vec4 & Velocity() const;
 		void SetVelocity(const glm::vec4 & velocity);
 
@@ -27,7 +32,6 @@ namespace Library
 	protected:
 
 		glm::vec4 mVelocity;
-
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);

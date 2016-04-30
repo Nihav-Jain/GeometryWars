@@ -8,6 +8,9 @@ namespace Library
 	RTTI_DEFINITIONS(Bullet, GameObject);
 
 	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
+	const std::float_t Bullet::DEFAULT_SPEED = 20.0f;
+	const glm::vec4 Bullet::DEFAULT_SIZE = glm::vec4(5.0f, 5.0f, 0.0f, 0.f);
+	const std::string Bullet::DEFAULT_IMAGE = "Content/resource/mushroom.png";
 
 	Bullet::Bullet()
 		: mVelocity()
