@@ -204,7 +204,7 @@
 			
 			<!-- UPDATING POSITION HERE -->
 			<expression name="modify">
-				<string name="expression">position = position + velocity</string>
+				<string name="expression">position = position + {vec4(1, 0, 0, 0)}</string>
 			</expression>
 			
 			<!-- Shoot SubType -->

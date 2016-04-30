@@ -27,8 +27,11 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	EnemyFactory mEnemyFactory;
 	BulletFactory mBulletFactory;
 
+	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
+	Renderer * renderer = Renderer::GetInstance(&renderDevice);
+
 	Game game;
-	game.SetRendererDevice(&renderDevice);
+	game.SetRenderer(renderer);
 	game.Start("Content/config/player_test.xml");
 
 #pragma warning(push)
