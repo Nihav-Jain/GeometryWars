@@ -17,8 +17,12 @@
 #include <utility>
 #include <string>
 
+#include <iostream>
+#include <fstream>
+
 #include "RTTI.h"
 #include "glm\glm.hpp"
+#include <expat.h>
 
 #pragma region Containers
 

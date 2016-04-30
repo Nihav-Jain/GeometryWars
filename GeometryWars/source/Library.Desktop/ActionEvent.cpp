@@ -6,7 +6,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionEvent);
+	RTTI_DEFINITIONS(ActionEvent, Action);
 
 	const std::string ActionEvent::ATTRIBUTE_SUBTYPE = "subtype";
 	const std::string ActionEvent::ATTRIBUTE_DELAY = "delay";

@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionCreateEntity);
+	RTTI_DEFINITIONS(ActionCreateEntity, Action);
 
 	const std::string ActionCreateEntity::ATTRIBUTE_ENTITY_CLASS_NAME = "entityClassName";
 	const std::string ActionCreateEntity::ATTRIBUTE_ENTITY_INSTANCE_NAME = "entityInstanceName";

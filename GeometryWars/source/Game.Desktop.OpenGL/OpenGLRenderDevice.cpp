@@ -23,6 +23,18 @@ namespace Library {
 
 	OpenGLRenderDevice::~OpenGLRenderDevice()
 	{
+		for (auto ptr : mShaders) {
+			delete ptr;
+		}
+
+		for (auto ptr : mBuffers) {
+			delete ptr;
+		}
+
+		for (auto ptr : mTextures) {
+			delete ptr;
+		}
+
 		glfwDestroyWindow(mWindow);
 		glfwTerminate();
 	}
@@ -60,9 +72,10 @@ namespace Library {
 
 	Texture * OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
 	{
-		mTextures.emplace_back();
-		mTextures.back().Init(imagePath);
-		return &mTextures.back();
+		OpenGLTexture * texture = new OpenGLTexture();
+		texture->Init(imagePath);
+		mTextures.push_back(texture);
+		return texture;
 	}
 
 	void OpenGLRenderDevice::Invalid()
@@ -73,23 +86,40 @@ namespace Library {
 
 	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
 	{
-		mShaders.emplace_back();
-		mShaders.back().Init(vPath, fPath);
-		return &mShaders.back();
+		OpenGLShader * shader = new OpenGLShader();
+		shader->Init(vPath, fPath);
+		mShaders.push_back(shader);
+		return shader;
 	}
 
-	void OpenGLRenderDevice::Draw()
+	void OpenGLRenderDevice::Draw(DrawMode mode, std::uint32_t counts)
 	{
-		const glm::vec4 CornflowerBlue = glm::vec4(0.392f, 0.584f, 0.929f, 1.0f);
-		glClearBufferfv(GL_COLOR, 0, &CornflowerBlue[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		const glm::vec4 Black = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearBufferfv(GL_COLOR, 0, &Black[0]);
+
+		switch (mode) {
+		case DrawMode::TRIANGLES:
+			glDrawArrays(GL_TRIANGLES, 0, counts);
+			break;
+		case DrawMode::LINES:
+			glDrawElements(GL_LINES, counts, GL_UNSIGNED_INT, 0);
+			break;
+		case DrawMode::POINTS:
+			glDrawArrays(GL_POINTS, 0, counts);
+			break;
+		default:
+			break;
+		}
+		
 		glBindVertexArray(0);
 	}
 
-	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride)
+	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
+		std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
 	{
-		mBuffers.emplace_back();
-		mBuffers.back().Init(data, size, stride);
-		return &mBuffers.back();
+		OpenGLRenderBuffer * buffer = new OpenGLRenderBuffer();
+		buffer->Init(data, size, stride, indices, indices_size, elementCnt);
+		mBuffers.push_back(buffer);
+		return buffer;
 	}
 }

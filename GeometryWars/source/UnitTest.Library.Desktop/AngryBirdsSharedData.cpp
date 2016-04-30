@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(AngryBirdsSharedData);
+RTTI_DEFINITIONS(AngryBirdsSharedData, XmlParseMaster::SharedData);
 
 AngryBirdsSharedData::AngryBirdsSharedData() :
 	mAngryBirdsData(1)

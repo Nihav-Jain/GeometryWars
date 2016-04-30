@@ -4,9 +4,9 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(SharedDataTable);
+	RTTI_DEFINITIONS(SharedDataTable, XmlParseMaster::SharedData);
 
-	//Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
+	Graph<SharedDataTable::ParserState> SharedDataTable::ParserStateAutomata;
 
 	SharedDataTable::SharedDataTable() :
 		mRootScope(nullptr), CurrentScopePtr(nullptr), DataName(), DataValue(), NameValueElementDataParsed(false), mStateTraversor()
@@ -41,9 +41,6 @@ namespace Library
 			
 			ParserState valueStart = ParserState::VALUE_START;
 			ParserState valueEnd = ParserState::VALUE_END;
-
-			ParserState spriteStart = ParserState::SPRITE_START;
-			ParserState spriteEnd = ParserState::SPRITE_END;
 
 			ParserState gameObjectStart = ParserState::GAMEOBJECT_START;
 			ParserState gameObjectEnd = ParserState::GAMEOBJECT_END;
@@ -199,22 +196,6 @@ namespace Library
 			Graph<ParserState>::Traversor waScopeEndState = ParserStateAutomata.AddVertex(scopeEnd, wActionStateRouter);
 			ParserStateAutomata.CreateEdge(waScopeEndState, wActionStateRouter);
 
-
-			/** Sprite */
-			// TODO: Fix me
-			// root -> sprite -> sprite_router -> sprite_end
-			Graph<ParserState>::Traversor spriteStartState = ParserStateAutomata.AddVertex(spriteStart, rootState);
-			Graph<ParserState>::Traversor spriteRouterState = ParserStateAutomata.AddVertex(stateRouter, spriteStartState);
-			Graph<ParserState>::Traversor spriteEndState = ParserStateAutomata.AddVertex(spriteEnd, spriteRouterState);
-
-			Graph<ParserState>::Traversor spPrimitiveStartState = ParserStateAutomata.AddVertex(primitiveStart, spriteRouterState);
-			Graph<ParserState>::Traversor spNameStart = ParserStateAutomata.AddVertex(nameStart, spPrimitiveStartState);
-			Graph<ParserState>::Traversor spNameEnd = ParserStateAutomata.AddVertex(nameEnd, spNameStart);
-			Graph<ParserState>::Traversor spValueStart = ParserStateAutomata.AddVertex(valueStart, spNameEnd);
-			Graph<ParserState>::Traversor spValueEnd = ParserStateAutomata.AddVertex(valueEnd, spValueStart);
-			Graph<ParserState>::Traversor spPrimitiveEndState = ParserStateAutomata.AddVertex(primitiveEnd, spValueEnd);
-			ParserStateAutomata.CreateEdge(spPrimitiveEndState, spriteRouterState);
-
 			/** GameObject */
 			// sector_router -> gameObject_start -> gameObject_router -> gameObject_end -> sector_router
 			Graph<ParserState>::Traversor gameObjectStartState = ParserStateAutomata.AddVertex(gameObjectStart, sectorRouterState);
@@ -258,7 +239,7 @@ namespace Library
 
 	void SharedDataTable::ClearStateGraph()
 	{
-		//ParserStateAutomata.Clear();
+		ParserStateAutomata.Clear();
 	}
 
 	bool SharedDataTable::CheckStateTransition(ParserState expectedState)

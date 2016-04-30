@@ -202,7 +202,8 @@ namespace Library
 		~Graph();
 
 		Traversor AddVertex(const T& vertexData);
-		Traversor AddVertex(T& vertexData, Traversor& parentVertex);
+		Traversor AddVertex(const T& vertexData, Traversor& parentVertex);
+		Traversor AddParentVertex(const T& vertexData, Traversor& childVertex);
 		void CreateEdge(Traversor& tailVertex, Traversor& headVertex);
 
 		Traversor Begin() const;

@@ -39,7 +39,37 @@
 			<integer name="xyz" value="10"/>
 			<integer name="result" value="0"/>
 			<integer name="result2" value="0"/>
-			
+
+			<string name="appendString" value="somestring"/>
+			<expression name="appendExp">
+				<string name="expression">appendString = appendString + {" = "} + abc</string>
+			</expression>
+
+			<integer name="intArr" value="10"/>
+			<integer name="intArr" value="20"/>
+			<integer name="intArr" value="30"/>
+			<integer name="intArr" value="40"/>
+
+			<integer name="arrResult1" value="0"/>
+			<expression name="appendExp">
+				<string name="expression">arrResult1 = array(intArr, {0})</string>
+			</expression>
+
+			<integer name="arrResult2" value="0"/>
+			<expression name="appendExp">
+				<string name="expression">arrResult2 = array(intArr, {1})</string>
+			</expression>
+
+			<integer name="arrResult3" value="0"/>
+			<expression name="appendExp">
+				<string name="expression">arrResult3 = array(intArr, {2})</string>
+			</expression>
+
+			<integer name="arrSize" value="0"/>
+			<expression name="appendExp">
+				<string name="expression">arrSize = arraySize(intArr)</string>
+			</expression>
+
 			<expression name="exp1">
 				<string name="expression">result = switchInteger + abc - C</string>
 			</expression>

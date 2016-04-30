@@ -8,7 +8,7 @@ namespace Library
 
 	template<typename T>
 	Graph<T>::Graph() :
-		mVertexList(), mEdgeList()
+		mVertexList(0), mEdgeList(0)
 	{}
 
 	template<typename T>
@@ -26,10 +26,19 @@ namespace Library
 	}
 
 	template<typename T>
-	typename Graph<T>::Traversor Graph<T>::AddVertex(T& vertexData, Traversor& parentVertex)
+	typename Graph<T>::Traversor Graph<T>::AddVertex(const T& vertexData, Traversor& parentVertex)
 	{
 		Vertex& newVertex = **(mVertexList.PushBack(new Vertex(vertexData)));
 		CreateEdge(newVertex, *parentVertex.mCurrentVertex);
+		Traversor currentVertexTraversor(newVertex, this);
+		return currentVertexTraversor;
+	}
+
+	template<typename T>
+	typename Graph<T>::Traversor Graph<T>::AddParentVertex(const T& vertexData, Traversor& childVertex)
+	{
+		Vertex& newVertex = **(mVertexList.PushBack(new Vertex(vertexData)));
+		CreateEdge(*childVertex.mCurrentVertex, newVertex);
 		Traversor currentVertexTraversor(newVertex, this);
 		return currentVertexTraversor;
 	}
@@ -93,7 +102,7 @@ namespace Library
 #pragma region Vertex
 	template<typename T>
 	Graph<T>::Vertex::Vertex(const T& vertexData) :
-		mEdgeList(), mData(vertexData)
+		mEdgeList(0), mData(vertexData)
 	{}
 
 	template<typename T>

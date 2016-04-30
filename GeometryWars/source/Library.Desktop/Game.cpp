@@ -6,39 +6,17 @@ namespace Library
 
 	Game::Game() :
 		mGameClock(), mGameTime(), mWorld(mGameTime),
-		mSharedData(), mParseMaster(mSharedData)
+		mSharedData(), mParseMaster(mSharedData), mRenderer(nullptr)
 	{
 		mSharedData.SetRootScope(mWorld);
-
-		mParseMaster.AddHelper(mWorldParser);
-		mParseMaster.AddHelper(mSectorParser);
-		mParseMaster.AddHelper(mEntityParser);
-		mParseMaster.AddHelper(mGameObjectParser);
-		mParseMaster.AddHelper(mActionParser);
-		mParseMaster.AddHelper(mTableParser);
-		mParseMaster.AddHelper(mPrimitivesParser);
-		mParseMaster.AddHelper(mNameValueParser);
-		mParseMaster.AddHelper(mSwitchParser);
-		mParseMaster.AddHelper(mCaseParser);
-		mParseMaster.AddHelper(mExpressionParser);
-		mParseMaster.AddHelper(mReactionParser);
-		mParseMaster.AddHelper(mActionEvent);
-
-		mParseMaster.AddHelper(mActionIf);
-		mParseMaster.AddHelper(mActionIfCondition);
-		mParseMaster.AddHelper(mActionIfThen);
-		mParseMaster.AddHelper(mActionIfElse);
-
-		mParseMaster.AddHelper(mActionWhile);
-		mParseMaster.AddHelper(mActionWhileLoop);
-
-		mParseMaster.AddHelper(mActionBeginPlay);
+		AddParseHelpers();
 	}
 
 	Game::~Game()
 	{
 		SharedDataTable::ClearStateGraph();
 		ActionExpression::ClearStaticMemebers();
+		Attributed::ClearStaticMembers();
 	}
 
 	World& Game::GetWorld()
@@ -63,12 +41,61 @@ namespace Library
 		mWorld.BeginPlay();
 	}
 
+	void Game::Start(const std::string & config)
+	{
+		mParseMaster.ParseFromFile(config);
+
+		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.BeginPlay();
+	}
+
 	void Game::Update()
 	{
 		mGameClock.UpdateGameTime(mGameTime);
 		mWorld.Update();
+		if (mRenderer != nullptr)
+			mRenderer->Update();
+	}
+
+	void Game::SetRendererDevice(RenderDevice * device)
+	{
+		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
+		mRenderer = Renderer::GetInstance(device);
 	}
 
 	void Game::Destroy()
-	{}
+	{
+		mWorld.OnDestroy();
+	}
+
+	void Game::AddParseHelpers()
+	{
+		mParseMaster.AddHelper(mWorldParser);
+		mParseMaster.AddHelper(mSectorParser);
+		mParseMaster.AddHelper(mEntityParser);
+		mParseMaster.AddHelper(mActionParser);
+		mParseMaster.AddHelper(mTableParser);
+		mParseMaster.AddHelper(mPrimitivesParser);
+		mParseMaster.AddHelper(mNameValueParser);
+		mParseMaster.AddHelper(mSwitchParser);
+		mParseMaster.AddHelper(mCaseParser);
+		mParseMaster.AddHelper(mExpressionParser);
+		mParseMaster.AddHelper(mReactionParser);
+		mParseMaster.AddHelper(mActionEvent);
+
+		mParseMaster.AddHelper(mActionIf);
+		mParseMaster.AddHelper(mActionIfCondition);
+		mParseMaster.AddHelper(mActionIfThen);
+		mParseMaster.AddHelper(mActionIfElse);
+
+		mParseMaster.AddHelper(mActionWhile);
+		mParseMaster.AddHelper(mActionWhileLoop);
+
+		mParseMaster.AddHelper(mActionBeginPlay);
+		mParseMaster.AddHelper(mActionOnDestroy);
+		mParseMaster.AddHelper(mSpriteParser);
+		mParseMaster.AddHelper(mPolygonParser);
+		mParseMaster.AddHelper(mImageParser);
+	}
 }

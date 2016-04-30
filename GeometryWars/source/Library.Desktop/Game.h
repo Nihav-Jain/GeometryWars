@@ -9,6 +9,9 @@
 #include "GameClock.h"
 #include "GameTime.h"
 
+#include "Renderer.h"
+#include "RenderDevice.h"
+
 #include "RTTI.h"
 #include "Datum.h"
 #include "Scope.h"
@@ -29,14 +32,11 @@
 #include "Reaction.h"
 #include "ReactionAttributed.h"
 
-#include "GameObject.h"
-
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
-#include "XmlParseHelperGameObject.h"
 #include "XmlParseHelperAction.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
@@ -48,6 +48,10 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperSprite.h"
+#include "XmlParseHelperPolygon.h"
+#include "XmlParseHelperImage.h"
+#include "XmlParseHelperOnDestroy.h"
 
 namespace Library
 {
@@ -62,7 +66,7 @@ namespace Library
 	public:
 
 		/**
-		 *	parameterless constructor, initializes the members 
+		 *	parameterless constructor, initializes the members
 		 */
 		Game();
 
@@ -100,10 +104,16 @@ namespace Library
 		const GameTime& GetGameTime() const;
 
 		/**
+		*	Resets the game clock and other things to be initialized before starting the game loop
+		*	Must be called before entering the game loop
+		*/
+		void Start();
+
+		/**
 		 *	Resets the game clock and other things to be initialized before starting the game loop
 		 *	Must be called before entering the game loop
 		 */
-		void Start();
+		void Start(const std::string & config);
 
 		/**
 		 *	Updates the game clock and calls Update on the game World
@@ -117,19 +127,23 @@ namespace Library
 		 */
 		void Destroy();
 
+		void SetRendererDevice(RenderDevice * device);
+
 	private:
+		void AddParseHelpers();
 
 		GameClock mGameClock;
 		GameTime mGameTime;
 		World mWorld;
-		
+
+		Renderer * mRenderer;
+
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
 
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
-		XmlParseHelperGameObject mGameObjectParser;
 		XmlParseHelperAction mActionParser;
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
@@ -148,6 +162,11 @@ namespace Library
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 		XmlParseHelperBeginPlay mActionBeginPlay;
+		XmlParseHelperOnDestroy mActionOnDestroy;
+
+		XmlParseHelperSprite mSpriteParser;
+		XmlParseHelperPolygon mPolygonParser;
+		XmlParseHelperImage mImageParser;
 
 		EntityFactory mEntityFactory;
 		ActionListFactory mActionListFactory;
@@ -162,4 +181,3 @@ namespace Library
 		ActionDestroyEntityFactory mDestroyEntityFactory;
 	};
 }
-

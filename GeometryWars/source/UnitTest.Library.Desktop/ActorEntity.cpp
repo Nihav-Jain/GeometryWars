@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(ActorEntity);
+RTTI_DEFINITIONS(ActorEntity, Entity);
 
 ActorEntity::ActorEntity()
 {
