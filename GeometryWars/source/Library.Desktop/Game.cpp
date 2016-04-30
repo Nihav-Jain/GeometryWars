@@ -5,8 +5,8 @@ namespace Library
 {
 
 	Game::Game() :
-		mGameClock(), mGameTime(), mWorld(mGameTime),
-		mSharedData(), mParseMaster(mSharedData), mRenderer(nullptr)
+		mSharedData(), mParseMaster(mSharedData),
+		mGameClock(), mGameTime(), mWorld(mGameTime, mParseMaster), mRenderer(nullptr)
 	{
 		mSharedData.SetRootScope(mWorld);
 		AddParseHelpers();

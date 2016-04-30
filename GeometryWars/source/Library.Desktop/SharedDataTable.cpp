@@ -52,6 +52,7 @@ namespace Library
 			Graph<ParserState>::Traversor worldStartState = ParserStateAutomata.AddVertex(worldStart, rootState);
 			Graph<ParserState>::Traversor worldRouterState = ParserStateAutomata.AddVertex(stateRouter, worldStartState);
 			Graph<ParserState>::Traversor worldEndState = ParserStateAutomata.AddVertex(worldEnd, worldRouterState);
+			ParserStateAutomata.CreateEdge(worldEndState, worldStartState);
 
 			// world_router -> prim_start -> name_start -> name_end -> value_start -> value_end -> prim_end -> world_router
 			Graph<ParserState>::Traversor wPrimitiveStartState = ParserStateAutomata.AddVertex(primitiveStart, worldRouterState);

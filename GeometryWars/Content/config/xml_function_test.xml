@@ -14,6 +14,15 @@
 				<string name="expression">minResult = min(anotherInt, switchInteger)</string>
 			</expression>
 
+			<integer name="intArr" value="10"/>
+			<integer name="intArr" value="20"/>
+			<integer name="intArr" value="30"/>
+			<integer name="intArr" value="40"/>
+
+			<expression name="something2">
+				<string name="expression">set_array(intArr, {2}, {100}, {0})</string>
+			</expression>
+
 		</entity>
 	</sector>
 </world>
