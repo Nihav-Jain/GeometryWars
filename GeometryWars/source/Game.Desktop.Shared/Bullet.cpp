@@ -2,6 +2,7 @@
 #include "../../source/Library.Desktop/Game.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "Player.h"
 
 namespace Library
 {
@@ -34,7 +35,12 @@ namespace Library
 
 	void Bullet::BeginPlay(WorldState & worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
+		GameObject::BeginPlay(worldState);
+
+		Player& player = *worldState.entity->AssertiveAs<Player>();
+		mPosition = player.Position();
+		mVelocity = player.Heading() * mMoveSpeed;
+		mRotation = player.Heading();
 	}
 
 	void Bullet::Update(WorldState & worldState)

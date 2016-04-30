@@ -7,13 +7,18 @@
 #include "../../source/Library.Desktop/Image.h"
 #include "../../source/Library.Desktop/Texture.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <math.h>
+
 namespace Library
 {
 	RTTI_DEFINITIONS(Player, GameObject);
 
 	const std::string Player::ATTRIBUTE_PLAYERNUMBER = "player";
-	const std::string Player::ATTRIBUTE_ATTACKSPEED = "attack speed";
-	const std::string Player::ATTRIBUTE_CANATTACK = "can attack";
+	const std::string Player::ATTRIBUTE_ATTACKSPEED = "attackspeed";
+	const std::string Player::ATTRIBUTE_CANATTACK = "canattack";
 	const std::string Player::ATTRIBUTE_LIVES = "lives";
 	const std::string Player::ATTRIBUTE_BOMBS = "bombs";
 	const std::string Player::ATTRIBUTE_SHOOT = "shoot";
@@ -66,14 +71,14 @@ namespace Library
 			mShoot = false;
 
 			// TODO: Load this prototype from an xml file
-			Bullet* newBullet = GetSector()->CreateEntity(Bullet::TypeName(), "bullet").AssertiveAs<Bullet>();
-			newBullet->SetPosition(mPosition);
-			newBullet->SetVelocity(mHeading * Bullet::DEFAULT_SPEED);
-			SpriteRenderer *bulletRenderer = Action::CreateAction(SpriteRenderer::TypeName(), "bulletRenderer", *newBullet, Entity::ATTRIBUTE_ACTIONS).AssertiveAs<SpriteRenderer>();
-			Image *bulletImage = bulletRenderer->CreateAction(Image::TypeName(), "image", *bulletRenderer, ActionList::ATTRIBUTE_ACTIONS).AssertiveAs<Image>();
-			bulletImage->SetPath(Bullet::DEFAULT_IMAGE);
-			bulletImage->SetSize(Bullet::DEFAULT_SIZE);
-			Renderer::GetInstance()->AddRenderable(bulletRenderer);
+			//Bullet* newBullet = GetSector()->CreateEntity(Bullet::TypeName(), "bullet").AssertiveAs<Bullet>();
+			//newBullet->SetPosition(mPosition);
+			//newBullet->SetVelocity(mHeading * Bullet::DEFAULT_SPEED);
+			//SpriteRenderer *bulletRenderer = Action::CreateAction(SpriteRenderer::TypeName(), "bulletRenderer", *newBullet, Entity::ATTRIBUTE_ACTIONS).AssertiveAs<SpriteRenderer>();
+			//Image *bulletImage = bulletRenderer->CreateAction(Image::TypeName(), "image", *bulletRenderer, ActionList::ATTRIBUTE_ACTIONS).AssertiveAs<Image>();
+			//bulletImage->SetPath(Bullet::DEFAULT_IMAGE);
+			//bulletImage->SetSize(Bullet::DEFAULT_SIZE);
+			//Renderer::GetInstance()->AddRenderable(bulletRenderer);
 
 			// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
 			//       and have a Reaction (in XML) to that event that sets mCanAttack to true
@@ -160,11 +165,17 @@ namespace Library
 	void Player::BeginPlay(WorldState & worldState)
 	{
 		GameObject::BeginPlay(worldState);
+
+		mHeading = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	}
 
 	void Player::Update(WorldState & worldState)
 	{
 		GameObject::Update(worldState);
+
+		mHeading.x = -sin(mRotation.z);
+		mHeading.y = cos(mRotation.z);
+		mHeading = glm::normalize(mHeading);
 
 		// Shoot
 		if (mShoot)

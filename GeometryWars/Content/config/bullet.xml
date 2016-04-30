@@ -1,0 +1,10 @@
+<gameobject class="Bullet" name="object1">
+	<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+  <float name="speed" value="10" />
+	<sprite_renderer name="bulletsprite">
+		<image name="image">
+			<string name="path" value="Content/resource/mushroom.png"/>
+			<vector name="size" value="vec4(5, 5, 0, 0)"/>
+		</image>
+	</sprite_renderer>
+</gameobject>		
