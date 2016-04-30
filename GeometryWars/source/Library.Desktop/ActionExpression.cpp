@@ -77,11 +77,51 @@ namespace Library
 			case Datum::DatumType::STRING:
 				result = params[0]->Get<std::string>(index);
 				break;
+			case Datum::DatumType::BOOLEAN:
+				result = params[0]->Get<bool>(index);
+				break;
 			case Datum::DatumType::VECTOR4:
 				result = params[0]->Get<glm::vec4>(index);
 				break;
 			case Datum::DatumType::MATRIX4x4:
 				result = params[0]->Get<glm::mat4x4>(index);
+				break;
+			default:
+				break;
+			}
+			return result;
+		}));
+
+		// param0 - destination array
+		// param1 - destination array index
+		// param2 - source array
+		// param3 - source array index
+		// returns an empty datum because it updates the value by reference
+		mDefinedFunctions.Insert("set_array", FunctionDefinition(4, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 4);
+			Datum result;
+			std::int32_t destinationIndex = params[1]->Get<std::int32_t>();
+			std::int32_t sourceIndex = params[3]->Get<std::int32_t>();
+			switch (params[0]->Type())
+			{
+			case Datum::DatumType::INTEGER:
+				params[0]->Set(params[2]->Get<std::int32_t>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::FLOAT:
+				params[0]->Set(params[2]->Get<std::float_t>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::STRING:
+				params[0]->Set(params[2]->Get<std::string>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::BOOLEAN:
+				params[0]->Set(params[2]->Get<bool>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::VECTOR4:
+				params[0]->Set(params[2]->Get<glm::vec4>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::MATRIX4x4:
+				params[0]->Set(params[2]->Get < glm::mat4x4> (sourceIndex), destinationIndex);
 				break;
 			default:
 				break;

@@ -205,10 +205,16 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(minResult);
 			Assert::AreEqual(0, minResult->Get<std::int32_t>());
 
+			Datum* intArr = entity->Find("intArr");
+			Assert::IsNotNull(intArr);
+			Assert::AreEqual(4U, intArr->Size());
+			Assert::AreEqual(30, intArr->Get<std::int32_t>(2));
+
 			game.Update();
 
 			Assert::AreEqual(10, result->Get<std::int32_t>());
 			Assert::AreEqual(1, minResult->Get<std::int32_t>());
+			Assert::AreEqual(100, intArr->Get<std::int32_t>(2));
 		}
 
 		TEST_METHOD(ActionTestBeginPlay)
