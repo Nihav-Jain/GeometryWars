@@ -80,7 +80,10 @@ namespace Library {
 
 	void OpenGLRenderDevice::Invalid()
 	{
+		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
+		const glm::vec4 Black = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearBufferfv(GL_COLOR, 0, &Black[0]);
 	}
 
 	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
@@ -93,9 +96,6 @@ namespace Library {
 
 	void OpenGLRenderDevice::Draw(DrawMode mode, std::uint32_t counts)
 	{
-		const glm::vec4 Black = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-		glClearBufferfv(GL_COLOR, 0, &Black[0]);
-
 		switch (mode) {
 		case DrawMode::TRIANGLES:
 			glDrawArrays(GL_TRIANGLES, 0, counts);
@@ -111,7 +111,6 @@ namespace Library {
 		}
 		
 		glBindVertexArray(0);
-		glfwSwapBuffers(mWindow);
 	}
 
 	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
