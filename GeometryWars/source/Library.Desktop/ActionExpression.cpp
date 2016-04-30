@@ -152,7 +152,7 @@ namespace Library
 
 			std::string rawOperand;
 			std::uint32_t prev = 0, pos;
-			while ((pos = (std::uint32_t)expression.find_first_of(allOperators, prev)) != std::string::npos)
+			while ((pos = (std::uint32_t)expression.find_first_of(allOperators, prev)) < expression.length())
 			{
 				if (pos > prev)
 				{
@@ -174,7 +174,7 @@ namespace Library
 				if (allOperators.find(expression.at(pos)) > indexOfComma)
 				{
 					std::uint32_t nextCharacterIndex = (std::uint32_t)allOperators.find(expression.at(pos + 1));
-					if (nextCharacterIndex != std::string::npos && nextCharacterIndex > indexOfComma)
+					if (nextCharacterIndex < allOperators.length() && nextCharacterIndex > indexOfComma)
 					{
 						pos++;
 						currentOperator.push_back(expression.at(pos));
@@ -191,22 +191,22 @@ namespace Library
 					Datum& tempLiteral = AppendAuxiliaryAttribute(tempName);
 
 					std::uint32_t quote = (std::uint32_t)literal.find("\"");
-					if (quote != std::string::npos)
+					if (quote < literal.length())
 					{
 						std::uint32_t endQuote = (std::uint32_t)literal.find_last_of("\"");
-						assert(endQuote != std::string::npos);
+						assert(endQuote < literal.length());
 						literal = literal.substr(quote + 1, endQuote - quote - 1);
 						tempLiteral.SetType(Datum::DatumType::STRING);
 					}
-					else if (literal.find("vec4") != std::string::npos)
+					else if (literal.find("vec4") < literal.length())
 					{
 						tempLiteral.SetType(Datum::DatumType::VECTOR4);
 					}
-					else if (literal.find("mat4x4") != std::string::npos)
+					else if (literal.find("mat4x4") < literal.length())
 					{
 						tempLiteral.SetType(Datum::DatumType::MATRIX4x4);
 					}
-					else if (literal.find(".") != std::string::npos)
+					else if (literal.find(".") < literal.length())
 					{
 						tempLiteral.SetType(Datum::DatumType::FLOAT);
 					}
@@ -355,7 +355,7 @@ namespace Library
 			else
 			{
 				Datum* operand = nullptr;
-				if (postfixExpression.Front().find('.') != std::string::npos)
+				if (postfixExpression.Front().find('.')  < postfixExpression.Front().length())
 					operand = world.ComplexSearch(postfixExpression.Front(), *this);
 				else
 					operand = Search(postfixExpression.Front());
