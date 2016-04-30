@@ -12,14 +12,21 @@ namespace Library
 		Enemy();
 		virtual ~Enemy() = default;
 
+		static const std::string ATTRIBUTE_VELOCITY;
+
+		const glm::vec4 & Velocity() const;
+		void SetVelocity(const glm::vec4 & velocity);
+
 		void EnemyDeath(WorldState& worldState);
 
+		virtual void BeginPlay(WorldState& worldState) override;
+		virtual void Update(WorldState& worldState) override;
+		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
-
 
 	protected:
 
-		//class Player* mPlayer;	// Cache the player? What about multiplayer?
+		glm::vec4 mVelocity;
 
 	};
 

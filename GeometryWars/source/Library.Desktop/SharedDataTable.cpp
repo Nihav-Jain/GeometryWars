@@ -42,8 +42,8 @@ namespace Library
 			ParserState valueStart = ParserState::VALUE_START;
 			ParserState valueEnd = ParserState::VALUE_END;
 
-			ParserState gameObjectStart = ParserState::GAMEOBJECT_START;
-			ParserState gameObjectEnd = ParserState::GAMEOBJECT_END;
+			//ParserState gameObjectStart = ParserState::GAMEOBJECT_START;
+			//ParserState gameObjectEnd = ParserState::GAMEOBJECT_END;
 
 			Graph<ParserState>::Traversor rootState = ParserStateAutomata.AddVertex(root);
 
@@ -196,37 +196,37 @@ namespace Library
 			Graph<ParserState>::Traversor waScopeEndState = ParserStateAutomata.AddVertex(scopeEnd, wActionStateRouter);
 			ParserStateAutomata.CreateEdge(waScopeEndState, wActionStateRouter);
 
-			/** GameObject */
-			// sector_router -> gameObject_start -> gameObject_router -> gameObject_end -> sector_router
-			Graph<ParserState>::Traversor gameObjectStartState = ParserStateAutomata.AddVertex(gameObjectStart, sectorRouterState);
-			Graph<ParserState>::Traversor gameObjectRouterState = ParserStateAutomata.AddVertex(stateRouter, gameObjectStartState);
-			Graph<ParserState>::Traversor gameObjectEndState = ParserStateAutomata.AddVertex(gameObjectEnd, gameObjectRouterState);
-			ParserStateAutomata.CreateEdge(gameObjectEndState, sectorRouterState);
+			/** GameObject */ // Removing because it doesn't work and we have no idea why
+			//// sector_router -> gameObject_start -> gameObject_router -> gameObject_end -> sector_router
+			//Graph<ParserState>::Traversor gameObjectStartState = ParserStateAutomata.AddVertex(gameObjectStart, sectorRouterState);
+			//Graph<ParserState>::Traversor gameObjectRouterState = ParserStateAutomata.AddVertex(stateRouter, gameObjectStartState);
+			//Graph<ParserState>::Traversor gameObjectEndState = ParserStateAutomata.AddVertex(gameObjectEnd, gameObjectRouterState);
+			//ParserStateAutomata.CreateEdge(gameObjectEndState, sectorRouterState);
 
-			// gameObject_router -> prim_start -> name_start -> name_end -> value_start -> value_end -> prim_end -> gameObject_router
-			Graph<ParserState>::Traversor goPrimitiveStartState = ParserStateAutomata.AddVertex(primitiveStart, gameObjectRouterState);
-			Graph<ParserState>::Traversor goNameStart = ParserStateAutomata.AddVertex(nameStart, goPrimitiveStartState);
-			Graph<ParserState>::Traversor goNameEnd = ParserStateAutomata.AddVertex(nameEnd, goNameStart);
-			Graph<ParserState>::Traversor goValueStart = ParserStateAutomata.AddVertex(valueStart, goNameEnd);
-			Graph<ParserState>::Traversor goValueEnd = ParserStateAutomata.AddVertex(valueEnd, goValueStart);
-			Graph<ParserState>::Traversor goPrimitiveEndState = ParserStateAutomata.AddVertex(primitiveEnd, goValueEnd);
-			ParserStateAutomata.CreateEdge(goPrimitiveEndState, gameObjectRouterState);
+			//// gameObject_router -> prim_start -> name_start -> name_end -> value_start -> value_end -> prim_end -> gameObject_router
+			//Graph<ParserState>::Traversor goPrimitiveStartState = ParserStateAutomata.AddVertex(primitiveStart, gameObjectRouterState);
+			//Graph<ParserState>::Traversor goNameStart = ParserStateAutomata.AddVertex(nameStart, goPrimitiveStartState);
+			//Graph<ParserState>::Traversor goNameEnd = ParserStateAutomata.AddVertex(nameEnd, goNameStart);
+			//Graph<ParserState>::Traversor goValueStart = ParserStateAutomata.AddVertex(valueStart, goNameEnd);
+			//Graph<ParserState>::Traversor goValueEnd = ParserStateAutomata.AddVertex(valueEnd, goValueStart);
+			//Graph<ParserState>::Traversor goPrimitiveEndState = ParserStateAutomata.AddVertex(primitiveEnd, goValueEnd);
+			//ParserStateAutomata.CreateEdge(goPrimitiveEndState, gameObjectRouterState);
 
-			// gameObject_router -> scope_start -> gameObject_router
-			Graph<ParserState>::Traversor goScopeStartState = ParserStateAutomata.AddVertex(scopeStart, gameObjectRouterState);
-			ParserStateAutomata.CreateEdge(goScopeStartState, gameObjectRouterState);
+			//// gameObject_router -> scope_start -> gameObject_router
+			//Graph<ParserState>::Traversor goScopeStartState = ParserStateAutomata.AddVertex(scopeStart, gameObjectRouterState);
+			//ParserStateAutomata.CreateEdge(goScopeStartState, gameObjectRouterState);
 
-			// gameObject_router -> scope_end -> gameObject_router
-			Graph<ParserState>::Traversor goScopeEndState = ParserStateAutomata.AddVertex(scopeEnd, gameObjectRouterState);
-			ParserStateAutomata.CreateEdge(goScopeEndState, gameObjectRouterState);
+			//// gameObject_router -> scope_end -> gameObject_router
+			//Graph<ParserState>::Traversor goScopeEndState = ParserStateAutomata.AddVertex(scopeEnd, gameObjectRouterState);
+			//ParserStateAutomata.CreateEdge(goScopeEndState, gameObjectRouterState);
 
-			// gameObject_router -> action_start -> action_router -> action_end -> gameObject_router
-			Graph<ParserState>::Traversor goActionStartState = ParserStateAutomata.AddVertex(actionStart, gameObjectRouterState);
-			Graph<ParserState>::Traversor goActionStateRouter = ParserStateAutomata.AddVertex(stateRouter, goActionStartState);
-			Graph<ParserState>::Traversor goActionEndState = ParserStateAutomata.AddVertex(actionEnd, goActionStateRouter);
-			ParserStateAutomata.CreateEdge(goActionEndState, gameObjectRouterState);
-			ParserStateAutomata.CreateEdge(goActionStateRouter, goActionStartState);
-			ParserStateAutomata.CreateEdge(gameObjectRouterState, goActionEndState);
+			//// gameObject_router -> action_start -> action_router -> action_end -> gameObject_router
+			//Graph<ParserState>::Traversor goActionStartState = ParserStateAutomata.AddVertex(actionStart, gameObjectRouterState);
+			//Graph<ParserState>::Traversor goActionStateRouter = ParserStateAutomata.AddVertex(stateRouter, goActionStartState);
+			//Graph<ParserState>::Traversor goActionEndState = ParserStateAutomata.AddVertex(actionEnd, goActionStateRouter);
+			//ParserStateAutomata.CreateEdge(goActionEndState, gameObjectRouterState);
+			//ParserStateAutomata.CreateEdge(goActionStateRouter, goActionStartState);
+			//ParserStateAutomata.CreateEdge(gameObjectRouterState, goActionEndState);
 		}
 
 		mStateTraversor = ParserStateAutomata.Begin();

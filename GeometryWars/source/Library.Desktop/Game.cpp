@@ -74,6 +74,7 @@ namespace Library
 		mParseMaster.AddHelper(mWorldParser);
 		mParseMaster.AddHelper(mSectorParser);
 		mParseMaster.AddHelper(mEntityParser);
+		mParseMaster.AddHelper(mGameObjectParser);
 		mParseMaster.AddHelper(mActionParser);
 		mParseMaster.AddHelper(mTableParser);
 		mParseMaster.AddHelper(mPrimitivesParser);

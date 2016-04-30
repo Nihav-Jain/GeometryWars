@@ -69,6 +69,21 @@ namespace Library
 		return (GetComponent(typeName) != nullptr);
 	}
 
+	void GameObject::BeginPlay(WorldState & worldState)
+	{
+		Entity::BeginPlay(worldState);
+	}
+
+	void GameObject::Update(WorldState & worldState)
+	{
+		Entity::Update(worldState);
+	}
+
+	void GameObject::OnDestroy(WorldState & worldState)
+	{
+		Entity::OnDestroy(worldState);
+	}
+
 	void GameObject::OnOverlapBegin(const GameObject & other, WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(other);

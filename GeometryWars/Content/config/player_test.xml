@@ -50,15 +50,21 @@
 	
 	<sector name="playerSector">
 	
-		<gameobject class="Player" name="object1">
+		<gameobject class="Player" name="Player0">
 			<integer name="player"	value="0"/>
 			<vector name="position" value="vec4(0, 0, 0, 0)"/>
 			<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
-			<integer name="shoot" value="0" />
-			<float name="speed" value="1" />
+			<vector name="heading" value="vec4(0, 0, 0, 0)" />
+			<float name="speed" value="10" />
 			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 			<vector name="scale" value="vec4(100, 100, 1, 0)"/>
 			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
+			<float name="attack speed" value="0.1" />
+			<bool name="can attack" value="true" />
+			<integer name="lives" value="3" />
+			<bool name="shoot" value="false" />
+			<integer name="bombs" value="3" />
+			<bool name="useBomb" value="false" />
 			<polygon_renderer name="jet">
 				<vector name="color" value="vec4(1, 0, 0, 1)"/>
 				<integer name="indices" value="0"/>
@@ -100,6 +106,9 @@
 								<expression name="modify">
 									<string name="expression">velocity = velocity - speed * {vec4(1, 0, 0, 0)}</string>
 								</expression>
+								<expression name="rotate">
+									<string name="expression">rotation = {vec4(90, 0, 0, 0)}</string>
+								</expression>
 							</then>
 							<else>
 								<expression name="modify">
@@ -123,6 +132,9 @@
 							<then>
 								<expression name="modify">
 									<string name="expression">velocity = velocity + speed * {vec4(1, 0, 0, 0)}</string>
+								</expression>
+								<expression name="rotate">
+									<string name="expression">rotation = {vec4(270, 0, 0, 0)}</string>
 								</expression>
 							</then>
 							<else>
@@ -149,6 +161,9 @@
 								<expression name="modify">
 									<string name="expression">velocity = velocity + speed * {vec4(0, 1, 0, 0)}</string>
 								</expression>
+								<expression name="rotate">
+									<string name="expression">rotation = {vec4(0, 0, 0, 0)}</string>
+								</expression>
 							</then>
 							<else>
 								<expression name="modify">
@@ -173,6 +188,9 @@
 								<expression name="modify">
 									<string name="expression">velocity = velocity - speed * {vec4(0, 1, 0, 0)}</string>
 								</expression>
+								<expression name="rotate">
+									<string name="expression">rotation = {vec4(180, 0, 0, 0)}</string>
+								</expression>
 							</then>
 							<else>
 								<expression name="modify">
@@ -193,11 +211,31 @@
 			<reaction class="ReactionAttributed" name="OnShoot">
 				<string name="subtype" value="Shoot"/>
 				
+				<expression name="modify">
+					<string name="expression">shoot = {true}</string>
+				</expression>
+				
+				<!--
 				<if name="CheckPlayer">
 					<condition><string name="expression">PlayerNumber == player</string></condition>
 					<then>
 						<expression name="modify">
-							<string name="expression">shoot = {1}</string>
+							<string name="expression">shoot = {true}</string>
+						</expression>
+					</then>
+				</if>
+				-->
+			</reaction>
+			
+			<!-- Bomb SubType -->
+			<reaction class="ReactionAttributed" name="OnUseBomb">
+				<string name="subtype" value="Bomb"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == player</string></condition>
+					<then>
+						<expression name="modify">
+							<string name="expression">useBomb = {true}</string>
 						</expression>
 					</then>
 				</if>

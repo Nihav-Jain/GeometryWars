@@ -4,6 +4,9 @@
 #include "ActionDebug.h"
 #include "Renderer.h"
 #include "OpenGLRenderDevice.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Bullet.h"
 
 using namespace Library;
 
@@ -17,8 +20,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	OpenGLRenderDevice renderDevice;
 	renderDevice.InitOpenGl();
 
+	/// Game-specific factories that cannot live as members in the Game class ///
 	XBoxControllerHandlerFactory xchf;
 	ActionDebugFactory adf;
+	PlayerFactory mPlayerFactory;
+	EnemyFactory mEnemyFactory;
+	BulletFactory mBulletFactory;
 
 	Game game;
 	game.SetRendererDevice(&renderDevice);
