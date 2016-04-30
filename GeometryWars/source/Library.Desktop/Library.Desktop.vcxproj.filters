@@ -214,6 +214,9 @@
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="ActionCreateEntityFromFile.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -402,6 +405,9 @@
     </ClCompile>
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp">
       <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCreateEntityFromFile.cpp">
+      <Filter>Kernel\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

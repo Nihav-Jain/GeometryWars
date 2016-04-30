@@ -441,6 +441,47 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
 		}
 
+		TEST_METHOD(ActionTestCreateEntityFromFile)
+		{
+			SampleEntityFactory sampleEntityFactory;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_create_entity_from_file_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+
+			Assert::AreEqual(1U, sector->Entities().Size());
+
+			game.Update();
+			Assert::AreEqual(3U, sector->Entities().Size());
+
+			Entity* sampleEntity = sector->FindEntity("sampleEntity");
+			Assert::IsNotNull(sampleEntity);
+			Assert::IsTrue(sampleEntity->Is(SampleEntity::TypeIdClass()));
+
+			Datum* someInt = sampleEntity->Find("someInt");
+			Assert::IsNotNull(someInt);
+			Assert::AreEqual(0, someInt->Get<std::int32_t>());
+
+			Entity* newEntity = sector->FindEntity("newEntity");
+			Assert::IsNotNull(newEntity);
+
+			Datum* newSomeInt = newEntity->Find("someInt");
+			Assert::IsNotNull(newSomeInt);
+			Assert::AreEqual(0, newSomeInt->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, someInt->Get<std::int32_t>());
+			Assert::AreEqual(20, newSomeInt->Get<std::int32_t>());
+		}
+
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

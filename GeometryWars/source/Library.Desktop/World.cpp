@@ -12,8 +12,8 @@ namespace Library
 	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
 	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
 
-	World::World(const GameTime& gameTime) :
-		mName(), mWorldState(gameTime), mEventQueue()
+	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
+		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster)
 	{
 		mWorldState.world = this;
 
@@ -140,6 +140,11 @@ namespace Library
 			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
 		}
 		return targetScope->Find(referenceName);
+	}
+
+	XmlParseMaster& World::ParseMaster()
+	{
+		return *mParseMaster;
 	}
 
 	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch) const
