@@ -41,5 +41,6 @@ namespace Library
 		const std::string ATTRIBUTE_POSITION = "position";
 		const std::string ATTRIBUTE_ROTATION = "rotation";
 		const std::string ATTRIBUTE_SCALE = "scale";
+		const std::string ATTRIBUTE_MOVESPEED = "speed";
 	};
 }
