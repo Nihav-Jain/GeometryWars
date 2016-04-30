@@ -180,11 +180,11 @@ namespace UnitTestLibraryDesktop
 		{
 			Game game;
 
-			ActionExpression::AddFunction("min", ActionExpression::FunctionDefinition(2, [](const Vector<Datum>& params)
+			ActionExpression::AddFunction("min", ActionExpression::FunctionDefinition(2, [](const Vector<Datum*>& params)
 			{
 				assert(params.Size() >= 2);
 				Datum result;
-				result = ((params[0] <= params[1]).Get<bool>()) ? params[0] : params[1];
+				result = ((*params[0] <= *params[1]).Get<bool>()) ? *params[0] : *params[1];
 				return result;
 			}));
 

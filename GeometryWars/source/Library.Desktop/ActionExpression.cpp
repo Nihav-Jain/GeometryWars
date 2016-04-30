@@ -45,43 +45,43 @@ namespace Library
 	{
 		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
 		
-		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum>& params)
+		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 2);
 			Datum result;
-			result = ( (params[0] >= params[1]).Get<bool>() ) ? params[0] : params[1];
+			result = ( (*params[0] >= *params[1]).Get<bool>() ) ? *params[0] : *params[1];
 			return result;
 		} ));
 
-		mDefinedFunctions.Insert("arraySize", FunctionDefinition(1, [](const Vector<Datum>& params)
+		mDefinedFunctions.Insert("arraySize", FunctionDefinition(1, [](const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 1);
 			Datum result;
-			result = static_cast<std::int32_t>(params[0].Size());
+			result = static_cast<std::int32_t>(params[0]->Size());
 			return result;
 		}));
 
-		mDefinedFunctions.Insert("array", FunctionDefinition(2, [](const Vector<Datum>& params)
+		mDefinedFunctions.Insert("array", FunctionDefinition(2, [](const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 2);
 			Datum result;
-			std::int32_t index = params[1].Get<std::int32_t>();
-			switch (params[0].Type())
+			std::int32_t index = params[1]->Get<std::int32_t>();
+			switch (params[0]->Type())
 			{
 			case Datum::DatumType::INTEGER:
-				result = params[0].Get<std::int32_t>(index);
+				result = params[0]->Get<std::int32_t>(index);
 				break;
 			case Datum::DatumType::FLOAT:
-				result = params[0].Get<std::float_t>(index);
+				result = params[0]->Get<std::float_t>(index);
 				break;
 			case Datum::DatumType::STRING:
-				result = params[0].Get<std::string>(index);
+				result = params[0]->Get<std::string>(index);
 				break;
 			case Datum::DatumType::VECTOR4:
-				result = params[0].Get<glm::vec4>(index);
+				result = params[0]->Get<glm::vec4>(index);
 				break;
 			case Datum::DatumType::MATRIX4x4:
-				result = params[0].Get<glm::mat4x4>(index);
+				result = params[0]->Get<glm::mat4x4>(index);
 				break;
 			default:
 				break;
@@ -323,7 +323,7 @@ namespace Library
 			{
 				CallableFunctions::Iterator itr = mDefinedFunctions.Find(postfixExpression.Front());
 				std::uint32_t numParams = itr->second.NumParams;
-				Vector<Datum> functionParams(numParams);
+				Vector<Datum*> functionParams(numParams);
 				Stack<Datum*> parameterStack;
 
 				bool isResultDatumAParam = false;
@@ -342,7 +342,7 @@ namespace Library
 
 				while (!parameterStack.IsEmpty())
 				{
-					functionParams.PushBack(*parameterStack.Top());
+					functionParams.PushBack(parameterStack.Top());
 					parameterStack.Pop();
 				}
 
