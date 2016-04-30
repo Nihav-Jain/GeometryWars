@@ -80,7 +80,7 @@ namespace Library {
 		mRotation = Search("rotation");
 		mScale = Search("scale");
 
-		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
+		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl", "");
 
 		float vertices[] = {
 			-0.5f, 0.5f, 0.0f, 1.0f,

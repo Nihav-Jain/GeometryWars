@@ -28,51 +28,18 @@ namespace Library {
 		}
 	}
 
-	void OpenGLShader::Init(const std::string & vPath, const std::string & fPath)
+	void OpenGLShader::Init(const std::string & vPath, const std::string & fPath, const std::string & gPath)
 	{
-		std::ifstream t;
-		t.open(fPath);
-		std::string fShader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-		t.close();
-
-		t.open(vPath);
-		std::string vShader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-		t.close();
-
 		GLint success = 0;
-		char buf[256] = { 0 };
-
-		GLuint fragmentShader = 0;
-
-		const char *f_str = fShader.c_str();
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &f_str, NULL);
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(fragmentShader, 1024, NULL, buf);
-			printf("%s", buf);
-		}
-
-		GLuint vertexShader = 0;
-		const char *v_str = vShader.c_str();
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &v_str, NULL);
-		glCompileShader(vertexShader);
-
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 1024, NULL, buf);
-			printf("%s", buf);
-		}
+		GLuint fragmentShader = createOpenGLShaderObj(GL_FRAGMENT_SHADER, fPath);
+		GLuint vertexShader = createOpenGLShaderObj(GL_VERTEX_SHADER, vPath);
+		GLuint geomatryShader = createOpenGLShaderObj(GL_GEOMETRY_SHADER, gPath);
 
 		mShaderId = glCreateProgram();
 
-		glAttachShader(mShaderId, vertexShader);
-		glAttachShader(mShaderId, fragmentShader);
+		if (vertexShader != 0) glAttachShader(mShaderId, vertexShader);
+		if (fragmentShader != 0) glAttachShader(mShaderId, fragmentShader);
+		if (geomatryShader != 0) glAttachShader(mShaderId, geomatryShader);
 		glLinkProgram(mShaderId);
 
 		glDeleteShader(vertexShader);
@@ -80,6 +47,7 @@ namespace Library {
 
 		glGetProgramiv(mShaderId, GL_LINK_STATUS, &success);
 		if (!success) {
+			char buf[256] = { 0 };
 			glGetProgramInfoLog(mShaderId, 512, NULL, buf);
 			printf("%s", buf);
 		}
@@ -98,6 +66,36 @@ namespace Library {
 	void OpenGLShader::SetVector4(const std::string & name, const glm::vec4 & value)
 	{
 		glUniform4f(glGetUniformLocation(mShaderId, name.c_str()), value.x, value.y, value.z, value.w);
+	}
+
+	GLuint OpenGLShader::createOpenGLShaderObj(GLuint type, const std::string & path)
+	{
+		GLuint shadeId = 0;
+
+		if (path != "") {
+			std::ifstream t;
+			t.open(path);
+			std::string shader((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+			t.close();
+
+			GLint success = 0;
+			char buf[256] = { 0 };
+
+			const char *f_str = shader.c_str();
+			shadeId = glCreateShader(type);
+			glShaderSource(shadeId, 1, &f_str, NULL);
+			glCompileShader(shadeId);
+
+			glGetShaderiv(shadeId, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shadeId, 1024, NULL, buf);
+				printf("%s", buf);
+				return 0;
+			}
+		}
+
+		return shadeId;
 	}
 
 }

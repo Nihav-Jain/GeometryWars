@@ -23,7 +23,7 @@ namespace Library {
 
 		virtual Viewport * CreateViewport() override;
 		virtual Texture * CreateTexture(const std::string & imagePath) override;
-		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath) override;
+		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
 		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
 			std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt) override;
 

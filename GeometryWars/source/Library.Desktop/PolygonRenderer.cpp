@@ -81,7 +81,7 @@ namespace Library {
 		assert(mIndices != nullptr);
 		assert(mPoints != nullptr);
 
-		mShader = device->CreateShader("Content/shader/glsl/polygon_v.glsl", "Content/shader/glsl/polygon_f.glsl");
+		mShader = device->CreateShader("Content/shader/glsl/polygon_v.glsl", "Content/shader/glsl/polygon_f.glsl", "");
 
 		std::uint32_t cnt = mPoints->Size();
 		std::uint32_t indicesCnt = mIndices->Size();

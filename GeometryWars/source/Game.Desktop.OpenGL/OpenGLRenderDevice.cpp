@@ -86,10 +86,10 @@ namespace Library {
 		glClearBufferfv(GL_COLOR, 0, &Black[0]);
 	}
 
-	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
+	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath)
 	{
 		OpenGLShader * shader = new OpenGLShader();
-		shader->Init(vPath, fPath);
+		shader->Init(vPath, fPath, gPath);
 		mShaders.push_back(shader);
 		return shader;
 	}
