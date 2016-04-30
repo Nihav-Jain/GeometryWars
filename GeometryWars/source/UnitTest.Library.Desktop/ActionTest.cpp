@@ -398,6 +398,43 @@ namespace UnitTestLibraryDesktop
 
 		}
 
+		TEST_METHOD(ActionTestExpressionRefs)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_expression_ref_test.xml"));
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			Entity* entity = sector->FindEntity("actor");
+			Assert::IsNotNull(entity);
+
+			game.Start();
+
+			Datum* result = entity->Find("intResult");
+			Assert::IsNotNull(result);
+			Assert::AreEqual(0, result->Get<std::int32_t>());
+
+			Datum* someInt = entity->Find("someInt");
+			Assert::IsNotNull(someInt);
+			Assert::AreEqual(10, someInt->Get<std::int32_t>());
+
+			Datum* someIntPtr = entity->Find("someIntPtr");
+			Assert::IsNotNull(someIntPtr);
+			Assert::IsTrue(someInt == &someIntPtr->Get<Datum>());
+
+			Datum* anotherResult = entity->Find("anotherResult");
+			Assert::IsNotNull(anotherResult);
+			Assert::AreEqual(0, anotherResult->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(110, result->Get<std::int32_t>());
+			Assert::AreEqual(100, someInt->Get<std::int32_t>());
+			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
+		}
+
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
 #endif

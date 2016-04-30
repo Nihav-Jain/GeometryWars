@@ -92,7 +92,9 @@ namespace Library
 
 			std::float_t distX = other.Position().x - mOwner->Position().x;
 			std::float_t distY = other.Position().y - mOwner->Position().y;
-			std::float_t radii = otherCollider->mRadius - mRadius;
+
+			// Note: right now this only scales with X
+			std::float_t radii = (otherCollider->mRadius * other.Scale().x) - (mRadius * mOwner->Scale().x);
 
 			isColliding = ((distX * distX) + (distY * distY) < (radii * radii));
 		}

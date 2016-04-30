@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	Game game;
 	game.SetRendererDevice(&renderDevice);
-	game.Start("../../../../../Content/config/player_test.xml");
+	game.Start("Content/config/player_test.xml");
 
 #pragma warning(push)
 #pragma warning(disable : 4127)

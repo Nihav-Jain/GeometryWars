@@ -58,10 +58,9 @@ namespace Library
 			mRenderer->Update();
 	}
 
-	void Game::SetRendererDevice(RenderDevice * device)
+	void Game::SetRenderer(Renderer* renderer)
 	{
-		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
-		mRenderer = Renderer::GetInstance(device);
+		mRenderer = renderer;
 	}
 
 	void Game::Destroy()

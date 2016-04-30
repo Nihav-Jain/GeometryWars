@@ -131,7 +131,7 @@ namespace Library
 		 */
 		void Destroy();
 
-		void SetRendererDevice(RenderDevice * device);
+		void SetRenderer(Renderer * device);
 
 	private:
 		void AddParseHelpers();
