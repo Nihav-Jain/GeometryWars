@@ -1,4 +1,6 @@
 <world name="NihavWorld">
+	<integer name="width" value="1024"/>
+	<integer name="height" value="768" />
 	<sector name="playerSector">
 		<gameobject class="GameObject" name="object1">
 			<vector name="position" value="vec4(0, 0, 0, 0)"/>

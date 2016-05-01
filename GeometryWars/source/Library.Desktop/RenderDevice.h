@@ -21,7 +21,8 @@ namespace Library {
 		RenderDevice();
 		virtual ~RenderDevice();
 
-		virtual Viewport * CreateViewport() = 0;
+		virtual std::int32_t GetViewportWidth() = 0 ;
+		virtual std::int32_t GetViewportHeight() = 0;
 		virtual Texture * CreateTexture(const std::string & imagePath) = 0;
 		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) = 0;
 		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,

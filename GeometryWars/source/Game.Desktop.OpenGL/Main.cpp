@@ -15,14 +15,15 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(showCommand);
 
 	OpenGLRenderDevice renderDevice;
-	renderDevice.InitOpenGl();
-
+	
 	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 	Renderer * renderer = Renderer::GetInstance(&renderDevice);
 
 	Game game;
 	game.SetRenderer(renderer);
 	game.Start("Content/config/polygon.xml"); // TODO use the final world here
+
+	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
 
 #pragma warning(push)
 #pragma warning(disable : 4127)

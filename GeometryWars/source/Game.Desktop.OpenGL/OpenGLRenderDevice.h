@@ -19,9 +19,10 @@ namespace Library {
 		OpenGLRenderDevice(const OpenGLRenderDevice &) = delete;
 		OpenGLRenderDevice & operator=(const OpenGLRenderDevice &) = delete;
 
-		void InitOpenGl();
+		void InitOpenGl(std::int32_t width, std::int32_t height);
 
-		virtual Viewport * CreateViewport() override;
+		virtual std::int32_t GetViewportWidth() override;
+		virtual std::int32_t GetViewportHeight() override;
 		virtual Texture * CreateTexture(const std::string & imagePath) override;
 		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
 		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
@@ -38,6 +39,9 @@ namespace Library {
 		std::vector<OpenGLShader*> mShaders;
 		std::vector<OpenGLTexture*> mTextures;
 		std::vector<OpenGLRenderBuffer*> mBuffers;
+
+		std::int32_t mWidth;
+		std::int32_t mHeight;
 	};
 
 }
