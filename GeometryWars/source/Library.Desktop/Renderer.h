@@ -28,6 +28,7 @@ namespace Library {
 
 		// TODO: Should the factory create the object from the XML accordingly or should we hava a way for the renderer create the obj 
 		void AddRenderable(Renderable *);
+		void RemoveRenderable(Renderable *);
 
 		void Update();
 

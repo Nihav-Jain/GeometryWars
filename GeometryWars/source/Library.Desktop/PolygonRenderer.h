@@ -23,7 +23,7 @@ namespace Library {
 		static const std::string ATTRIBUTE_POINTS;
 
 		PolygonRenderer();
-		virtual ~PolygonRenderer() = default;
+		virtual ~PolygonRenderer();
 
 		PolygonRenderer(const PolygonRenderer & rhs) = delete;
 		PolygonRenderer & operator=(const PolygonRenderer & rhs) = delete;
@@ -36,6 +36,7 @@ namespace Library {
 		Shader * mShader;
 		RenderBuffer * mBuffer;
 
+		float mWidth;
 		glm::vec4 mColor;
 
 		Datum * mPosition;
@@ -44,5 +45,7 @@ namespace Library {
 		Datum * mIndices;
 		Datum * mPoints;
 	};
+
+	CONCRETE_ACTION_FACTORY(PolygonRenderer);
 }
 

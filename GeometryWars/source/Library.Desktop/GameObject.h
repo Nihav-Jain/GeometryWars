@@ -27,6 +27,9 @@ namespace Library
 		Action* GetComponent(const std::string& typeName) const;
 		bool HasComponent(const std::string& typeName) const;
 
+		virtual void BeginPlay(WorldState& worldState) override;
+		virtual void Update(WorldState& worldState) override;
+		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState);
 
 		static const std::string ATTRIBUTE_POSITION;
@@ -38,6 +41,7 @@ namespace Library
 		glm::vec4 mPosition, mRotation, mScale;
 		std::float_t mMoveSpeed;
 
+		std::int32_t mWorldWidth, mWorldHeight;
 	};
 
 	CONCRETE_ENTITY_FACTORY(GameObject);
