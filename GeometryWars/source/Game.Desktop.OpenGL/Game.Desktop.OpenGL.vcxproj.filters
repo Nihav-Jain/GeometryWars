@@ -3,8 +3,17 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="OpenGLRenderBuffer.cpp" />
+    <ClCompile Include="OpenGLRenderDevice.cpp" />
+    <ClCompile Include="OpenGLShader.cpp" />
+    <ClCompile Include="OpenGLTexture.cpp" />
+    <ClCompile Include="gl3w.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="OpenGLRenderBuffer.h" />
+    <ClInclude Include="OpenGLRenderDevice.h" />
+    <ClInclude Include="OpenGLShader.h" />
+    <ClInclude Include="OpenGLTexture.h" />
   </ItemGroup>
 </Project>

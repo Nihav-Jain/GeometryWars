@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include "PolygonRenderer.h"
 #include "ReactionAttributed.h"
 #include "InputManager.h"
 #include "ActionDebug.h"
@@ -54,6 +55,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	game.ParseMaster().ParseFromFile("../../Content/config/input.xml");
 	game.Start();
 
+	PolygonRenderer poly(*mDirect3DDevice, *mDirect3DDeviceContext);
+	
 	while (message.message != WM_QUIT)
 	{
 		if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
@@ -68,6 +71,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 			// Game-specific code
 			game.Update();
+			poly.Draw();
 
 			ThrowIfFailed(mSwapChain->Present(0, 0), "IDXGISwapChain::Present() failed.");
 		}

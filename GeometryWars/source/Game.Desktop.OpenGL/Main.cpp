@@ -4,7 +4,6 @@
 #include "ActionDebug.h"
 #include "Renderer.h"
 #include "OpenGLRenderDevice.h"
-#include "Sprite.h" // TODO just for testing
 
 using namespace Library;
 
@@ -15,6 +14,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
 
+	//<<<<<<< HEAD
 	Game game;
 
 	KeyBoardHandlerFactory khf;
@@ -32,19 +32,25 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	sprite.SetColor(glm::vec4(1, 0, 0, 0));
 	sprite.SetImagePath("Content/resource/mushroom.png");
 
+	//=======
+	//>>>>>>> master
 	OpenGLRenderDevice renderDevice;
-	renderDevice.InitOpenGl();
+	
+	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
+	Renderer * renderer = Renderer::GetInstance(&renderDevice);
 
-	Renderer render(&renderDevice);
-	render.AddRenderable(&sprite);
+	Game game;
+	game.SetRenderer(renderer);
+	game.Start("Content/config/polygon.xml"); // TODO use the final world here
 
-	glm::vec4 pos(1, 0, 0, 0);
+	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
+
 #pragma warning(push)
 #pragma warning(disable : 4127)
 	while (true) { // TODO remove always true
 #pragma warning(pop) 
-		render.Update();
 		game.Update();
+		//<<<<<<< HEAD
 
 		// For Testing Purposes Only...
 		pos.x += Character["VelX"].Get<std::int32_t>();
@@ -56,6 +62,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 		//pos.x -= PlayerController.LeftTrigger.UnitMagnitude();
 		//pos.x += PlayerController.RightTrigger.UnitMagnitude();
 		sprite.SetPosition(pos);
+		//=======
+		//>>>>>>> master
 	}
 
 	return 0;
