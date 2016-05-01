@@ -25,7 +25,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Action() = default;
+		virtual ~Action();
 
 		/**
 		 *	disallow copy construtor
@@ -73,9 +73,15 @@ namespace Library
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
 		static const std::string ATTRIBUTE_CAN_EVER_TICK;
+		static const std::string ATTRIBUTE_OWNER_ENTITY;
+		static const std::string ATTRIBUTE_OWNER_ACTION;
 
 	private:
 		std::string mName;
+		Datum* mWorld;
+		Datum* mSector;
+		Datum* mEntity;
+		Datum* mAction;
 	};
 
 #define CONCRETE_ACTION_FACTORY(ConcreteActionType) CONCRETE_FACTORY(ConcreteActionType, Action);

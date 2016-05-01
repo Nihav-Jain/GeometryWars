@@ -11,10 +11,8 @@ namespace Library
 	const std::string Sector::ATTRIBUTE_OWNER_WORLD = "ownerWorld";
 
 	Sector::Sector() :
-		mName(), mEntityListByType(), mWorld(nullptr)
+		mName(), mEntityListByType(), mWorld(new Datum())
 	{
-		mWorld = new Datum();
-
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);

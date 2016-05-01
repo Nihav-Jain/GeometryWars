@@ -149,7 +149,7 @@ namespace Library
 
 	void ActionExpression::BeginPlay(WorldState& worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
+		Action::BeginPlay(worldState);
 		ConvertExpressionToPostfix();
 	}
 
