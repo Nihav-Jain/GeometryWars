@@ -21,6 +21,7 @@ namespace Library
 		static const std::string ATTRIBUTE_BOMBS;
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_HEADING;
+		static const std::string ATTRIBUTE_CHANNEL;
 
 		std::int32_t PlayerNumber() const;
 		void SetPlayerNumber(std::int32_t playerNumber);
@@ -56,6 +57,7 @@ namespace Library
 		bool mShoot;
 
 		std::int32_t mLives;
+		std::string mCollisionChannel;
 
 		bool mUseBomb;
 		std::int32_t mBombCount;

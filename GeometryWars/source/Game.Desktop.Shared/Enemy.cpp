@@ -10,12 +10,14 @@ namespace Library
 
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
+	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
 
 	Enemy::Enemy()
-		: mVelocity(), mIsDead(false)
+		: mVelocity(), mIsDead(false), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
+		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
 	const glm::vec4 & Enemy::Velocity() const
@@ -38,6 +40,8 @@ namespace Library
 
 	void Enemy::BeginPlay(WorldState & worldState)
 	{
+		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Player::TypeIdClass());
+
 		GameObject::BeginPlay(worldState);
 	}
 

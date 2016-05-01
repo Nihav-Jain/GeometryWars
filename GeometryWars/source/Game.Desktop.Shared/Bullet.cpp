@@ -11,13 +11,15 @@ namespace Library
 
 	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Bullet::ATTRIBUTE_ISDEAD = "isdead";
+	const std::string Bullet::ATTRIBUTE_CHANNEL = "bulletchannel";
 
 
 	Bullet::Bullet()
-		: mVelocity(), mIsDead(false)
+		: mVelocity(), mIsDead(false), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
+		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
 	const glm::vec4 & Bullet::Velocity() const
@@ -40,6 +42,8 @@ namespace Library
 
 	void Bullet::BeginPlay(WorldState & worldState)
 	{
+		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Enemy::TypeIdClass());
+
 		GameObject::BeginPlay(worldState);
 
 		Player& player = *worldState.entity->AssertiveAs<Player>();

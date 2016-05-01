@@ -9,7 +9,7 @@ namespace Library
 	const std::string CircleColliderComponent::ATTRIBUTE_ENABLED = "enabled";
 	const std::string CircleColliderComponent::ATTRIBUTE_CHANNEL = "channel";
 
-	Hashmap<std::uint64_t, const Vector<Entity*>> CircleColliderComponent::sCollidableEntitiesByType;
+	Hashmap<std::string, std::uint64_t> CircleColliderComponent::sCollidableEntitiesByChannel;
 
 	CircleColliderComponent::CircleColliderComponent()
 		: mRadius(), mEnabled(true), mCollisionChannel(), mOwner(nullptr), mCollidableEntities(nullptr)
@@ -53,44 +53,33 @@ namespace Library
 		{
 			for (Entity* entity : *mCollidableEntities)
 			{
-				if (!entity->IsPendingDestroy())
+				GameObject *other = entity->AssertiveAs<GameObject>();
+				if (IsColliding(*other))
 				{
-					GameObject *other = entity->AssertiveAs<GameObject>();
-					if (IsColliding(*other))
-					{
-						mOwner->OnOverlapBegin(*other, worldState);
-					}
+					mOwner->OnOverlapBegin(*other, worldState);
 				}
 			}
 		}		
 	}
 
-	void CircleColliderComponent::PostParsingProcess()
+	void CircleColliderComponent::BeginPlay(WorldState & worldState)
 	{
 		// Get owning GameObject which contains this component
-		Scope *parent = GetParent();
-		assert(parent != nullptr);
-		GameObject *owner = parent->As<GameObject>();
+		GameObject *owner = GetParent()->As<GameObject>();
 		assert(owner != nullptr);
 		mOwner = owner;
 
 		// Get entities that can be collided with
-		//std::uint64_t id = owner->TypeIdInstance();
-		//if (sCollidableEntitiesByType.ContainsKey(id))
-		//{
-		//	mCollidableEntities = &sCollidableEntitiesByType[id];
-		//}
-		//else
-		//{
-			Sector *sector = parent->GetParent()->AssertiveAs<Sector>();
-			Entity *collidableEntityType = sector->FindEntity(mCollisionChannel);
+		if (sCollidableEntitiesByChannel.ContainsKey(mCollisionChannel))
+		{
+			std::uint64_t id = sCollidableEntitiesByChannel[mCollisionChannel];
+			mCollidableEntities = &worldState.sector->GetAllEntitiesOfType(id);
+		}
+	}
 
-			if (collidableEntityType != nullptr)
-			{
-				mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdInstance());
-				//sCollidableEntitiesByType.Insert(std::pair<std::uint64_t, const Vector<Entity*>>(id, *mCollidableEntities));
-			}
-		//}
+	void CircleColliderComponent::PostParsingProcess()
+	{
+		
 	}
 
 	bool CircleColliderComponent::IsColliding(const GameObject& other) const

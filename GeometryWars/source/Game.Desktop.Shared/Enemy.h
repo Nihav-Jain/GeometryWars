@@ -24,12 +24,13 @@ namespace Library
 
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
+		static const std::string ATTRIBUTE_CHANNEL;
 
 	protected:
 
 		glm::vec4 mVelocity;
 		bool mIsDead;
-
+		std::string mCollisionChannel;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Enemy);

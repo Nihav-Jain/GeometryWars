@@ -2,6 +2,7 @@
 	<vector name="scale" value="vec4(1, 1, 1, 0)"/>
 	<float name="speed" value="10" />
 	<bool name="isdead" value="false" />
+	<string name="bulletchannel" value="collideenemies" />
 	
 	<sprite_renderer name="SpriteRenderer">
 		<image name="image">
@@ -12,7 +13,7 @@
 	
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
       <float name="radius" value="5.0" />
-      <string name="channel" value="Enemy0" />
+      <string name="channel" value="collideenemies" />
       <bool name="enabled" value="true" />
 	</component>
 	

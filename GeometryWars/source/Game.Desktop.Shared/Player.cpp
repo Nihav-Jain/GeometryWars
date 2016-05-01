@@ -26,10 +26,11 @@ namespace Library
 	const std::string Player::ATTRIBUTE_USEBOMB = "useBomb";
 	const std::string Player::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Player::ATTRIBUTE_HEADING = "heading";
+	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mCanAttack(true), mShoot(false), mLives(3),
-		  mBombCount(), mUseBomb(false), mVelocity(), mHeading()
+		  mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -40,6 +41,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_USEBOMB, 1, &mUseBomb);
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_HEADING, 1, &mHeading);
+		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
 	std::int32_t Player::PlayerNumber() const
