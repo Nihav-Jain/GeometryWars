@@ -128,11 +128,10 @@ namespace Library {
 		glBindVertexArray(0);
 	}
 
-	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
-		std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
+	RenderBuffer * OpenGLRenderDevice::CreateBuffer(bool createIndicesBuffer)
 	{
 		OpenGLRenderBuffer * buffer = new OpenGLRenderBuffer();
-		buffer->Init(data, size, stride, indices, indices_size, elementCnt);
+		buffer->Init(createIndicesBuffer);
 		mBuffers.push_back(buffer);
 		return buffer;
 	}

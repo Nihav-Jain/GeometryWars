@@ -12,6 +12,27 @@ namespace Library
 		AddInternalAttribute(ATTRIBUTE_FILE_PATH, "", 0);
 	}
 
+	ActionCreateEntityFromFile::ActionCreateEntityFromFile(const ActionCreateEntityFromFile& rhs) :
+		Action::Action(rhs)
+	{}
+
+	ActionCreateEntityFromFile::ActionCreateEntityFromFile(ActionCreateEntityFromFile&& rhs) :
+		Action::Action(std::move(rhs))
+	{}
+
+	ActionCreateEntityFromFile& ActionCreateEntityFromFile::operator=(const ActionCreateEntityFromFile& rhs)
+	{
+		Action::operator=(rhs);
+		return *this;
+	}
+
+	ActionCreateEntityFromFile& ActionCreateEntityFromFile::operator=(ActionCreateEntityFromFile&& rhs)
+	{
+		Action::operator=(std::move(rhs));
+		return *this;
+	}
+
+
 	void ActionCreateEntityFromFile::Update(WorldState& worldState)
 	{
 		assert(worldState.sector != nullptr);
@@ -43,6 +64,12 @@ namespace Library
 		Datum& sectorEntities = worldState.sector->Entities();
 		Entity& newEntity = *sectorEntities.Get<Scope>(sectorEntities.Size() - 1).AssertiveAs<Entity>();
 		newEntity.BeginPlay(worldState);
+	}
+
+	Scope* ActionCreateEntityFromFile::Clone(const Scope& rhs) const
+	{
+		ActionCreateEntityFromFile& action = *rhs.AssertiveAs<ActionCreateEntityFromFile>();
+		return new ActionCreateEntityFromFile(action);
 	}
 
 }

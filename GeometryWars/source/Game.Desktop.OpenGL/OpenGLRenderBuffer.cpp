@@ -42,25 +42,18 @@ namespace Library {
 		}
 	}
 
-	void OpenGLRenderBuffer::Init(float * data, std::uint32_t size, std::uint32_t stride,
+	void OpenGLRenderBuffer::SetData(float * data, std::uint32_t size, std::uint32_t stride,
 		std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
 	{
 		GLfloat * vertices = data;
 		GLuint strideSize = stride;
-
-		glGenVertexArrays(1, &mVAO);
-		glGenBuffers(1, &mVBO);
-
-		if (indices_size != 0) {
-			glGenBuffers(1, &mEBO);
-		}
 
 		glBindVertexArray(mVAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, mVBO);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 
-		if (indices_size != 0) {
+		if (mEBO != 0) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_size, indices, GL_STATIC_DRAW);
 		}
@@ -71,6 +64,17 @@ namespace Library {
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	void OpenGLRenderBuffer::Init(bool createIndicesBuffer)
+	{
+		glGenVertexArrays(1, &mVAO);
+		glGenBuffers(1, &mVBO);
+
+		if (createIndicesBuffer) {
+			glGenBuffers(1, &mEBO);
+		}
+
 	}
 
 	void OpenGLRenderBuffer::Use()

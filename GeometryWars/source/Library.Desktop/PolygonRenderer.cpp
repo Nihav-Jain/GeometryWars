@@ -111,7 +111,8 @@ namespace Library {
 			indices[i] = (std::uint32_t)mIndices->Get<std::int32_t>(i);
 		}
 
-		mBuffer = device->CreateBuffer(vertices, cnt * 2 * sizeof(float), 2 * sizeof(float), indices, indicesCnt * sizeof(float), 2);
+		mBuffer = device->CreateBuffer(true);
+		mBuffer->SetData(vertices, cnt * 2 * sizeof(float), 2 * sizeof(float), indices, indicesCnt * sizeof(float), 2);
 	}
 
 }

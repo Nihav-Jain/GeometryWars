@@ -23,7 +23,8 @@ namespace Library
 		/**
 		 *	disallow copy construtor
 		 */
-		ActionList(const ActionList& rhs) = delete;
+		ActionList(const ActionList& rhs);
+		ActionList(ActionList&& rhs);
 
 		/**
 		 *	Default destructor
@@ -33,8 +34,8 @@ namespace Library
 		/**
 		*	disallow assignement operator
 		*/
-		ActionList& operator=(const ActionList& rhs) = delete;
-
+		ActionList& operator=(const ActionList& rhs);
+		ActionList& operator=(ActionList&& rhs);
 
 		/**
 		 *	Getter for the Datum which contains the array of Actions of this ActionList
@@ -64,6 +65,8 @@ namespace Library
 		virtual void Update(WorldState& worldState) override;
 
 		virtual void OnDestroy(WorldState& worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_ACTIONS;
 

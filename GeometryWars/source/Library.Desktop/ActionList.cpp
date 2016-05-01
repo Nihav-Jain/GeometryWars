@@ -12,6 +12,26 @@ namespace Library
 		AddNestedScope(ATTRIBUTE_ACTIONS);
 	}
 
+	ActionList::ActionList(const ActionList& rhs) :
+		Action::Action(rhs)
+	{}
+
+	ActionList::ActionList(ActionList&& rhs) :
+		Action::Action(std::move(rhs))
+	{}
+
+	ActionList& ActionList::operator=(const ActionList& rhs)
+	{
+		Action::operator=(rhs);
+		return *this;
+	}
+
+	ActionList& ActionList::operator=(ActionList&& rhs)
+	{
+		Action::operator=(std::move(rhs));
+		return *this;
+	}
+
 	Datum& ActionList::Actions()
 	{
 		return operator[](ATTRIBUTE_ACTIONS);
@@ -58,6 +78,12 @@ namespace Library
 		ScriptedOnDestroy(worldState);
 		ActionsOnDestroy(worldState);
 		ReactionsOnDestroy(worldState);
+	}
+
+	Scope* ActionList::Clone(const Scope& rhs) const
+	{
+		ActionList& actionList = *rhs.AssertiveAs<ActionList>();
+		return new ActionList(actionList);
 	}
 
 	void ActionList::ScriptedBeginPlay(WorldState& worldState)

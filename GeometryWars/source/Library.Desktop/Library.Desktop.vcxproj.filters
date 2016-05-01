@@ -186,12 +186,8 @@
     <ClInclude Include="CircleColliderComponent.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h" />
     <ClInclude Include="XmlParseHelperImage.h">
       <Filter>XmlParseHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="XmlParseHelperPolygon.h">
       <Filter>XmlParseHelpers</Filter>
@@ -208,14 +204,38 @@
     <ClInclude Include="InputManager.h">
       <Filter>Kernel\Input</Filter>
     </ClInclude>
-    <ClInclude Include="PolygonRenderer.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
     <ClInclude Include="ActionCreateEntityFromFile.h">
       <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonRenderer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationState.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAnimationState.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAnimator.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrame.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAnimationFrame.h">
+      <Filter>XmlParseHelpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,12 +397,8 @@
     <ClCompile Include="CircleColliderComponent.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp">
       <Filter>XmlParseHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseHelperPolygon.cpp">
       <Filter>XmlParseHelpers</Filter>
@@ -400,14 +416,38 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Kernel\Input</Filter>
     </ClCompile>
-    <ClCompile Include="PolygonRenderer.cpp">
-      <Filter>Kernel</Filter>
-    </ClCompile>
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="ActionCreateEntityFromFile.cpp">
       <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAnimationState.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAnimator.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationFrame.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAnimationFrame.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

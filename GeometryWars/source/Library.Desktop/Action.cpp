@@ -31,6 +31,52 @@ namespace Library
 		delete mAction;
 	}
 
+	Action::Action(const Action& rhs) : 
+		Attributed::Attributed(rhs), mName(rhs.mName), mWorld(new Datum(*rhs.mWorld)), mSector(new Datum(*rhs.mSector)), mEntity(new Datum(*rhs.mEntity)), mAction(new Datum(*rhs.mAction))
+	{
+		ResetAttributePointers();
+	}
+
+	Action::Action(Action&& rhs) :
+		Attributed::Attributed(std::move(rhs)), mName(std::move(rhs.mName)), mWorld(rhs.mWorld), mSector(rhs.mSector), mEntity(rhs.mEntity), mAction(rhs.mAction)
+	{
+		ResetAttributePointers();
+	}
+
+	Action& Action::operator=(const Action& rhs)
+	{
+		if (this != &rhs)
+		{
+			mName = rhs.mName;
+			*mWorld = *rhs.mWorld;
+			*mSector = *rhs.mSector;
+			*mEntity = *rhs.mEntity;
+			*mAction = *rhs.mAction;
+
+			Attributed::operator=(rhs);
+
+			ResetAttributePointers();
+		}
+		return *this;
+	}
+
+	Action& Action::operator=(Action&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mName = std::move(rhs.mName);
+			mWorld = rhs.mWorld;
+			mSector = rhs.mSector;
+			mEntity = rhs.mEntity;
+			mAction = rhs.mAction;
+
+			Attributed::operator=(std::move(rhs));
+
+			ResetAttributePointers();
+		}
+		return *this;
+	}
+
 	const std::string& Action::Name() const
 	{
 		return mName;
@@ -64,7 +110,7 @@ namespace Library
 	{
 		for (std::uint32_t i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope>(i).As<Action>();
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
 			assert(action != nullptr);
 			if (action->Name() == actionName)
 				return action;
@@ -81,6 +127,15 @@ namespace Library
 		parentScope.Adopt(attributeName, *action);
 
 		return *action;
+	}
+
+	void Action::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+		(*this)[Sector::ATTRIBUTE_OWNER_WORLD].SetStorage(&mWorld, 1);
+		(*this)[Entity::ATTRIBUTE_OWNER_SECTOR].SetStorage(&mSector, 1);
+		(*this)[ATTRIBUTE_OWNER_ENTITY].SetStorage(&mEntity, 1);
+		(*this)[ATTRIBUTE_OWNER_ACTION].SetStorage(&mAction, 1);
 	}
 
 }

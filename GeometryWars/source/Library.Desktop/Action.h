@@ -30,12 +30,14 @@ namespace Library
 		/**
 		 *	disallow copy construtor
 		 */
-		Action(const Action& rhs) = delete;
+		Action(const Action& rhs);
+		Action(Action&& rhs);
 
 		/**
 		 *	disallow copy assignment operator
 		 */
-		Action& operator=(const Action& rhs) = delete;
+		Action& operator=(const Action& rhs);
+		Action& operator=(Action&& rhs);
 
 		/**
 		 *	Getter for the name of this Action
@@ -77,6 +79,8 @@ namespace Library
 		static const std::string ATTRIBUTE_OWNER_ACTION;
 
 	private:
+		void ResetAttributePointers();
+
 		std::string mName;
 		Datum* mWorld;
 		Datum* mSector;

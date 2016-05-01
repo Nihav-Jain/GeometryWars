@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../../source/Library.Desktop/Game.h"
 #include "../../source/Library.Desktop/SpriteRenderer.h"
+#include "../../source/Library.Desktop/PolygonRenderer.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -49,7 +50,7 @@ namespace Library
 		Player& player = *worldState.entity->AssertiveAs<Player>();
 		mPosition = player.Position();
 		mVelocity = player.Heading() * mMoveSpeed;
-		mRotation = player.Heading();
+		mRotation = player.Rotation();
 	}
 
 	void Bullet::Update(WorldState & worldState)
@@ -73,7 +74,8 @@ namespace Library
 		GameObject::OnDestroy(worldState);
 
 		// TODO: find a better way to do this
-		SpriteRenderer* renderer = GetComponent(SpriteRenderer::TypeName())->AssertiveAs<SpriteRenderer>();
+		//SpriteRenderer* renderer = GetComponent(SpriteRenderer::TypeName())->AssertiveAs<SpriteRenderer>();
+		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
