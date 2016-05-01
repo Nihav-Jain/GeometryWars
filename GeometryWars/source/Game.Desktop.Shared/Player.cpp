@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "../../source/Library.Desktop/Game.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Bullet.h"
 #include "../../source/Library.Desktop/SpriteRenderer.h"
 #include "../../source/Library.Desktop/Image.h"
 #include "../../source/Library.Desktop/Texture.h"
+#include "../../source/Library.Desktop/InputManager.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Bullet.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -51,12 +52,12 @@ namespace Library
 		mPlayerNumber = playerNumber;
 	}
 
-	std::float_t Player::AttackSpeed() const
+	std::int32_t Player::AttackSpeed() const
 	{
 		return mAttackSpeed;
 	}
 
-	void Player::SetAttackSpeed(std::float_t attackSpeed)
+	void Player::SetAttackSpeed(std::int32_t attackSpeed)
 	{
 		mAttackSpeed = attackSpeed;
 	}
@@ -82,7 +83,6 @@ namespace Library
 
 			// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
 			//       and have a Reaction (in XML) to that event that sets mCanAttack to true
-			mCanAttack = true;
 		}
 	}
 
@@ -98,15 +98,19 @@ namespace Library
 
 	void Player::PlayerDeath(WorldState& worldState)
 	{
+		UNREFERENCED_PARAMETER(worldState);
+
 		// Check for gameover
-		if (mLives == 0)
+		if (mLives <= 0)
 		{
 			// TODO: gameover
-			MarkForDestroy(worldState);
+			//MarkForDestroy(worldState);
+			OutputDebugStringA("Player is Dead!");
 		}
 		else
 		{
 			--mLives;
+			OutputDebugStringA("Player Hit!");
 		}
 	}
 
@@ -173,6 +177,7 @@ namespace Library
 	{
 		GameObject::Update(worldState);
 
+		// Update heading with rotation
 		mHeading.x = -sin(mRotation.z);
 		mHeading.y = cos(mRotation.z);
 		mHeading = glm::normalize(mHeading);

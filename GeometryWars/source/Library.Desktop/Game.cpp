@@ -97,5 +97,6 @@ namespace Library
 		mParseMaster.AddHelper(mSpriteParser);
 		mParseMaster.AddHelper(mPolygonParser);
 		mParseMaster.AddHelper(mImageParser);
+		mParseMaster.AddHelper(mCircleColliderComponent);
 	}
 }

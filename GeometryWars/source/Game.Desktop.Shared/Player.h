@@ -25,8 +25,8 @@ namespace Library
 		std::int32_t PlayerNumber() const;
 		void SetPlayerNumber(std::int32_t playerNumber);
 
-		std::float_t AttackSpeed() const;
-		void SetAttackSpeed(std::float_t attackSpeed);
+		std::int32_t AttackSpeed() const;
+		void SetAttackSpeed(std::int32_t attackSpeed);
 		void Shoot(WorldState& worldState);
 
 		std::int32_t Lives() const;
@@ -51,7 +51,7 @@ namespace Library
 
 		std::int32_t mPlayerNumber;
 
-		std::float_t mAttackSpeed;
+		std::int32_t mAttackSpeed;
 		bool mCanAttack;
 		bool mShoot;
 

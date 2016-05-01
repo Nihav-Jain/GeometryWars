@@ -12,8 +12,6 @@ namespace Library
 		Enemy();
 		virtual ~Enemy() = default;
 
-		static const std::string ATTRIBUTE_VELOCITY;
-
 		const glm::vec4 & Velocity() const;
 		void SetVelocity(const glm::vec4 & velocity);
 
@@ -24,9 +22,13 @@ namespace Library
 		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
 
+		static const std::string ATTRIBUTE_VELOCITY;
+		static const std::string ATTRIBUTE_ISDEAD;
+
 	protected:
 
 		glm::vec4 mVelocity;
+		bool mIsDead;
 
 	};
 

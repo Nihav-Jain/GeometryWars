@@ -47,8 +47,6 @@ namespace Library
 
 	void CircleColliderComponent::Update(WorldState & worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
-
 		if (mCollidableEntities != nullptr)
 		{
 			for (Entity* entity : *mCollidableEntities)
@@ -77,7 +75,7 @@ namespace Library
 
 		if (collidableEntityType != nullptr)
 		{
-			mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdClass());
+			mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdInstance());
 		}
 	}
 

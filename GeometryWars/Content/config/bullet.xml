@@ -1,10 +1,29 @@
-<gameobject class="Bullet" name="object1">
+<gameobject class="Bullet" name="Bullet0">
 	<vector name="scale" value="vec4(1, 1, 1, 0)"/>
-  <float name="speed" value="10" />
-	<sprite_renderer name="bulletsprite">
+	<float name="speed" value="10" />
+	<bool name="isdead" value="false" />
+	
+	<sprite_renderer name="SpriteRenderer">
 		<image name="image">
 			<string name="path" value="Content/resource/mushroom.png"/>
 			<vector name="size" value="vec4(5, 5, 0, 0)"/>
 		</image>
 	</sprite_renderer>
+	
+	<component class="CircleColliderComponent" name="CircleColliderComponent">
+      <float name="radius" value="5.0" />
+      <string name="channel" value="Enemy0" />
+      <bool name="enabled" value="true" />
+	</component>
+	
+	<if name="CheckIfDead">
+		<condition>
+			<string name="expression">isdead</string>
+		</condition>
+		<then>
+			<action class="ActionDestroyEntity" name="destroySelf">
+				<string name="entityInstanceName" value="Bullet0"/>
+			</action>
+		</then>
+	</if>
 </gameobject>		

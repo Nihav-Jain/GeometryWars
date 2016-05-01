@@ -12,13 +12,6 @@ namespace Library
 		Bullet();
 		virtual ~Bullet() = default;
 
-		static const std::string ATTRIBUTE_VELOCITY;
-
-		// TODO: Remove these once bullet prototype exists in xml
-		static const std::float_t DEFAULT_SPEED;
-		static const glm::vec4 DEFAULT_SIZE;
-		static const std::string DEFAULT_IMAGE;
-
 		const glm::vec4 & Velocity() const;
 		void SetVelocity(const glm::vec4 & velocity);
 
@@ -29,9 +22,13 @@ namespace Library
 		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
 
+		static const std::string ATTRIBUTE_VELOCITY;
+		static const std::string ATTRIBUTE_ISDEAD;
+
 	protected:
 
 		glm::vec4 mVelocity;
+		bool mIsDead;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);

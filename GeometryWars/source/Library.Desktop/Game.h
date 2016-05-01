@@ -39,6 +39,7 @@
 #include "Image.h"
 #include "SpriteRenderer.h"
 //#include "PolygonRenderer.h"
+#include "CircleColliderComponent.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
@@ -61,6 +62,7 @@
 #include "XmlParseHelperPolygon.h"
 #include "XmlParseHelperImage.h"
 #include "XmlParseHelperOnDestroy.h"
+#include "XmlParseHelperCircleColliderComponent.h"
 
 namespace Library
 {
@@ -177,6 +179,7 @@ namespace Library
 		XmlParseHelperSprite mSpriteParser;
 		XmlParseHelperPolygon mPolygonParser;
 		XmlParseHelperImage mImageParser;
+		XmlParseHelperCircleColliderComponent mCircleColliderComponent;
 
 		EntityFactory mEntityFactory;
 		GameObjectFactory mGameObjectFactory;
@@ -195,6 +198,7 @@ namespace Library
 		ImageFactory mImageFactory;
 		//PolygonRendererFactory mPolygonRendererFactory;
 		SpriteRendererFactory mSpriteRendererFactory;
+		CircleColliderComponentFactory mCircleColliderComponentFactory;
 
 		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
 	};
