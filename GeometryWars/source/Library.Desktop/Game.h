@@ -27,6 +27,7 @@
 #include "ActionWhileLoop.h"
 #include "ActionCreateEntity.h"
 #include "ActionDestroyEntity.h"
+#include "ActionCreateEntityFromFile.h"
 
 #include "ActionEvent.h"
 #include "Reaction.h"
@@ -132,14 +133,14 @@ namespace Library
 	private:
 		void AddParseHelpers();
 
-		GameClock mGameClock;
-		GameTime mGameTime;
-		World mWorld;
-
-		Renderer * mRenderer;
+		Renderer* mRenderer;
 
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
+
+		GameClock mGameClock;
+		GameTime mGameTime;
+		World mWorld;
 
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
@@ -179,5 +180,6 @@ namespace Library
 		ReactionAttributedFactory mReactionFactory;
 		ActionCreateEntityFactory mCreateEntityFactory;
 		ActionDestroyEntityFactory mDestroyEntityFactory;
+		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
 	};
 }

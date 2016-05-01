@@ -27,7 +27,6 @@ namespace Library
 		Sector* sector = static_cast<Sector*>(sharedDataPtr->CurrentScopePtr);
 
 		GameObject* gameObject = sector->CreateEntity(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]).As<GameObject>();
-		gameObject->SetType(sector->Name());
 
 		sharedDataPtr->CurrentScopePtr = gameObject;
 		return true;

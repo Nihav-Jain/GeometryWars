@@ -45,43 +45,83 @@ namespace Library
 	{
 		AddInternalAttribute(ATTRIBUTE_EXPRESSION, "");
 		
-		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum>& params)
+		mDefinedFunctions.Insert("max", FunctionDefinition(2, [](const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 2);
 			Datum result;
-			result = ( (params[0] >= params[1]).Get<bool>() ) ? params[0] : params[1];
+			result = ( (*params[0] >= *params[1]).Get<bool>() ) ? *params[0] : *params[1];
 			return result;
 		} ));
 
-		mDefinedFunctions.Insert("arraySize", FunctionDefinition(1, [](const Vector<Datum>& params)
+		mDefinedFunctions.Insert("arraySize", FunctionDefinition(1, [](const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 1);
 			Datum result;
-			result = static_cast<std::int32_t>(params[0].Size());
+			result = static_cast<std::int32_t>(params[0]->Size());
 			return result;
 		}));
 
-		mDefinedFunctions.Insert("array", FunctionDefinition(2, [](const Vector<Datum>& params)
+		mDefinedFunctions.Insert("array", FunctionDefinition(2, [](const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 2);
 			Datum result;
-			std::int32_t index = params[1].Get<std::int32_t>();
-			switch (params[0].Type())
+			std::int32_t index = params[1]->Get<std::int32_t>();
+			switch (params[0]->Type())
 			{
 			case Datum::DatumType::INTEGER:
-				result = params[0].Get<std::int32_t>(index);
+				result = params[0]->Get<std::int32_t>(index);
 				break;
 			case Datum::DatumType::FLOAT:
-				result = params[0].Get<std::float_t>(index);
+				result = params[0]->Get<std::float_t>(index);
 				break;
 			case Datum::DatumType::STRING:
-				result = params[0].Get<std::string>(index);
+				result = params[0]->Get<std::string>(index);
+				break;
+			case Datum::DatumType::BOOLEAN:
+				result = params[0]->Get<bool>(index);
 				break;
 			case Datum::DatumType::VECTOR4:
-				result = params[0].Get<glm::vec4>(index);
+				result = params[0]->Get<glm::vec4>(index);
 				break;
 			case Datum::DatumType::MATRIX4x4:
-				result = params[0].Get<glm::mat4x4>(index);
+				result = params[0]->Get<glm::mat4x4>(index);
+				break;
+			default:
+				break;
+			}
+			return result;
+		}));
+
+		// param0 - destination array
+		// param1 - destination array index
+		// param2 - source array
+		// param3 - source array index
+		// returns an empty datum because it updates the value by reference
+		mDefinedFunctions.Insert("set_array", FunctionDefinition(4, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 4);
+			Datum result;
+			std::int32_t destinationIndex = params[1]->Get<std::int32_t>();
+			std::int32_t sourceIndex = params[3]->Get<std::int32_t>();
+			switch (params[0]->Type())
+			{
+			case Datum::DatumType::INTEGER:
+				params[0]->Set(params[2]->Get<std::int32_t>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::FLOAT:
+				params[0]->Set(params[2]->Get<std::float_t>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::STRING:
+				params[0]->Set(params[2]->Get<std::string>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::BOOLEAN:
+				params[0]->Set(params[2]->Get<bool>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::VECTOR4:
+				params[0]->Set(params[2]->Get<glm::vec4>(sourceIndex), destinationIndex);
+				break;
+			case Datum::DatumType::MATRIX4x4:
+				params[0]->Set(params[2]->Get < glm::mat4x4> (sourceIndex), destinationIndex);
 				break;
 			default:
 				break;
@@ -152,7 +192,7 @@ namespace Library
 
 			std::string rawOperand;
 			std::uint32_t prev = 0, pos;
-			while ((pos = (std::uint32_t)expression.find_first_of(allOperators, prev)) != std::string::npos)
+			while ((pos = (std::uint32_t)expression.find_first_of(allOperators, prev)) < expression.length())
 			{
 				if (pos > prev)
 				{
@@ -174,7 +214,7 @@ namespace Library
 				if (allOperators.find(expression.at(pos)) > indexOfComma)
 				{
 					std::uint32_t nextCharacterIndex = (std::uint32_t)allOperators.find(expression.at(pos + 1));
-					if (nextCharacterIndex != std::string::npos && nextCharacterIndex > indexOfComma)
+					if (nextCharacterIndex < allOperators.length() && nextCharacterIndex > indexOfComma)
 					{
 						pos++;
 						currentOperator.push_back(expression.at(pos));
@@ -191,22 +231,22 @@ namespace Library
 					Datum& tempLiteral = AppendAuxiliaryAttribute(tempName);
 
 					std::uint32_t quote = (std::uint32_t)literal.find("\"");
-					if (quote != std::string::npos)
+					if (quote < literal.length())
 					{
 						std::uint32_t endQuote = (std::uint32_t)literal.find_last_of("\"");
-						assert(endQuote != std::string::npos);
+						assert(endQuote < literal.length());
 						literal = literal.substr(quote + 1, endQuote - quote - 1);
 						tempLiteral.SetType(Datum::DatumType::STRING);
 					}
-					else if (literal.find("vec4") != std::string::npos)
+					else if (literal.find("vec4") < literal.length())
 					{
 						tempLiteral.SetType(Datum::DatumType::VECTOR4);
 					}
-					else if (literal.find("mat4x4") != std::string::npos)
+					else if (literal.find("mat4x4") < literal.length())
 					{
 						tempLiteral.SetType(Datum::DatumType::MATRIX4x4);
 					}
-					else if (literal.find(".") != std::string::npos)
+					else if (literal.find(".") < literal.length())
 					{
 						tempLiteral.SetType(Datum::DatumType::FLOAT);
 					}
@@ -323,7 +363,7 @@ namespace Library
 			{
 				CallableFunctions::Iterator itr = mDefinedFunctions.Find(postfixExpression.Front());
 				std::uint32_t numParams = itr->second.NumParams;
-				Vector<Datum> functionParams(numParams);
+				Vector<Datum*> functionParams(numParams);
 				Stack<Datum*> parameterStack;
 
 				bool isResultDatumAParam = false;
@@ -342,7 +382,7 @@ namespace Library
 
 				while (!parameterStack.IsEmpty())
 				{
-					functionParams.PushBack(*parameterStack.Top());
+					functionParams.PushBack(parameterStack.Top());
 					parameterStack.Pop();
 				}
 
@@ -355,7 +395,7 @@ namespace Library
 			else
 			{
 				Datum* operand = nullptr;
-				if (postfixExpression.Front().find('.') != std::string::npos)
+				if (postfixExpression.Front().find('.')  < postfixExpression.Front().length())
 					operand = world.ComplexSearch(postfixExpression.Front(), *this);
 				else
 					operand = Search(postfixExpression.Front());
@@ -396,7 +436,36 @@ namespace Library
 
 	Datum ActionExpression::Assign(Datum& lhs, Datum& rhs)
 	{
-		lhs = rhs;
+		if (lhs.StorageType() == Datum::DatumStorageType::EXTERNAL)
+		{
+			switch (lhs.Type())
+			{
+			case Datum::DatumType::INTEGER:
+				lhs.Set(rhs.Get<std::int32_t>());
+				break;
+			case Datum::DatumType::FLOAT:
+				lhs.Set(rhs.Get<std::float_t>());
+				break;
+			case Datum::DatumType::STRING:
+				lhs.Set(rhs.Get<std::string>());
+				break;
+			case Datum::DatumType::VECTOR4:
+				lhs.Set(rhs.Get<glm::vec4>());
+				break;
+			case Datum::DatumType::MATRIX4x4:
+				lhs.Set(rhs.Get<glm::mat4x4>());
+				break;
+			case Datum::DatumType::BOOLEAN:
+				lhs.Set(rhs.Get<bool>());
+				break;
+			default:
+				std::stringstream str;
+				str << "Invalid operation. Cannot perform assignment on external datum of type " << Datum::DatumTypeToString[lhs.Type()];
+				throw std::exception(str.str().c_str());
+			}
+		}
+		else
+			lhs = rhs;
 		return Datum();
 	}
 

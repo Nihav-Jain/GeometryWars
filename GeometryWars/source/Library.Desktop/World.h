@@ -5,6 +5,7 @@
 #include "GameTime.h"
 #include "EventQueue.h"
 #include "ActionList.h"
+#include "XmlParseMaster.h"
 
 namespace Library
 {
@@ -22,7 +23,7 @@ namespace Library
 		/**
 		 *	Constructor - initializes member variables and declares prescribed attributes
 		 */
-		explicit World(const GameTime& gameTime);
+		explicit World(const GameTime& gameTime, XmlParseMaster& parseMaster);
 
 		/**
 		 s*	disallow copy construtor
@@ -107,6 +108,8 @@ namespace Library
 
 		Datum* ComplexSearch(const std::string& name, const Scope& caller) const;
 
+		XmlParseMaster& ParseMaster();
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 		static const std::string ATTRIBUTE_REACTIONS;
@@ -131,6 +134,7 @@ namespace Library
 		std::string mName;
 		WorldState mWorldState;
 		EventQueue mEventQueue;
+		XmlParseMaster* mParseMaster;
 
 		static const std::string ATTRIBUTE_NAME;
 

@@ -35,12 +35,15 @@ namespace Library
 
 		static const std::string ATTRIBUTE_RADIUS;
 		static const std::string ATTRIBUTE_ENABLED;
+		static const std::string ATTRIBUTE_CHANNEL;
 
 	private:
 		std::float_t mRadius;
 		bool mEnabled;
+		std::string mCollisionChannel;
+
 		GameObject *mOwner;
-		Datum *mCollidableEntities;
+		const Vector<Entity*> *mCollidableEntities;
 
 		bool IsColliding(const GameObject& other) const;
 	};

@@ -180,11 +180,11 @@ namespace UnitTestLibraryDesktop
 		{
 			Game game;
 
-			ActionExpression::AddFunction("min", ActionExpression::FunctionDefinition(2, [](const Vector<Datum>& params)
+			ActionExpression::AddFunction("min", ActionExpression::FunctionDefinition(2, [](const Vector<Datum*>& params)
 			{
 				assert(params.Size() >= 2);
 				Datum result;
-				result = ((params[0] <= params[1]).Get<bool>()) ? params[0] : params[1];
+				result = ((*params[0] <= *params[1]).Get<bool>()) ? *params[0] : *params[1];
 				return result;
 			}));
 
@@ -205,10 +205,16 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(minResult);
 			Assert::AreEqual(0, minResult->Get<std::int32_t>());
 
+			Datum* intArr = entity->Find("intArr");
+			Assert::IsNotNull(intArr);
+			Assert::AreEqual(4U, intArr->Size());
+			Assert::AreEqual(30, intArr->Get<std::int32_t>(2));
+
 			game.Update();
 
 			Assert::AreEqual(10, result->Get<std::int32_t>());
 			Assert::AreEqual(1, minResult->Get<std::int32_t>());
+			Assert::AreEqual(100, intArr->Get<std::int32_t>(2));
 		}
 
 		TEST_METHOD(ActionTestBeginPlay)
@@ -434,6 +440,47 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(100, someInt->Get<std::int32_t>());
 			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
 		}
+
+		TEST_METHOD(ActionTestCreateEntityFromFile)
+		{
+			SampleEntityFactory sampleEntityFactory;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_create_entity_from_file_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+
+			Assert::AreEqual(1U, sector->Entities().Size());
+
+			game.Update();
+			Assert::AreEqual(3U, sector->Entities().Size());
+
+			Entity* sampleEntity = sector->FindEntity("sampleEntity");
+			Assert::IsNotNull(sampleEntity);
+			Assert::IsTrue(sampleEntity->Is(SampleEntity::TypeIdClass()));
+
+			Datum* someInt = sampleEntity->Find("someInt");
+			Assert::IsNotNull(someInt);
+			Assert::AreEqual(0, someInt->Get<std::int32_t>());
+
+			Entity* newEntity = sector->FindEntity("newEntity");
+			Assert::IsNotNull(newEntity);
+
+			Datum* newSomeInt = newEntity->Find("someInt");
+			Assert::IsNotNull(newSomeInt);
+			Assert::AreEqual(0, newSomeInt->Get<std::int32_t>());
+
+			game.Update();
+
+			Assert::AreEqual(10, someInt->Get<std::int32_t>());
+			Assert::AreEqual(20, newSomeInt->Get<std::int32_t>());
+		}
+
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;

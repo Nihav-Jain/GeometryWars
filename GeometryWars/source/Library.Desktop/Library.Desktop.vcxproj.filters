@@ -159,6 +159,15 @@
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperGameObject.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleColliderComponent.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
     <ClInclude Include="RenderBuffer.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
@@ -201,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="PolygonRenderer.h">
       <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperCircleColliderComponent.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCreateEntityFromFile.h">
+      <Filter>Kernel\Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +350,15 @@
     <ClCompile Include="XmlParseHelperBeginPlay.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperGameObject.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleColliderComponent.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
     <ClCompile Include="RenderBuffer.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
@@ -378,6 +402,12 @@
     </ClCompile>
     <ClCompile Include="PolygonRenderer.cpp">
       <Filter>Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCreateEntityFromFile.cpp">
+      <Filter>Kernel\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
