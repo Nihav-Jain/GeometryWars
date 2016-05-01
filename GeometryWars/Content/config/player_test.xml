@@ -45,6 +45,7 @@
 		  
 		  <!-- Polygon Renderer Component -->
 		  <polygon_renderer name="PolygonRenderer">
+					<float name="width" value="5"/>
 					<vector name="color" value="vec4(1, 0, 0, 1)"/>
 					<integer name="indices" value="0"/>
 					<integer name="indices" value="1"/>
@@ -307,6 +308,7 @@
 		  
 		  <!-- Polygon Renderer Component -->
 		  <polygon_renderer name="PolygonRenderer">
+					<float name="width" value="5"/>
 					<vector name="color" value="vec4(0, 1, 0, 1)"/>
 					<integer name="indices" value="0"/>
 					<integer name="indices" value="1"/>
@@ -366,6 +368,7 @@
 		  
 		  <!-- Polygon Renderer Component -->
 		  <polygon_renderer name="PolygonRenderer">
+					<float name="width" value="5"/>
 					<vector name="color" value="vec4(0, 0, 1, 1)"/>
 					<integer name="indices" value="0"/>
 					<integer name="indices" value="1"/>
