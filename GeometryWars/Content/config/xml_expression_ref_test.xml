@@ -1,4 +1,9 @@
 <world name="NihavWorld">
+
+	<scope name="someWorldScope">
+		<integer name="worldScopeInt" value="25"/>
+	</scope>
+
 	<sector name="worldSector">
 
 		<scope name="sectorScope">
@@ -34,6 +39,10 @@
 				<string name="expression">someResult = someScope.someScopeInt + {100}</string>
 			</expression>
 
+			<integer name="refResult" value="0" />
+			<expression name="exp5">
+				<string name="expression">refResult = ownerWorld.someWorldScope.worldScopeInt + {100}</string>
+			</expression>
 
 		</entity>		
 	</sector>	
