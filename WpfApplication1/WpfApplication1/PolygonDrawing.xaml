@@ -1,0 +1,29 @@
+﻿<Window x:Class="WpfApplication1.PolygonDrawing"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication1"
+        mc:Ignorable="d"
+        Title="PolygonDrawing" Height="507.167" Width="716.041"
+        ResizeMode="NoResize"
+        Background="Gray">
+    <Grid Margin="0,0,4,0">
+        <Border BorderBrush="Black" BorderThickness="3" HorizontalAlignment="Left" Height="458" Margin="10,10,0,0" VerticalAlignment="Top" Width="458">
+            <Canvas x:Name="MainGrid" Height="450" Width="450" Background="WhiteSmoke" PreviewMouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseMove="MainGrid_MouseMove">
+
+            </Canvas>
+        </Border>
+        <ComboBox x:Name="Colorsbox" HorizontalAlignment="Left" Margin="510,26,0,0" VerticalAlignment="Top" Width="186" Height="19"/>
+        <Label x:Name="ColorLabel" Content="Colors" HorizontalAlignment="Left" Margin="652,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.818,-8.449"/>
+        <Label x:Name="ThicknessLabel" Content="Thickness" HorizontalAlignment="Left" Margin="635,50,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Thickness" HorizontalAlignment="Left" Margin="510,76,0,0" VerticalAlignment="Top" Width="186"/>
+        <Label x:Name="NameLabel" Content="Name" HorizontalAlignment="Left" Margin="654,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.192,-0.321"/>
+        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="23" Margin="510,129,0,0" TextWrapping="Wrap" Text="PolygonRenderer" IsEnabled="False" VerticalAlignment="Top" Width="186"/>
+        <Button x:Name="AddButton" Click="AddButton_Click" Content="Add" HorizontalAlignment="Left" Margin="615,441,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="FinsihButton" Click="FinsihButton_Click" Content="Finsih" HorizontalAlignment="Left" Margin="485,441,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="ClearButton" Click="ClearButton_Click" Content="Clear" HorizontalAlignment="Left" Margin="485,416,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="UndoButton" Click="UndoButton_Click" Content="Undo" HorizontalAlignment="Left" Margin="485,391,0,0" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</Window>

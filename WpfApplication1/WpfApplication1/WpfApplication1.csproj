@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PolygonDrawing.xaml.cs">
+      <DependentUpon>PolygonDrawing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Section.cs" />
     <Compile Include="Sector.cs" />
     <Compile Include="SelectionWindow.xaml.cs">
@@ -72,6 +75,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PolygonDrawing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SelectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
