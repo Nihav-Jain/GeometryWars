@@ -45,61 +45,60 @@ namespace Library
 	};
 
 
-	struct Button : public Attributed
+	class Button : public Attributed
 	{
 		RTTI_DECLARATIONS(Button, Attributed)
+	private:
+		std::int32_t	mDuration;	// If negative, button not pressed (released), if positive, duration of press in milliseconds, if zero, just pressed
+
 	public:
-		std::int32_t	Duration;	// If negative, button not pressed (released), if positive, duration of press in milliseconds, if zero, just pressed
-		
+		bool			IsKeyDown;
+		bool			IsOnPress;
+		bool			IsOnRelease;
+	public:
 		Button();
+		void UpdateState(const std::chrono::milliseconds& deltaTime, bool IsPressed);
 	};
 
-	struct KeyState
-	{
-		std::int32_t	Key;
-		Button			Info;
-	};
-
-	// KeyBoard Input Event Handler
-	class KeyBoardHandler final : public InputHandler
-	{
-		RTTI_DECLARATIONS(KeyBoardHandler, InputHandler)
-	public:
-		void Update(WorldState& state) override;
-	};
-	CONCRETE_ACTION_FACTORY(KeyBoardHandler)
-
-
-	struct Trigger : public Attributed
+	class Trigger : public Attributed
 	{
 		RTTI_DECLARATIONS(Trigger, Attributed)
+	private:
+		std::int32_t	mDuration;	// If negative, trigger not pressed (released), if positive, duration of press in milliseconds
+		std::int32_t	mRaw;	// 1-Dimensional Data
 	public:
-		std::int32_t	Duration;	// If negative, trigger not pressed (released), if positive, duration of press in milliseconds
-		std::int32_t	Magnitude;	// 1-Dimensional Data
+		std::float_t	Magnitude;
+		bool			IsKeyDown;
+		bool			IsOnPress;
+		bool			IsOnRelease;
 
+	public:
 		Trigger();
-		std::float_t	UnitMagnitude()	const { return Magnitude / 255.0f; }
+		void UpdateState(const std::chrono::milliseconds&, const std::int32_t& newMagnitude, const std::int32_t& threshold);
 	};
 
-	struct AnalogStick : public Attributed
+	class AnalogStick : public Attributed
 	{
 		RTTI_DECLARATIONS(AnalogStick, Attributed)
+	private:
+		std::int32_t	mDuration;	// If negative, analog is still, if positive, duration of activity in milliseconds
+		std::int32_t	mRawX, mRawY;
+
 	public:
-		std::int32_t	Duration;	// If negative, analog is still, if positive, duration of activity in milliseconds
-		std::int32_t	MagnitudeX, MagnitudeY;
+		glm::vec4		MagnitudeVector;
+		glm::vec4		RotationVector;
+		glm::vec4		Direction;
+		std::float_t	MagnitudeX;
+		std::float_t	MagnitudeY;
+		std::float_t	Magnitude;
+		std::float_t	Rotation;
+		bool			IsKeyDown;
+		bool			IsOnPress;
+		bool			IsOnRelease;
 
+	public:
 		AnalogStick();
-
-#define X_UNIT(Value)	(static_cast<float>(Value) / 32768.0f)
-		std::float_t	UnitMagnitudeX() const			{ return X_UNIT(MagnitudeX); }
-		std::float_t	UnitMagnitudeY() const			{ return X_UNIT(MagnitudeY); }
-		glm::vec2		UnitMagnitudeVector2D() const	{ return glm::vec2(X_UNIT(MagnitudeX), X_UNIT(MagnitudeY)); }
-		glm::vec4		UnitMagnitudeVector4D() const	{ return glm::vec4(X_UNIT(MagnitudeX), X_UNIT(MagnitudeY), 0, 0); }
-		glm::vec2		UnitVector2D() const			{ return glm::normalize(glm::vec2(MagnitudeX, MagnitudeY)); }
-		glm::vec4		UnitVector4D() const			{ return glm::normalize(glm::vec4(MagnitudeX, MagnitudeY, 0, 0)); }
-		std::float_t	PolarRadii() const				{ return hypotf(X_UNIT(MagnitudeX), X_UNIT(MagnitudeY)); }
-		std::float_t	PolarAngle() const				{ return atan2(X_UNIT(MagnitudeY), X_UNIT(MagnitudeX)); }
-#undef X_UNIT
+		void UpdateState(const std::chrono::milliseconds& deltaTime, const std::int32_t& newMagnitudeX, const std::int32_t& newMagnitudeY, const std::int32_t& threshold);
 	};
 
 	// XBox Controller Information
@@ -119,6 +118,8 @@ namespace Library
 		AnalogStick LeftStick, RightStick;
 
 		XBoxControllerState();
+		void UpdateState(XINPUT_STATE & currentPlayerState, std::chrono::milliseconds deltaTime);
+
 	};
 
 	// XBox Controller Input Event Handler
@@ -139,10 +140,6 @@ namespace Library
 		// Vibrate the gamepad (0.0f cancel, 1.0f max speed)
 		void Rumble(std::int32_t player, float a_fLeftMotor = 0.0f, float a_fRightMotor = 0.0f);
 
-		void ChangeButtonState(Button& playerButton, const std::chrono::milliseconds& deltaTime, bool IsPressed);
-		void ChangeTriggerState(Trigger& playerTrigger, const std::chrono::milliseconds& deltaTime, const SHORT& magnitude, const SHORT& threshold);
-		void ChangeAnalogState(AnalogStick& playerAnalog, const std::chrono::milliseconds& deltaTime, const SHORT& magnitudeX, const SHORT& magnitudeY, const SHORT& threshold);
-		void UpdatePlayerState(std::uint32_t player, XINPUT_STATE& currentPlayerState, std::chrono::milliseconds deltaTime);
 	public:
 		XBoxControllerHandler();
 		~XBoxControllerHandler() override;
@@ -155,25 +152,5 @@ namespace Library
 		void Update(WorldState& state) override;
 	};
 	CONCRETE_ACTION_FACTORY(XBoxControllerHandler)
-
-
-
-	//	Input Manager
-	/*	NOTE: Debating how viable it is to have an InputManager...
-	class InputManager final : public ActionList
-	{
-		RTTI_DECLARATIONS(InputManager, Action)
-
-	private:
-		//static const std::string INPUT_HANDLER_LIST;
-
-	public:
-		InputManager();
-		~InputManager();
-
-		//void Update(WorldState& state) override;
-	};
-	CONCRETE_ACTION_FACTORY(InputManager)
-	*/
 }
 

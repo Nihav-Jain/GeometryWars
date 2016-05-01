@@ -19,7 +19,7 @@ namespace Library
 	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
 	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
 	const std::int32_t				InputHandler::zero_ms					= 0;	//= std::chrono::milliseconds::zero();
-	const std::int32_t				InputHandler::negative_ms				= 1;	//= std::chrono::milliseconds(-1);
+	const std::int32_t				InputHandler::negative_ms				= -1;	//= std::chrono::milliseconds(-1);
 
 	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
 	{
@@ -69,16 +69,6 @@ namespace Library
 	}
 
 	/*************************
-	**	KeyboardHandler CPP	**
-	**************************/
-	RTTI_DEFINITIONS(KeyBoardHandler, InputHandler)
-
-	void KeyBoardHandler::Update(WorldState& state)
-	{
-		(state);
-	}
-
-	/*************************
 	**	XBox Controller CPP	**
 	**************************/
 	RTTI_DEFINITIONS(XBoxControllerHandler, InputHandler)
@@ -90,24 +80,33 @@ namespace Library
 #define X_ADDDATA(Data)			AddExternalAttribute(#Data, 1, &Data)
 	Button::Button()
 	{
-		X_ADDDATA(Duration);
+		X_ADDDATA(IsKeyDown);
+		X_ADDDATA(IsOnPress);
+		X_ADDDATA(IsOnRelease);
 	}
 	Trigger::Trigger()
 	{
-		X_ADDDATA(Duration);
 		X_ADDDATA(Magnitude);
+		X_ADDDATA(IsKeyDown);
+		X_ADDDATA(IsOnPress);
+		X_ADDDATA(IsOnRelease);
 	}
 	AnalogStick::AnalogStick()
 	{
-		X_ADDDATA(Duration);
+		X_ADDDATA(MagnitudeVector);
+		X_ADDDATA(RotationVector);
+		X_ADDDATA(Direction);
 		X_ADDDATA(MagnitudeX);
 		X_ADDDATA(MagnitudeY);
+		X_ADDDATA(Magnitude);
+		X_ADDDATA(Rotation);
+		X_ADDDATA(IsKeyDown);
+		X_ADDDATA(IsOnPress);
+		X_ADDDATA(IsOnRelease);
 	}
-
 #undef X_ADDDATA
 
 #define X_ADDSCOPE(ScopeData)	AddNestedScope(#ScopeData, ScopeData, 1U)
-
 	XBoxControllerState::XBoxControllerState()
 	{
 		X_ADDSCOPE(A);
@@ -129,8 +128,170 @@ namespace Library
 		X_ADDSCOPE(LeftStick);
 		X_ADDSCOPE(RightStick);
 	}
-
 #undef X_ADDSCOPE
+
+	void Button::UpdateState(const std::chrono::milliseconds & deltaTime, bool IsPressed)
+	{
+		bool PrevKeyDownState = IsKeyDown;
+		if (IsPressed)
+		{
+			if (mDuration < 0)
+			{	// If this is the first frame being pressed, start at zero duration
+				mDuration = 0;
+			}
+			else
+			{	// else start accumulating the duration
+				mDuration += static_cast<int32_t>(deltaTime.count());
+			}
+		}
+		else
+		{	// Negative Duration is equivalent to not being pressed
+			mDuration = -1;
+		}
+
+		// Update KeyDown States
+		IsKeyDown = IsPressed;
+		if (IsKeyDown != PrevKeyDownState)
+		{
+			IsOnPress = IsKeyDown;
+			IsOnRelease = !IsKeyDown;
+		}
+		else
+		{
+			IsOnPress = false;
+			IsOnRelease = false;
+		}
+	}
+
+	void Trigger::UpdateState(const std::chrono::milliseconds&  deltaTime, const std::int32_t& newMagnitude, const std::int32_t& threshold)
+	{
+		bool PrevKeyDownState = IsKeyDown;
+		if (newMagnitude > threshold)
+		{
+			if (mDuration < 0)
+			{	// If this is the first frame being pressed, start at zero duration
+				mDuration = 0;
+			}
+			else
+			{	// else start accumulating the duration
+				mDuration += static_cast<int32_t>(deltaTime.count());
+			}
+			mRaw = newMagnitude;
+		}
+		else
+		{	// Negative Duration is equivalent to not being pressed
+			mDuration = -1;
+			mRaw = 0;
+		}
+
+		// Update KeyDown States
+		IsKeyDown = mDuration >= 0;
+		if (IsKeyDown != PrevKeyDownState)
+		{
+			IsOnPress = IsKeyDown;
+			IsOnRelease = !IsKeyDown;
+		}
+		else
+		{
+			IsOnPress = false;
+			IsOnRelease = false;
+		}
+
+		// Update All Other Variables
+		Magnitude = static_cast<float>(mRaw) / 32768.0f;
+	}
+
+	void AnalogStick::UpdateState(const std::chrono::milliseconds&  deltaTime, const std::int32_t& newMagnitudeX, const std::int32_t& newMagnitudeY, const std::int32_t& threshold)
+	{
+		bool IsInUse = false;
+		bool PrevKeyDownState = IsKeyDown;
+
+		if (newMagnitudeX > threshold || newMagnitudeX < -threshold)
+		{
+			mRawX = newMagnitudeX;
+			IsInUse = true;
+		}
+		else
+		{
+			mRawX = 0;
+		}
+
+		if (newMagnitudeY > threshold || newMagnitudeY < -threshold)
+		{
+			mRawY = newMagnitudeY;
+			IsInUse = true;
+		}
+		else
+		{
+			mRawY = 0;
+		}
+
+		if (IsInUse)
+		{
+			if (mDuration < 0)
+			{	// If this is the first frame being pressed, start at zero duration
+				mDuration = 0;
+			}
+			else
+			{	// else start accumulating the duration
+				mDuration += static_cast<int32_t>(deltaTime.count());
+			}
+		}
+		else
+		{	// Negative Duration is equivalent to not being pressed
+			mDuration = -1;
+		}
+
+		// Update KeyDown States
+		IsKeyDown = mDuration >= 0;
+		if (IsKeyDown != PrevKeyDownState)
+		{
+			IsOnPress = IsKeyDown;
+			IsOnRelease = !IsKeyDown;
+		}
+		else
+		{
+			IsOnPress = false;
+			IsOnRelease = false;
+		}
+
+		// Update All Other Variables
+		MagnitudeX = static_cast<float>(mRawX) / 32768.0f;
+		MagnitudeY = static_cast<float>(mRawY) / 32768.0f;
+		MagnitudeVector = glm::vec4(MagnitudeX, MagnitudeY, 0, 0);
+		Direction = glm::normalize(MagnitudeVector);
+		Magnitude = static_cast<float_t>(MagnitudeVector.length());
+		Rotation = atan2(MagnitudeY, MagnitudeX);
+		RotationVector = glm::vec4(0, 0, Rotation, 0);
+	}
+
+#define X_CHECK(Value)	((Value) != 0)
+	void XBoxControllerState::UpdateState(XINPUT_STATE & currentPlayerState, std::chrono::milliseconds deltaTime)
+	{
+		WORD& currentPlayerButtonState = currentPlayerState.Gamepad.wButtons;
+		// Update Button State
+		A.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_A));
+		B.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_B));
+		X.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_X));
+		Y.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_Y));
+		DPad_Up.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_UP));
+		DPad_Down.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_DOWN));
+		DPad_Left.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_LEFT));
+		DPad_Right.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_RIGHT));
+		LeftShoulder.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER));
+		RightShoulder.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_SHOULDER));
+		LeftThumbstick.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_THUMB));
+		RightThumbstick.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_THUMB));
+		Start.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_START));
+		Back.UpdateState(deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_BACK));
+		// Update Trigger State
+		LeftTrigger.UpdateState(deltaTime, currentPlayerState.Gamepad.bLeftTrigger, XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+		RightTrigger.UpdateState(deltaTime, currentPlayerState.Gamepad.bRightTrigger, XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+		// Update Analog State
+		LeftStick.UpdateState(deltaTime, currentPlayerState.Gamepad.sThumbLX, currentPlayerState.Gamepad.sThumbLY, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+		RightStick.UpdateState(deltaTime, currentPlayerState.Gamepad.sThumbRX, currentPlayerState.Gamepad.sThumbRY, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	}
+#undef X_CHECK
 
 	Hashmap<std::string, std::int32_t> XBoxControllerHandler::XBoxButtonMapping({
 		std::pair<std::string, std::int32_t>("A",				XINPUT_GAMEPAD_A),
@@ -206,120 +367,6 @@ namespace Library
 		// Set the vibration state for that player
 		XInputSetState(player, &VibrationState);
 	}
-
-	void XBoxControllerHandler::ChangeButtonState(Button& playerButton, const std::chrono::milliseconds& deltaTime, bool IsPressed)
-	{
-		std::int32_t& playerButtonDuration = playerButton.Duration;
-		if (IsPressed)
-		{
-			if (playerButtonDuration < zero_ms)
-			{	// If this is the first frame being pressed, start at zero duration
-				playerButtonDuration = zero_ms;
-			}
-			else
-			{	// else start accumulating the duration
-				playerButtonDuration += static_cast<int32_t>(deltaTime.count());
-			}
-		}
-		else
-		{	// Negative Duration is equivalent to not being pressed
-			playerButtonDuration = negative_ms;
-		}
-	}
-	void XBoxControllerHandler::ChangeTriggerState(Trigger& playerTrigger, const std::chrono::milliseconds& deltaTime, const SHORT& magnitude, const SHORT& threshold)
-	{
-		if (magnitude > threshold)
-		{
-			if (playerTrigger.Duration < zero_ms)
-			{	// If this is the first frame being pressed, start at zero duration
-				playerTrigger.Duration = zero_ms;
-			}
-			else
-			{	// else start accumulating the duration
-				playerTrigger.Duration += static_cast<int32_t>(deltaTime.count());
-			}
-			playerTrigger.Magnitude = magnitude;
-		}
-		else
-		{	// Negative Duration is equivalent to not being pressed
-			playerTrigger.Duration = negative_ms;
-			playerTrigger.Magnitude = 0;
-		}
-	}
-
-	void XBoxControllerHandler::ChangeAnalogState(AnalogStick& playerAnalog, const std::chrono::milliseconds& deltaTime, const SHORT& magnitudeX, const SHORT& magnitudeY, const SHORT& threshold)
-	{
-		bool IsInUse = false;
-		const SHORT magnitudeYFlipped = (magnitudeY != -32768) ? -magnitudeY : 32767;	// Negated with Overflow handling
-
-		if (magnitudeX > threshold || magnitudeX < -threshold)
-		{
-			playerAnalog.MagnitudeX = magnitudeX;
-			IsInUse = true;
-		}
-		else
-		{
-			playerAnalog.MagnitudeX = 0;
-		}
-
-		if (magnitudeYFlipped > threshold || magnitudeYFlipped < -threshold)
-		{
-			playerAnalog.MagnitudeY = magnitudeYFlipped;
-			IsInUse = true;
-		}
-		else
-		{
-			playerAnalog.MagnitudeY = 0;
-		}
-
-		if(IsInUse)
-		{
-			if (playerAnalog.Duration < zero_ms)
-			{	// If this is the first frame being pressed, start at zero duration
-				playerAnalog.Duration = zero_ms;
-			}
-			else
-			{	// else start accumulating the duration
-				playerAnalog.Duration += static_cast<int32_t>(deltaTime.count());
-			}
-		}
-		else
-		{	// Negative Duration is equivalent to not being pressed
-			playerAnalog.Duration = negative_ms;
-		}
-	}
-
-#define X_CHECK(Value)	((Value) != 0)
-	void XBoxControllerHandler::UpdatePlayerState(std::uint32_t player, XINPUT_STATE & currentPlayerState, std::chrono::milliseconds deltaTime)
-	{
-		WORD& currentPlayerButtonState = currentPlayerState.Gamepad.wButtons;
-		XBoxControllerState& playerState = mPlayerState[player];
-
-		// Update Button State
-		ChangeButtonState(playerState.A,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_A));
-		ChangeButtonState(playerState.B,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_B));
-		ChangeButtonState(playerState.X,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_X));
-		ChangeButtonState(playerState.Y,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_Y));
-		ChangeButtonState(playerState.DPad_Up,			deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_UP));
-		ChangeButtonState(playerState.DPad_Down,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_DOWN));
-		ChangeButtonState(playerState.DPad_Left,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_LEFT));
-		ChangeButtonState(playerState.DPad_Right,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_RIGHT));
-		ChangeButtonState(playerState.LeftShoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER));
-		ChangeButtonState(playerState.RightShoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_SHOULDER));
-		ChangeButtonState(playerState.LeftThumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_THUMB));
-		ChangeButtonState(playerState.RightThumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_THUMB));
-		ChangeButtonState(playerState.Start,			deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_START));
-		ChangeButtonState(playerState.Back,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_BACK));
-			
-		// Update Trigger State
-		ChangeTriggerState(playerState.LeftTrigger, deltaTime, currentPlayerState.Gamepad.bLeftTrigger, XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
-		ChangeTriggerState(playerState.RightTrigger, deltaTime, currentPlayerState.Gamepad.bRightTrigger, XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
-			
-		// Update Analog State
-		ChangeAnalogState(playerState.LeftStick, deltaTime, currentPlayerState.Gamepad.sThumbLX, currentPlayerState.Gamepad.sThumbLY, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-		ChangeAnalogState(playerState.RightStick, deltaTime, currentPlayerState.Gamepad.sThumbRX, currentPlayerState.Gamepad.sThumbRY, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
-	}
-#undef XCHECK
 
 	void XBoxControllerHandler::Update(WorldState& state)
 	{
@@ -400,45 +447,7 @@ namespace Library
 
 			// Update Current Player State Results
 			mButtonState[player] = playersCurrentButtonState;
-			UpdatePlayerState(player, currentState[player], state.mGameTime->ElapsedGameTime());
+			mPlayerState[player].UpdateState(currentState[player], state.mGameTime->ElapsedGameTime());
 		}
 	}
-
-
-	/*************************
-	**	Input Manager CPP	**
-	**************************/
-	/*
-	RTTI_DEFINITIONS(InputManager)
-	//const std::string InputManager::INPUT_HANDLER_LIST = "InputHandlers";
-
-	InputManager::InputManager()
-	{
-		// Add Scope Name for all InputHandlers created
-		//AddNestedScope(INPUT_HANDLER_LIST);
-	}
-
-	InputManager::~InputManager()
-	{
-	}
-	void InputManager::Update(WorldState & state)
-	{
-		// Get Delta Time
-		std::chrono::milliseconds deltaTime = state.mGameTime->ElapsedGameTime();
-
-		// Look through Input Handler List and Update All Handlers
-		Datum& inputHandlerList = Append(INPUT_HANDLER_LIST);
-		for (std::uint32_t i = 0; i < inputHandlerList.Size(); ++i)
-		{
-			Scope& scope = inputHandlerList.Get<Scope>(i);
-			if (InputHandler* handler = scope.As<InputHandler>())
-			{
-				handler->Update(deltaTime);
-			}
-			else
-			{
-				throw std::exception("Invalid Input Handler assigned to the Input Handler List.");
-			}
-		}
-	}*/
 }
