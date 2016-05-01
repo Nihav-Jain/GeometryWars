@@ -1,30 +1,55 @@
-<gameobject class="Bullet" name="Bullet0">
-	<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+<gameobject class="Bullet" name="Bullet">
+	<!-- Bullet Class Attributes -->
+	<vector name="scale" value="vec4(10, 10, 1, 0)"/>
 	<float name="speed" value="10" />
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
 	
-	<sprite_renderer name="SpriteRenderer">
-		<image name="image">
-			<string name="path" value="Content/resource/mushroom.png"/>
-			<vector name="size" value="vec4(5, 5, 0, 0)"/>
-		</image>
-	</sprite_renderer>
+	<!-- Polygon Render Component -->
+	<polygon_renderer name="PolygonRenderer">
+		<float name="width" value="5" />
+		<vector name="color" value="vec4(1, 1, 0, 1)" />
+		<integer name="indices" value="0" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="3" />
+		<integer name="indices" value="3" />
+		<integer name="indices" value="4" />
+		<integer name="indices" value="4" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="0" />
+		<vector name="points" value="vec4(-0.0133333333333333, 0.6, 0, 0)" />
+		<vector name="points" value="vec4(-0.12, -0.377777777777778, 0, 0)" />
+		<vector name="points" value="vec4(-0.0622222222222222, -0.391111111111111, 0, 0)" />
+		<vector name="points" value="vec4(-0.0577777777777778, -0.444444444444444, 0, 0)" />
+		<vector name="points" value="vec4(0.08, -0.448888888888889, 0, 0)" />
+		<vector name="points" value="vec4(0.08, -0.395555555555556, 0, 0)" />
+		<vector name="points" value="vec4(0.124444444444444, -0.4, 0, 0)" />
+	</polygon_renderer>
 	
+	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
       <float name="radius" value="5.0" />
       <string name="channel" value="collideenemies" />
-      <bool name="enabled" value="true" />
+      <bool name="enabled" value="true" />	  
 	</component>
 	
-	<if name="CheckIfDead">
-		<condition>
-			<string name="expression">isdead</string>
-		</condition>
-		<then>
-			<action class="ActionDestroyEntity" name="destroySelf">
-				<string name="entityInstanceName" value="Bullet0"/>
-			</action>
-		</then>
-	</if>
+	<!-- Update Loop -->
+	<action class="ActionList" name="Update">
+		<if name="CheckIfDead">
+			<condition>
+				<string name="expression">isdead</string>
+			</condition>
+			<then>
+				<action class="ActionDestroyEntity" name="destroySelf">
+					<string name="entityInstanceName" value="Bullet"/>
+				</action>
+			</then>
+		</if>
+	</action>
 </gameobject>		

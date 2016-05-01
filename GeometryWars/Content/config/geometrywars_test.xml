@@ -1,0 +1,35 @@
+<world name="GeometryWarsWorld">
+	<integer name="width" value="1280"/>
+	<integer name="height" value="720" />
+
+	<!-- ==================== Event-Driven Player Connection =============== -->
+	<!-- Player Connected Reaction -->
+	<reaction class="ReactionAttributed" name="OnPlayerConnection">
+		<string name="subtype" value="PlayerConnected"/>
+		
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Player Connected!"/>
+		</action>
+	</reaction>
+	
+	<!-- Player Disconnected Reaction -->
+	<reaction class="ReactionAttributed" name="OnPlayerDisconnection">
+		<string name="subtype" value="PlayerDisconnected"/>
+		
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Player Disconnected!"/>
+		</action>
+	</reaction>
+	
+	<sector name="InGameSector">
+    
+		<include file="Content\config\player1.xml" />	
+		
+		<include file="Content\config\pinwheelenemy.xml" />	
+		<include file="Content\config\diamondenemy.xml" />
+		<include file="Content\config\squareenemy.xml" />
+		
+	</sector>	
+</world>
