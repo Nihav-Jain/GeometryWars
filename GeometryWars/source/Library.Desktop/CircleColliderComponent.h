@@ -45,6 +45,8 @@ namespace Library
 		GameObject *mOwner;
 		const Vector<Entity*> *mCollidableEntities;
 
+		static Hashmap<std::uint64_t, const Vector<Entity*>> sCollidableEntitiesByType;
+
 		bool IsColliding(const GameObject& other) const;
 	};
 
