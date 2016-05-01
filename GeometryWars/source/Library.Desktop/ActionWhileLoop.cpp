@@ -15,6 +15,43 @@ namespace Library
 		AddInternalAttribute(ATTRIBUTE_CONDITION_RESULT, false, 1);
 	}
 
+	ActionWhileLoop::ActionWhileLoop(const ActionWhileLoop& rhs) :
+		ActionList::ActionList(rhs), mLoopBody(nullptr), mConditionExpression(nullptr)
+	{}
+
+	ActionWhileLoop::ActionWhileLoop(ActionWhileLoop&& rhs) :
+		ActionList::ActionList(std::move(rhs)), mLoopBody(rhs.mLoopBody), mConditionExpression(rhs.mConditionExpression)
+	{
+		rhs.mLoopBody = nullptr;
+		rhs.mConditionExpression = nullptr;
+	}
+
+	ActionWhileLoop& ActionWhileLoop::operator=(const ActionWhileLoop& rhs)
+	{
+		if (this != &rhs)
+		{
+			mLoopBody = nullptr;
+			mConditionExpression = nullptr;
+
+			ActionList::operator=(rhs);
+		}
+		return *this;
+	}
+
+	ActionWhileLoop& ActionWhileLoop::operator=(ActionWhileLoop&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mLoopBody = rhs.mLoopBody;
+			mConditionExpression = rhs.mConditionExpression;
+			rhs.mLoopBody = nullptr;
+			rhs.mConditionExpression = nullptr;
+
+			ActionList::operator=(std::move(rhs));
+		}
+		return *this;
+	}
+
 	void ActionWhileLoop::BeginPlay(WorldState& worldState)
 	{
 		Action* helperAction = FindAction(ATTRIBUTE_CONDITIONAL_EXP);
@@ -41,5 +78,11 @@ namespace Library
 			worldState.action = mConditionExpression;
 			mConditionExpression->Update(worldState);
 		}
+	}
+
+	Scope* ActionWhileLoop::Clone(const Scope& rhs) const
+	{
+		ActionWhileLoop& action = *rhs.AssertiveAs<ActionWhileLoop>();
+		return new ActionWhileLoop(action);
 	}
 }

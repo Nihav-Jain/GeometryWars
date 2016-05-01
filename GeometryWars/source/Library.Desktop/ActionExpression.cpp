@@ -147,6 +147,45 @@ namespace Library
 			delete mPostfixExpression;
 	}
 
+	ActionExpression::ActionExpression(const ActionExpression& rhs) :
+		Action::Action(rhs), mPostfixExpression(nullptr), mTempVariableCounter(0)
+	{}
+
+	ActionExpression::ActionExpression(ActionExpression&& rhs) :
+		Action::Action(std::move(rhs)), mPostfixExpression(rhs.mPostfixExpression), mTempVariableCounter(rhs.mTempVariableCounter)
+	{
+		rhs.mPostfixExpression = nullptr;
+		rhs.mTempVariableCounter = 0;
+	}
+
+	ActionExpression& ActionExpression::operator=(const ActionExpression& rhs)
+	{
+		if (this != &rhs)
+		{
+			delete mPostfixExpression;
+			mPostfixExpression = nullptr;
+
+			Action::operator=(rhs);
+		}
+		return *this;
+	}
+
+	ActionExpression& ActionExpression::operator=(ActionExpression&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mPostfixExpression = rhs.mPostfixExpression;
+			mTempVariableCounter = rhs.mTempVariableCounter;
+
+			rhs.mPostfixExpression = nullptr;
+			rhs.mTempVariableCounter = 0;
+
+			Action::operator=(std::move(rhs));
+		}
+		return *this;
+	}
+
+
 	void ActionExpression::BeginPlay(WorldState& worldState)
 	{
 		Action::BeginPlay(worldState);
@@ -157,6 +196,12 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		EvaluateExpression(*worldState.world);
+	}
+
+	Scope* ActionExpression::Clone(const Scope& rhs) const
+	{
+		ActionExpression& action = *rhs.AssertiveAs<ActionExpression>();
+		return new ActionExpression(action);
 	}
 
 	void ActionExpression::ClearStaticMemebers()

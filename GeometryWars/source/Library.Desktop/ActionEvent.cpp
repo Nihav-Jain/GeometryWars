@@ -18,6 +18,26 @@ namespace Library
 		AddInternalAttribute(ATTRIBUTE_DELAY, 0, 1);
 	}
 
+	ActionEvent::ActionEvent(const ActionEvent& rhs) :
+		Action::Action(rhs)
+	{}
+
+	ActionEvent::ActionEvent(ActionEvent&& rhs) :
+		Action::Action(std::move(rhs))
+	{}
+
+	ActionEvent& ActionEvent::operator=(const ActionEvent& rhs)
+	{
+		Action::operator=(rhs);
+		return *this;
+	}
+
+	ActionEvent& ActionEvent::operator=(ActionEvent&& rhs)
+	{
+		Action::operator=(std::move(rhs));
+		return *this;
+	}
+
 	void ActionEvent::Update(WorldState& worldState)
 	{
 		EventMessageAttributed message;
@@ -32,4 +52,9 @@ namespace Library
 
 	}
 
+	Scope* ActionEvent::Clone(const Scope& rhs) const
+	{
+		ActionEvent& action = *rhs.AssertiveAs<ActionEvent>();
+		return new ActionEvent(action);
+	}
 }

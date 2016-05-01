@@ -25,15 +25,11 @@ namespace Library
 		 */
 		virtual ~ReactionAttributed();
 
-		/**
-		 *	Disallow copy constructor
-		 */
-		ReactionAttributed(const ReactionAttributed& rhs) = delete;
+		ReactionAttributed(const ReactionAttributed& rhs);
+		ReactionAttributed(ReactionAttributed&& rhs);
 
-		/**
-		 *	Disallow copy assignment operator
-		 */
-		ReactionAttributed& operator=(const ReactionAttributed& rhs) = delete;
+		ReactionAttributed& operator=(const ReactionAttributed& rhs);
+		ReactionAttributed& operator=(ReactionAttributed&& rhs);
 
 		/**
 		 *	@override
@@ -41,6 +37,8 @@ namespace Library
 		 *	copies the auxiliary attributes of the message and then triggers ActionList::Update
 		 */
 		virtual void Notify(const EventPublisher& publisher) override;
+		virtual Scope* Clone(const Scope& rhs) const override;
+
 	};
 
 	CONCRETE_REACTION_FACTORY(ReactionAttributed);

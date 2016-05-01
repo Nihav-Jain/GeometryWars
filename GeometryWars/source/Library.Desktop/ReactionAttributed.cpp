@@ -13,10 +13,29 @@ namespace Library
 		Event<EventMessageAttributed>::Subscribe(*this);
 	}
 
-
 	ReactionAttributed::~ReactionAttributed()
 	{
 		Event<EventMessageAttributed>::Unsubscribe(*this);
+	}
+
+	ReactionAttributed::ReactionAttributed(const ReactionAttributed& rhs) :
+		Reaction::Reaction(rhs)
+	{}
+
+	ReactionAttributed::ReactionAttributed(ReactionAttributed&& rhs) :
+		Reaction::Reaction(std::move(rhs))
+	{}
+
+	ReactionAttributed& ReactionAttributed::operator=(const ReactionAttributed& rhs)
+	{
+		Reaction::operator=(rhs);
+		return *this;
+	}
+
+	ReactionAttributed& ReactionAttributed::operator=(ReactionAttributed&& rhs)
+	{
+		Reaction::operator=(std::move(rhs));
+		return *this;
 	}
 
 	void ReactionAttributed::Notify(const EventPublisher& publisher)
@@ -42,4 +61,9 @@ namespace Library
 		ActionList::Update(message.GetWorldState());
 	}
 
+	Scope* ReactionAttributed::Clone(const Scope& rhs) const
+	{
+		ReactionAttributed& action = *rhs.AssertiveAs<ReactionAttributed>();
+		return new ReactionAttributed(action);
+	}
 }
