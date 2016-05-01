@@ -34,6 +34,14 @@ namespace Library {
 		AddExternalAttribute("width", 1, &mWidth);
 	}
 
+	PolygonRenderer::~PolygonRenderer()
+	{
+		if (mShader != nullptr)
+			delete mShader;
+		if (mBuffer != nullptr)
+			delete mBuffer;
+	}
+
 	void PolygonRenderer::Render(RenderDevice * device)
 	{
 		if (!mInited) {

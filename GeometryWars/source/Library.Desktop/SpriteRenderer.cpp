@@ -30,6 +30,16 @@ namespace Library {
 	{
 	}
 
+	SpriteRenderer::~SpriteRenderer()
+	{
+		if (mShader != nullptr)
+			delete mShader;
+		if (mBuffer != nullptr)
+			delete mBuffer;
+		if (mTexture != nullptr)
+			delete mTexture;
+	}
+
 	void SpriteRenderer::Render(RenderDevice * device)
 	{
 		if (!mInited) {

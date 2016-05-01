@@ -22,7 +22,7 @@ namespace Library {
 		static const std::string ATTRIBUTE_TEXTURE2D;
 
 		SpriteRenderer();
-		virtual ~SpriteRenderer() = default;
+		virtual ~SpriteRenderer();
 
 		SpriteRenderer(const SpriteRenderer & rhs) = delete;
 		SpriteRenderer & operator=(const SpriteRenderer & rhs) = delete;

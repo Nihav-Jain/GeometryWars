@@ -23,7 +23,7 @@ namespace Library {
 		static const std::string ATTRIBUTE_POINTS;
 
 		PolygonRenderer();
-		virtual ~PolygonRenderer() = default;
+		virtual ~PolygonRenderer();
 
 		PolygonRenderer(const PolygonRenderer & rhs) = delete;
 		PolygonRenderer & operator=(const PolygonRenderer & rhs) = delete;
