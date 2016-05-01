@@ -18,5 +18,6 @@ namespace Library {
 
 	private:
 		static const std::string ELEMENT_NAME;
+		static const std::string ATTRIBUTE_NAME;
 	};
 }

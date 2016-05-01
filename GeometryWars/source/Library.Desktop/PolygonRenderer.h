@@ -45,5 +45,7 @@ namespace Library {
 		Datum * mIndices;
 		Datum * mPoints;
 	};
+
+	CONCRETE_ACTION_FACTORY(PolygonRenderer);
 }
 

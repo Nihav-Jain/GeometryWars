@@ -32,4 +32,24 @@ namespace Library
 		*texture = mTexture;
 		*size = &mSize;
 	}
+
+	const std::string & Image::Path() const
+	{
+		return mPath;
+	}
+
+	void Image::SetPath(const std::string & path)
+	{
+		mPath = path;
+	}
+
+	const glm::vec4 & Image::Size() const
+	{
+		return mSize;
+	}
+
+	void Image::SetSize(const glm::vec4 & size)
+	{
+		mSize = size;
+	}
 }

@@ -8,13 +8,20 @@ namespace Library
 
 	const std::string Sector::ATTRIBUTE_ENTITIES = "entities";
 	const std::string Sector::ATTRIBUTE_NAME = "name";
+	const std::string Sector::ATTRIBUTE_OWNER_WORLD = "ownerWorld";
 
 	Sector::Sector() :
-		mName(), mEntityListByType()
+		mName(), mEntityListByType(), mWorld(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
+		AddExternalAttribute(ATTRIBUTE_OWNER_WORLD, 1, &mWorld);
+	}
+
+	Sector::~Sector()
+	{
+		delete mWorld;
 	}
 	
 	const std::string& Sector::Name() const
@@ -108,6 +115,8 @@ namespace Library
 
 	void Sector::BeginPlay(WorldState& worldState)
 	{
+		*mWorld = *worldState.world;
+
 		ScriptedBeginPlay(worldState);
 		EntitiesBeginPlay(worldState);
 		ActionsBeginPlay(worldState);

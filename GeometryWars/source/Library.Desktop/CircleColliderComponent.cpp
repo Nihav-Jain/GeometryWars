@@ -9,6 +9,8 @@ namespace Library
 	const std::string CircleColliderComponent::ATTRIBUTE_ENABLED = "enabled";
 	const std::string CircleColliderComponent::ATTRIBUTE_CHANNEL = "channel";
 
+	Hashmap<std::string, std::uint64_t> CircleColliderComponent::sCollidableEntitiesByChannel;
+
 	CircleColliderComponent::CircleColliderComponent()
 		: mRadius(), mEnabled(true), mCollisionChannel(), mOwner(nullptr), mCollidableEntities(nullptr)
 	{
@@ -47,8 +49,6 @@ namespace Library
 
 	void CircleColliderComponent::Update(WorldState & worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
-
 		if (mCollidableEntities != nullptr)
 		{
 			for (Entity* entity : *mCollidableEntities)
@@ -62,23 +62,24 @@ namespace Library
 		}		
 	}
 
-	void CircleColliderComponent::PostParsingProcess()
+	void CircleColliderComponent::BeginPlay(WorldState & worldState)
 	{
 		// Get owning GameObject which contains this component
-		Scope *parent = GetParent();
-		assert(parent != nullptr);
-		GameObject *owner = parent->As<GameObject>();
+		GameObject *owner = GetParent()->As<GameObject>();
 		assert(owner != nullptr);
 		mOwner = owner;
 
 		// Get entities that can be collided with
-		Sector *sector = parent->GetParent()->AssertiveAs<Sector>();
-		Entity *collidableEntityType = sector->FindEntity(mCollisionChannel);
-
-		if (collidableEntityType != nullptr)
+		if (sCollidableEntitiesByChannel.ContainsKey(mCollisionChannel))
 		{
-			mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdClass());
+			std::uint64_t id = sCollidableEntitiesByChannel[mCollisionChannel];
+			mCollidableEntities = &worldState.sector->GetAllEntitiesOfType(id);
 		}
+	}
+
+	void CircleColliderComponent::PostParsingProcess()
+	{
+		
 	}
 
 	bool CircleColliderComponent::IsColliding(const GameObject& other) const

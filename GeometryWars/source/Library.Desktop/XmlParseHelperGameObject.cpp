@@ -17,7 +17,7 @@ namespace Library
 		if (!attributes.ContainsKey(ATTRIBUTE_CLASS))
 			throw std::exception("Invalid syntax for <gameobject>. Missing attribute: class");
 
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::GAMEOBJECT_START))
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_START))
 			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
@@ -40,7 +40,7 @@ namespace Library
 		if (elementName != ELEMENT_NAME)
 			return false;
 
-		bool transitionToGameObjectEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::GAMEOBJECT_END);
+		bool transitionToGameObjectEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_END);
 		UNREFERENCED_PARAMETER(transitionToGameObjectEnd);
 		assert(transitionToGameObjectEnd);
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);

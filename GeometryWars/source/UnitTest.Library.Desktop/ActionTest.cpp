@@ -434,11 +434,21 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(anotherResult);
 			Assert::AreEqual(0, anotherResult->Get<std::int32_t>());
 
+			Datum* someResult = entity->Find("someResult");
+			Assert::IsNotNull(someResult);
+			Assert::AreEqual(0, someResult->Get<std::int32_t>());
+
+			Datum* refResult = entity->Find("refResult");
+			Assert::IsNotNull(refResult);
+			Assert::AreEqual(0, refResult->Get<std::int32_t>());
+
 			game.Update();
 
 			Assert::AreEqual(110, result->Get<std::int32_t>());
 			Assert::AreEqual(100, someInt->Get<std::int32_t>());
 			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
+			Assert::AreEqual(200, someResult->Get<std::int32_t>());
+			Assert::AreEqual(125, refResult->Get<std::int32_t>());
 		}
 
 		TEST_METHOD(ActionTestCreateEntityFromFile)
@@ -479,6 +489,29 @@ namespace UnitTestLibraryDesktop
 
 			Assert::AreEqual(10, someInt->Get<std::int32_t>());
 			Assert::AreEqual(20, newSomeInt->Get<std::int32_t>());
+		}
+
+		TEST_METHOD(ActionTestCopySemantics)
+		{
+			ActionListFactory listFactory;
+			ActionList list;
+			Action& action = Action::CreateAction("ActionList", "instanceName", list, ActionList::ATTRIBUTE_ACTIONS);
+			UNREFERENCED_PARAMETER(action);
+
+			Assert::IsNotNull(list.FindAction("instanceName"));
+
+			ActionList listCopy(list);
+			Assert::IsNotNull(listCopy.FindAction("instanceName"));
+
+			ActionList list2;
+			ActionList listCopy2(list2);
+			Assert::IsNotNull(listCopy2.Find(ActionList::ATTRIBUTE_ACTIONS));
+
+			Action& action2 = Action::CreateAction("ActionList", "instanceName2", listCopy2, ActionList::ATTRIBUTE_ACTIONS);
+			UNREFERENCED_PARAMETER(action2);
+			Assert::IsNotNull(listCopy2.FindAction("instanceName2"));
+
+			Attributed::ClearStaticMembers();
 		}
 
 

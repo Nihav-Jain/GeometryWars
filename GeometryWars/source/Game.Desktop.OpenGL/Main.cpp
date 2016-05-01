@@ -4,6 +4,9 @@
 #include "ActionDebug.h"
 #include "Renderer.h"
 #include "OpenGLRenderDevice.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Bullet.h"
 
 using namespace Library;
 
@@ -16,15 +19,20 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	OpenGLRenderDevice renderDevice;
 
-	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
-	Renderer * renderer = Renderer::GetInstance(&renderDevice);
-
+	/// Game-specific factories that cannot live as members in the Game class ///
 	XBoxControllerHandlerFactory xchf;
 	ActionDebugFactory adf;
+	PlayerFactory mPlayerFactory;
+	EnemyFactory mEnemyFactory;
+	BulletFactory mBulletFactory;
+
+	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
+	Renderer * renderer = Renderer::GetInstance(&renderDevice);
 
 	Game game;
 	game.SetRenderer(renderer);
 	//game.Start("Content/config/polygon.xml"); // TODO use the final world here
+	//game.Start("Content/config/player_test.xml");
 	game.Start("../../../../../Content/config/input_v2.xml");
 
 	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());

@@ -17,6 +17,11 @@ namespace Library
 
 		void GetImageInfo(Texture ** texture, glm::vec4 ** size);
 
+		const std::string& Path() const;
+		void SetPath(const std::string& path);
+		const glm::vec4& Size() const;
+		void SetSize(const glm::vec4& size);
+
 		virtual void Update(WorldState& worldState) {
 			(worldState);
 		};
@@ -29,5 +34,7 @@ namespace Library
 		static const std::string ATTRIBUTE_PATH;
 		static const std::string ATTRIBUTE_SIZE;
 	};
+
+	CONCRETE_ACTION_FACTORY(Image);
 
 }
