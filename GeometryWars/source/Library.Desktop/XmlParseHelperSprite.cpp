@@ -30,6 +30,7 @@ namespace Library {
 		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 		Scope* parent = sharedDataPtr->CurrentScopePtr;
 		SpriteRenderer * sprite = new SpriteRenderer();
+		sprite->SetName(attributes["name"]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
 		
 		Renderer::GetInstance()->AddRenderable(sprite);
