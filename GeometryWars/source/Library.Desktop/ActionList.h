@@ -23,7 +23,8 @@ namespace Library
 		/**
 		 *	disallow copy construtor
 		 */
-		ActionList(const ActionList& rhs) = delete;
+		ActionList(const ActionList& rhs);
+		ActionList(ActionList&& rhs);
 
 		/**
 		 *	Default destructor
@@ -33,8 +34,8 @@ namespace Library
 		/**
 		*	disallow assignement operator
 		*/
-		ActionList& operator=(const ActionList& rhs) = delete;
-
+		ActionList& operator=(const ActionList& rhs);
+		ActionList& operator=(ActionList&& rhs);
 
 		/**
 		 *	Getter for the Datum which contains the array of Actions of this ActionList
@@ -65,6 +66,10 @@ namespace Library
 
 		virtual void OnDestroy(WorldState& worldState) override;
 
+		virtual Scope* Clone(const Scope& rhs) const override;
+
+		static const std::string ATTRIBUTE_ACTIONS;
+
 	private:
 		void ScriptedBeginPlay(WorldState& worldState);
 		void ActionsBeginPlay(WorldState& worldState);
@@ -73,8 +78,7 @@ namespace Library
 		void ScriptedOnDestroy(WorldState& worldState);
 		void ActionsOnDestroy(WorldState& worldState);
 		void ReactionsOnDestroy(WorldState& worldState);
-
-		static const std::string ATTRIBUTE_ACTIONS;
+		
 	};
 
 	CONCRETE_ACTION_FACTORY(ActionList);

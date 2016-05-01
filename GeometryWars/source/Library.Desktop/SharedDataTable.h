@@ -37,8 +37,8 @@ namespace Library
 			VALUE_END,
 			SPRITE_START,
 			SPRITE_END,
-			GAMEOBJECT_START,
-			GAMEOBJECT_END,
+			//GAMEOBJECT_START,
+			//GAMEOBJECT_END,
 			END
 		};
 

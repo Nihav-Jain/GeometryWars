@@ -21,7 +21,10 @@
 #include "World.h"
 #include "Sector.h"
 #include "Entity.h"
+#include "GameObject.h"
+
 #include "Action.h"
+#include "Event.h"
 
 #include "ActionList.h"
 #include "ActionListSwitch.h"
@@ -36,11 +39,17 @@
 #include "Reaction.h"
 #include "ReactionAttributed.h"
 
+#include "Image.h"
+#include "SpriteRenderer.h"
+//#include "PolygonRenderer.h"
+#include "CircleColliderComponent.h"
+
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
+#include "XmlParseHelperGameObject.h"
 #include "XmlParseHelperAction.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
@@ -59,6 +68,7 @@
 #include "XmlParseHelperAnimator.h"
 #include "XmlParseHelperAnimationState.h"
 #include "XmlParseHelperAnimationFrame.h"
+#include "XmlParseHelperCircleColliderComponent.h"
 
 namespace Library
 {
@@ -151,6 +161,7 @@ namespace Library
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
+		XmlParseHelperGameObject mGameObjectParser;
 		XmlParseHelperAction mActionParser;
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
@@ -177,8 +188,11 @@ namespace Library
 		XmlParseHelperAnimator mAnimatorParser;
 		XmlParseHelperAnimationState mAnimationStateParser;
 		XmlParseHelperAnimationFrame mAnimationFrameParser;
+		XmlParseHelperCircleColliderComponent mCircleColliderComponent;
 
 		EntityFactory mEntityFactory;
+		GameObjectFactory mGameObjectFactory;
+
 		ActionListFactory mActionListFactory;
 		ActionListSwitchFactory mActionSwitchFactory;
 		ActionListSwitch::ActionListSwitchCaseFactory mActionCaseFactory;
@@ -189,6 +203,12 @@ namespace Library
 		ReactionAttributedFactory mReactionFactory;
 		ActionCreateEntityFactory mCreateEntityFactory;
 		ActionDestroyEntityFactory mDestroyEntityFactory;
+
+		ImageFactory mImageFactory;
+		//PolygonRendererFactory mPolygonRendererFactory;
+		SpriteRendererFactory mSpriteRendererFactory;
+		CircleColliderComponentFactory mCircleColliderComponentFactory;
+
 		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
 		AnimatorFactory mAnimatorFactory;
 		AnimationStateFactory mAnimationStateFactory;

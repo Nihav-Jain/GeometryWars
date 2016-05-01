@@ -11,9 +11,6 @@ namespace Library
 
 		mRequiredAttributes.Clear();
 		mRequiredAttributes.PushBack(ATTRIBUTE_NAME);
-		mRequiredAttributes.PushBack(CircleColliderComponent::ATTRIBUTE_RADIUS);
-		mRequiredAttributes.PushBack(CircleColliderComponent::ATTRIBUTE_CHANNEL);
-		mRequiredAttributes.PushBack(CircleColliderComponent::ATTRIBUTE_ENABLED);
 	}
 
 	IXmlParseHelper* XmlParseHelperCircleColliderComponent::Clone() const
@@ -23,9 +20,18 @@ namespace Library
 
 	void XmlParseHelperCircleColliderComponent::ParseActionAttributes(Action& currentAction, const Hashmap<std::string, std::string>& attributes)
 	{
-		currentAction[CircleColliderComponent::ATTRIBUTE_RADIUS] = attributes[CircleColliderComponent::ATTRIBUTE_RADIUS];
-		currentAction[CircleColliderComponent::ATTRIBUTE_CHANNEL] = attributes[CircleColliderComponent::ATTRIBUTE_CHANNEL];
-		currentAction[CircleColliderComponent::ATTRIBUTE_ENABLED] = attributes[CircleColliderComponent::ATTRIBUTE_ENABLED];
+		if (attributes.ContainsKey(CircleColliderComponent::ATTRIBUTE_CHANNEL))
+		{
+			currentAction[CircleColliderComponent::ATTRIBUTE_CHANNEL] = attributes[CircleColliderComponent::ATTRIBUTE_CHANNEL];
+		}
+		if (attributes.ContainsKey(CircleColliderComponent::ATTRIBUTE_RADIUS))
+		{
+			currentAction[CircleColliderComponent::ATTRIBUTE_RADIUS] = attributes[CircleColliderComponent::ATTRIBUTE_RADIUS];
+		}
+		if (attributes.ContainsKey(CircleColliderComponent::ATTRIBUTE_ENABLED))
+		{
+			currentAction[CircleColliderComponent::ATTRIBUTE_ENABLED] = attributes[CircleColliderComponent::ATTRIBUTE_ENABLED];
+		}
 	}
 
 }

@@ -90,7 +90,7 @@ namespace Library
 		 *	parses the cases inthis ActionList and generates a Hashmap for quick comparison
 		 *	called by the Action parser when the end tag is excountered
 		 */
-		virtual void PostParsingProcess() override;
+		virtual void BeginPlay(WorldState& worldState) override;
 
 		/**
 		 *	Checks if the current value of the switch value variable matches any case

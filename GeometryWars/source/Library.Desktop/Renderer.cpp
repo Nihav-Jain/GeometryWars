@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "RenderDevice.h"
 #include "Renderable.h"
+#include <algorithm>
 
 namespace Library {
 
@@ -20,6 +21,15 @@ namespace Library {
 	void Renderer::AddRenderable(Renderable * object)
 	{
 		mObjects.push_back(object);
+	}
+
+	void Renderer::RemoveRenderable(Renderable * object)
+	{
+		auto itr = std::find(mObjects.begin(), mObjects.end(), object);
+		if(itr != mObjects.end())
+		{
+			mObjects.erase(itr);
+		}
 	}
 
 	void Renderer::Update()

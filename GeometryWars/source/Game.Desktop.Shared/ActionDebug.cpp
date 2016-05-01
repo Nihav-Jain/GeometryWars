@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Windows.h>
 #include "ActionDebug.h"
 
 namespace Library {

@@ -49,5 +49,7 @@ namespace Library {
 		float mUWidth;
 		float mVHeight;
 	};
+
+	CONCRETE_ACTION_FACTORY(SpriteRenderer);
 }
 
