@@ -110,10 +110,17 @@ namespace Library
 
 		XmlParseMaster& ParseMaster();
 
+		void SetWidth(std::int32_t width);
+		void SetHeight(std::int32_t height);
+		std::int32_t GetWidth();
+		std::int32_t GetHeight();
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 		static const std::string ATTRIBUTE_REACTIONS;
 		static const std::string ATTRIBUTE_ON_DESTROY;
+		static const std::string ATTRIBUTE_WIDTH;
+		static const std::string ATTRIBUTE_HEIGHT;
 
 	private:
 		Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false) const;
@@ -135,6 +142,9 @@ namespace Library
 		WorldState mWorldState;
 		EventQueue mEventQueue;
 		XmlParseMaster* mParseMaster;
+
+		std::int32_t mWidth;
+		std::int32_t mHeight;
 
 		static const std::string ATTRIBUTE_NAME;
 

@@ -1,4 +1,6 @@
 <world name="NihavWorld">
+	<integer name="width" value="1024"/>
+	<integer name="height" value="768" />
 	<sector name="playerSector">
 		<gameobject class="GameObject" name="object1">
 			<vector name="position" value="vec4(0, 0, 0, 0)"/>
@@ -9,6 +11,7 @@
 				<string name="expression">rotation = rotation + delta</string>
 			</expression>
 			<polygon_renderer name="jet">
+				<float name="width" value="5"/>
 				<vector name="color" value="vec4(1, 0, 0, 1)"/>
 				<integer name="indices" value="0"/>
 				<integer name="indices" value="1"/>
@@ -46,9 +49,6 @@
 			<vector name="delta2" value="vec4(0.001, 0.001, 0, 0)"/>
 			<expression name="change_rot">
 				<string name="expression">rotation = rotation + delta</string>
-			</expression>
-			<expression name="change_scale">
-				<string name="expression">scale = scale + delta</string>
 			</expression>
 			<sprite_renderer name="sprite1">
 				<image name="image">

@@ -34,6 +34,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	game.SetRenderer(renderer);
 	game.Start("Content/config/player_test.xml");
 
+	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
+
 #pragma warning(push)
 #pragma warning(disable : 4127)
 	while (true) { // TODO remove always true

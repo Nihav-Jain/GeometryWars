@@ -52,8 +52,10 @@ namespace Library {
 		model = glm::scale(model, glm::vec3((*mSize).x, (*mSize).y, 1.0f));
 		model = glm::scale(model, glm::vec3(scale.x, scale.y, 1.0f));
 
-		// TODO: Get Viewport size
-		glm::mat4 projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, -1.0f, 1.0f);
+		float halfwidth = (float)device->GetViewportWidth() / 2;
+		float halfheight = (float)device->GetViewportHeight() / 2;
+
+		glm::mat4 projection = glm::ortho(-halfwidth, halfwidth, -halfheight, halfheight, -1.0f, 1.0f);
 		mShader->SetMatrix4("model_view_projection", projection * model);
 		
 		mTexture->Use();
@@ -80,7 +82,7 @@ namespace Library {
 		mRotation = Search("rotation");
 		mScale = Search("scale");
 
-		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl");
+		mShader = device->CreateShader("Content/shader/glsl/sprite_v.glsl", "Content/shader/glsl/sprite_f.glsl", "");
 
 		float vertices[] = {
 			-0.5f, 0.5f, 0.0f, 1.0f,
