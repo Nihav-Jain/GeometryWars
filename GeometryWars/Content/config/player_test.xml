@@ -336,7 +336,7 @@
 				<vector name="points" value="vec4(-0.666, 1, 0, 0)"/>
 				<vector name="points" value="vec4(-1.333, 0, 0, 0)"/>
 		    </polygon_renderer>
-		  
+			
 		    <!-- CircleCollider Component -->
 		    <component class="CircleColliderComponent" name="CircleColliderComponent">
 				<float name="radius" value="2.0" />
