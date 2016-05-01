@@ -36,6 +36,7 @@ namespace Library {
 		Shader * mShader;
 		RenderBuffer * mBuffer;
 
+		float mWidth;
 		glm::vec4 mColor;
 
 		Datum * mPosition;

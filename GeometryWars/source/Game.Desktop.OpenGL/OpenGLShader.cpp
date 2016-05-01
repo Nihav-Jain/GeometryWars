@@ -68,6 +68,11 @@ namespace Library {
 		glUniform4f(glGetUniformLocation(mShaderId, name.c_str()), value.x, value.y, value.z, value.w);
 	}
 
+	void OpenGLShader::SetFloat(const std::string & name, float value)
+	{
+		glUniform1f(glGetUniformLocation(mShaderId, name.c_str()), value);
+	}
+
 	GLuint OpenGLShader::createOpenGLShaderObj(GLuint type, const std::string & path)
 	{
 		GLuint shadeId = 0;

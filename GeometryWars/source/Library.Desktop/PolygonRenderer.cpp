@@ -23,6 +23,7 @@ namespace Library {
 		mInited(false),
 		mShader(nullptr),
 		mBuffer(nullptr),
+		mWidth(1),
 		mPosition(nullptr),
 		mRotation(nullptr),
 		mScale(nullptr),
@@ -30,6 +31,7 @@ namespace Library {
 		mPoints(nullptr)
 	{
 		AddExternalAttribute("color", 1, &mColor);
+		AddExternalAttribute("width", 1, &mWidth);
 	}
 
 	void PolygonRenderer::Render(RenderDevice * device)
@@ -57,8 +59,8 @@ namespace Library {
 		// TODO: Get Viewport size
 		glm::mat4 projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, -1.0f, 1.0f);
 		mShader->SetMatrix4("model_view_projection", projection * model);
-
 		mShader->SetVector4("inputColor", mColor);
+		mShader->SetFloat("width", mWidth);
 
 		mBuffer->Use();
 		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size());
@@ -81,7 +83,9 @@ namespace Library {
 		assert(mIndices != nullptr);
 		assert(mPoints != nullptr);
 
-		mShader = device->CreateShader("Content/shader/glsl/polygon_v.glsl", "Content/shader/glsl/polygon_f.glsl", "");
+		mShader = device->CreateShader("Content/shader/glsl/polygon_v.glsl",
+			"Content/shader/glsl/polygon_f.glsl",
+			"Content/shader/glsl/polygon_g.glsl");
 
 		std::uint32_t cnt = mPoints->Size();
 		std::uint32_t indicesCnt = mIndices->Size();

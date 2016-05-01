@@ -19,6 +19,7 @@ namespace Library {
 		virtual void Use() override;
 		virtual void SetMatrix4(const std::string & name, const glm::mat4 & value) override;
 		virtual void SetVector4(const std::string & name, const glm::vec4 & value) override;
+		virtual void SetFloat(const std::string & name, float value) override;
 
 	private:
 		GLuint mShaderId;
