@@ -1,15 +1,12 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include "expat.h"
 #include "RTTI.h"
 #include "Vector.h"
 #include "Hashmap.h"
 #include "Stack.h"
 
+struct XML_ParserStruct;
+typedef struct XML_ParserStruct *XML_Parser;
 namespace Library
 {
 	class IXmlParseHelper;

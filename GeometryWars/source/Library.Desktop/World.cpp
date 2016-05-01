@@ -12,12 +12,20 @@ namespace Library
 	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
 	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
 
-	World::World(const GameTime& gameTime) :
-		mName(), mWorldState(gameTime), mEventQueue()
+	const std::string World::ATTRIBUTE_WIDTH = "width";
+	const std::string World::ATTRIBUTE_HEIGHT = "height";
+
+	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
+		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
+		mWidth(0), mHeight(0)
 	{
 		mWorldState.world = this;
 
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+
+		AddExternalAttribute(ATTRIBUTE_WIDTH, 1, &mWidth);
+		AddExternalAttribute(ATTRIBUTE_HEIGHT, 1, &mHeight);
+
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
 	}
@@ -114,6 +122,115 @@ namespace Library
 	EventQueue& World::GetEventQueue()
 	{
 		return mEventQueue;
+	}
+
+	Datum* World::ComplexSearch(const std::string& name, const Scope& caller) const
+	{
+		std::string referenceName = name;
+		Scope* targetScope = nullptr;
+
+		std::uint32_t pos = (std::uint32_t)referenceName.find('.');
+		if (pos == std::string::npos)
+			return Search(referenceName);
+		else
+		{
+			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), caller, true);
+			if (targetScope == nullptr)
+				return nullptr;
+			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
+		}
+
+		while ((pos = (std::uint32_t)referenceName.find('.')) != std::string::npos)
+		{
+			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), *targetScope);
+			if (targetScope == nullptr)
+				return nullptr;
+			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
+		}
+		return targetScope->Find(referenceName);
+	}
+
+	XmlParseMaster& World::ParseMaster()
+	{
+		return *mParseMaster;
+	}
+
+	void World::SetWidth(std::int32_t width)
+	{
+		mWidth = width;
+	}
+
+	void World::SetHeight(std::int32_t height)
+	{
+		mHeight = height;
+	}
+
+	std::int32_t World::GetWidth()
+	{
+		return mWidth;
+	}
+
+	std::int32_t World::GetHeight()
+	{
+		return mHeight;
+	}
+
+	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch) const
+	{
+		Scope* scopeToFind = nullptr;
+		Datum* referenceToFind = caller.Find(name);
+		if (referenceToFind == nullptr)
+		{
+			if (caller.Is(Entity::TypeIdClass()))
+			{
+				Entity& callerEntity = *caller.AssertiveAs<Entity>();
+				Action* action = callerEntity.FindAction(name);
+				if (action != nullptr)
+					scopeToFind = action;
+			}
+			else if (caller.Is(ActionList::TypeIdClass()))
+			{
+				ActionList& callerAction = *caller.AssertiveAs<ActionList>();
+				Action* action = callerAction.FindAction(name);
+				if (action != nullptr)
+					scopeToFind = action;
+			}
+			else if (caller.Is(Sector::TypeIdClass()))
+			{
+				Sector& callerSector = *caller.AssertiveAs<Sector>();
+				Attributed* attribute = callerSector.FindEntity(name);
+				if (attribute == nullptr)
+					attribute = callerSector.FindAction(name);
+				
+				// cannot use else here
+				if (attribute != nullptr)
+					scopeToFind = attribute;
+			}
+			else if (caller.Is(World::TypeIdClass()))
+			{
+				World& callerWorld = *caller.AssertiveAs<World>();
+				Attributed* attribute = callerWorld.FindSector(name);
+				if (attribute == nullptr)
+				{
+					attribute = callerWorld.FindAction(name);
+					if (attribute == nullptr && name == callerWorld.Name())
+						attribute = &callerWorld;
+				}
+
+				// cannot use else here
+				if (attribute != nullptr)
+					scopeToFind = attribute;
+			}
+		}
+
+		if (scopeToFind == nullptr)
+		{
+			if (referenceToFind != nullptr)
+				scopeToFind = &referenceToFind->Get<Scope>();
+			else if(caller.GetParent() != nullptr && doRecursiveSearch)
+				scopeToFind = ComplexSearchHelper(name, *caller.GetParent(), doRecursiveSearch);
+		}
+		return scopeToFind;
 	}
 
 	void World::ScriptedBeginPlay()

@@ -9,6 +9,9 @@
 #include "GameClock.h"
 #include "GameTime.h"
 
+#include "Renderer.h"
+#include "RenderDevice.h"
+
 #include "RTTI.h"
 #include "Datum.h"
 #include "Scope.h"
@@ -24,6 +27,7 @@
 #include "ActionWhileLoop.h"
 #include "ActionCreateEntity.h"
 #include "ActionDestroyEntity.h"
+#include "ActionCreateEntityFromFile.h"
 
 #include "ActionEvent.h"
 #include "Reaction.h"
@@ -45,6 +49,9 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperSprite.h"
+#include "XmlParseHelperPolygon.h"
+#include "XmlParseHelperImage.h"
 #include "XmlParseHelperOnDestroy.h"
 
 namespace Library
@@ -60,7 +67,7 @@ namespace Library
 	public:
 
 		/**
-		 *	parameterless constructor, initializes the members 
+		 *	parameterless constructor, initializes the members
 		 */
 		Game();
 
@@ -98,10 +105,16 @@ namespace Library
 		const GameTime& GetGameTime() const;
 
 		/**
+		*	Resets the game clock and other things to be initialized before starting the game loop
+		*	Must be called before entering the game loop
+		*/
+		void Start();
+
+		/**
 		 *	Resets the game clock and other things to be initialized before starting the game loop
 		 *	Must be called before entering the game loop
 		 */
-		void Start();
+		void Start(const std::string & config);
 
 		/**
 		 *	Updates the game clock and calls Update on the game World
@@ -115,15 +128,19 @@ namespace Library
 		 */
 		void Destroy();
 
+		void SetRenderer(Renderer * device);
+
 	private:
 		void AddParseHelpers();
+
+		Renderer* mRenderer;
+
+		SharedDataTable mSharedData;
+		XmlParseMaster mParseMaster;
 
 		GameClock mGameClock;
 		GameTime mGameTime;
 		World mWorld;
-		
-		SharedDataTable mSharedData;
-		XmlParseMaster mParseMaster;
 
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
@@ -148,6 +165,10 @@ namespace Library
 		XmlParseHelperBeginPlay mActionBeginPlay;
 		XmlParseHelperOnDestroy mActionOnDestroy;
 
+		XmlParseHelperSprite mSpriteParser;
+		XmlParseHelperPolygon mPolygonParser;
+		XmlParseHelperImage mImageParser;
+
 		EntityFactory mEntityFactory;
 		ActionListFactory mActionListFactory;
 		ActionListSwitchFactory mActionSwitchFactory;
@@ -159,6 +180,6 @@ namespace Library
 		ReactionAttributedFactory mReactionFactory;
 		ActionCreateEntityFactory mCreateEntityFactory;
 		ActionDestroyEntityFactory mDestroyEntityFactory;
+		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
 	};
 }
-

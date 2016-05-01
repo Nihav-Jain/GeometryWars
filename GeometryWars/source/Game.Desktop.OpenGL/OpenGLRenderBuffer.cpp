@@ -18,7 +18,8 @@ namespace Library {
 
 	OpenGLRenderBuffer::OpenGLRenderBuffer() :
 		mVAO(0),
-		mVBO(0)
+		mVBO(0),
+		mEBO(0)
 	{
 	}
 
@@ -34,25 +35,42 @@ namespace Library {
 			glDeleteBuffers(1,&mVBO);
 			mVBO = 0;
 		}
+
+		if (mEBO != 0) {
+			glDeleteBuffers(1, &mEBO);
+			mEBO = 0;
+		}
 	}
 
-	void OpenGLRenderBuffer::Init(float * data, std::uint32_t size, std::uint32_t stride)
+	void OpenGLRenderBuffer::Init(float * data, std::uint32_t size, std::uint32_t stride,
+		std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
 	{
-		GLuint VBO;
 		GLfloat * vertices = data;
 		GLuint strideSize = stride;
 
 		glGenVertexArrays(1, &mVAO);
-		glGenBuffers(1, &VBO);
+		glGenBuffers(1, &mVBO);
 
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+		if (indices_size != 0) {
+			glGenBuffers(1, &mEBO);
+		}
 
 		glBindVertexArray(mVAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+
+		if (indices_size != 0) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_size, indices, GL_STATIC_DRAW);
+		}
+
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, strideSize, (GLvoid*)0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glVertexAttribPointer(0, elementCnt, GL_FLOAT, GL_FALSE, strideSize, (GLvoid*)0);
+
 		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 	void OpenGLRenderBuffer::Use()

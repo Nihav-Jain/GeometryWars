@@ -64,15 +64,18 @@ namespace Library {
 			return;
 		mShader->Use();
 
-		glm::vec2 size(100, 100);
-		float rotate = 0.0f;
+		glm::vec2 size(300, 400);
+		float rotate = 45.0f;
 
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(mPosition)); 
-		model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(size, 1.0f));
 
-		glm::mat4 projection = glm::ortho(-400.0f, 400.0f, -300.0f, 300.0f, -1.0f, 1.0f);
+		model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+		model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+
+		model = glm::scale(model, glm::vec3(size, 1.0f));
+		glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 		mShader->SetMatrix4("projection", projection);
 		mShader->SetMatrix4("model", model);
 		mTexture->Use();

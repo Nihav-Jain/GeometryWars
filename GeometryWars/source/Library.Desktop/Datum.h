@@ -272,6 +272,8 @@ namespace Library
 			 */
 			std::string ToString(std::uint32_t index = 0) const;
 
+			static const Hashmap<DatumType, std::string> DatumTypeToString;
+
 		private:
 			template <DatumType T>
 			Datum Add(const Datum& rhs) const;

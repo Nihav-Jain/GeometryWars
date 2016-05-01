@@ -5,8 +5,8 @@ namespace Library
 {
 
 	Game::Game() :
-		mGameClock(), mGameTime(), mWorld(mGameTime),
-		mSharedData(), mParseMaster(mSharedData)
+		mSharedData(), mParseMaster(mSharedData),
+		mGameClock(), mGameTime(), mWorld(mGameTime, mParseMaster), mRenderer(nullptr)
 	{
 		mSharedData.SetRootScope(mWorld);
 		AddParseHelpers();
@@ -41,10 +41,26 @@ namespace Library
 		mWorld.BeginPlay();
 	}
 
+	void Game::Start(const std::string & config)
+	{
+		mParseMaster.ParseFromFile(config);
+
+		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.BeginPlay();
+	}
+
 	void Game::Update()
 	{
 		mGameClock.UpdateGameTime(mGameTime);
 		mWorld.Update();
+		if (mRenderer != nullptr)
+			mRenderer->Update();
+	}
+
+	void Game::SetRenderer(Renderer* renderer)
+	{
+		mRenderer = renderer;
 	}
 
 	void Game::Destroy()
@@ -77,5 +93,8 @@ namespace Library
 
 		mParseMaster.AddHelper(mActionBeginPlay);
 		mParseMaster.AddHelper(mActionOnDestroy);
+		mParseMaster.AddHelper(mSpriteParser);
+		mParseMaster.AddHelper(mPolygonParser);
+		mParseMaster.AddHelper(mImageParser);
 	}
 }
