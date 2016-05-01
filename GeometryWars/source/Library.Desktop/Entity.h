@@ -34,7 +34,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Entity() = default;
+		virtual ~Entity();
 
 		/**
 		 *	disallow copy assignemnt operator
@@ -102,6 +102,7 @@ namespace Library
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
 		static const std::string ATTRIBUTE_ACTIONS;
+		static const std::string ATTRIBUTE_OWNER_SECTOR;
 
 	private:
 		void ScriptedBeginPlay(WorldState& worldState);
@@ -114,6 +115,7 @@ namespace Library
 
 		std::string mName;
 		bool mIsPendingDestroy;
+		Datum* mSector;
 	};
 
 #define CONCRETE_ENTITY_FACTORY(ConcreteEntityType) CONCRETE_FACTORY(ConcreteEntityType, Entity);

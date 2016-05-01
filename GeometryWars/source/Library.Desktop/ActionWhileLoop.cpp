@@ -15,7 +15,7 @@ namespace Library
 		AddInternalAttribute(ATTRIBUTE_CONDITION_RESULT, false, 1);
 	}
 
-	void ActionWhileLoop::PostParsingProcess()
+	void ActionWhileLoop::BeginPlay(WorldState& worldState)
 	{
 		Action* helperAction = FindAction(ATTRIBUTE_CONDITIONAL_EXP);
 		assert(helperAction != nullptr);
@@ -24,6 +24,8 @@ namespace Library
 		helperAction = FindAction(ATTRIBUTE_LOOP);
 		assert(helperAction != nullptr);
 		mLoopBody = helperAction->AssertiveAs<ActionList>();
+
+		ActionList::BeginPlay(worldState);
 	}
 
 	void ActionWhileLoop::Update(WorldState& worldState)

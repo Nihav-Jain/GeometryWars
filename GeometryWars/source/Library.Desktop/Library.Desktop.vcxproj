@@ -213,6 +213,9 @@
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
     <ClInclude Include="ActionWhileLoop.h" />
+    <ClInclude Include="AnimationFrame.h" />
+    <ClInclude Include="AnimationState.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Attributed.h" />
     <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="Datum.h" />
@@ -261,6 +264,9 @@
     <ClInclude Include="XmlParseHelperActionIf.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
     <ClInclude Include="XmlParseHelperActionWhile.h" />
+    <ClInclude Include="XmlParseHelperAnimationFrame.h" />
+    <ClInclude Include="XmlParseHelperAnimationState.h" />
+    <ClInclude Include="XmlParseHelperAnimator.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
@@ -288,6 +294,9 @@
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
     <ClCompile Include="ActionWhileLoop.cpp" />
+    <ClCompile Include="AnimationFrame.cpp" />
+    <ClCompile Include="AnimationState.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Attributed.cpp" />
     <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="Datum.cpp" />
@@ -331,6 +340,9 @@
     <ClCompile Include="XmlParseHelperActionIf.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />
     <ClCompile Include="XmlParseHelperActionWhile.cpp" />
+    <ClCompile Include="XmlParseHelperAnimationFrame.cpp" />
+    <ClCompile Include="XmlParseHelperAnimationState.cpp" />
+    <ClCompile Include="XmlParseHelperAnimator.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />

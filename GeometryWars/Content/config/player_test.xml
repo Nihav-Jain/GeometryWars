@@ -22,7 +22,60 @@
 			<string name="message" value="Player Disconnected!"/>
 		</action>
 	</reaction>
-	
+		<sector name="KenGOD">
+		<gameobject class="GameObject" name="object1">
+			<vector name="position" value="vec4(300, 0, 0, 0)"/>
+			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
+			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+			<animator name="whatever">
+				<animation_state name="idle">
+					<float name="x" value="0"/>
+					<float name="y" value="281"/>
+					<animation_frame name="1">
+						<float name="width" value="123"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="2">
+						<float name="width" value="123"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="3">
+						<float name="width" value="123"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="4">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="5">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="6">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="7">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+				</animation_state>
+				<sprite_renderer name="spritesheet">
+					<image name="image">
+					<string name="path" value="Content/resource/ken.png"/>
+					<vector name="size" value="vec4(1024, 1024, 0, 0)"/>
+					</image>
+				</sprite_renderer>
+			</animator>
+		</gameobject>		
+	</sector>
 	<sector name="InGameSector">
     
 		<gameobject class="Player" name="Player0">

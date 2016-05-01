@@ -11,6 +11,9 @@
 
 #include "Renderer.h"
 #include "RenderDevice.h"
+#include "Animator.h"
+#include "AnimationState.h"
+#include "AnimationFrame.h"
 
 #include "RTTI.h"
 #include "Datum.h"
@@ -62,6 +65,9 @@
 #include "XmlParseHelperPolygon.h"
 #include "XmlParseHelperImage.h"
 #include "XmlParseHelperOnDestroy.h"
+#include "XmlParseHelperAnimator.h"
+#include "XmlParseHelperAnimationState.h"
+#include "XmlParseHelperAnimationFrame.h"
 #include "XmlParseHelperCircleColliderComponent.h"
 
 namespace Library
@@ -179,6 +185,9 @@ namespace Library
 		XmlParseHelperSprite mSpriteParser;
 		XmlParseHelperPolygon mPolygonParser;
 		XmlParseHelperImage mImageParser;
+		XmlParseHelperAnimator mAnimatorParser;
+		XmlParseHelperAnimationState mAnimationStateParser;
+		XmlParseHelperAnimationFrame mAnimationFrameParser;
 		XmlParseHelperCircleColliderComponent mCircleColliderComponent;
 
 		EntityFactory mEntityFactory;
@@ -201,5 +210,8 @@ namespace Library
 		CircleColliderComponentFactory mCircleColliderComponentFactory;
 
 		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
+		AnimatorFactory mAnimatorFactory;
+		AnimationStateFactory mAnimationStateFactory;
+		AnimationFrameFactory mAnimationFrameFactory;
 	};
 }

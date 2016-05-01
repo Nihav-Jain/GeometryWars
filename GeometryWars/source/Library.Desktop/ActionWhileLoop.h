@@ -14,7 +14,7 @@ namespace Library
 		ActionWhileLoop(const ActionWhileLoop& rhs) = delete;
 		ActionWhileLoop& operator=(const ActionWhileLoop& rhs) = delete;
 
-		virtual void PostParsingProcess() override;
+		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_CONDITIONAL_EXP;

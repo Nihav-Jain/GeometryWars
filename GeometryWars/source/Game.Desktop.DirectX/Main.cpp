@@ -48,7 +48,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	Game game;
 
-	KeyBoardHandlerFactory khf;
 	XBoxControllerHandlerFactory xchf;
 	ActionDebugFactory adf;
 	

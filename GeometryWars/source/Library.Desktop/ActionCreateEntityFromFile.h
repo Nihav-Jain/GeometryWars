@@ -12,7 +12,15 @@ namespace Library
 		ActionCreateEntityFromFile();
 		virtual ~ActionCreateEntityFromFile() = default;
 
+		ActionCreateEntityFromFile(const ActionCreateEntityFromFile& rhs);
+		ActionCreateEntityFromFile(ActionCreateEntityFromFile&& rhs);
+
+		ActionCreateEntityFromFile& operator=(const ActionCreateEntityFromFile& rhs);
+		ActionCreateEntityFromFile& operator=(ActionCreateEntityFromFile&& rhs);
+
 		virtual void Update(WorldState& worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_FILE_PATH;
 	};

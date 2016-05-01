@@ -31,7 +31,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	Game game;
 	game.SetRenderer(renderer);
+
 	game.Start("Content/config/geometrywars_test.xml");
+	//game.Start("Content/config/polygon.xml"); // TODO use the final world here
+	//game.Start("Content/config/input_v2.xml");
 
 	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
 

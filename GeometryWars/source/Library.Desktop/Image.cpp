@@ -27,10 +27,13 @@ namespace Library
 
 		mTexture = device->CreateTexture(mPath);
 	}
+
 	void Image::GetImageInfo(Texture ** texture, glm::vec4 ** size)
 	{
-		*texture = mTexture;
-		*size = &mSize;
+		if (texture!= nullptr)
+			*texture = mTexture;
+		if (size != nullptr)
+			*size = &mSize;
 	}
 
 	const std::string & Image::Path() const

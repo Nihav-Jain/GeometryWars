@@ -5,15 +5,76 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Action, Attributed);
 
-	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
+	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 7;
 	const std::string Action::ATTRIBUTE_NAME = "name";
 	const std::string Action::ATTRIBUTE_CAN_EVER_TICK = "canEverTick";
-	
+	const std::string Action::ATTRIBUTE_OWNER_ENTITY = "ownerEntity";
+	const std::string Action::ATTRIBUTE_OWNER_ACTION = "ownerAction";
+
 	Action::Action() :
-		mName()
+		mName(), mWorld(new Datum()), mSector(new Datum()), mEntity(new Datum()), mAction(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddInternalAttribute(ATTRIBUTE_CAN_EVER_TICK, true, 1);
+
+		AddExternalAttribute(Sector::ATTRIBUTE_OWNER_WORLD, 1, &mWorld);
+		AddExternalAttribute(Entity::ATTRIBUTE_OWNER_SECTOR, 1, &mSector);
+		AddExternalAttribute(ATTRIBUTE_OWNER_ENTITY, 1, &mEntity);
+		AddExternalAttribute(ATTRIBUTE_OWNER_ACTION, 1, &mAction);
+	}
+
+	Action::~Action()
+	{
+		delete mWorld;
+		delete mSector;
+		delete mEntity;
+		delete mAction;
+	}
+
+	Action::Action(const Action& rhs) : 
+		Attributed::Attributed(rhs), mName(rhs.mName), mWorld(new Datum(*rhs.mWorld)), mSector(new Datum(*rhs.mSector)), mEntity(new Datum(*rhs.mEntity)), mAction(new Datum(*rhs.mAction))
+	{
+		ResetAttributePointers();
+	}
+
+	Action::Action(Action&& rhs) :
+		Attributed::Attributed(std::move(rhs)), mName(std::move(rhs.mName)), mWorld(rhs.mWorld), mSector(rhs.mSector), mEntity(rhs.mEntity), mAction(rhs.mAction)
+	{
+		ResetAttributePointers();
+	}
+
+	Action& Action::operator=(const Action& rhs)
+	{
+		if (this != &rhs)
+		{
+			mName = rhs.mName;
+			*mWorld = *rhs.mWorld;
+			*mSector = *rhs.mSector;
+			*mEntity = *rhs.mEntity;
+			*mAction = *rhs.mAction;
+
+			Attributed::operator=(rhs);
+
+			ResetAttributePointers();
+		}
+		return *this;
+	}
+
+	Action& Action::operator=(Action&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mName = std::move(rhs.mName);
+			mWorld = rhs.mWorld;
+			mSector = rhs.mSector;
+			mEntity = rhs.mEntity;
+			mAction = rhs.mAction;
+
+			Attributed::operator=(std::move(rhs));
+
+			ResetAttributePointers();
+		}
+		return *this;
 	}
 
 	const std::string& Action::Name() const
@@ -28,7 +89,13 @@ namespace Library
 
 	void Action::BeginPlay(WorldState& worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
+		*mWorld = *worldState.world;
+		if (worldState.sector != nullptr)
+			*mSector = *worldState.sector;
+		if (worldState.entity != nullptr)
+			*mEntity = *worldState.entity;
+		if (worldState.action != nullptr)
+			*mAction = *worldState.action;
 	}
 
 	void Action::OnDestroy(WorldState& worldState)
@@ -43,7 +110,7 @@ namespace Library
 	{
 		for (std::uint32_t i = 0; i < actions.Size(); i++)
 		{
-			Action* action = actions.Get<Scope>(i).As<Action>();
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
 			assert(action != nullptr);
 			if (action->Name() == actionName)
 				return action;
@@ -60,6 +127,15 @@ namespace Library
 		parentScope.Adopt(attributeName, *action);
 
 		return *action;
+	}
+
+	void Action::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+		(*this)[Sector::ATTRIBUTE_OWNER_WORLD].SetStorage(&mWorld, 1);
+		(*this)[Entity::ATTRIBUTE_OWNER_SECTOR].SetStorage(&mSector, 1);
+		(*this)[ATTRIBUTE_OWNER_ENTITY].SetStorage(&mEntity, 1);
+		(*this)[ATTRIBUTE_OWNER_ACTION].SetStorage(&mAction, 1);
 	}
 
 }

@@ -9,12 +9,12 @@ namespace Library
 		RTTI_DECLARATIONS(ActionIfThenElse, ActionList);
 	public:
 		ActionIfThenElse();
-		virtual ~ActionIfThenElse();
+		virtual ~ActionIfThenElse() = default;
 
 		ActionIfThenElse(const ActionIfThenElse& rhs) = delete;
 		ActionIfThenElse& operator=(const ActionIfThenElse& rhs) = delete;
 
-		virtual void PostParsingProcess() override;
+		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_CONDITIONAL_EXP;
