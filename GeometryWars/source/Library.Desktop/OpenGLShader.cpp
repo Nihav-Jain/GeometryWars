@@ -22,6 +22,10 @@ namespace Library {
 
 	OpenGLShader::~OpenGLShader()
 	{
+		if (mShaderId != 0) {
+			glDeleteProgram(mShaderId);
+			mShaderId = 0;
+		}
 	}
 
 	void OpenGLShader::Init(const std::string & vPath, const std::string & fPath)
