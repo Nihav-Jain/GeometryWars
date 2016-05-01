@@ -34,6 +34,14 @@ namespace Library {
 		AddExternalAttribute("width", 1, &mWidth);
 	}
 
+	PolygonRenderer::~PolygonRenderer()
+	{
+		if (mShader != nullptr)
+			delete mShader;
+		if (mBuffer != nullptr)
+			delete mBuffer;
+	}
+
 	void PolygonRenderer::Render(RenderDevice * device)
 	{
 		if (!mInited) {
@@ -52,7 +60,7 @@ namespace Library {
 
 		// TODO: Handle nullptr case
 		model = glm::translate(model, glm::vec3(pos));
-		model = glm::rotate(model, rotate.x, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotate.z, glm::vec3(0.0f, 0.0f, 1.0f));
 		//model = glm::scale(model, glm::vec3((*mSize).x, (*mSize).y, 1.0f));
 		model = glm::scale(model, glm::vec3(scale.x, scale.y, 1.0f));
 

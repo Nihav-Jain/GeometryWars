@@ -5,15 +5,30 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Action, Attributed);
 
-	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
+	const std::uint32_t Action::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 7;
 	const std::string Action::ATTRIBUTE_NAME = "name";
 	const std::string Action::ATTRIBUTE_CAN_EVER_TICK = "canEverTick";
-	
+	const std::string Action::ATTRIBUTE_OWNER_ENTITY = "ownerEntity";
+	const std::string Action::ATTRIBUTE_OWNER_ACTION = "ownerAction";
+
 	Action::Action() :
-		mName()
+		mName(), mWorld(new Datum()), mSector(new Datum()), mEntity(new Datum()), mAction(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddInternalAttribute(ATTRIBUTE_CAN_EVER_TICK, true, 1);
+
+		AddExternalAttribute(Sector::ATTRIBUTE_OWNER_WORLD, 1, &mWorld);
+		AddExternalAttribute(Entity::ATTRIBUTE_OWNER_SECTOR, 1, &mSector);
+		AddExternalAttribute(ATTRIBUTE_OWNER_ENTITY, 1, &mEntity);
+		AddExternalAttribute(ATTRIBUTE_OWNER_ACTION, 1, &mAction);
+	}
+
+	Action::~Action()
+	{
+		delete mWorld;
+		delete mSector;
+		delete mEntity;
+		delete mAction;
 	}
 
 	const std::string& Action::Name() const
@@ -28,7 +43,13 @@ namespace Library
 
 	void Action::BeginPlay(WorldState& worldState)
 	{
-		UNREFERENCED_PARAMETER(worldState);
+		*mWorld = *worldState.world;
+		if (worldState.sector != nullptr)
+			*mSector = *worldState.sector;
+		if (worldState.entity != nullptr)
+			*mEntity = *worldState.entity;
+		if (worldState.action != nullptr)
+			*mAction = *worldState.action;
 	}
 
 	void Action::OnDestroy(WorldState& worldState)

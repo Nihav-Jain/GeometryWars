@@ -29,6 +29,8 @@ namespace Library
 
 	void ActionList::BeginPlay(WorldState& worldState)
 	{
+		Action::BeginPlay(worldState);
+
 		ScriptedBeginPlay(worldState);
 		ActionsBeginPlay(worldState);
 		ReactionsBeginPlay(worldState);
@@ -51,6 +53,8 @@ namespace Library
 
 	void ActionList::OnDestroy(WorldState& worldState)
 	{
+		Action::OnDestroy(worldState);
+
 		ScriptedOnDestroy(worldState);
 		ActionsOnDestroy(worldState);
 		ReactionsOnDestroy(worldState);
