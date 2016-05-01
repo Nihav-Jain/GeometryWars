@@ -198,7 +198,12 @@ namespace Library
 		if (scopeToFind == nullptr)
 		{
 			if (referenceToFind != nullptr)
-				scopeToFind = &referenceToFind->Get<Scope>();
+			{
+				if (referenceToFind->Type() == Datum::DatumType::TABLE)
+					scopeToFind = &referenceToFind->Get<Scope>();
+				else if (referenceToFind->Type() == Datum::DatumType::REFERENCE)
+					scopeToFind = &referenceToFind->Get<Datum>().Get<Scope>();
+			}
 			else if(caller.GetParent() != nullptr && doRecursiveSearch)
 				scopeToFind = ComplexSearchHelper(name, *caller.GetParent(), doRecursiveSearch);
 		}

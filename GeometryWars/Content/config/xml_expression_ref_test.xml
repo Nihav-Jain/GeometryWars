@@ -24,6 +24,17 @@
 				<string name="expression">anotherResult = worldSector.sectorScope.sectorInt + {100}</string>
 			</expression>
 
+			<scope name="someScope">
+				<integer name="someScopeInt" value="100" />
+			</scope>
+			
+			<ref name="someRef" value="someScope" />
+			<integer name="someResult" value="0" />
+			<expression name="exp4">
+				<string name="expression">someResult = someScope.someScopeInt + {100}</string>
+			</expression>
+
+
 		</entity>		
 	</sector>	
 </world>

@@ -434,11 +434,16 @@ namespace UnitTestLibraryDesktop
 			Assert::IsNotNull(anotherResult);
 			Assert::AreEqual(0, anotherResult->Get<std::int32_t>());
 
+			Datum* someResult = entity->Find("someResult");
+			Assert::IsNotNull(someResult);
+			Assert::AreEqual(0, someResult->Get<std::int32_t>());
+
 			game.Update();
 
 			Assert::AreEqual(110, result->Get<std::int32_t>());
 			Assert::AreEqual(100, someInt->Get<std::int32_t>());
 			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
+			Assert::AreEqual(200, someResult->Get<std::int32_t>());
 		}
 
 		TEST_METHOD(ActionTestCreateEntityFromFile)
