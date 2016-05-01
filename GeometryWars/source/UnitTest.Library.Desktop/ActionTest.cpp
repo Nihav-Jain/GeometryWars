@@ -491,6 +491,29 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(20, newSomeInt->Get<std::int32_t>());
 		}
 
+		TEST_METHOD(ActionTestCopySemantics)
+		{
+			ActionListFactory listFactory;
+			ActionList list;
+			Action& action = Action::CreateAction("ActionList", "instanceName", list, ActionList::ATTRIBUTE_ACTIONS);
+			UNREFERENCED_PARAMETER(action);
+
+			Assert::IsNotNull(list.FindAction("instanceName"));
+
+			ActionList listCopy(list);
+			Assert::IsNotNull(listCopy.FindAction("instanceName"));
+
+			ActionList list2;
+			ActionList listCopy2(list2);
+			Assert::IsNotNull(listCopy2.Find(ActionList::ATTRIBUTE_ACTIONS));
+
+			Action& action2 = Action::CreateAction("ActionList", "instanceName2", listCopy2, ActionList::ATTRIBUTE_ACTIONS);
+			UNREFERENCED_PARAMETER(action2);
+			Assert::IsNotNull(listCopy2.FindAction("instanceName2"));
+
+			Attributed::ClearStaticMembers();
+		}
+
 
 #if defined(DEBUG) | defined(_DEBUG)
 		static _CrtMemState sStartMemState;
