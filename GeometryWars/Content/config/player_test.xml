@@ -1,4 +1,6 @@
 <world name="WackyWorld">
+	<integer name="width" value="800"/>
+	<integer name="height" value="600"/>
 	<!-- ==================== Event-Driven Player Connection =============== -->
 	<!-- Player Connected Reaction -->
 	<reaction class="ReactionAttributed" name="OnPlayerConnection">
