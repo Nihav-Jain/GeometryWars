@@ -14,8 +14,8 @@ namespace Library
 		RTTI_DECLARATIONS(InputHandler, Action)
 	protected:
 		// To help calculate and set input state durations
-		static const std::chrono::milliseconds zero_ms;
-		static const std::chrono::milliseconds negative_ms;
+		static const std::int32_t zero_ms;
+		static const std::int32_t negative_ms;
 
 		// IOEventTypes - Represents common events among all input devices
 		enum class EIOEventType
@@ -45,9 +45,13 @@ namespace Library
 	};
 
 
-	struct Button
+	struct Button : public Attributed
 	{
-		std::chrono::milliseconds	Duration;	// If negative, button not pressed (released), if positive, duration of press in milliseconds, if zero, just pressed
+		RTTI_DECLARATIONS(Button, Attributed)
+	public:
+		std::int32_t	Duration;	// If negative, button not pressed (released), if positive, duration of press in milliseconds, if zero, just pressed
+		
+		Button();
 	};
 
 	struct KeyState
@@ -66,36 +70,55 @@ namespace Library
 	CONCRETE_ACTION_FACTORY(KeyBoardHandler)
 
 
-	struct Trigger
+	struct Trigger : public Attributed
 	{
-		std::chrono::milliseconds	Duration;	// If negative, trigger not pressed (released), if positive, duration of press in milliseconds
-		std::int32_t				Magnitude;	// 1-Dimensional Data
+		RTTI_DECLARATIONS(Trigger, Attributed)
+	public:
+		std::int32_t	Duration;	// If negative, trigger not pressed (released), if positive, duration of press in milliseconds
+		std::int32_t	Magnitude;	// 1-Dimensional Data
+
+		Trigger();
 		std::float_t	UnitMagnitude()	const { return Magnitude / 255.0f; }
 	};
 
-	struct AnalogStick
+	struct AnalogStick : public Attributed
 	{
-		std::chrono::milliseconds	Duration;	// If negative, analog is still, if positive, duration of activity in milliseconds
+		RTTI_DECLARATIONS(AnalogStick, Attributed)
+	public:
+		std::int32_t	Duration;	// If negative, analog is still, if positive, duration of activity in milliseconds
 		std::int32_t	MagnitudeX, MagnitudeY;
-		std::float_t	UnitMagnitudeX() const { return (static_cast<float>(MagnitudeX) / 32768.0f); }
-		std::float_t	UnitMagnitudeY() const { return (static_cast<float>(MagnitudeY) / 32768.0f); }
-		glm::vec2		UnitVector2D() const { return glm::normalize(glm::vec2(MagnitudeX, MagnitudeY)); }
-		glm::vec4		UnitVector4D() const { return glm::normalize(glm::vec4(MagnitudeX, MagnitudeY, 0, 0)); }
+
+		AnalogStick();
+
+#define X_UNIT(Value)	(static_cast<float>(Value) / 32768.0f)
+		std::float_t	UnitMagnitudeX() const			{ return X_UNIT(MagnitudeX); }
+		std::float_t	UnitMagnitudeY() const			{ return X_UNIT(MagnitudeY); }
+		glm::vec2		UnitMagnitudeVector2D() const	{ return glm::vec2(X_UNIT(MagnitudeX), X_UNIT(MagnitudeY)); }
+		glm::vec4		UnitMagnitudeVector4D() const	{ return glm::vec4(X_UNIT(MagnitudeX), X_UNIT(MagnitudeY), 0, 0); }
+		glm::vec2		UnitVector2D() const			{ return glm::normalize(glm::vec2(MagnitudeX, MagnitudeY)); }
+		glm::vec4		UnitVector4D() const			{ return glm::normalize(glm::vec4(MagnitudeX, MagnitudeY, 0, 0)); }
+		std::float_t	PolarRadii() const				{ return hypotf(X_UNIT(MagnitudeX), X_UNIT(MagnitudeY)); }
+		std::float_t	PolarAngle() const				{ return atan2(X_UNIT(MagnitudeY), X_UNIT(MagnitudeX)); }
+#undef X_UNIT
 	};
 
 	// XBox Controller Information
-	struct XBoxControllerState
+	struct XBoxControllerState : public Attributed
 	{
+		RTTI_DECLARATIONS(XBoxControllerState, Attributed)
+	public:
 		// Buttons
 		Button A, B, X, Y;
 		Button DPad_Up, DPad_Down, DPad_Left, DPad_Right;
-		Button Left_Shoulder, Right_Shoulder;
-		Button Left_Thumbstick, Right_Thumbstick;
+		Button LeftShoulder, RightShoulder;
+		Button LeftThumbstick, RightThumbstick;
 		Button Start, Back;
 		// Trigger
 		Trigger LeftTrigger, RightTrigger;
 		// Analog
 		AnalogStick LeftStick, RightStick;
+
+		XBoxControllerState();
 	};
 
 	// XBox Controller Input Event Handler
@@ -108,8 +131,8 @@ namespace Library
 
 		// GamePad States
 		//XINPUT_STATE mState[MAX_PLAYERS];				// GamePad State for each player (max. 4)
-		bool bIsPlayersConnected[MAX_PLAYERS];			// Checks which players are connected
-		XBoxControllerState mPlayerState[MAX_PLAYERS];
+		bool bIsPlayerConnected[MAX_PLAYERS];			// Checks which players are connected
+		XBoxControllerState mPlayerState[MAX_PLAYERS];			// XBox Controller state for each player
 		WORD mButtonState[MAX_PLAYERS];					// Boolean Array of the Button states
 
 	private:

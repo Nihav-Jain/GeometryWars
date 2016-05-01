@@ -21,12 +21,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	XBoxControllerHandlerFactory xchf;
 	ActionDebugFactory adf;
 
-	game.ParseMaster().ParseFromFile("../../../../../Content/config/input.xml");
+	game.ParseMaster().ParseFromFile("../../../../../Content/config/input_v2.xml");
 	game.Start();
 
 	// For Testing Purposes Only...
 	Entity& Character = *(game.GetWorld().Sectors().Get<Scope>().AssertiveAs<Sector>()->Entities().Get<Scope>().AssertiveAs<Entity>());
-	const XBoxControllerState& PlayerController = game.GetWorld().Actions().Get<Scope>().AssertiveAs<ActionList>()->Actions().Get<Scope>(1).AssertiveAs<XBoxControllerHandler>()->GetPlayerState(0);
+	//const XBoxControllerState& PlayerController = game.GetWorld().Actions().Get<Scope>().AssertiveAs<ActionList>()->Actions().Get<Scope>(1).AssertiveAs<XBoxControllerHandler>()->GetPlayerState(0);
 
 	Sprite sprite;
 	sprite.SetColor(glm::vec4(1, 0, 0, 0));
@@ -49,12 +49,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 		// For Testing Purposes Only...
 		pos.x += Character["VelX"].Get<std::int32_t>();
 		pos.y += Character["VelY"].Get<std::int32_t>();
-		pos.x += PlayerController.LeftStick.UnitMagnitudeX();
-		pos.y += PlayerController.LeftStick.UnitMagnitudeY();
-		pos.x += PlayerController.RightStick.UnitMagnitudeX();
-		pos.y += PlayerController.RightStick.UnitMagnitudeY();
-		pos.x -= PlayerController.LeftTrigger.UnitMagnitude();
-		pos.x += PlayerController.RightTrigger.UnitMagnitude();
+		//pos.x += PlayerController.LeftStick.UnitMagnitudeX();
+		//pos.y += PlayerController.LeftStick.UnitMagnitudeY();
+		//pos.x += PlayerController.RightStick.UnitMagnitudeX();
+		//pos.y += PlayerController.RightStick.UnitMagnitudeY();
+		//pos.x -= PlayerController.LeftTrigger.UnitMagnitude();
+		//pos.x += PlayerController.RightTrigger.UnitMagnitude();
 		sprite.SetPosition(pos);
 	}
 

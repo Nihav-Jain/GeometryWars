@@ -18,8 +18,8 @@ namespace Library
 
 	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
 	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
-	const std::chrono::milliseconds InputHandler::zero_ms					= std::chrono::milliseconds::zero();
-	const std::chrono::milliseconds InputHandler::negative_ms				= std::chrono::milliseconds(-1);
+	const std::int32_t				InputHandler::zero_ms					= 0;	//= std::chrono::milliseconds::zero();
+	const std::int32_t				InputHandler::negative_ms				= 1;	//= std::chrono::milliseconds(-1);
 
 	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
 	{
@@ -82,6 +82,55 @@ namespace Library
 	**	XBox Controller CPP	**
 	**************************/
 	RTTI_DEFINITIONS(XBoxControllerHandler, InputHandler)
+	RTTI_DEFINITIONS(Button, Attributed)
+	RTTI_DEFINITIONS(Trigger, Attributed)
+	RTTI_DEFINITIONS(AnalogStick, Attributed)
+	RTTI_DEFINITIONS(XBoxControllerState, Attributed)
+
+#define X_ADDDATA(Data)			AddExternalAttribute(#Data, 1, &Data)
+	Button::Button()
+	{
+		X_ADDDATA(Duration);
+	}
+	Trigger::Trigger()
+	{
+		X_ADDDATA(Duration);
+		X_ADDDATA(Magnitude);
+	}
+	AnalogStick::AnalogStick()
+	{
+		X_ADDDATA(Duration);
+		X_ADDDATA(MagnitudeX);
+		X_ADDDATA(MagnitudeY);
+	}
+
+#undef X_ADDDATA
+
+#define X_ADDSCOPE(ScopeData)	AddNestedScope(#ScopeData, ScopeData, 1U)
+
+	XBoxControllerState::XBoxControllerState()
+	{
+		X_ADDSCOPE(A);
+		X_ADDSCOPE(B);
+		X_ADDSCOPE(Y);
+		X_ADDSCOPE(X);
+		X_ADDSCOPE(DPad_Up);
+		X_ADDSCOPE(DPad_Down);
+		X_ADDSCOPE(DPad_Left);
+		X_ADDSCOPE(DPad_Right);
+		X_ADDSCOPE(LeftShoulder);
+		X_ADDSCOPE(RightShoulder);
+		X_ADDSCOPE(LeftThumbstick);
+		X_ADDSCOPE(RightThumbstick);
+		X_ADDSCOPE(Start);
+		X_ADDSCOPE(Back);
+		X_ADDSCOPE(LeftTrigger);
+		X_ADDSCOPE(RightTrigger);
+		X_ADDSCOPE(LeftStick);
+		X_ADDSCOPE(RightStick);
+	}
+
+#undef X_ADDSCOPE
 
 	Hashmap<std::string, std::int32_t> XBoxControllerHandler::XBoxButtonMapping({
 		std::pair<std::string, std::int32_t>("A",				XINPUT_GAMEPAD_A),
@@ -102,14 +151,18 @@ namespace Library
 	
 	XBoxControllerHandler::XBoxControllerHandler()
 	{
+		// Expose PlayerConnected to the XML
+		AddNestedScope("PlayerOneState",	mPlayerState[0], MAX_PLAYERS);
+		AddNestedScope("PlayerTwoState",	mPlayerState[1], MAX_PLAYERS);
+		AddNestedScope("PlayerThreeState",	mPlayerState[2], MAX_PLAYERS);
+		AddNestedScope("PlayerFourState",	mPlayerState[3], MAX_PLAYERS);
 		// Expose bIsPlayersConnected to the XML
-		AddExternalAttribute("IsPlayersConnected", MAX_PLAYERS, bIsPlayersConnected);
-		// NOTE: Exposing the State of the Button will be for future iterations
+		AddExternalAttribute("IsPlayerConnected", MAX_PLAYERS, bIsPlayerConnected);
 
 		// Initialize variables
 		for (int player = 0; player < MAX_PLAYERS; ++player)
 		{
-			bIsPlayersConnected[player] = false;
+			bIsPlayerConnected[player] = false;
 			mButtonState[player] = 0;
 		}
 	}
@@ -122,7 +175,7 @@ namespace Library
 		{
 			throw std::exception("Out of Bounds Exception");
 		}
-		return bIsPlayersConnected[player];
+		return bIsPlayerConnected[player];
 	}
 
 	const XBoxControllerState & XBoxControllerHandler::GetPlayerState(std::uint32_t player)
@@ -156,7 +209,7 @@ namespace Library
 
 	void XBoxControllerHandler::ChangeButtonState(Button& playerButton, const std::chrono::milliseconds& deltaTime, bool IsPressed)
 	{
-		std::chrono::milliseconds& playerButtonDuration = playerButton.Duration;
+		std::int32_t& playerButtonDuration = playerButton.Duration;
 		if (IsPressed)
 		{
 			if (playerButtonDuration < zero_ms)
@@ -165,7 +218,7 @@ namespace Library
 			}
 			else
 			{	// else start accumulating the duration
-				playerButtonDuration += deltaTime;
+				playerButtonDuration += static_cast<int32_t>(deltaTime.count());
 			}
 		}
 		else
@@ -183,7 +236,7 @@ namespace Library
 			}
 			else
 			{	// else start accumulating the duration
-				playerTrigger.Duration += deltaTime;
+				playerTrigger.Duration += static_cast<int32_t>(deltaTime.count());
 			}
 			playerTrigger.Magnitude = magnitude;
 		}
@@ -227,7 +280,7 @@ namespace Library
 			}
 			else
 			{	// else start accumulating the duration
-				playerAnalog.Duration += deltaTime;
+				playerAnalog.Duration += static_cast<int32_t>(deltaTime.count());
 			}
 		}
 		else
@@ -251,10 +304,10 @@ namespace Library
 		ChangeButtonState(playerState.DPad_Down,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_DOWN));
 		ChangeButtonState(playerState.DPad_Left,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_LEFT));
 		ChangeButtonState(playerState.DPad_Right,		deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_DPAD_RIGHT));
-		ChangeButtonState(playerState.Left_Shoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER));
-		ChangeButtonState(playerState.Right_Shoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_SHOULDER));
-		ChangeButtonState(playerState.Left_Thumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_THUMB));
-		ChangeButtonState(playerState.Right_Thumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_THUMB));
+		ChangeButtonState(playerState.LeftShoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER));
+		ChangeButtonState(playerState.RightShoulder,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_SHOULDER));
+		ChangeButtonState(playerState.LeftThumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_LEFT_THUMB));
+		ChangeButtonState(playerState.RightThumbstick,	deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_RIGHT_THUMB));
 		ChangeButtonState(playerState.Start,			deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_START));
 		ChangeButtonState(playerState.Back,				deltaTime, X_CHECK(currentPlayerButtonState & XINPUT_GAMEPAD_BACK));
 			
@@ -290,7 +343,7 @@ namespace Library
 		for (std::int32_t player = 0; player < MAX_PLAYERS; ++player)
 		{
 			// State of Player connection changed
-			if (bIsPlayersConnected[player] != currentPlayersConnected[player])
+			if (bIsPlayerConnected[player] != currentPlayersConnected[player])
 			{
 				// Player's Connection State Changed, Send Event
 				EventMessageAttributed message;
@@ -304,7 +357,7 @@ namespace Library
 			}
 
 			// Update Current Player Connection Results
-			bIsPlayersConnected[player] = currentPlayersConnected[player];
+			bIsPlayerConnected[player] = currentPlayersConnected[player];
 
 			// Terminate Event Checks for player if player is not connected
 			if (!currentPlayersConnected[player])
