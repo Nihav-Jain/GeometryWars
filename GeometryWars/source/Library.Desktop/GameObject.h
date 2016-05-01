@@ -41,6 +41,7 @@ namespace Library
 		glm::vec4 mPosition, mRotation, mScale;
 		std::float_t mMoveSpeed;
 
+		std::int32_t mWorldWidth, mWorldHeight;
 	};
 
 	CONCRETE_ENTITY_FACTORY(GameObject);

@@ -53,6 +53,15 @@ namespace Library
 		GameObject::Update(worldState);
 
 		mPosition += mVelocity;
+
+		// Destroy if out of bounds
+		if ((mPosition.x > mWorldWidth / 2.0f) ||
+			(mPosition.x < - mWorldWidth / 2.0f) ||
+			(mPosition.y > mWorldHeight / 2.0f) ||
+			(mPosition.y < - mWorldHeight / 2.0f))
+		{
+			mIsDead = true;
+		}
 	}
 
 	void Bullet::OnDestroy(WorldState & worldState)

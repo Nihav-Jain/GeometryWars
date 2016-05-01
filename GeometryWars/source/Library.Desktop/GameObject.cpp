@@ -11,7 +11,7 @@ namespace Library
 	const std::string GameObject::ATTRIBUTE_MOVESPEED = "speed";
 
 	GameObject::GameObject()
-		: mPosition(), mRotation(), mScale(1.0f), mMoveSpeed()
+		: mPosition(), mRotation(), mScale(1.0f), mMoveSpeed(), mWorldWidth(), mWorldHeight()
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
@@ -72,6 +72,9 @@ namespace Library
 	void GameObject::BeginPlay(WorldState & worldState)
 	{
 		Entity::BeginPlay(worldState);
+
+		mWorldWidth = worldState.world->GetWidth();
+		mWorldHeight = worldState.world->GetHeight();
 	}
 
 	void GameObject::Update(WorldState & worldState)

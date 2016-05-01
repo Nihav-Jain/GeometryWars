@@ -182,6 +182,17 @@ namespace Library
 		mHeading.y = cos(mRotation.z);
 		mHeading = glm::normalize(mHeading);
 
+		// Prevent moving out of bounds
+		if (mPosition.x > mWorldWidth / 2.0f)
+			mPosition.x = mWorldWidth / 2.0f;
+		else if (mPosition.x < -mWorldWidth / 2.0f)
+			mPosition.x = -mWorldWidth / 2.0f;
+
+		if (mPosition.y > mWorldHeight / 2.0f)
+			mPosition.y = mWorldHeight / 2.0f;
+		else if (mPosition.y < -mWorldHeight / 2.0f)
+			mPosition.y = -mWorldHeight / 2.0f;
+
 		// Shoot
 		if (mShoot)
 		{

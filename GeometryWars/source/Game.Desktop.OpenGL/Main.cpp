@@ -18,7 +18,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(showCommand);
 
 	OpenGLRenderDevice renderDevice;
-	renderDevice.InitOpenGl();
 
 	/// Game-specific factories that cannot live as members in the Game class ///
 	XBoxControllerHandlerFactory xchf;

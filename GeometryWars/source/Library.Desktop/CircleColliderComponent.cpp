@@ -75,22 +75,22 @@ namespace Library
 		mOwner = owner;
 
 		// Get entities that can be collided with
-		std::uint64_t id = owner->TypeIdInstance();
-		if (sCollidableEntitiesByType.ContainsKey(id))
-		{
-			mCollidableEntities = &sCollidableEntitiesByType[id];
-		}
-		else
-		{
+		//std::uint64_t id = owner->TypeIdInstance();
+		//if (sCollidableEntitiesByType.ContainsKey(id))
+		//{
+		//	mCollidableEntities = &sCollidableEntitiesByType[id];
+		//}
+		//else
+		//{
 			Sector *sector = parent->GetParent()->AssertiveAs<Sector>();
 			Entity *collidableEntityType = sector->FindEntity(mCollisionChannel);
 
 			if (collidableEntityType != nullptr)
 			{
 				mCollidableEntities = &sector->GetAllEntitiesOfType(collidableEntityType->TypeIdInstance());
-				sCollidableEntitiesByType.Insert(std::pair<std::uint64_t, const Vector<Entity*>>(id, *mCollidableEntities));
+				//sCollidableEntitiesByType.Insert(std::pair<std::uint64_t, const Vector<Entity*>>(id, *mCollidableEntities));
 			}
-		}
+		//}
 	}
 
 	bool CircleColliderComponent::IsColliding(const GameObject& other) const

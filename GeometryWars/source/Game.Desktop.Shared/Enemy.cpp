@@ -45,7 +45,31 @@ namespace Library
 	{
 		GameObject::Update(worldState);
 
+		// TODO: separate this out for different derived enemy types
 		mPosition += mVelocity;
+
+		// Check if out of bounds
+		if (mPosition.x > mWorldWidth / 2.0f)
+		{
+			mPosition.x = mWorldWidth / 2.0f;
+			mVelocity.x *= -1.0f;
+		}
+		else if (mPosition.x < -mWorldWidth / 2.0f)
+		{
+			mPosition.x = -mWorldWidth / 2.0f;
+			mVelocity.x *= -1.0f;
+		}
+
+		if (mPosition.y > mWorldHeight / 2.0f)
+		{
+			mPosition.y = mWorldHeight / 2.0f;
+			mVelocity.y *= -1.0f;
+		}
+		else if (mPosition.y < -mWorldHeight / 2.0f)
+		{
+			mPosition.y = -mWorldHeight / 2.0f;
+			mVelocity.y *= -1.0f;
+		}
 	}
 
 	void Enemy::OnDestroy(WorldState & worldState)
