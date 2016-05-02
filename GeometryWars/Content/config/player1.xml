@@ -5,7 +5,7 @@
 	<bool name="isdead" value="false" />
 	<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
 	<vector name="heading" value="vec4(0, 0, 0, 0)" />
-	<integer name="attackspeed" value="200" />
+	<integer name="attackspeed" value="50" />
 	<bool name="canattack" value="true" />    
 	<bool name="shoot" value="false" />
 	<integer name="bombs" value="3" />
@@ -19,33 +19,33 @@
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
-    <float name="width" value="7" />
-    <vector name="color" value="vec4(1, 1, 1, 1)" />
-    <integer name="indices" value="0" />
-    <integer name="indices" value="1" />
-    <integer name="indices" value="1" />
-    <integer name="indices" value="2" />
-    <integer name="indices" value="2" />
-    <integer name="indices" value="3" />
-    <integer name="indices" value="3" />
-    <integer name="indices" value="4" />
-    <integer name="indices" value="4" />
-    <integer name="indices" value="5" />
-    <integer name="indices" value="5" />
-    <integer name="indices" value="6" />
-    <integer name="indices" value="6" />
-    <integer name="indices" value="7" />
-    <integer name="indices" value="7" />
-    <integer name="indices" value="0" />
-    <vector name="points" value="vec4(-0.608888888888889, 1, 0, 0)" />
-    <vector name="points" value="vec4(-0.995555555555556, 0.00444444444444444, 0, 0)" />
-    <vector name="points" value="vec4(-0.0133333333333333, -0.982222222222222, 0, 0)" />
-    <vector name="points" value="vec4(1, -0.00444444444444444, 0, 0)" />
-    <vector name="points" value="vec4(0.604444444444444, 0.995555555555556, 0, 0)" />
-    <vector name="points" value="vec4(0.791111111111111, 0.213333333333333, 0, 0)" />
-    <vector name="points" value="vec4(0.00444444444444444, -0.2, 0, 0)" />
-    <vector name="points" value="vec4(-0.804444444444444, 0.208888888888889, 0, 0)" />
-  </polygon_renderer>
+		<float name="width" value="7" />
+		<vector name="color" value="vec4(1, 1, 1, 1)" />
+		<integer name="indices" value="0" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="3" />
+		<integer name="indices" value="3" />
+		<integer name="indices" value="4" />
+		<integer name="indices" value="4" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="7" />
+		<integer name="indices" value="7" />
+		<integer name="indices" value="0" />
+		<vector name="points" value="vec4(-0.608888888888889, 1, 0, 0)" />
+		<vector name="points" value="vec4(-0.995555555555556, 0.00444444444444444, 0, 0)" />
+		<vector name="points" value="vec4(-0.0133333333333333, -0.982222222222222, 0, 0)" />
+		<vector name="points" value="vec4(1, -0.00444444444444444, 0, 0)" />
+		<vector name="points" value="vec4(0.604444444444444, 0.995555555555556, 0, 0)" />
+		<vector name="points" value="vec4(0.791111111111111, 0.213333333333333, 0, 0)" />
+		<vector name="points" value="vec4(0.00444444444444444, -0.2, 0, 0)" />
+		<vector name="points" value="vec4(-0.804444444444444, 0.208888888888889, 0, 0)" />
+	</polygon_renderer>
   
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
@@ -56,7 +56,7 @@
 	<!-- Input Manager Reactions -->
 	<action class="ActionList" name="InputReactions">
 	
-		<!-- Analog Movement & Trigger Firing -->
+		<!-- Analog Movement & Firing -->
 		<action class="ActionList" name="Polling Inputs">
 			<if name="CheckPlayerConnected">
 				<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, player)</string></condition>
@@ -65,26 +65,26 @@
 					<if name="CheckLeftAnalog">
 						<condition><string name="expression">XBoxControllerManager.PlayerOneState.LeftStick.IsKeyDown</string></condition>
 						<then>
-							<expression name="modify">
+							<expression name="updatevelocity">
 								<string name="expression">velocity = XBoxControllerManager.PlayerOneState.LeftStick.MagnitudeVector * speed</string>
 							</expression>
-							<expression name="change_rot">
+							<expression name="updaterotation">
 								<string name="expression">rotation = XBoxControllerManager.PlayerOneState.LeftStick.RotationVector + {vec4(0,0,-1.5708,0)}</string>
 							</expression>
 						</then>
 						<else>
-							<expression name="modify">
+							<expression name="updatevelocity">
 								<string name="expression">velocity = {vec4(0,0,0,0)}</string>
 							</expression>
 						</else>
 					</if>
-					<if name="CheckTrigger">
+					<if name="CheckRightAnalog">
 						<condition><string name="expression">XBoxControllerManager.PlayerOneState.RightStick.IsKeyDown &amp;&amp; canattack</string></condition>
 						<then>						
-							<expression name="modify">
+							<expression name="disableattack">
 							  <string name="expression">canattack = {false}</string>
 							</expression>
-							<expression name="modify">
+							<expression name="enablesdidshoot">
 								<string name="expression">shoot = {true}</string>
 							</expression>
 							<!--							
@@ -92,14 +92,14 @@
 							  <integer name="delay" value="2000" index="0"/>
 							</event>
 							-->
-							<expression name="modify">
+							<expression name="updateheading">
 								<string name="expression">heading = XBoxControllerManager.PlayerOneState.RightStick.Direction</string>
 							</expression>
 							<action class="ActionCreateEntityFromFile" name="spawnBullet">
 							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
 							</action>  
 							<!--
-							<expression name="modify">
+							<expression name="updateheading">
 								<string name="expression">heading = XBoxControllerManager.PlayerOneState.RightStick.Direction * {1.5}</string>
 							</expression>
 							<action class="ActionCreateEntityFromFile" name="spawnBullet">
@@ -111,7 +111,7 @@
 				</then>
 			</if>
 		</action>
-		
+			
 		<!-- Bomb SubType -->
 		<reaction class="ReactionAttributed" name="OnUseBomb">
 			<string name="subtype" value="Bomb"/>
@@ -119,7 +119,7 @@
 			<if name="CheckPlayer">
 				<condition><string name="expression">PlayerNumber == player</string></condition>
 				<then>
-					<expression name="modify">
+					<expression name="enablebomb">
 						<string name="expression">useBomb = {true}</string>
 					</expression>
 				</then>
@@ -131,17 +131,17 @@
 	<action class="ActionList" name="Update">
 	
 		<!-- Update position -->
-		<expression name="modify">
+		<expression name="updateposition">
 			<string name="expression">position = position + velocity</string>
 		</expression>
 		
-		<!-- Update attack delay -->
+		<!-- Update attack delay --> <!--
 		<reaction class="ReactionAttributed" name="CanAttack">
 			<string name="subtype" value="AttackDelay" />
-			<expression name="modify">
+			<expression name="enableattack">
 				<string name="expression">canattack = {true}</string>
 			</expression>
-		</reaction>
+		</reaction> -->
   
 	</action>		
 		

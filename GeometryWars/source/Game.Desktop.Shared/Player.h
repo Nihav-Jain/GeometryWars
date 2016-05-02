@@ -34,6 +34,10 @@ namespace Library
 		void SetLives(std::int32_t lives);
 		void PlayerDeath(WorldState& worldState);
 
+		const std::int64_t Score() const;
+		void AddScore(const std::int32_t & score);
+		void SetScore(const std::int64_t & score);
+
 		std::int32_t Bombs() const;
 		void SetBombs(std::int32_t bombs);
 		void UseBomb(WorldState& worldState);
@@ -57,6 +61,7 @@ namespace Library
 		bool mShoot;
 
 		std::int32_t mLives;
+		std::int64_t mScore;
 		std::string mCollisionChannel;
 
 		bool mUseBomb;
@@ -66,7 +71,7 @@ namespace Library
 		glm::vec4 mHeading;
 
 	private:
-		std::chrono::milliseconds mAttackTimer;
+		std::chrono::milliseconds mShootTimer;
 
 	};
 

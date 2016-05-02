@@ -1,6 +1,6 @@
 <gameobject class="Bullet" name="Bullet">
 	<!-- Bullet Class Attributes -->
-	<vector name="scale" value="vec4(10, 10, 1, 0)"/>
+	<vector name="scale" value="vec4(15, 15, 15, 0)"/>
 	<float name="speed" value="20" />
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
@@ -34,7 +34,7 @@
 	
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-      <float name="radius" value="5.0" />
+      <float name="radius" value="3.0" />
       <string name="channel" value="collideenemies" />
       <bool name="enabled" value="true" />	  
 	</component>

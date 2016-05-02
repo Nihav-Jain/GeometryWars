@@ -3,6 +3,7 @@
 	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
 	<string name="enemychannel" value="collideplayers" />
+	<integer name="score" value="1" />
   
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 250, 0, 0)"/>

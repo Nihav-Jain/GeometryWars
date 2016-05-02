@@ -89,6 +89,8 @@ namespace Library
 
 		enemy->EnemyDeath(worldState);
 
+		/// TODO: playerThatSpawnedMe->AddScore( enemy->Score() ); ///
+
 		BulletDeath(worldState);
 	}
 
