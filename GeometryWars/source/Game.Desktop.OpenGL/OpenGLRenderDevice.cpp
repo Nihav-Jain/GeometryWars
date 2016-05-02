@@ -78,7 +78,7 @@ namespace Library {
 		return texture;
 	}
 
-	void OpenGLRenderDevice::Invalid()
+	void OpenGLRenderDevice::ClearScreen()
 	{
 		glfwSwapBuffers(mWindow);
 		glfwPollEvents();

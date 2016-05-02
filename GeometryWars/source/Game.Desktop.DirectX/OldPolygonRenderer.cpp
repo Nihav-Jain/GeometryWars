@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "PolygonRenderer.h"
+#include "OldPolygonRenderer.h"
 #include "GameException.h"
 #include <vector>
 #include "Utility.h"
 
 using namespace Library;
-PolygonRenderer::PolygonRenderer(ID3D11Device1 & device, ID3D11DeviceContext & context): 
+OldPolygonRenderer::OldPolygonRenderer(ID3D11Device1 & device, ID3D11DeviceContext & context): 
 	mDevice(&device), mContext(&context), mPixelShader(nullptr), mVertexShader(nullptr), mGeomShader(nullptr),
 	mVertexBuffer(nullptr), mIndexBuffer(nullptr), mConstantVertexBuffer(nullptr), mConstantGeometryBuffer(nullptr),
 mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
@@ -100,11 +100,11 @@ mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
 	ThrowIfFailed(device.CreateBuffer(&constantBufferDesc, nullptr, &mConstantVertexBuffer), "ID3D11Device::CreateBuffer() failed.");
 }
 
-PolygonRenderer::~PolygonRenderer()
+OldPolygonRenderer::~OldPolygonRenderer()
 {
 }
 
-void PolygonRenderer::Draw()
+void OldPolygonRenderer::Draw()
 {
 	static float angle = 0.0f;
 

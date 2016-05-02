@@ -7,11 +7,11 @@ struct ID3D11PixelShader	 ;
 struct ID3D11InputLayout	 ;
 struct ID3D11Buffer		 ;
 
-class PolygonRenderer
+class OldPolygonRenderer
 {
 public:
-	PolygonRenderer(ID3D11Device1& device, ID3D11DeviceContext& context);
-	~PolygonRenderer();
+	OldPolygonRenderer(ID3D11Device1& device, ID3D11DeviceContext& context);
+	~OldPolygonRenderer();
 	void Draw();
 
 

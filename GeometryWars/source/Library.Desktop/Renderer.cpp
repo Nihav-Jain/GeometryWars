@@ -29,7 +29,7 @@ namespace Library {
 		}
 
 		if (mDevice != nullptr) {
-			mDevice->Invalid();
+			mDevice->ClearScreen();
 		}
 	}
 

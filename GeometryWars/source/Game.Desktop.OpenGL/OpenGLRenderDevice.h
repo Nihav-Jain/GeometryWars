@@ -31,7 +31,7 @@ namespace Library {
 
 	private:
 		// The actuall draw call
-		virtual void Invalid() override;
+		virtual void ClearScreen() override;
 
 		GLFWwindow * mWindow;
 

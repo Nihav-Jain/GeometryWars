@@ -47,9 +47,6 @@
 			<expression name="change_rot">
 				<string name="expression">rotation = rotation + delta</string>
 			</expression>
-			<expression name="change_scale">
-				<string name="expression">scale = scale + delta</string>
-			</expression>
 			<sprite_renderer name="sprite1">
 				<image name="image">
 					<string name="path" value="Content/resource/mushroom.png"/>

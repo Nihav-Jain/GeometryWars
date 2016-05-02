@@ -29,8 +29,7 @@ namespace Library {
 
 		virtual void Draw(DrawMode mode = DrawMode::TRIANGLES, std::uint32_t counts = 6) = 0;
 
-		// The actual drawing call
-		virtual void Invalid() = 0;
+		virtual void ClearScreen() = 0;
 	};
 
 }

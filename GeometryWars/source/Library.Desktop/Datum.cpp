@@ -354,7 +354,7 @@ namespace Library
 	{
 		if (mType == DatumType::UNKNOWN)
 		{
-			throw std::exception("Invalid operation. Datum type not set.");
+			throw std::exception("ClearScreen operation. Datum type not set.");
 		}
 		if (mStorageType == DatumStorageType::INTERNAL)
 		{
@@ -403,7 +403,7 @@ namespace Library
 					break;
 
 				default:
-					throw std::exception("Invalid data type");
+					throw std::exception("ClearScreen data type");
 					break;
 				}
 				++mSize;
@@ -445,7 +445,7 @@ namespace Library
 					break;
 
 				default:
-					throw std::exception("Invalid data type");
+					throw std::exception("ClearScreen data type");
 					break;
 				}
 			}
@@ -503,7 +503,7 @@ namespace Library
 					break;
 
 				default:
-					throw std::exception("Invalid data type");
+					throw std::exception("ClearScreen data type");
 					break;
 			}
 			mCapacity = newCapacity;
@@ -575,7 +575,7 @@ namespace Library
 	void Datum::SetStorage(DatumType typeToSet, std::uint32_t arraySize)
 	{
 		if (!(mType == DatumType::UNKNOWN || mType == typeToSet))
-			throw std::exception("Invalid operation. Cannot change type of Datum.");
+			throw std::exception("ClearScreen operation. Cannot change type of Datum.");
 
 		if (mStorageType == DatumStorageType::INTERNAL)
 		{
@@ -720,7 +720,7 @@ namespace Library
 					break;
 
 				default:
-					throw std::exception("Invalid data type");
+					throw std::exception("ClearScreen data type");
 					break;
 				}
 			}
@@ -1050,7 +1050,7 @@ namespace Library
 	void Datum::SetFromString(const std::string& inputString, std::uint32_t index)
 	{
 		if (mType == DatumType::UNKNOWN)
-			throw std::exception("Invalid operation. Datum type not set.");
+			throw std::exception("ClearScreen operation. Datum type not set.");
 		glm::vec4 fvec;
 		glm::mat4 mat;
 		bool boolValue = false;
@@ -1093,19 +1093,19 @@ namespace Library
 				break;
 
 			case DatumType::POINTER:
-				throw std::exception("Invalid operation. Cannot set RTTI pointer from string.");
+				throw std::exception("ClearScreen operation. Cannot set RTTI pointer from string.");
 				break;
 
 			case DatumType::TABLE:
-				throw std::exception("Invalid operation. Cannot set Scope pointer from string.");
+				throw std::exception("ClearScreen operation. Cannot set Scope pointer from string.");
 				break;
 
 			case DatumType::REFERENCE:
-				throw std::exception("Invalid operation. Cannot set Datum pointer from string.");
+				throw std::exception("ClearScreen operation. Cannot set Datum pointer from string.");
 				break;
 
 			default:
-				throw std::exception("Invalid operation. Datum type not set.");
+				throw std::exception("ClearScreen operation. Datum type not set.");
 				break;
 		}
 	}
@@ -1157,7 +1157,7 @@ namespace Library
 			break;
 
 		default:
-			throw std::exception("Invalid operation. Datum type not set.");
+			throw std::exception("ClearScreen operation. Datum type not set.");
 			break;
 		}
 
