@@ -3,7 +3,7 @@
 
 using namespace Library;
 
-RTTI_DEFINITIONS(AttributedInternalError);
+RTTI_DEFINITIONS(AttributedInternalError, Attributed);
 
 AttributedInternalError::AttributedInternalError()
 {

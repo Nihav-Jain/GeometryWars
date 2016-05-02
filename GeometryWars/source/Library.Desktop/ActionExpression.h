@@ -36,11 +36,7 @@ namespace Library
 		 */
 		virtual ~ActionExpression();
 
-		/**
-		 *	parses the expression and converts it from infix to postfix notation
-		 *	called by the Action parser when the end tag is excountered
-		 */
-		virtual void PostParsingProcess() override;
+		virtual void BeginPlay(WorldState& worldState) override;
 
 		/**
 		 *	Evaluates the expression
@@ -89,7 +85,7 @@ namespace Library
 
 	private:
 		void ConvertExpressionToPostfix();
-		void EvaluateExpression();
+		void EvaluateExpression(const World& world);
 
 		SList<std::string>* mPostfixExpression;
 

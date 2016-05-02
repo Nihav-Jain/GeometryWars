@@ -1,0 +1,36 @@
+<world name="NihavWorld">
+	<sector name="worldSector">
+		<entity class="Entity" name="actor">
+			<integer name="switchInteger" value="15" />
+			<float name="switchFloat" value="10.10" />
+			<integer name="result" value="0"/>
+			<integer name="result2" value="0"/>
+			<integer name="result3" value="0"/>
+			
+			<if name="someCondition">
+				<condition>
+					<string name="expression">switchInteger &lt; switchFloat</string>
+				</condition>
+				<then>
+					<action class="ActionDestroyEntity" name="destroyEntity">
+						<string name="entityInstanceName" value="anotherEntity"/>
+					</action>
+				</then>	<!-- ActionList -->
+				<else>
+					<expression name="elseExp">
+						<string name="expression">switchInteger = switchInteger - {10}</string>
+					</expression>
+				</else>	<!-- (optional) ActionList -->
+			</if>
+
+		</entity>
+
+		<entity class="Entity" name="anotherEntity">
+			<integer name="anotherInt" value="10"/>
+			<expression name="exp">
+				<string name="expression">anotherInt = anotherInt * {2}</string>
+			</expression>
+		</entity>
+	
+	</sector>	
+</world>

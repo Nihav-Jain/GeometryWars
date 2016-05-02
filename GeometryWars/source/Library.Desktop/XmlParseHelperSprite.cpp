@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "XmlParseHelperSprite.h"
-#include "Sprite.h"
+#include "SpriteRenderer.h"
+#include "Renderer.h"
+#include "Entity.h"
 
 namespace Library {
-	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite";
+	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite_renderer";
 
 	XmlParseHelperSprite::XmlParseHelperSprite()
 	{
@@ -11,7 +13,7 @@ namespace Library {
 
 	bool XmlParseHelperSprite::StartElementHandler(XmlParseMaster::SharedData & sharedData, const std::string & elementName, const Hashmap<std::string, std::string>& attributes)
 	{
-		(attributes);
+		UNREFERENCED_PARAMETER(attributes);
 		SharedDataTable* sharedDataPtr = sharedData.As<SharedDataTable>();
 		if (sharedDataPtr == nullptr)
 			return false;
@@ -19,16 +21,19 @@ namespace Library {
 		if (elementName != ELEMENT_NAME)
 			return false;
 
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SPRITE_START))
-			throw std::exception("Invalid script syntax");
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
 
-		// TODO: integrate this
-		Sprite* sprite = sharedDataPtr->CurrentScopePtr->AssertiveAs<Sprite>();
-		UNREFERENCED_PARAMETER(sprite);
-		assert(sprite != nullptr);
+		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
+		Scope* parent = sharedDataPtr->CurrentScopePtr;
+		SpriteRenderer * sprite = new SpriteRenderer();
+		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
+		
+		Renderer::GetInstance()->AddRenderable(sprite);
+		sharedDataPtr->CurrentScopePtr = sprite;
 
 		return true;
 	}
@@ -41,12 +46,12 @@ namespace Library {
 		if (elementName != ELEMENT_NAME)
 			return false;
 
-		bool transitionToActionEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SPRITE_END);
+		bool transitionToActionEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_END);
 		UNREFERENCED_PARAMETER(transitionToActionEnd);
 		assert(transitionToActionEnd);
-		//bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
-		//UNREFERENCED_PARAMETER(transitionToStateRouter);
-		//assert(transitionToStateRouter);
+		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
+		UNREFERENCED_PARAMETER(transitionToStateRouter);
+		assert(transitionToStateRouter);
 
 		sharedDataPtr->CurrentScopePtr = sharedDataPtr->CurrentScopePtr->GetParent();
 

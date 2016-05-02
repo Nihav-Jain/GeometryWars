@@ -37,6 +37,8 @@ namespace Library
 			VALUE_END,
 			SPRITE_START,
 			SPRITE_END,
+			GAMEOBJECT_START,
+			GAMEOBJECT_END,
 			END
 		};
 
@@ -119,7 +121,7 @@ namespace Library
 		/**
 		 *	A graph to maintain the parsing state diagram
 		 */
-		Graph<ParserState> ParserStateAutomata;
+		static Graph<ParserState> ParserStateAutomata;
 
 		/**
 		 *	Traversor to manage the current vertex and possible transitions of the state diagram

@@ -85,7 +85,7 @@ namespace Library
 		 */
 		void SetSector(Sector& parent);
 
-		void BeginPlay(WorldState& worldState);
+		virtual void BeginPlay(WorldState& worldState);
 
 		/**
 		 *	Calls the update method on all of its child Actions, called by the parent Sector's Update method
@@ -94,12 +94,26 @@ namespace Library
 		 */
 		virtual void Update(WorldState& worldState);
 
+		virtual void OnDestroy(WorldState& worldState);
+
+		bool IsPendingDestroy() const;
+		void MarkForDestroy(WorldState& worldState);
+
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
 		static const std::string ATTRIBUTE_ACTIONS;
 
 	private:
+		void ScriptedBeginPlay(WorldState& worldState);
+		void ActionsBeginPlay(WorldState& worldState);
+		void ReactionsBeginPlay(WorldState& worldState);
+
+		void ScriptedOnDestroy(WorldState& worldState);
+		void ActionsOnDestroy(WorldState& worldState);
+		void ReactionsOnDestroy(WorldState& worldState);
+
 		std::string mName;
+		bool mIsPendingDestroy;
 	};
 
 #define CONCRETE_ENTITY_FACTORY(ConcreteEntityType) CONCRETE_FACTORY(ConcreteEntityType, Entity);

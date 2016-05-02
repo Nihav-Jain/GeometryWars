@@ -22,6 +22,10 @@ namespace Library {
 
 	OpenGLShader::~OpenGLShader()
 	{
+		if (mShaderId != 0) {
+			glDeleteProgram(mShaderId);
+			mShaderId = 0;
+		}
 	}
 
 	void OpenGLShader::Init(const std::string & vPath, const std::string & fPath)
@@ -93,7 +97,7 @@ namespace Library {
 
 	void OpenGLShader::SetVector4(const std::string & name, const glm::vec4 & value)
 	{
-		glUniform3f(glGetUniformLocation(mShaderId, name.c_str()), value.x, value.y, value.z);
+		glUniform4f(glGetUniformLocation(mShaderId, name.c_str()), value.x, value.y, value.z, value.w);
 	}
 
 }

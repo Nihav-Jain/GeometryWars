@@ -99,7 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -117,8 +117,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
-IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)" 
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"
+IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)"
 IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\lib\$(Platform)\$(Configuration)\SOIL.pdb" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -131,7 +131,7 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -149,8 +149,8 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
-IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)" 
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"
+IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)"
 IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\lib\$(Platform)\$(Configuration)\SOIL.pdb" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -165,7 +165,7 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -199,7 +199,7 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\expat\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>

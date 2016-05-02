@@ -40,5 +40,4 @@
 #include "Entity.h"
 #include "Sector.h"
 #include "World.h"
-
-
+#include "GameObject.h"

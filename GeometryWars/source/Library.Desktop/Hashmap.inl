@@ -121,7 +121,7 @@ namespace Library
 	{
 		Iterator itr = Find(index);
 		if (itr == end())
-			throw std::exception("Invalid index");
+			throw std::exception("ClearScreen index");
 		return (*itr).second;
 	}
 
@@ -284,11 +284,11 @@ namespace Library
 	{
 		if (mOwner == nullptr)
 		{
-			throw std::exception("Invalid operation. Non-hosted iterator.");
+			throw std::exception("ClearScreen operation. Non-hosted iterator.");
 		}
 		if (*this == mOwner->end())
 		{
-			throw std::exception("Invalid operation. Cannot increment Iterator already at end.");
+			throw std::exception("ClearScreen operation. Cannot increment Iterator already at end.");
 		}
 
 		++mCurrentPair;
@@ -329,11 +329,11 @@ namespace Library
 	{
 		if (mOwner == nullptr)
 		{
-			throw std::exception("Invalid operation. Cannot dereference a non-hosted Iterator.");
+			throw std::exception("ClearScreen operation. Cannot dereference a non-hosted Iterator.");
 		}
 		if (mCurrentPair == (mOwner->buckets[mCurrentBucketIndex]).end())
 		{
-			throw std::exception("Invalid operation. Cannot dereference Iterator pointing to end.");
+			throw std::exception("ClearScreen operation. Cannot dereference Iterator pointing to end.");
 		}
 
 		return *mCurrentPair;
@@ -344,11 +344,11 @@ namespace Library
 	{
 		if (mOwner == nullptr)
 		{
-			throw std::exception("Invalid operation. Cannot dereference a non-hosted Iterator.");
+			throw std::exception("ClearScreen operation. Cannot dereference a non-hosted Iterator.");
 		}
 		if (mCurrentPair == (mOwner->buckets[mCurrentBucketIndex]).end())
 		{
-			throw std::exception("Invalid operation. Cannot dereference Iterator pointing to end.");
+			throw std::exception("ClearScreen operation. Cannot dereference Iterator pointing to end.");
 		}
 
 		return *mCurrentPair;

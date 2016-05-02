@@ -31,7 +31,7 @@ namespace Library
 			if (!attributes.ContainsKey(attributeName))
 			{
 				std::stringstream str;
-				str << "Invalid syntax for <" << mElementName << ">. Missing attribute: " << attributeName;
+				str << "ClearScreen syntax for <" << mElementName << ">. Missing attribute: " << attributeName;
 				throw std::exception(str.str().c_str());
 			}
 		}
@@ -42,7 +42,7 @@ namespace Library
 			mActionInstanceName = attributes[ATTRIBUTE_NAME];
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
@@ -80,8 +80,9 @@ namespace Library
 		{
 			if (currentAction->operator[](i).Size() < 1 )
 			{
+				const Scope::SymbolPair& pair = currentAction->GetPair(i);
 				std::stringstream str;
-				str << "Prescribed Attribute #" << i << " of instance " << currentAction->Name() << " not initialized.";
+				str << "Prescribed Attribute " << pair.first << " of instance " << currentAction->Name() << " not initialized.";
 				throw std::exception(str.str().c_str());
 			}
 		}

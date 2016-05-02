@@ -26,7 +26,26 @@ namespace Library
 		std::uint32_t operator()(TKeyPtr* key) const
 		{
 			std::uint32_t hash = 0;
+			//std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(const_cast<TKeyPtr*>(key));
 			std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(key);
+
+			for (std::uint32_t i = 0; i < sizeof(key); i++)
+			{
+				hash += arr[i];
+			}
+
+			return hash;
+		}
+	};
+
+	template <class TKeyPtr>
+	class DefaultHash<const TKeyPtr*>
+	{
+	public:
+		std::uint32_t operator()(const TKeyPtr* key) const
+		{
+			std::uint32_t hash = 0;
+			std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(const_cast<TKeyPtr*>(key));
 
 			for (std::uint32_t i = 0; i < sizeof(key); i++)
 			{

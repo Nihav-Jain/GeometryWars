@@ -1,5 +1,23 @@
-<sprite>
-	<vector name="color" value="vec4(1, 0, 0, 0)"/>
-	<string name="imagePath" value="Content/resource/mushroom.png" />
-	<vector name="position" value="vec4(0, 0, 0, 0)"/>
-</sprite>
+<world name="NihavWorld">
+	<sector name="playerSector">
+		<gameobject class="GameObject" name="object1">
+			<vector name="position" value="vec4(0, 0, 0, 0)"/>
+			<vector name="rotation" value="vec4(45, 0, 0, 0)"/>
+			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
+			<vector name="delta2" value="vec4(0.001, 0.001, 0, 0)"/>
+			<expression name="change_rot">
+				<string name="expression">rotation = rotation + delta</string>
+			</expression>
+			<expression name="change_scale">
+				<string name="expression">scale = scale - delta2</string>
+			</expression>
+			<sprite_renderer name="sprite1">
+				<image name="image">
+					<string name="path" value="Content/resource/mushroom.png"/>
+					<vector name="size" value="vec4(100, 100, 0, 0)"/>
+				</image>
+			</sprite_renderer>
+		</gameobject>		
+	</sector>	
+</world>
