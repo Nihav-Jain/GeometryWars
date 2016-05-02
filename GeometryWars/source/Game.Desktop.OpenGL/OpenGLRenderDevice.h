@@ -28,6 +28,7 @@ namespace OpenGLImplmentation {
 		virtual Library::Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
 		virtual Library::Buffer * CreateBuffer(bool createIndicesBuffer) override;
 		virtual Library::FrameBuffer * CreateFrameBuffer() override;
+		virtual Library::FrameBuffer * GetDefaultFrameBuffer() override;
 
 		virtual void Draw(DrawMode mode, std::uint32_t counts) override;
 

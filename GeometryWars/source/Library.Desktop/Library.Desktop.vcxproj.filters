@@ -237,6 +237,12 @@
     <ClInclude Include="Buffer.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessing.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="BloomPostProcessing.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -433,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="XmlParseHelperAnimationFrame.cpp">
       <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="BloomPostProcessing.cpp">
+      <Filter>Kernel\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

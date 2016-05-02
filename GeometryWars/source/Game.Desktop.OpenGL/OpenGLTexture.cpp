@@ -21,6 +21,11 @@ namespace OpenGLImplmentation {
 	{
 	}
 
+	OpenGLTexture::OpenGLTexture(GLuint textureId)
+	{
+		mTextureId = textureId;
+	}
+
 
 	OpenGLTexture::~OpenGLTexture()
 	{

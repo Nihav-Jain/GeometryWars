@@ -10,6 +10,7 @@ namespace OpenGLImplmentation {
 
 	public:
 		OpenGLTexture();
+		OpenGLTexture(GLuint textureId);
 		~OpenGLTexture();
 
 		virtual void Init(const std::string & imagePath) override;

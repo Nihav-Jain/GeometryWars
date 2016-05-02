@@ -5,6 +5,8 @@ namespace Library {
 
 	class RenderDevice;
 	class Renderable;
+	class PostProcessing;
+	class FrameBuffer;
 
 	/**
 	* The core render module
@@ -26,6 +28,8 @@ namespace Library {
 		Renderer(const Renderer &) = delete;
 		Renderer & operator=(const Renderer &) = delete;
 
+		void AddPostPostProcessing(PostProcessing * postProcessing);
+
 		// TODO: Should the factory create the object from the XML accordingly or should we hava a way for the renderer create the obj 
 		void AddRenderable(Renderable *);
 		void RemoveRenderable(Renderable *);
@@ -36,11 +40,14 @@ namespace Library {
 		// TODO: Remove this !!!!!!!!
 		static Renderer * sInstance;
 
+		FrameBuffer * mFrameBuffer;
+		FrameBuffer * mDefaultFrameBuffer;
 
 		// TODO: Add layer support
 		RenderDevice * mDevice;
 		std::vector<Renderable*> mObjects;
 		// TODO: PostProcessing handler
+		std::vector<PostProcessing*> mPostProcessings;
 	};
 
 }

@@ -137,8 +137,13 @@ namespace OpenGLImplmentation {
 	}
 	Library::FrameBuffer * OpenGLRenderDevice::CreateFrameBuffer()
 	{
-		//OpenGLFrameBuffer * fb = new OpenGLFrameBuffer();
-		//fb->Init();
-		return nullptr;
+		OpenGLFrameBuffer * fb = new OpenGLFrameBuffer();
+		fb->Init(mWidth, mHeight);
+		return fb;
+	}
+	Library::FrameBuffer * OpenGLRenderDevice::GetDefaultFrameBuffer()
+	{
+		OpenGLFrameBuffer * fb = new OpenGLFrameBuffer(0);
+		return fb;
 	}
 }
