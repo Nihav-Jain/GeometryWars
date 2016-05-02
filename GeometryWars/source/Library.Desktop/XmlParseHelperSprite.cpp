@@ -33,7 +33,7 @@ namespace Library {
 		SpriteRenderer * sprite = new SpriteRenderer();
 		sprite->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
-		
+
 		Renderer::GetInstance()->AddRenderable(sprite);
 		sharedDataPtr->CurrentScopePtr = sprite;
 

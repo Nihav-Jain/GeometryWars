@@ -41,7 +41,7 @@ namespace Library {
 		glfwTerminate();
 	}
 
-	void OpenGLRenderDevice::InitOpenGl(std::int32_t width, std::int32_t height)
+	void OpenGLRenderDevice::InitOpenGl(const std::string & title, ::int32_t width, std::int32_t height)
 	{
 		mWidth = width;
 		mHeight = height;
@@ -56,7 +56,7 @@ namespace Library {
 			throw std::exception("glfwInit falied");
 		}
 
-		mWindow = glfwCreateWindow(mWidth, mHeight, "OpenGL Essentials", nullptr, nullptr);
+		mWindow = glfwCreateWindow(mWidth, mHeight, title.c_str(), nullptr, nullptr);
 		if (mWindow == nullptr)
 		{
 			throw std::exception("glfwCreateWindow falied");
@@ -128,11 +128,10 @@ namespace Library {
 		glBindVertexArray(0);
 	}
 
-	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
-		std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
+	RenderBuffer * OpenGLRenderDevice::CreateBuffer(bool createIndicesBuffer)
 	{
 		OpenGLRenderBuffer * buffer = new OpenGLRenderBuffer();
-		buffer->Init(data, size, stride, indices, indices_size, elementCnt);
+		buffer->Init(createIndicesBuffer);
 		mBuffers.push_back(buffer);
 		return buffer;
 	}

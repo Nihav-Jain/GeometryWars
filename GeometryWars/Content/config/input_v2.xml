@@ -1,0 +1,229 @@
+<world name="Steven's Universe">
+	<integer name="width" value="1024"/>
+	<integer name="height" value="768" />
+	
+	<!-- "InputHandlers" ActionList removed for accessibility Purposes 									-->
+	<!-- Every InputHandler will have the following characteristics:									-->
+	<!--	ButtonMapping:	HashMap (hence Scope) mapping the Event's Subtype with the button events	-->
+	
+	<!-- XBoxControllerHandler: Handles XBox Controller Events -->
+	<action name="XBoxControllerManager" class="XBoxControllerHandler">
+		<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
+			<string name="X"				value="MoveLeft"/>
+			<string name="Y"				value="MoveUp"/>
+			<string name="A"				value="MoveDown"/>
+			<string name="B"				value="MoveRight"/>
+			<string name="START"			value="Start"/>
+			<string name="SELECT"			value="Select"/>
+			<string name="DPAD_UP"			value="MoveUp"/>
+			<string name="DPAD_DOWN"		value="MoveDown"/>
+			<string name="DPAD_LEFT"		value="MoveLeft"/>
+			<string name="DPAD_RIGHT"		value="MoveRight"/>
+			<string name="LEFT_THUMB"		value="MoveLeft"/>
+			<string name="RIGHT_THUMB"		value="MoveRight"/>
+			<string name="LEFT_SHOULDER"	value="MoveLeft"/>
+			<string name="RIGHT_SHOULDER"	value="MoveRight"/>
+		</scope>
+	</action>
+
+	<!-- ==================== Event-Driven Player Connection =============== -->
+	<!-- Player Connected Reaction -->
+	<reaction class="ReactionAttributed" name="OnPlayerConnection">
+		<string name="subtype" value="PlayerConnected"/>
+		
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Player Connected!"/>
+		</action>
+	</reaction>
+	
+	<!-- Player Disconnected Reaction -->
+	<reaction class="ReactionAttributed" name="OnPlayerDisconnection">
+		<string name="subtype" value="PlayerDisconnected"/>
+		
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Player Disconnected!"/>
+		</action>
+	</reaction>
+	
+	<sector name="Sector">
+		<gameobject class="GameObject" name="object1">
+			<vector name="position" value="vec4(0, 0, 0, 0)"/>
+			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
+			<vector name="scale" value="vec4(100, 100, 1, 0)"/>
+			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
+			<polygon_renderer name="jet">
+				<float name="width" value="5"/>
+				<vector name="color" value="vec4(1, 0, 0, 1)"/>
+				<integer name="indices" value="0"/>
+				<integer name="indices" value="1"/>
+				<integer name="indices" value="1"/>
+				<integer name="indices" value="2"/>
+				<integer name="indices" value="2"/>
+				<integer name="indices" value="3"/>
+				<integer name="indices" value="3"/>
+				<integer name="indices" value="4"/>
+				<integer name="indices" value="4"/>
+				<integer name="indices" value="5"/>
+				<integer name="indices" value="5"/>
+				<integer name="indices" value="6"/>
+				<integer name="indices" value="6"/>
+				<integer name="indices" value="7"/>
+				<integer name="indices" value="7"/>
+				<integer name="indices" value="0"/>
+				<vector name="points" value="vec4(0, -1, 0, 0)"/>
+				<vector name="points" value="vec4(1.333, 0, 0, 0)"/>
+				<vector name="points" value="vec4(0.666, 1, 0, 0)"/>
+				<vector name="points" value="vec4(1, 0.333, 0, 0)"/>
+				<vector name="points" value="vec4(0, -0.333, 0, 0)"/>
+				<vector name="points" value="vec4(-1, 0.333, 0, 0)"/>
+				<vector name="points" value="vec4(-0.666, 1, 0, 0)"/>
+				<vector name="points" value="vec4(-1.333, 0, 0, 0)"/>
+			</polygon_renderer>
+			
+			<!-- Member Variables -->
+			<integer name="Player"		value="0"/>
+			<float name="VelX"		value="0"/>
+			<float name="VelY"		value="0"/>
+			<float name="Speed"		value="5"/>
+			
+			<expression name="change_rot">
+				<string name="expression">position = position + VelX * {vec4(1, 0, 0, 0)} + VelY * {vec4(0, 1, 0, 0)}</string>
+			</expression>
+			<!-- ============================ Event-Driven Button Callbacks =======================	-->
+			<!-- ButtonMapping-Defined Reactions:													-->
+			<!--	See "ButtonMapping" scope under XBoxControllerHandler							-->
+			<!--	to see the Buttons that map to the SubTyped-Events								-->
+			
+			<action class="ActionList" name="Movement">
+				<if name="CheckPlayer">
+					<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, Player)</string></condition>
+					<then>
+						<if name="CheckPlayer">
+							<condition><string name="expression">XBoxControllerManager.PlayerOneState.LeftStick.IsKeyDown</string></condition>
+							<then>
+								<expression name="modifyX">
+									<string name="expression">VelX = XBoxControllerManager.PlayerOneState.LeftStick.MagnitudeX * Speed</string>
+								</expression>
+								<expression name="modifyY">
+									<string name="expression">VelY = XBoxControllerManager.PlayerOneState.LeftStick.MagnitudeY * Speed</string>
+								</expression>
+								<expression name="change_rot">
+									<string name="expression">rotation = XBoxControllerManager.PlayerOneState.LeftStick.RotationVector + {vec4(0,0,-1.5708,0)}</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modifyX">
+									<string name="expression">VelX = {0.0}</string>
+								</expression>
+								<expression name="modifyY">
+									<string name="expression">VelY = {0.0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</action><!---->
+			
+			<!-- MoveLeft Subtype -->
+			<reaction class="ReactionAttributed" name="OnMoveLeft">
+				<string name="subtype" value="MoveLeft"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelX = {0.0} - Speed</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modify">
+									<string name="expression">VelX = {0.0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			<!-- MoveRight SubType -->
+			<reaction class="ReactionAttributed" name="OnMoveRight">
+				<string name="subtype" value="MoveRight"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelX = Speed</string>
+								</expression>
+							</then>
+							<else>
+								
+								<expression name="modify">
+									<string name="expression">VelX = {0.0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			<!-- MoveUp SubType -->
+			<reaction class="ReactionAttributed" name="OnMoveUp">
+				<string name="subtype" value="MoveUp"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelY = Speed</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modify">
+									<string name="expression">VelY = {0.0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			<!-- MoveDown SubType -->
+			<reaction class="ReactionAttributed" name="OnMoveDown">
+				<string name="subtype" value="MoveDown"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelY = {0.0} - Speed</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modify">
+									<string name="expression">VelY = {0.0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			
+		</gameobject>
+	</sector>
+</world>

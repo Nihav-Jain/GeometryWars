@@ -22,7 +22,60 @@
 			<string name="message" value="Player Disconnected!"/>
 		</action>
 	</reaction>
-	
+		<sector name="KenGOD">
+		<gameobject class="GameObject" name="object1">
+			<vector name="position" value="vec4(300, 0, 0, 0)"/>
+			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
+			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+			<animator name="whatever">
+				<animation_state name="idle">
+					<float name="x" value="0"/>
+					<float name="y" value="281"/>
+					<animation_frame name="1">
+						<float name="width" value="123"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="2">
+						<float name="width" value="123"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="3">
+						<float name="width" value="123"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="4">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="5">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="6">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+					<animation_frame name="7">
+						<float name="width" value="150"/>
+						<float name="height" value="119"/>
+						<integer name="duration_ms" value="200"/>
+					</animation_frame>
+				</animation_state>
+				<sprite_renderer name="spritesheet">
+					<image name="image">
+					<string name="path" value="Content/resource/ken.png"/>
+					<vector name="size" value="vec4(1024, 1024, 0, 0)"/>
+					</image>
+				</sprite_renderer>
+			</animator>
+		</gameobject>		
+	</sector>
 	<sector name="InGameSector">
     
 		<gameobject class="Player" name="Player0">
@@ -234,52 +287,52 @@
 					<string name="expression">position = position + velocity</string>
 				</expression>
 				
-				<!-- Shoot SubType -->
+				<!-- Set shoot flag on press/release -->
 				<reaction class="ReactionAttributed" name="OnShoot">
 					<string name="subtype" value="Shoot"/>
-
-					<if name="CheckCanShoot">
-					  <condition>
-						<string name="expression">canattack</string>
-					  </condition>
-					  <then>
-						<!--
-						<expression name="modify">
-						  <string name="expression">canattack = {false}</string>
-						</expression>
-						<event name="firedShot" subtype="AttackDelay">
-						  <integer name="delay" value="2000" index="0"/>
-						</event>
-						-->
-						<action class="ActionCreateEntityFromFile" name="spawnBullet">
-						  <string name="filePath" value="Content/config/bullet.xml" index="0" />
-						</action>         
-					  </then>
-					</if>
-			<!--
-			<expression name="modify">
-						<string name="expression">shoot = {true}</string>
-					</expression>
-			-->
-					<!--
+					
 					<if name="CheckPlayer">
 						<condition><string name="expression">PlayerNumber == player</string></condition>
 						<then>
-							<expression name="modify">
-								<string name="expression">shoot = {true}</string>
-							</expression>
+							<if name="CheckIsButtonPressed">
+								<condition><string name="expression">IsButtonPressed</string></condition>
+								<then>
+									<expression name="modify">
+										<string name="expression">shoot = {true}</string>
+									</expression>
+								</then>
+								<else>
+									<expression name="modify">
+										<string name="expression">shoot = {false}</string>
+									</expression>
+								</else>
+							</if>
 						</then>
 					</if>
-					-->
 				</reaction>
 		  
-		  <!-- AttackDelay SubType -->
-		  <reaction class="ReactionAttributed" name="CanAttack">
-			<string name="subtype" value="AttackDelay" />
-			<expression name="modify">
-			  <string name="expression">canattack = {true}</string>
-			</expression>
-		  </reaction>
+				<!-- SHOOTING HAPPENS HERE -->
+				<!-- Check if player is allowed to attack -->
+				<if name="CheckCanShoot">
+					<condition><string name="expression">canattack</string></condition>
+					<then>
+					  
+						<!-- Check if player is holding shoot button -->
+						<if name="CheckPressingButton">
+							<condition><string name="expression">shoot</string></condition>
+							<then>
+							
+								<!-- BULLETS SPAWN HERE -->
+								<action class="ActionCreateEntityFromFile" name="spawnBullet">
+									<string name="filePath" value="Content/config/bullet.xml" index="0" />
+								</action> 
+
+								<!-- TODO: Play sound -->
+								
+							</then>
+						</if>
+					</then>
+				</if>
 
 				<!-- Bomb SubType -->
 				<reaction class="ReactionAttributed" name="OnUseBomb">

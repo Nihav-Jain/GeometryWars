@@ -25,8 +25,7 @@ namespace Library {
 		virtual std::int32_t GetViewportHeight() = 0;
 		virtual Texture * CreateTexture(const std::string & imagePath) = 0;
 		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) = 0;
-		virtual RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
-			std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt) = 0;
+		virtual RenderBuffer * CreateBuffer(bool createIndicesBuffer) = 0;
 
 		virtual void Draw(DrawMode mode = DrawMode::TRIANGLES, std::uint32_t counts = 6) = 0;
 

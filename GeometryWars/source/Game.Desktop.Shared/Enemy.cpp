@@ -11,13 +11,15 @@ namespace Library
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
+	const std::string Enemy::ATTRIBUTE_SCORE = "score";
 
 	Enemy::Enemy()
-		: mVelocity(), mIsDead(false), mCollisionChannel()
+		: mVelocity(), mIsDead(false), mCollisionChannel(), mScore(0)
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
+		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
 	}
 
 	const glm::vec4 & Enemy::Velocity() const
@@ -36,6 +38,11 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+	}
+
+	std::int32_t Enemy::Score() const
+	{
+		return mScore;
 	}
 
 	void Enemy::BeginPlay(WorldState & worldState)
