@@ -11,6 +11,7 @@ namespace Library
 	const std::string World::ATTRIBUTE_BEGIN_PLAY = "beginplay";
 	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
 	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
+	const std::string World::ATTRIBUTE_DELTA_TIME = "deltaTime";
 
 	const std::string World::ATTRIBUTE_WIDTH = "width";
 	const std::string World::ATTRIBUTE_HEIGHT = "height";
@@ -22,6 +23,7 @@ namespace Library
 		mWorldState.world = this;
 
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddInternalAttribute(ATTRIBUTE_DELTA_TIME, 0, 1);
 
 		AddExternalAttribute(ATTRIBUTE_WIDTH, 1, &mWidth);
 		AddExternalAttribute(ATTRIBUTE_HEIGHT, 1, &mHeight);
@@ -100,6 +102,8 @@ namespace Library
 		mWorldState.sector = nullptr;
 		mWorldState.entity = nullptr;
 		mWorldState.action = nullptr;
+
+		(*this)[ATTRIBUTE_DELTA_TIME] = static_cast<std::int32_t>(mWorldState.mGameTime->ElapsedGameTime().count());
 
 		mEventQueue.Update(*mWorldState.mGameTime);
 		UpdateWorldActions();

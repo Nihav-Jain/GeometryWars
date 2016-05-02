@@ -137,6 +137,7 @@ namespace Library
 		static const std::string ATTRIBUTE_ON_DESTROY;
 		static const std::string ATTRIBUTE_WIDTH;
 		static const std::string ATTRIBUTE_HEIGHT;
+		static const std::string ATTRIBUTE_DELTA_TIME;
 
 	private:
 		static Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false);
