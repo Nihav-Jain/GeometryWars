@@ -29,7 +29,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
 
 	Player::Player()
-		: mPlayerNumber(), mAttackSpeed(), mCanAttack(true), mShoot(false), mLives(3),
+		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
 		  mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
@@ -71,7 +71,7 @@ namespace Library
 		if (mCanAttack)
 		{
 			mCanAttack = false;
-			mShoot = false;
+			mShootTimer = std::chrono::milliseconds(mAttackSpeed);
 
 			// TODO: Load this prototype from an xml file
 			//Bullet* newBullet = GetSector()->CreateEntity(Bullet::TypeName(), "bullet").AssertiveAs<Bullet>();
@@ -199,6 +199,16 @@ namespace Library
 		if (mShoot)
 		{
 			Shoot(worldState);
+		}
+
+		// Update cooldown on shooting
+		if (mShootTimer <= std::chrono::milliseconds(0))
+		{
+			mCanAttack = true;
+		}
+		else
+		{
+			mShootTimer -= worldState.mGameTime->ElapsedGameTime();
 		}
 
 		// Use a bomb

@@ -53,6 +53,7 @@ namespace Library
 		std::int32_t mPlayerNumber;
 
 		std::int32_t mAttackSpeed;
+		std::chrono::milliseconds mShootTimer;
 		bool mCanAttack;
 		bool mShoot;
 
