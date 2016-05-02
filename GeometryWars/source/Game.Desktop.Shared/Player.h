@@ -12,6 +12,8 @@ namespace Library
 		Player();
 		virtual ~Player() = default;
 
+		Player(const Player& rhs);
+
 		static const std::string ATTRIBUTE_PLAYERNUMBER;
 		static const std::string ATTRIBUTE_ATTACKSPEED;
 		static const std::string ATTRIBUTE_CANATTACK;
@@ -48,6 +50,7 @@ namespace Library
 		const glm::vec4 & Heading() const;
 		void SetHeading(const glm::vec4 & heading);
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
@@ -72,6 +75,8 @@ namespace Library
 
 	private:
 		std::chrono::milliseconds mShootTimer;
+
+		void ResetAttributePointers();
 
 	};
 

@@ -47,6 +47,14 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
+	Player::Player(const Player & rhs)
+		: GameObject::GameObject(rhs), mPlayerNumber(rhs.mPlayerNumber), mAttackSpeed(rhs.mAttackSpeed), mShootTimer(rhs.mShootTimer), mCanAttack(rhs.mCanAttack),
+		mShoot(rhs.mShoot), mLives(rhs.mLives), mScore(rhs.mScore), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
+		mVelocity(rhs.mVelocity), mHeading(rhs.mHeading), mCollisionChannel(rhs.mCollisionChannel)
+	{
+		ResetAttributePointers();
+	}
+
 	std::int32_t Player::PlayerNumber() const
 	{
 		return mPlayerNumber;
@@ -178,6 +186,12 @@ namespace Library
 		mHeading = heading;
 	}
 
+	Scope * Player::Clone(const Scope & rhs) const
+	{
+		Player& entity = *rhs.AssertiveAs<Player>();
+		return new Player(entity);
+	}
+
 	void Player::BeginPlay(WorldState & worldState)
 	{
 		mHeading = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
@@ -234,6 +248,20 @@ namespace Library
 	void Player::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
+	}
+
+	void Player::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_PLAYERNUMBER].SetStorage(&mPlayerNumber, 1);
+		(*this)[ATTRIBUTE_ATTACKSPEED].SetStorage(&mAttackSpeed, 1);
+		(*this)[ATTRIBUTE_CANATTACK].SetStorage(&mCanAttack, 1);
+		(*this)[ATTRIBUTE_SHOOT].SetStorage(&mShoot, 1);
+		(*this)[ATTRIBUTE_LIVES].SetStorage(&mLives, 1);
+		(*this)[ATTRIBUTE_BOMBS].SetStorage(&mBombCount, 1);
+		(*this)[ATTRIBUTE_USEBOMB].SetStorage(&mUseBomb, 1);
+		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
+		(*this)[ATTRIBUTE_HEADING].SetStorage(&mHeading, 1);
+		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}
 
 }
