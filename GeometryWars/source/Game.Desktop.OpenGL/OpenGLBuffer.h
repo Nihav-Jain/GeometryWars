@@ -1,11 +1,11 @@
 #pragma once
-#include "RenderBuffer.h"
+#include "Buffer.h"
 #include "GL/gl3w.h"
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	class OpenGLRenderBuffer :
-		public RenderBuffer
+		public Library::Buffer
 	{
 	public:
 		OpenGLRenderBuffer();

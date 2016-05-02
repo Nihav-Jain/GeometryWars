@@ -224,7 +224,8 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="OpenGLRenderBuffer.h" />
+    <ClInclude Include="OpenGLFrameBuffer.h" />
+    <ClInclude Include="OpenGLBuffer.h" />
     <ClInclude Include="OpenGLRenderDevice.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLTexture.h" />
@@ -238,7 +239,8 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="OpenGLRenderBuffer.cpp" />
+    <ClCompile Include="OpenGLFrameBuffer.cpp" />
+    <ClCompile Include="OpenGLBuffer.cpp" />
     <ClCompile Include="OpenGLRenderDevice.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />

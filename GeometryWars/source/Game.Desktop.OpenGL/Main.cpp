@@ -9,6 +9,7 @@
 #include "Bullet.h"
 
 using namespace Library;
+using namespace OpenGLImplmentation;
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR commandLine, int showCommand)
 {

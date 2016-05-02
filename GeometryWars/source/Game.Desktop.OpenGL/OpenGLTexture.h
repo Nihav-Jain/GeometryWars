@@ -2,10 +2,10 @@
 #include "Texture.h"
 #include "GL/gl3w.h"
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	class OpenGLTexture :
-		public Texture
+		public Library::Texture
 	{
 
 	public:

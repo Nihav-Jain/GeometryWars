@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "OpenGLRenderBuffer.h"
+#include "OpenGLBuffer.h"
 #include "OpenGLRenderDevice.h"
 #include "GL/gl3w.h"
 #include "SOIL/SOIL.h"
@@ -14,7 +14,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	OpenGLRenderBuffer::OpenGLRenderBuffer() :
 		mVAO(0),

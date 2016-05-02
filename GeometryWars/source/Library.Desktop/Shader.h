@@ -6,7 +6,7 @@ namespace Library {
 	class Shader
 	{
 	public:
-		virtual ~Shader();
+		virtual ~Shader() = default;
 
 		virtual void Init(const std::string & vPath, const std::string & fPath, const std::string & gPath) = 0;
 		virtual void Use() = 0;
@@ -15,7 +15,7 @@ namespace Library {
 		virtual void SetFloat(const std::string & name, float value) = 0;
 
 	protected:
-		Shader();
+		Shader() = default;
 	};
 
 }

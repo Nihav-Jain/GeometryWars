@@ -5,10 +5,10 @@
 #include <fstream>
 #include <streambuf>
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	class OpenGLShader :
-		public Shader
+		public Library::Shader
 	{
 
 	public:

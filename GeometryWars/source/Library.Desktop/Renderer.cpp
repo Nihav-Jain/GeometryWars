@@ -38,6 +38,8 @@ namespace Library {
 			obj->Render(mDevice);
 		}
 
+		// TODO: Apply post processing 
+
 		if (mDevice != nullptr) {
 			mDevice->Invalid();
 		}

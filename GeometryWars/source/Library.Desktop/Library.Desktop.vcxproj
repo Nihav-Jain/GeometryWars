@@ -237,7 +237,7 @@
     <ClInclude Include="PolygonRenderer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Renderable.h" />
-    <ClInclude Include="RenderBuffer.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
@@ -255,7 +255,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Viewport.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="XmlParseHelperAction.h" />
@@ -312,8 +312,6 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="PolygonRenderer.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="RenderBuffer.cpp" />
-    <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -326,12 +324,9 @@
     <ClCompile Include="RTTI.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
-    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Image.cpp" />
-    <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperAction.cpp" />

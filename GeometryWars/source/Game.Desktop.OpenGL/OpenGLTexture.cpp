@@ -14,7 +14,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	OpenGLTexture::OpenGLTexture() :
 		mTextureId(0)

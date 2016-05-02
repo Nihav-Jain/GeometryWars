@@ -37,8 +37,10 @@ namespace Library {
 		static Renderer * sInstance;
 
 
+		// TODO: Add layer support
 		RenderDevice * mDevice;
 		std::vector<Renderable*> mObjects;
+		// TODO: PostProcessing handler
 	};
 
 }

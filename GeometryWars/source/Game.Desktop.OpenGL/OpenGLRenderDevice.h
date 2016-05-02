@@ -2,15 +2,16 @@
 #include "RenderDevice.h"
 #include "OpenGLShader.h"
 #include "OpenGLTexture.h"
-#include "OpenGLRenderBuffer.h"
+#include "OpenGLBuffer.h"
+#include "OpenGLFrameBuffer.h"
 #include <vector>
 
 class GLFWwindow;
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	class OpenGLRenderDevice final :
-		public RenderDevice
+		public Library::RenderDevice
 	{
 	public:
 		OpenGLRenderDevice();
@@ -23,9 +24,10 @@ namespace Library {
 
 		virtual std::int32_t GetViewportWidth() override;
 		virtual std::int32_t GetViewportHeight() override;
-		virtual Texture * CreateTexture(const std::string & imagePath) override;
-		virtual Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
-		virtual RenderBuffer * CreateBuffer(bool createIndicesBuffer) override;
+		virtual Library::Texture * CreateTexture(const std::string & imagePath) override;
+		virtual Library::Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
+		virtual Library::Buffer * CreateBuffer(bool createIndicesBuffer) override;
+		virtual Library::FrameBuffer * CreateFrameBuffer() override;
 
 		virtual void Draw(DrawMode mode, std::uint32_t counts) override;
 
