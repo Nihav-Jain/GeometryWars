@@ -446,7 +446,7 @@ namespace UnitTestLibraryDesktop
 
 			Assert::AreEqual(110, result->Get<std::int32_t>());
 			Assert::AreEqual(100, someInt->Get<std::int32_t>());
-			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
+			Assert::AreEqual(120, anotherResult->Get<std::int32_t>());
 			Assert::AreEqual(200, someResult->Get<std::int32_t>());
 			Assert::AreEqual(125, refResult->Get<std::int32_t>());
 		}

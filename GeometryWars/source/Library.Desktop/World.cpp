@@ -124,14 +124,14 @@ namespace Library
 		return mEventQueue;
 	}
 
-	Datum* World::ComplexSearch(const std::string& name, const Scope& caller) const
+	Datum* World::ComplexSearch(const std::string& name, const Scope& caller)
 	{
 		std::string referenceName = name;
 		Scope* targetScope = nullptr;
 
 		std::uint32_t pos = (std::uint32_t)referenceName.find('.');
 		if (pos == std::string::npos)
-			return Search(referenceName);
+			return caller.Search(referenceName);
 		else
 		{
 			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), caller, true);
@@ -175,7 +175,7 @@ namespace Library
 		return mHeight;
 	}
 
-	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch) const
+	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch)
 	{
 		Scope* scopeToFind = nullptr;
 		Datum* referenceToFind = caller.Find(name);
