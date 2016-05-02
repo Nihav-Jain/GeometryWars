@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionIfThenElse);
+	RTTI_DEFINITIONS(ActionIfThenElse, ActionList);
 
 	const std::string ActionIfThenElse::ATTRIBUTE_CONDITIONAL_EXP = "condition";
 	const std::string ActionIfThenElse::ATTRIBUTE_THEN = "then";
@@ -16,12 +16,7 @@ namespace Library
 		AddInternalAttribute(ATTRIBUTE_CONDITION_RESULT, false, 1);
 	}
 
-
-	ActionIfThenElse::~ActionIfThenElse()
-	{
-	}
-
-	void ActionIfThenElse::PostParsingProcess()
+	void ActionIfThenElse::BeginPlay(WorldState& worldState)
 	{
 		Action* helperAction = FindAction(ATTRIBUTE_CONDITIONAL_EXP);
 		assert(helperAction != nullptr);
@@ -32,8 +27,10 @@ namespace Library
 		mThen = helperAction->AssertiveAs<ActionList>();
 
 		helperAction = FindAction(ATTRIBUTE_ELSE);
-		if(helperAction != nullptr)
+		if (helperAction != nullptr)
 			mElse = helperAction->AssertiveAs<ActionList>();
+
+		ActionList::BeginPlay(worldState);
 	}
 
 	void ActionIfThenElse::Update(WorldState& worldState)

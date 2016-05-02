@@ -3,7 +3,6 @@
 
 #include "Sprite.h"
 #include "Renderer.h"
-#include "OpenGLRenderDevice.h"
 
 #include "XmlParseMaster.h"
 #include "SharedDataTable.h"
@@ -31,6 +30,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
 			SharedDataTable::ClearStateGraph();
+			Attributed::ClearStaticMembers();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);

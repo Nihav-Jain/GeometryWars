@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionTogglePauseMusic)
+	RTTI_DEFINITIONS(ActionTogglePauseMusic, ActionList);
 
 		const std::string ActionTogglePauseMusic::ATTRIBUTE_NAME = "musicName";
 

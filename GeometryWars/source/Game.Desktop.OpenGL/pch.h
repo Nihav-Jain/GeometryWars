@@ -11,9 +11,10 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "GL/gl3w.h"
-#include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
+#include <GL/gl3w.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
 
 #pragma region SoundFMOD
 
@@ -23,3 +24,4 @@
 #include "fmod_errors.h"
 
 #pragma endregion
+

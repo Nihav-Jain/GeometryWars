@@ -25,17 +25,19 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Action() = default;
+		virtual ~Action();
 
 		/**
 		 *	disallow copy construtor
 		 */
-		Action(const Action& rhs) = delete;
+		Action(const Action& rhs);
+		Action(Action&& rhs);
 
 		/**
 		 *	disallow copy assignment operator
 		 */
-		Action& operator=(const Action& rhs) = delete;
+		Action& operator=(const Action& rhs);
+		Action& operator=(Action&& rhs);
 
 		/**
 		 *	Getter for the name of this Action
@@ -49,6 +51,8 @@ namespace Library
 		 */
 		void SetName(const std::string& name);
 
+		virtual void BeginPlay(WorldState& worldState);
+
 		/**
 		 *	Will be called by the parent Entity / Sector / World's Update method every frame
 		 *	Should be used to implement the main logic of a apecialized Action / Component
@@ -56,6 +60,8 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState) = 0;
+
+		virtual void OnDestroy(WorldState& worldState);
 
 		/**
 		 *	Will be called by the EndElementHandler of Action parser
@@ -68,9 +74,18 @@ namespace Library
 
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;
 		static const std::string ATTRIBUTE_NAME;
+		static const std::string ATTRIBUTE_CAN_EVER_TICK;
+		static const std::string ATTRIBUTE_OWNER_ENTITY;
+		static const std::string ATTRIBUTE_OWNER_ACTION;
 
 	private:
+		void ResetAttributePointers();
+
 		std::string mName;
+		Datum* mWorld;
+		Datum* mSector;
+		Datum* mEntity;
+		Datum* mAction;
 	};
 
 #define CONCRETE_ACTION_FACTORY(ConcreteActionType) CONCRETE_FACTORY(ConcreteActionType, Action);

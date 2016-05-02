@@ -9,18 +9,37 @@
 #include "GameClock.h"
 #include "GameTime.h"
 
+#include "Renderer.h"
+#include "RenderDevice.h"
+
 #include "RTTI.h"
 #include "Datum.h"
 #include "Scope.h"
 #include "World.h"
 #include "Sector.h"
 #include "Entity.h"
+#include "GameObject.h"
+
 #include "Action.h"
+#include "Event.h"
+
 #include "ActionList.h"
 #include "ActionListSwitch.h"
 #include "ActionExpression.h"
 #include "ActionIfThenElse.h"
 #include "ActionWhileLoop.h"
+#include "ActionCreateEntity.h"
+#include "ActionDestroyEntity.h"
+#include "ActionCreateEntityFromFile.h"
+
+#include "ActionEvent.h"
+#include "Reaction.h"
+#include "ReactionAttributed.h"
+
+#include "Image.h"
+#include "SpriteRenderer.h"
+//#include "PolygonRenderer.h"
+#include "CircleColliderComponent.h"
 
 #include "ActionLoadMusic.h"
 #include "ActionPlayMusic.h"
@@ -33,6 +52,7 @@
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
+#include "XmlParseHelperGameObject.h"
 #include "XmlParseHelperAction.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
@@ -44,6 +64,11 @@
 #include "XmlParseHelperActionIf.h"
 #include "XmlParseHelperActionWhile.h"
 #include "XmlParseHelperBeginPlay.h"
+#include "XmlParseHelperSprite.h"
+#include "XmlParseHelperPolygon.h"
+#include "XmlParseHelperImage.h"
+#include "XmlParseHelperOnDestroy.h"
+#include "XmlParseHelperCircleColliderComponent.h"
 
 namespace Library
 {
@@ -58,7 +83,7 @@ namespace Library
 	public:
 
 		/**
-		 *	parameterless constructor, initializes the members 
+		 *	parameterless constructor, initializes the members
 		 */
 		Game();
 
@@ -101,16 +126,19 @@ namespace Library
 		*/
 		const GameTime& GetGameTime() const;
 
+		void Start();
+
 		/**
 		*	AddHelpers - Add helpers to parse master.
 		*/
 		void AddHelpers();
 
 		/**
-		 *	Resets the game clock and other things to be initialized before starting the game loop
-		 *	Must be called before entering the game loop
-		 */
-		void Start();
+		*	Resets the game clock and other things to be initialized before starting the game loop
+		*	Must be called before entering the game loop
+		*/
+		void Start(const std::string & config);
+
 
 		/**
 		 *	Updates the game clock and calls Update on the game World
@@ -124,8 +152,12 @@ namespace Library
 		 */
 		void Destroy();
 
+		void SetRenderer(Renderer * device);
 
 	private:
+		void AddParseHelpers();
+
+		Renderer* mRenderer;
 
 		GameClock mGameClock;
 		GameTime mGameTime;
@@ -138,6 +170,7 @@ namespace Library
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
+		XmlParseHelperGameObject mGameObjectParser;
 		XmlParseHelperAction mActionParser;
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
@@ -157,7 +190,33 @@ namespace Library
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
 
 		XmlParseHelperBeginPlay mActionBeginPlay;
+	
+		XmlParseHelperOnDestroy mActionOnDestroy;
 
+		XmlParseHelperSprite mSpriteParser;
+		XmlParseHelperPolygon mPolygonParser;
+		XmlParseHelperImage mImageParser;
+		XmlParseHelperCircleColliderComponent mCircleColliderComponent;
+
+		EntityFactory mEntityFactory;
+		GameObjectFactory mGameObjectFactory;
+
+		ActionListFactory mActionListFactory;
+		ActionListSwitchFactory mActionSwitchFactory;
+		ActionListSwitch::ActionListSwitchCaseFactory mActionCaseFactory;
+		ActionWhileLoopFactory mActionWhileFactory;
+		ActionIfThenElseFactory mActionIfFactory;
+		ActionExpressionFactory mActionExpressionFactory;
+		ActionEventFactory mActionEventFactory;
+		ReactionAttributedFactory mReactionFactory;
+		ActionCreateEntityFactory mCreateEntityFactory;
+		ActionDestroyEntityFactory mDestroyEntityFactory;
+
+		ImageFactory mImageFactory;
+		//PolygonRendererFactory mPolygonRendererFactory;
+		SpriteRendererFactory mSpriteRendererFactory;
+		CircleColliderComponentFactory mCircleColliderComponentFactory;
+
+		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
 	};
 }
-

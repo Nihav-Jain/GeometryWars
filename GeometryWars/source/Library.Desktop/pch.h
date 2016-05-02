@@ -17,8 +17,12 @@
 #include <utility>
 #include <string>
 
+#include <iostream>
+#include <fstream>
+
 #include "RTTI.h"
 #include "glm\glm.hpp"
+#include <expat.h>
 
 #pragma region Containers
 
@@ -43,7 +47,8 @@
 #pragma warning(disable: 4505)
 #include "fmod.hpp"
 #include "fmod_errors.h"
+#include "AudioManager.h"
 
 #pragma endregion
 
-#include "AudioManager.h"
+#include "GameObject.h"

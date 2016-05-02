@@ -6,6 +6,7 @@
 #include "EventQueue.h"
 #include "ActionList.h"
 #include "AudioManager.h"
+#include "XmlParseMaster.h"
 
 namespace Library
 {
@@ -23,7 +24,7 @@ namespace Library
 		/**
 		 *	Constructor - initializes member variables and declares prescribed attributes
 		 */
-		explicit World(const GameTime& gameTime);
+		explicit World(const GameTime& gameTime, XmlParseMaster& parseMaster);
 
 		/**
 		 s*	disallow copy construtor
@@ -92,6 +93,8 @@ namespace Library
 		 */
 		void Update();
 
+		void OnDestroy();
+
 		/**
 		 *	Getter for world state
 		 *	@return reference to WorldState
@@ -115,14 +118,47 @@ namespace Library
 		*	@return reference to the contained variable of audio manager
 		*/
 		AudioManager& GetAudioManager();
+		
+		
+		Datum* ComplexSearch(const std::string& name, const Scope& caller) const;
+
+		XmlParseMaster& ParseMaster();
+
+		void SetWidth(std::int32_t width);
+		void SetHeight(std::int32_t height);
+		std::int32_t GetWidth();
+		std::int32_t GetHeight();
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
+		static const std::string ATTRIBUTE_REACTIONS;
+		static const std::string ATTRIBUTE_ON_DESTROY;
+		static const std::string ATTRIBUTE_WIDTH;
+		static const std::string ATTRIBUTE_HEIGHT;
 
 	private:
+		Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false) const;
+
+		void ScriptedBeginPlay();
+		void SectorsBeginPlay();
+		void ActionsBeginPlay();
+		void ReactionsBeginPlay();
+
+		void ScriptedOnDestroy();
+		void SectorsOnDestroy();
+		void ActionsOnDestroy();
+		void ReactionsOnDestroy();
+
+		void UpdateWorldActions();
+		void UpdateWorldSectors();
+
 		std::string mName;
 		WorldState mWorldState;
 		EventQueue mEventQueue;
+		XmlParseMaster* mParseMaster;
+
+		std::int32_t mWidth;
+		std::int32_t mHeight;
 
 		AudioManager *mAudioManager;
 

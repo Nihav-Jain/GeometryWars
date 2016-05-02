@@ -1,0 +1,49 @@
+<world name="NihavWorld">
+
+	<scope name="someWorldScope">
+		<integer name="worldScopeInt" value="25"/>
+	</scope>
+
+	<sector name="worldSector">
+
+		<scope name="sectorScope">
+			<integer name="sectorInt" value="20"/>
+		</scope>
+		
+		<entity class="Entity" name="actor">
+
+			<integer name="someInt" value="10" />
+			<integer name="intResult" value="0"/>
+			<ref name="someIntPtr" value="someInt"/>
+			
+			<expression name="exp1">
+				<string name="expression">intResult = someIntPtr + {100}</string>
+			</expression>
+
+			<expression name="exp2">
+				<string name="expression">someIntPtr = {100}</string>
+			</expression>
+
+			<integer name="anotherResult" value="0" />
+			<expression name="exp3">
+				<string name="expression">anotherResult = worldSector.sectorScope.sectorInt + {100}</string>
+			</expression>
+
+			<scope name="someScope">
+				<integer name="someScopeInt" value="100" />
+			</scope>
+			
+			<ref name="someRef" value="someScope" />
+			<integer name="someResult" value="0" />
+			<expression name="exp4">
+				<string name="expression">someResult = someScope.someScopeInt + {100}</string>
+			</expression>
+
+			<integer name="refResult" value="0" />
+			<expression name="exp5">
+				<string name="expression">refResult = ownerWorld.someWorldScope.worldScopeInt + {100}</string>
+			</expression>
+
+		</entity>		
+	</sector>	
+</world>

@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionLoadMusic)
+	RTTI_DEFINITIONS(ActionLoadMusic, ActionList);
 
 	const std::string ActionLoadMusic::ATTRIBUTE_NAME = "musicName";
 

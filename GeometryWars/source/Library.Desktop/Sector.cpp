@@ -4,18 +4,24 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Sector);
+	RTTI_DEFINITIONS(Sector, Attributed);
 
 	const std::string Sector::ATTRIBUTE_ENTITIES = "entities";
 	const std::string Sector::ATTRIBUTE_NAME = "name";
+	const std::string Sector::ATTRIBUTE_OWNER_WORLD = "ownerWorld";
 
 	Sector::Sector() :
-		mName()
+		mName(), mEntityListByType(), mWorld(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ENTITIES);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
-		//AddNestedScope(World::ATTRIBUTE_BEGIN_PLAY);
+		AddExternalAttribute(ATTRIBUTE_OWNER_WORLD, 1, &mWorld);
+	}
+
+	Sector::~Sector()
+	{
+		delete mWorld;
 	}
 	
 	const std::string& Sector::Name() const
@@ -47,6 +53,9 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
+		mEntityListByType[entity->TypeIdInstance()].PushBack(entity);
+		AddEntityToTypeMap(*entity, RTTI::ClassHeirarchy()[entity->TypeIdInstance()]);
+
 		return *entity;
 	}
 
@@ -55,12 +64,25 @@ namespace Library
 		const Datum& entities = Entities();
 		for (std::uint32_t i = 0; i < entities.Size(); i++)
 		{
-			Entity* entity = entities.Get<Scope>(i).As<Entity>();
-			assert(entity != nullptr);
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			if (entity->Name() == entityName)
 				return entity;
 		}
 		return nullptr;
+	}
+
+	Vector<Entity*> Sector::FindAllEntities(const std::string& entityName) const
+	{
+		Vector<Entity*> listOfEntities;
+
+		const Datum& entities = Entities();
+		for (std::uint32_t i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			if (entity->Name() == entityName)
+				listOfEntities.PushBack(entity);
+		}
+		return listOfEntities;
 	}
 
 	Datum& Sector::Actions()
@@ -93,41 +115,203 @@ namespace Library
 
 	void Sector::BeginPlay(WorldState& worldState)
 	{
+		*mWorld = *worldState.world;
+
+		ScriptedBeginPlay(worldState);
+		EntitiesBeginPlay(worldState);
+		ActionsBeginPlay(worldState);
+		ReactionsBeginPlay(worldState);
+	}
+
+	void Sector::Update(WorldState& worldState)
+	{
+		UpdateSectorActions(worldState);
+		DeletePendingDestroyEntities(worldState);
+		UpdateSectorEntities(worldState);
+	}
+
+	void Sector::OnDestroy(WorldState& worldState)
+	{
+		ScriptedOnDestroy(worldState);
+		EntitiesOnDestroy(worldState);
+		ActionsOnDestroy(worldState);
+		ReactionsOnDestroy(worldState);
+	}
+
+	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
+	{
+		return mEntityListByType[typeId];
+	}
+
+	void Sector::ScriptedBeginPlay(WorldState& worldState)
+	{
 		Datum* beginPlayDatum = Find(World::ATTRIBUTE_BEGIN_PLAY);
 		if (beginPlayDatum != nullptr && beginPlayDatum->Size() > 0)
 		{
 			ActionList* beginPlayList = beginPlayDatum->Get<Scope>().AssertiveAs<ActionList>();
+			worldState.action = beginPlayList;
+			beginPlayList->BeginPlay(worldState);
 			beginPlayList->Update(worldState);
+		}
+	}
 
-			std::uint32_t i;
-			Datum& entities = Entities();
-			for (i = 0; i < entities.Size(); i++)
+	void Sector::EntitiesBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& entities = Entities();
+		for (i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			worldState.entity = entity;
+			entity->BeginPlay(worldState);
+		}
+
+		worldState.entity = nullptr;
+	}
+
+	void Sector::ActionsBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			worldState.action = action;
+			action->BeginPlay(worldState);
+		}
+	}
+
+	void Sector::ReactionsBeginPlay(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(World::ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
 			{
-				Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
-				worldState.entity = entity;
-				entity->BeginPlay(worldState);
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				worldState.action = reaction;
+				reaction->BeginPlay(worldState);
 			}
 		}
 	}
 
-	void Sector::Update(WorldState& worldState)
+	void Sector::ScriptedOnDestroy(WorldState& worldState)
+	{
+		Datum* onDestroyDatum = Find(World::ATTRIBUTE_ON_DESTROY);
+		if (onDestroyDatum != nullptr && onDestroyDatum->Size() > 0)
+		{
+			ActionList* onDestroyList = onDestroyDatum->Get<Scope>().AssertiveAs<ActionList>();
+			worldState.action = onDestroyList;
+			onDestroyList->OnDestroy(worldState);
+		}
+	}
+
+	void Sector::EntitiesOnDestroy(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& entities = Entities();
+		for (i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			worldState.entity = entity;
+			entity->BeginPlay(worldState);
+		}
+
+		worldState.entity = nullptr;
+	}
+
+	void Sector::ActionsOnDestroy(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& actions = Actions();
+		for (i = 0; i < actions.Size(); i++)
+		{
+			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
+			worldState.action = action;
+			action->OnDestroy(worldState);
+		}
+	}
+
+	void Sector::ReactionsOnDestroy(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum* reactions = Find(World::ATTRIBUTE_REACTIONS);
+		if (reactions != nullptr)
+		{
+			for (i = 0; i < reactions->Size(); i++)
+			{
+				Action* reaction = reactions->Get<Scope>(i).AssertiveAs<Action>();
+				worldState.action = reaction;
+				reaction->OnDestroy(worldState);
+			}
+		}
+	}
+
+	void Sector::UpdateSectorActions(WorldState& worldState)
 	{
 		Datum& actions = Actions();
 		std::uint32_t i;
 		for (i = 0; i < actions.Size(); i++)
 		{
 			Action* action = actions.Get<Scope>(i).AssertiveAs<Action>();
-			worldState.action = action;
-			action->Update(worldState);
+			if ((*action)[Action::ATTRIBUTE_CAN_EVER_TICK].Get<bool>())
+			{
+				worldState.action = action;
+				action->Update(worldState);
+			}
 		}
+	}
 
+	void Sector::DeletePendingDestroyEntities(WorldState& worldState)
+	{
+		std::uint32_t i;
 		Datum& entities = Entities();
 		for (i = 0; i < entities.Size(); i++)
+		{
+			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
+			if (entity->IsPendingDestroy())
+			{
+				mEntityListByType[entity->TypeIdInstance()].Remove(entity);
+				RemoveEntityFromTypeMap(*entity, RTTI::ClassHeirarchy()[entity->TypeIdInstance()]);
+				entity->OnDestroy(worldState);
+				delete entity;
+				--i;		// all elements shifted by 1, if we dont do this, the very next element is skipped
+			}
+		}
+	}
+
+	void Sector::UpdateSectorEntities(WorldState& worldState)
+	{
+		std::uint32_t i;
+		Datum& entities = Entities();
+		// size is cached so that if an ActionCreateEntity is encountered, the new Entities Update method is not called in this frame
+		// similarly, ActionDestroyEntity will not destroy the entity immediately, it will do it on the next frame update
+		std::uint32_t size = entities.Size();
+		for (i = 0; i < size; i++)
 		{
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			worldState.entity = entity;
 			entity->Update(worldState);
 		}
+	}
+
+	void Sector::AddEntityToTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr)
+	{
+		if (*parentTypeIdPtr == Attributed::TypeIdClass())
+			return;
+		mEntityListByType[*parentTypeIdPtr].PushBack(&entity);
+		parentTypeIdPtr = RTTI::ClassHeirarchy()[*parentTypeIdPtr];
+		AddEntityToTypeMap(entity, parentTypeIdPtr);
+	}
+
+	void Sector::RemoveEntityFromTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr)
+	{
+		if (*parentTypeIdPtr == Attributed::TypeIdClass())
+			return;
+		mEntityListByType[*parentTypeIdPtr].Remove(&entity);
+		parentTypeIdPtr = RTTI::ClassHeirarchy()[*parentTypeIdPtr];
+		RemoveEntityFromTypeMap(entity, parentTypeIdPtr);
 	}
 
 }

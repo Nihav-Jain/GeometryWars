@@ -19,6 +19,7 @@
 #include "XmlParseHelperNameValue.h"
 
 #include "ActorEntity.h"
+#include "SampleEntity.h"
 #include "Game.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -41,6 +42,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD_CLEANUP(Cleanup)
 		{
 			SharedDataTable::ClearStateGraph();
+			Attributed::ClearStaticMembers();
 
 			_CrtMemState endMemState, diffMemState;
 			_CrtMemCheckpoint(&endMemState);
@@ -54,14 +56,16 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(EntityTestSimple)
 		{
-			EntityFactory entityFactory;
-
+			EntityFactory entotyFactory;
 			GameClock gameClock;
 			gameClock.Reset();
 			GameTime gameTime;
 
+			SharedDataTable sharedDataTable;
+			XmlParseMaster master(sharedDataTable);
+
 			std::string worldName = "World";
-			World world(gameTime);
+			World world(gameTime, master);
 			world.SetName("World");
 
 			Assert::AreEqual(worldName, world.Name());
@@ -119,12 +123,13 @@ namespace UnitTestLibraryDesktop
 			GameClock gameClock;
 			gameClock.Reset();
 			GameTime gameTime;
-			World completeWorld(gameTime);
 
 			SharedDataTable sharedData;
+			XmlParseMaster master(sharedData);
+
+			World completeWorld(gameTime, master);
 			sharedData.SetRootScope(completeWorld);
 
-			XmlParseMaster master(sharedData);
 			XmlParseHelperWorld worldParser;
 			XmlParseHelperSector sectorParser;
 			XmlParseHelperEntity entityParser;
@@ -238,6 +243,55 @@ namespace UnitTestLibraryDesktop
 				positionIteration2--;
 			}
 			Assert::IsTrue(sector2Entity->operator[]("position").Get<glm::vec4>() == glm::vec4(50, 0, 0, 0));
+		}
+
+		TEST_METHOD(EntityTestSameNameEntities)
+		{
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_multi_entity_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+			
+			Vector<Entity*> listOfEntities = sector->FindAllEntities("actor");
+			Assert::AreEqual(2U, listOfEntities.Size());
+
+			Datum* intResult = listOfEntities[0]->Find("intResult");
+			Assert::IsNotNull(intResult);
+			Assert::AreEqual(0, intResult->Get<std::int32_t>());
+
+			Datum* floatResult = listOfEntities[1]->Find("floatResult");
+			Assert::IsNotNull(floatResult);
+			Assert::AreEqual(0.0f, floatResult->Get<std::float_t>());
+
+			game.Update();
+
+			Assert::AreEqual(100, intResult->Get<std::int32_t>());
+			Assert::AreEqual(10.12f, floatResult->Get<std::float_t>());
+		}
+
+		TEST_METHOD(EntityTestSectorEntityList)
+		{
+			ActorEntityFactory aFac;
+			SampleEntityFactory sFac;
+
+			Game game;
+
+			Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_entitylist_test.xml"));
+
+			game.Start();
+
+			World& world = game.GetWorld();
+			Sector* sector = world.FindSector("worldSector");
+			Assert::IsNotNull(sector);
+
+			Assert::AreEqual(8U, sector->GetAllEntitiesOfType(Entity::TypeIdClass()).Size());
+			Assert::AreEqual(3U, sector->GetAllEntitiesOfType(ActorEntity::TypeIdClass()).Size());
+			Assert::AreEqual(4U, sector->GetAllEntitiesOfType(SampleEntity::TypeIdClass()).Size());
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

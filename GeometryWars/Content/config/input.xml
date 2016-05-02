@@ -1,0 +1,195 @@
+<world name="Steven's Universe">
+	<action class="ActionList" name="InputManager">
+		<!-- InputHandlers is a list that will hold all types of Input Handlers.							-->
+		<!-- Every InputHandler will have the following characteristics:									-->
+		<!--	ButtonMapping:	HashMap (hence Scope) mapping the Event's Subtype with the button events	-->
+		<!--																								-->
+		<!-- There are two handlers to be planned...														-->
+		
+		<!-- KeyBoardHandler: Handles Keyboard Events -->
+		<!-- NOTE: This is not implemented as of yet...-->
+		<action name="InputHandlers" class="KeyBoardHandler">
+			<scope name="ButtonMapping">	<!-- Done using KeyCodes to map to the respective buttons -->
+				<string name="8"				value="MoveLeft"/>		<!-- Keycode Left Arrow	-->
+				<string name="9"				value="MoveRight"/>		<!-- Keycode Right Arrow-->
+				<string name="10"				value="MoveUp"/>		<!-- Keycode Up Arrow	-->
+				<string name="11"				value="MoveDown"/>		<!-- Keycode Up Arrow	-->
+				<string name="32"				value="MoveLeft"/>		<!-- Keycode A			-->
+				<string name="34"				value="MoveRight"/>		<!-- Keycode D			-->
+				<string name="21"				value="MoveUp"/>		<!-- KeyCode W			-->
+				<string name="33"				value="MoveDown"/>		<!-- Keycode S			-->
+				<!-- NOTE: These KeyCodes are made up...-->
+			</scope>
+		</action>
+		
+		<!-- XBoxControllerHandlerHandler: Handles XBox Controller Events -->
+		<action name="InputHandlers" class="XBoxControllerHandler">
+			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
+				<string name="X"				value="MoveLeft"/>
+				<string name="Y"				value="MoveUp"/>
+				<string name="A"				value="MoveDown"/>
+				<string name="B"				value="MoveRight"/>
+				<string name="START"			value="Start"/>
+				<string name="SELECT"			value="Select"/>
+				<string name="DPAD_UP"			value="MoveUp"/>
+				<string name="DPAD_DOWN"		value="MoveDown"/>
+				<string name="DPAD_LEFT"		value="MoveLeft"/>
+				<string name="DPAD_RIGHT"		value="MoveRight"/>
+				<string name="LEFT_THUMB"		value="MoveLeft"/>
+				<string name="RIGHT_THUMB"		value="MoveRight"/>
+				<string name="LEFT_SHOULDER"	value="MoveLeft"/>
+				<string name="RIGHT_SHOULDER"	value="MoveRight"/>
+			</scope>
+		</action>
+	</action>
+
+
+	<!-- ==================== Event-Driven Player Connection =============== -->
+	<!-- Player Connected Reaction -->
+	<reaction class="ReactionAttributed" name="OnPlayerConnection">
+		<string name="subtype" value="PlayerConnected"/>
+		
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Player Connected!"/>
+		</action>
+	</reaction>
+	
+	<!-- Player Disconnected Reaction -->
+	<reaction class="ReactionAttributed" name="OnPlayerDisconnection">
+		<string name="subtype" value="PlayerDisconnected"/>
+		
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Player Disconnected!"/>
+		</action>
+	</reaction>
+	
+	<sector name="Sector">
+		
+		<entity class="Entity" name="Character">
+			<!-- Member Variables -->
+			<integer name="Player"		value="0"/>
+			<integer name="VelX"		value="0"/>
+			<integer name="VelY"		value="0"/>
+			<integer name="Speed"		value="1"/>
+
+			<!--	Pseudocode Concept for Analog Stick control -->
+			<!--
+			<action class="InputManagerAccessor" name="GetLeftAnalog">
+				<string name="Handler" value="KeyBoardHandler" />
+				
+				<expression name="modify">
+					<string name="expression">VelX = VelX + (LeftAnalog_X / 255)</string>
+				</expression>
+				<expression name="modify">
+					<string name="expression">VelY = VelY + (LeftAnalog_Y / 255)</string>
+				</expression>
+			</action>
+			-->
+			
+			<!-- ============================ Event-Driven Button Callbacks =======================	-->
+			<!-- ButtonMapping-Defined Reactions:													-->
+			<!--	See "ButtonMapping" scope under XBoxControllerHandler							-->
+			<!--	to see the Buttons that map to the SubTyped-Events								-->
+			
+			<!-- MoveLeft Subtype -->
+			<reaction class="ReactionAttributed" name="OnMoveLeft">
+				<string name="subtype" value="MoveLeft"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelX = {0} - Speed</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modify">
+									<string name="expression">VelX = {0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			<!-- MoveRight SubType -->
+			<reaction class="ReactionAttributed" name="OnMoveRight">
+				<string name="subtype" value="MoveRight"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelX = Speed</string>
+								</expression>
+							</then>
+							<else>
+								
+								<expression name="modify">
+									<string name="expression">VelX = {0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			<!-- MoveUp SubType -->
+			<reaction class="ReactionAttributed" name="OnMoveUp">
+				<string name="subtype" value="MoveUp"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelY = {0} - Speed</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modify">
+									<string name="expression">VelY = {0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+			<!-- MoveDown SubType -->
+			<reaction class="ReactionAttributed" name="OnMoveDown">
+				<string name="subtype" value="MoveDown"/>
+				
+				<if name="CheckPlayer">
+					<condition><string name="expression">PlayerNumber == Player</string></condition>
+					<then>
+						<if name="CheckIsButtonPressed">
+							<condition><string name="expression">IsButtonPressed</string></condition>
+							<then>
+								<expression name="modify">
+									<string name="expression">VelY = Speed</string>
+								</expression>
+							</then>
+							<else>
+								<expression name="modify">
+									<string name="expression">VelY = {0}</string>
+								</expression>
+							</else>
+						</if>
+					</then>
+				</if>
+			</reaction>
+			
+		</entity>
+	</sector>
+</world>

@@ -34,12 +34,12 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Sector() = default;
+		virtual ~Sector();
 
 		/**
 		 *	disallow copy assignment operator
 		 */
-		Sector& operator=(const Sector& rhs);
+		Sector& operator=(const Sector& rhs) = delete;
 
 		/**
 		 *	Getter for the name of this Sector
@@ -80,6 +80,8 @@ namespace Library
 		 */
 		Entity* FindEntity(const std::string& entityName) const;
 
+		Vector<Entity*> FindAllEntities(const std::string& entityName) const;
+
 		Datum& Actions();
 
 		const Datum& Actions() const;
@@ -106,11 +108,37 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 
+		void OnDestroy(WorldState& worldState);
+
+		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
+
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
+		static const std::string ATTRIBUTE_OWNER_WORLD;
 
 	private:
+		void AddEntityToTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr);
+		void RemoveEntityFromTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr);
+
+		void ScriptedBeginPlay(WorldState& worldState);
+		void EntitiesBeginPlay(WorldState& worldState);
+		void ActionsBeginPlay(WorldState& worldState);
+		void ReactionsBeginPlay(WorldState& worldState);
+
+		void ScriptedOnDestroy(WorldState& worldState);
+		void EntitiesOnDestroy(WorldState& worldState);
+		void ActionsOnDestroy(WorldState& worldState);
+		void ReactionsOnDestroy(WorldState& worldState);
+
+		void UpdateSectorActions(WorldState& worldState);
+		void DeletePendingDestroyEntities(WorldState& worldState);
+		void UpdateSectorEntities(WorldState& worldState);
+
 		std::string mName;
+		Datum* mWorld;
+
+		typedef Hashmap<std::uint64_t, Vector<Entity*>> EntityTypeMap;
+		EntityTypeMap mEntityListByType;
 	};
 
 }

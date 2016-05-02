@@ -36,11 +36,7 @@ namespace Library
 		 */
 		virtual ~ActionExpression();
 
-		/**
-		 *	parses the expression and converts it from infix to postfix notation
-		 *	called by the Action parser when the end tag is excountered
-		 */
-		virtual void PostParsingProcess() override;
+		virtual void BeginPlay(WorldState& worldState) override;
 
 		/**
 		 *	Evaluates the expression
@@ -62,11 +58,11 @@ namespace Library
 		 */
 		struct FunctionDefinition
 		{
-			FunctionDefinition(std::uint32_t numParams, std::function<Datum(const Vector<Datum>&)> functionBody) :
+			FunctionDefinition(std::uint32_t numParams, std::function<Datum(const Vector<Datum*>&)> functionBody) :
 				NumParams(numParams), FunctionBody(std::move(functionBody))
 			{}
 			std::uint32_t NumParams;
-			std::function<Datum(const Vector<Datum>&)> FunctionBody;
+			std::function<Datum(const Vector<Datum*>&)> FunctionBody;
 		};
 		typedef Hashmap<std::string, FunctionDefinition> CallableFunctions;
 
@@ -89,7 +85,7 @@ namespace Library
 
 	private:
 		void ConvertExpressionToPostfix();
-		void EvaluateExpression();
+		void EvaluateExpression(const World& world);
 
 		SList<std::string>* mPostfixExpression;
 
@@ -114,6 +110,7 @@ namespace Library
 		typedef Datum(ActionExpression::*Arithmetic)(Datum&, Datum&);
 		static const Hashmap<std::string, Arithmetic> mOperations;
 
+		std::uint32_t mTempVariableCounter;
 
 		/**
 		 *	trims the delimiter string from the end of given string

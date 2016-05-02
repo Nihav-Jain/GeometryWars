@@ -2,7 +2,7 @@
 #include "AttributedFooChild.h"
 
 using namespace Library;
-RTTI_DEFINITIONS(AttributedFooChild);
+RTTI_DEFINITIONS(AttributedFooChild, AttributedFoo);
 
 AttributedFooChild::AttributedFooChild()
 {

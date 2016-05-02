@@ -2,8 +2,11 @@
 #include "Renderer.h"
 #include "RenderDevice.h"
 #include "Renderable.h"
+#include <algorithm>
 
 namespace Library {
+
+	Renderer * Renderer::sInstance = nullptr;
 
 	Renderer::Renderer(RenderDevice * device) :
 		mDevice(device)
@@ -17,13 +20,21 @@ namespace Library {
 
 	void Renderer::AddRenderable(Renderable * object)
 	{
-		object->Init(mDevice);
 		mObjects.push_back(object);
+	}
+
+	void Renderer::RemoveRenderable(Renderable * object)
+	{
+		auto itr = std::find(mObjects.begin(), mObjects.end(), object);
+		if(itr != mObjects.end())
+		{
+			mObjects.erase(itr);
+		}
 	}
 
 	void Renderer::Update()
 	{
-		for (auto & obj : mObjects) {
+		for (auto obj : mObjects) {
 			obj->Render(mDevice);
 		}
 

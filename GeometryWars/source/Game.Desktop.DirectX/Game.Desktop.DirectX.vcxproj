@@ -103,15 +103,17 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\FMOD\inc;</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\external\FMOD\lib;$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -133,17 +135,17 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\external\FMOD\lib;$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -167,7 +169,8 @@ IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMO
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -176,8 +179,9 @@ IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMO
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\external\FMOD\lib;$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -201,7 +205,8 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\</AdditionalIncludeDirectories>
+
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -210,10 +215,9 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\inc;$(SolutionDir)\..\external\FMOD\lib;$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -229,6 +233,8 @@ IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMO
   <ItemGroup>
     <ClInclude Include="GameException.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PolygonRenderer.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameException.cpp" />
@@ -239,6 +245,40 @@ IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMO
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp" />
+    <ClCompile Include="Utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="GeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

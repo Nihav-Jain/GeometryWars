@@ -5,27 +5,18 @@ namespace Library
 {
 
 	Game::Game() :
-		mGameClock(), mGameTime(), mWorld(mGameTime),
 		mSharedData(), mParseMaster(mSharedData),
-		mWorldParser(), mSectorParser(), mEntityParser(), mActionParser(),
-		mTableParser(), mPrimitivesParser(), mNameValueParser(),
-		mSwitchParser(), mCaseParser(), mExpressionParser(), mReactionParser(), mActionEvent(),
-		mActionIf(), mActionIfCondition(), mActionIfThen(), mActionIfElse(),
-		mActionWhile(), mActionWhileLoop(), mActionBeginPlay(), mAudioManager()
+		mGameClock(), mGameTime(), mWorld(mGameTime, mParseMaster), mRenderer(nullptr), mAudioManager()
 	{
-		Init();
+		mSharedData.SetRootScope(mWorld);
+		AddParseHelpers();
 	}
 
 	Game::~Game()
 	{
 		SharedDataTable::ClearStateGraph();
 		ActionExpression::ClearStaticMemebers();
-	}
-
-	void Game::Init()
-	{
-		mSharedData.SetRootScope(mWorld);
-		AddHelpers();
+		Attributed::ClearStaticMembers();
 	}
 
 	World& Game::GetWorld()
@@ -43,11 +34,46 @@ namespace Library
 		return mGameTime;
 	}
 
-	void Game::AddHelpers()
+	void Game::Start()
+	{
+		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime); 
+		mWorld.BeginPlay();
+	}
+
+	void Game::Start(const std::string & config)
+	{
+		mParseMaster.ParseFromFile(config);
+
+		mGameClock.Reset();
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.BeginPlay();
+	}
+
+	void Game::Update()
+	{
+		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.Update();
+		if (mRenderer != nullptr)
+			mRenderer->Update();
+	}
+
+	void Game::SetRenderer(Renderer* renderer)
+	{
+		mRenderer = renderer;
+	}
+
+	void Game::Destroy()
+	{
+		mWorld.OnDestroy();
+	}
+
+	void Game::AddParseHelpers()
 	{
 		mParseMaster.AddHelper(mWorldParser);
 		mParseMaster.AddHelper(mSectorParser);
 		mParseMaster.AddHelper(mEntityParser);
+		mParseMaster.AddHelper(mGameObjectParser);
 		mParseMaster.AddHelper(mActionParser);
 		mParseMaster.AddHelper(mTableParser);
 		mParseMaster.AddHelper(mPrimitivesParser);
@@ -67,22 +93,10 @@ namespace Library
 		mParseMaster.AddHelper(mActionWhileLoop);
 
 		mParseMaster.AddHelper(mActionBeginPlay);
+		mParseMaster.AddHelper(mActionOnDestroy);
+		mParseMaster.AddHelper(mSpriteParser);
+		mParseMaster.AddHelper(mPolygonParser);
+		mParseMaster.AddHelper(mImageParser);
+		mParseMaster.AddHelper(mCircleColliderComponent);
 	}
-
-	void Game::Start()
-	{
-		mGameClock.Reset();
-		mGameClock.UpdateGameTime(mGameTime); 
-		mWorld.BeginPlay();
-	}
-
-	void Game::Update()
-	{
-		mGameClock.UpdateGameTime(mGameTime);
-		mWorld.Update();
-	}
-
-	void Game::Destroy()
-	{}
-
 }

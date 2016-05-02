@@ -3,7 +3,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(Scope);
+	RTTI_DEFINITIONS(Scope, RTTI);
 
 	const std::uint32_t Scope::DEFAULT_TABLE_SIZE;
 
@@ -147,6 +147,8 @@ namespace Library
 					Scope* newScopeCopy = orderedSymbol->second.Get<Scope>(i).Clone(orderedSymbol->second.Get<Scope>(i)); // new Scope(*orderedSymbol->second.Get<Scope*>(i));
 					AppendScope(orderedSymbol->first, *newScopeCopy);
 				}
+				if (orderedSymbol->second.Size() == 0U)
+					Append(orderedSymbol->first);
 			}
 		}
 	}
