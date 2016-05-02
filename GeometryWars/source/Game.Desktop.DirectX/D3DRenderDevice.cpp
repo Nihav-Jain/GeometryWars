@@ -52,7 +52,7 @@ namespace Library
 
 	Shader * D3DRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
 	{
-		D3DShader * shader = new D3DShader();
+		D3DShader * shader = new D3DShader(*mDirect3DDevice, *mDirect3DDeviceContext);
 		shader->Init(vPath, fPath);
 		mShaders.push_back(shader);
 		return shader;
@@ -60,7 +60,7 @@ namespace Library
 
 	RenderBuffer * D3DRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride, std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
 	{
-		D3DRenderBuffer * buffer = new D3DRenderBuffer();
+		D3DRenderBuffer * buffer = new D3DRenderBuffer(*mDirect3DDevice, *mDirect3DDeviceContext);
 		buffer->Init(data, size, stride, indices, indices_size, elementCnt);
 		mBuffers.push_back(buffer);
 		return buffer;

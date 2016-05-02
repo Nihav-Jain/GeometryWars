@@ -27,7 +27,9 @@
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\polygon.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sprite.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sprite.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xmltabletest.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_switch_case.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_test.xml" />

@@ -1,6 +1,12 @@
 #pragma once
 #include <RenderDevice.h>
 
+struct ID3D11Device1;
+struct ID3D11DeviceContext;
+struct ID3D11VertexShader;
+struct ID3D11PixelShader;
+struct ID3D11InputLayout;
+struct ID3D11Buffer;
 class OldPolygonRenderer;
 namespace Library
 {
