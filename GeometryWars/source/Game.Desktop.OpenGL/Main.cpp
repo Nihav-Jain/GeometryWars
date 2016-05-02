@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	//game.Start("Content/config/polygon.xml"); // TODO use the final world here
 	//game.Start("Content/config/input_v2.xml");
 
-	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
+	renderDevice.InitOpenGl("Geomatry War", game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
