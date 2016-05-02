@@ -24,6 +24,65 @@ namespace Library
 		delete mWorld;
 	}
 	
+	Sector::Sector(const Sector& rhs) :
+		Attributed::Attributed(rhs), mName(rhs.mName), mEntityListByType(rhs.mEntityListByType), mWorld(new Datum(*rhs.mWorld))
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+		(*this)[ATTRIBUTE_OWNER_WORLD].SetStorage(&mWorld, 1);
+
+		// TODO: update mEntityListByType
+	}
+
+	Sector::Sector(Sector&& rhs) :
+		Attributed::Attributed(std::move(rhs)), mName(std::move(rhs.mName)), mEntityListByType(std::move(rhs.mEntityListByType)), mWorld(rhs.mWorld)
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+		(*this)[ATTRIBUTE_OWNER_WORLD].SetStorage(&mWorld, 1);
+
+		rhs.mWorld = nullptr;
+	}
+
+	Sector& Sector::operator=(const Sector& rhs)
+	{
+		if (this != &rhs)
+		{
+			delete mWorld;
+
+			mName = rhs.mName;
+			mEntityListByType = rhs.mEntityListByType;
+			mWorld = new Datum(*rhs.mWorld);
+
+			Attributed::operator=(rhs);
+
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_OWNER_WORLD].SetStorage(&mWorld, 1);
+
+			// TODO: update mEntityListByType
+		}
+		return *this;
+	}
+
+	Sector& Sector::operator=(Sector&& rhs)
+	{
+		if (this != &rhs)
+		{
+			delete mWorld;
+
+			mName = std::move(rhs.mName);
+			mEntityListByType = std::move(rhs.mEntityListByType);
+			mWorld = rhs.mWorld;
+
+			Attributed::operator=(rhs);
+
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_OWNER_WORLD].SetStorage(&mWorld, 1);
+
+			rhs.mWorld = nullptr;
+		}
+		return *this;
+	}
+
+
 	const std::string& Sector::Name() const
 	{
 		return mName;
@@ -136,6 +195,12 @@ namespace Library
 		EntitiesOnDestroy(worldState);
 		ActionsOnDestroy(worldState);
 		ReactionsOnDestroy(worldState);
+	}
+
+	Scope* Sector::Clone(const Scope& rhs) const
+	{
+		Sector& action = *rhs.AssertiveAs<Sector>();
+		return new Sector(action);
 	}
 
 	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const

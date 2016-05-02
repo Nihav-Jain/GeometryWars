@@ -26,20 +26,17 @@ namespace Library
 		 */
 		Sector();
 
-		/**
-		 *	disallow copy construtor
-		 */
-		Sector(const Sector& rhs) = delete;
 
 		/**
 		 *	Default destructor
 		 */
 		virtual ~Sector();
 
-		/**
-		 *	disallow copy assignment operator
-		 */
-		Sector& operator=(const Sector& rhs) = delete;
+		Sector(const Sector& rhs);
+		Sector(Sector&& rhs);
+
+		Sector& operator=(const Sector& rhs);
+		Sector& operator=(Sector&& rhs);
 
 		/**
 		 *	Getter for the name of this Sector
@@ -107,6 +104,8 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		void Update(WorldState& worldState);
+		
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		void OnDestroy(WorldState& worldState);
 
