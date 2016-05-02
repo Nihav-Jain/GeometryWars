@@ -1,7 +1,7 @@
 <gameobject class="Bullet" name="Bullet">
 	<!-- Bullet Class Attributes -->
 	<vector name="scale" value="vec4(10, 10, 1, 0)"/>
-	<float name="speed" value="10" />
+	<float name="speed" value="20" />
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
 	

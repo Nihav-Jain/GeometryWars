@@ -4,6 +4,9 @@
 #include "../../source/Library.Desktop/Image.h"
 #include "../../source/Library.Desktop/Texture.h"
 #include "../../source/Library.Desktop/InputManager.h"
+#include "../../source/Library.Desktop/Event.h"
+#include "../../source/Library.Desktop/EventMessageAttributed.h"
+#include "../../source/Library.Desktop/EventQueue.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
@@ -66,26 +69,19 @@ namespace Library
 
 	void Player::Shoot(WorldState & worldState)
 	{
+		// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
+		//       and have a Reaction (in XML) to that event that sets mCanAttack to true
+
 		UNREFERENCED_PARAMETER(worldState);
+		mAttackTimer = std::chrono::milliseconds::zero();
 
-		if (mCanAttack)
-		{
-			mCanAttack = false;
-			mShoot = false;
-
-			// TODO: Load this prototype from an xml file
-			//Bullet* newBullet = GetSector()->CreateEntity(Bullet::TypeName(), "bullet").AssertiveAs<Bullet>();
-			//newBullet->SetPosition(mPosition);
-			//newBullet->SetVelocity(mHeading * Bullet::DEFAULT_SPEED);
-			//SpriteRenderer *bulletRenderer = Action::CreateAction(SpriteRenderer::TypeName(), "bulletRenderer", *newBullet, Entity::ATTRIBUTE_ACTIONS).AssertiveAs<SpriteRenderer>();
-			//Image *bulletImage = bulletRenderer->CreateAction(Image::TypeName(), "image", *bulletRenderer, ActionList::ATTRIBUTE_ACTIONS).AssertiveAs<Image>();
-			//bulletImage->SetPath(Bullet::DEFAULT_IMAGE);
-			//bulletImage->SetSize(Bullet::DEFAULT_SIZE);
-			//Renderer::GetInstance()->AddRenderable(bulletRenderer);
-
-			// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
-			//       and have a Reaction (in XML) to that event that sets mCanAttack to true
-		}
+		mShoot = false;
+		
+		//EventMessageAttributed message;
+		//message.SetSubtype("AttackDelay");
+		//message.SetWorldState(worldState);
+		//std::shared_ptr<Event<EventMessageAttributed>> attributedEvent = std::make_shared<Event<EventMessageAttributed>>(message);
+		//worldState.world->GetEventQueue().Enqueue(attributedEvent, *worldState.mGameTime, std::chrono::milliseconds(mAttackSpeed));
 	}
 
 	std::int32_t Player::Lives() const
@@ -180,9 +176,9 @@ namespace Library
 		GameObject::Update(worldState);
 
 		// Update heading with rotation
-		mHeading.x = -sin(mRotation.z);
-		mHeading.y = cos(mRotation.z);
-		mHeading = glm::normalize(mHeading);
+		//mHeading.x = -sin(mRotation.z);
+		//mHeading.y = cos(mRotation.z);
+		//mHeading = glm::normalize(mHeading);
 
 		// Prevent moving out of bounds
 		if (mPosition.x > mWorldWidth / 2.0f)
@@ -199,6 +195,11 @@ namespace Library
 		if (mShoot)
 		{
 			Shoot(worldState);
+		}
+		if (!mCanAttack)
+		{
+			mAttackTimer += worldState.mGameTime->ElapsedGameTime();
+			mCanAttack = mAttackTimer >= std::chrono::milliseconds(mAttackSpeed);
 		}
 
 		// Use a bomb

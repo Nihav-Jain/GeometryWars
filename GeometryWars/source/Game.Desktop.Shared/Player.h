@@ -65,6 +65,9 @@ namespace Library
 		glm::vec4 mVelocity;
 		glm::vec4 mHeading;
 
+	private:
+		std::chrono::milliseconds mAttackTimer;
+
 	};
 
 	CONCRETE_ENTITY_FACTORY(Player);
