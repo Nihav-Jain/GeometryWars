@@ -74,6 +74,15 @@ namespace WpfApplication1
             return section;
         }
 
+        public Section AddInteranlSection(int offset, StackPanel parentPanel, XmlNode parentNode, string name, Hashtable table, Hashtable hasText)
+        {
+            Section section = new Section(offset, this, parentPanel, parentNode, xmlDoc, table, name, hasText);
+
+            parentPanel.Children.Add(section);
+
+            return section;
+        }
+
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
