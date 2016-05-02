@@ -57,8 +57,9 @@ namespace Library
 		}
 	}
 
-	void ActionListSwitch::PostParsingProcess()
+	void ActionListSwitch::BeginPlay(WorldState& worldState)
 	{
+		Action::BeginPlay(worldState);
 		GenerateCaseMap();
 	}
 

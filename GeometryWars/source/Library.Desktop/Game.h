@@ -11,6 +11,9 @@
 
 #include "Renderer.h"
 #include "RenderDevice.h"
+#include "Animator.h"
+#include "AnimationState.h"
+#include "AnimationFrame.h"
 
 #include "RTTI.h"
 #include "Datum.h"
@@ -18,7 +21,10 @@
 #include "World.h"
 #include "Sector.h"
 #include "Entity.h"
+#include "GameObject.h"
+
 #include "Action.h"
+#include "Event.h"
 
 #include "ActionList.h"
 #include "ActionListSwitch.h"
@@ -27,16 +33,23 @@
 #include "ActionWhileLoop.h"
 #include "ActionCreateEntity.h"
 #include "ActionDestroyEntity.h"
+#include "ActionCreateEntityFromFile.h"
 
 #include "ActionEvent.h"
 #include "Reaction.h"
 #include "ReactionAttributed.h"
+
+#include "Image.h"
+#include "SpriteRenderer.h"
+//#include "PolygonRenderer.h"
+#include "CircleColliderComponent.h"
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
+#include "XmlParseHelperGameObject.h"
 #include "XmlParseHelperAction.h"
 #include "XmlParseHelperTable.h"
 #include "XmlParseHelperPrimitives.h"
@@ -52,6 +65,10 @@
 #include "XmlParseHelperPolygon.h"
 #include "XmlParseHelperImage.h"
 #include "XmlParseHelperOnDestroy.h"
+#include "XmlParseHelperAnimator.h"
+#include "XmlParseHelperAnimationState.h"
+#include "XmlParseHelperAnimationFrame.h"
+#include "XmlParseHelperCircleColliderComponent.h"
 
 namespace Library
 {
@@ -132,18 +149,19 @@ namespace Library
 	private:
 		void AddParseHelpers();
 
-		GameClock mGameClock;
-		GameTime mGameTime;
-		World mWorld;
-
-		Renderer * mRenderer;
+		Renderer* mRenderer;
 
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
 
+		GameClock mGameClock;
+		GameTime mGameTime;
+		World mWorld;
+
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
+		XmlParseHelperGameObject mGameObjectParser;
 		XmlParseHelperAction mActionParser;
 		XmlParseHelperTable mTableParser;
 		XmlParseHelperPrimitives mPrimitivesParser;
@@ -167,8 +185,14 @@ namespace Library
 		XmlParseHelperSprite mSpriteParser;
 		XmlParseHelperPolygon mPolygonParser;
 		XmlParseHelperImage mImageParser;
+		XmlParseHelperAnimator mAnimatorParser;
+		XmlParseHelperAnimationState mAnimationStateParser;
+		XmlParseHelperAnimationFrame mAnimationFrameParser;
+		XmlParseHelperCircleColliderComponent mCircleColliderComponent;
 
 		EntityFactory mEntityFactory;
+		GameObjectFactory mGameObjectFactory;
+
 		ActionListFactory mActionListFactory;
 		ActionListSwitchFactory mActionSwitchFactory;
 		ActionListSwitch::ActionListSwitchCaseFactory mActionCaseFactory;
@@ -179,5 +203,15 @@ namespace Library
 		ReactionAttributedFactory mReactionFactory;
 		ActionCreateEntityFactory mCreateEntityFactory;
 		ActionDestroyEntityFactory mDestroyEntityFactory;
+
+		ImageFactory mImageFactory;
+		//PolygonRendererFactory mPolygonRendererFactory;
+		SpriteRendererFactory mSpriteRendererFactory;
+		CircleColliderComponentFactory mCircleColliderComponentFactory;
+
+		ActionCreateEntityFromFileFactory mCreateEntityFromFileFactory;
+		AnimatorFactory mAnimatorFactory;
+		AnimationStateFactory mAnimationStateFactory;
+		AnimationFrameFactory mAnimationFrameFactory;
 	};
 }

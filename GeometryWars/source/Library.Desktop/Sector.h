@@ -34,7 +34,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~Sector() = default;
+		virtual ~Sector();
 
 		/**
 		 *	disallow copy assignment operator
@@ -114,6 +114,7 @@ namespace Library
 
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
+		static const std::string ATTRIBUTE_OWNER_WORLD;
 
 	private:
 		void AddEntityToTypeMap(Entity& entity, const std::uint64_t* parentTypeIdPtr);
@@ -134,6 +135,7 @@ namespace Library
 		void UpdateSectorEntities(WorldState& worldState);
 
 		std::string mName;
+		Datum* mWorld;
 
 		typedef Hashmap<std::uint64_t, Vector<Entity*>> EntityTypeMap;
 		EntityTypeMap mEntityListByType;

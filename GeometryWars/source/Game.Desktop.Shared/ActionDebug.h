@@ -1,6 +1,6 @@
 #pragma once
-#include "Game.h"
-#include "Action.h"
+#include "../../source/Library.Desktop/Game.h"
+#include "../../source/Library.Desktop/Action.h"
 
 namespace Library
 {

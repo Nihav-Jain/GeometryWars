@@ -27,6 +27,8 @@ namespace Library
 		*/
 		virtual void Update(WorldState& worldState) override;
 
+		virtual void BeginPlay(WorldState& worldState) override;
+
 		/**
 		*	Will be called by the EndElementHandler of Action parser
 		*	Can be used for processing the Action after the whole element has been parsed
@@ -35,12 +37,17 @@ namespace Library
 
 		static const std::string ATTRIBUTE_RADIUS;
 		static const std::string ATTRIBUTE_ENABLED;
+		static const std::string ATTRIBUTE_CHANNEL;
+
+		static Hashmap<std::string, std::uint64_t> sCollidableEntitiesByChannel;
 
 	private:
 		std::float_t mRadius;
 		bool mEnabled;
+		std::string mCollisionChannel;
+
 		GameObject *mOwner;
-		Datum *mCollidableEntities;
+		const Vector<Entity*> *mCollidableEntities;
 
 		bool IsColliding(const GameObject& other) const;
 	};

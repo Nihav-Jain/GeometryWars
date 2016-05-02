@@ -16,7 +16,9 @@
 namespace Library {
 
 	OpenGLRenderDevice::OpenGLRenderDevice() :
-		mWindow(nullptr)
+		mWindow(nullptr),
+		mWidth(800),
+		mHeight(600)
 	{
 	}
 
@@ -39,14 +41,22 @@ namespace Library {
 		glfwTerminate();
 	}
 
-	void OpenGLRenderDevice::InitOpenGl()
+	void OpenGLRenderDevice::InitOpenGl(const std::string & title, ::int32_t width, std::int32_t height)
 	{
+		mWidth = width;
+		mHeight = height;
+
+		if (mWidth < 400)
+			mWidth = 400;
+		if (mHeight < 300)
+			mHeight = 300;
+
 		if (!glfwInit())
 		{
 			throw std::exception("glfwInit falied");
 		}
 
-		mWindow = glfwCreateWindow(800, 600, "OpenGL Essentials", nullptr, nullptr);
+		mWindow = glfwCreateWindow(mWidth, mHeight, title.c_str(), nullptr, nullptr);
 		if (mWindow == nullptr)
 		{
 			throw std::exception("glfwCreateWindow falied");
@@ -59,15 +69,20 @@ namespace Library {
 			throw std::exception("gl3wInit falied");
 		}
 
-		glViewport(0, 0, 800, 600);
+		glViewport(0, 0, mWidth, mHeight);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	Viewport * OpenGLRenderDevice::CreateViewport()
+	std::int32_t OpenGLRenderDevice::GetViewportWidth()
 	{
-		return nullptr;
+		return mWidth;
+	}
+
+	std::int32_t OpenGLRenderDevice::GetViewportHeight()
+	{
+		return mHeight;
 	}
 
 	Texture * OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
@@ -86,10 +101,10 @@ namespace Library {
 		glClearBufferfv(GL_COLOR, 0, &Black[0]);
 	}
 
-	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
+	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath)
 	{
 		OpenGLShader * shader = new OpenGLShader();
-		shader->Init(vPath, fPath);
+		shader->Init(vPath, fPath, gPath);
 		mShaders.push_back(shader);
 		return shader;
 	}
@@ -113,11 +128,10 @@ namespace Library {
 		glBindVertexArray(0);
 	}
 
-	RenderBuffer * OpenGLRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
-		std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
+	RenderBuffer * OpenGLRenderDevice::CreateBuffer(bool createIndicesBuffer)
 	{
 		OpenGLRenderBuffer * buffer = new OpenGLRenderBuffer();
-		buffer->Init(data, size, stride, indices, indices_size, elementCnt);
+		buffer->Init(createIndicesBuffer);
 		mBuffers.push_back(buffer);
 		return buffer;
 	}

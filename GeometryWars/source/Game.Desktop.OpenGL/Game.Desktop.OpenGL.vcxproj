@@ -114,7 +114,8 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <PostBuildEvent>
-      <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
+      <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"
+IF EXIST "$(OutDir)" xcopy /E /Y /I "$(OutDir).." "$(SolutionDir)source\$(ProjectName)\bin\$(Platform)\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"
@@ -146,7 +147,8 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <PostBuildEvent>
-      <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
+      <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"
+IF EXIST "$(OutDir)" xcopy /E /Y /I "$(OutDir).." "$(SolutionDir)source\$(ProjectName)\bin\$(Platform)\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"

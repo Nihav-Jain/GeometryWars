@@ -58,11 +58,11 @@ namespace Library
 		 */
 		struct FunctionDefinition
 		{
-			FunctionDefinition(std::uint32_t numParams, std::function<Datum(const Vector<Datum>&)> functionBody) :
+			FunctionDefinition(std::uint32_t numParams, std::function<Datum(const Vector<Datum*>&)> functionBody) :
 				NumParams(numParams), FunctionBody(std::move(functionBody))
 			{}
 			std::uint32_t NumParams;
-			std::function<Datum(const Vector<Datum>&)> FunctionBody;
+			std::function<Datum(const Vector<Datum*>&)> FunctionBody;
 		};
 		typedef Hashmap<std::string, FunctionDefinition> CallableFunctions;
 

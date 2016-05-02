@@ -4,6 +4,9 @@
 #include "ActionDebug.h"
 #include "Renderer.h"
 #include "OpenGLRenderDevice.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Bullet.h"
 
 using namespace Library;
 
@@ -15,14 +18,26 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(showCommand);
 
 	OpenGLRenderDevice renderDevice;
-	renderDevice.InitOpenGl();
+
+	/// Game-specific factories that cannot live as members in the Game class ///
+	XBoxControllerHandlerFactory xchf;
+	ActionDebugFactory adf;
+	PlayerFactory mPlayerFactory;
+	EnemyFactory mEnemyFactory;
+	BulletFactory mBulletFactory;
 
 	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 	Renderer * renderer = Renderer::GetInstance(&renderDevice);
 
 	Game game;
 	game.SetRenderer(renderer);
-	game.Start("Content/config/polygon.xml"); // TODO use the final world here
+
+	game.Start("Content/config/geometrywars_test.xml");
+	//game.Start("Content/config/player_test.xml");
+	//game.Start("Content/config/polygon.xml"); // TODO use the final world here
+	//game.Start("Content/config/input_v2.xml");
+
+	renderDevice.InitOpenGl("Geomatry War", game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
 
 #pragma warning(push)
 #pragma warning(disable : 4127)

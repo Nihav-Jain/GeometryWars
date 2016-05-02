@@ -54,6 +54,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
+  <ImportGroup Label="Shared">
+    <Import Project="..\Game.Desktop.Shared\Game.Desktop.Shared.vcxitems" Label="Shared" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -202,6 +205,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionCreateEntity.h" />
+    <ClInclude Include="ActionCreateEntityFromFile.h" />
     <ClInclude Include="ActionDestroyEntity.h" />
     <ClInclude Include="ActionEvent.h" />
     <ClInclude Include="ActionExpression.h" />
@@ -209,6 +213,9 @@
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
     <ClInclude Include="ActionWhileLoop.h" />
+    <ClInclude Include="AnimationFrame.h" />
+    <ClInclude Include="AnimationState.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Attributed.h" />
     <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="Datum.h" />
@@ -257,7 +264,11 @@
     <ClInclude Include="XmlParseHelperActionIf.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
     <ClInclude Include="XmlParseHelperActionWhile.h" />
+    <ClInclude Include="XmlParseHelperAnimationFrame.h" />
+    <ClInclude Include="XmlParseHelperAnimationState.h" />
+    <ClInclude Include="XmlParseHelperAnimator.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
+    <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperImage.h" />
@@ -275,6 +286,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionCreateEntity.cpp" />
+    <ClCompile Include="ActionCreateEntityFromFile.cpp" />
     <ClCompile Include="ActionDestroyEntity.cpp" />
     <ClCompile Include="ActionEvent.cpp" />
     <ClCompile Include="ActionExpression.cpp" />
@@ -282,6 +294,9 @@
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
     <ClCompile Include="ActionWhileLoop.cpp" />
+    <ClCompile Include="AnimationFrame.cpp" />
+    <ClCompile Include="AnimationState.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Attributed.cpp" />
     <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="Datum.cpp" />
@@ -325,7 +340,11 @@
     <ClCompile Include="XmlParseHelperActionIf.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />
     <ClCompile Include="XmlParseHelperActionWhile.cpp" />
+    <ClCompile Include="XmlParseHelperAnimationFrame.cpp" />
+    <ClCompile Include="XmlParseHelperAnimationState.cpp" />
+    <ClCompile Include="XmlParseHelperAnimator.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
+    <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp" />

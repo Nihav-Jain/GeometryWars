@@ -6,6 +6,7 @@
 
 namespace Library {
 	const std::string XmlParseHelperSprite::ELEMENT_NAME = "sprite_renderer";
+	const std::string XmlParseHelperSprite::ATTRIBUTE_NAME = "name";
 
 	XmlParseHelperSprite::XmlParseHelperSprite()
 	{
@@ -30,8 +31,9 @@ namespace Library {
 		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 		Scope* parent = sharedDataPtr->CurrentScopePtr;
 		SpriteRenderer * sprite = new SpriteRenderer();
+		sprite->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
-		
+
 		Renderer::GetInstance()->AddRenderable(sprite);
 		sharedDataPtr->CurrentScopePtr = sprite;
 

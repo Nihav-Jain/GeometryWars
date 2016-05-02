@@ -11,12 +11,19 @@ namespace Library
 	const std::uint32_t Entity::NUM_RESERVED_PRESCRIBED_ATTRIBUTES = 3;
 	const std::string Entity::ATTRIBUTE_NAME = "name";
 	const std::string Entity::ATTRIBUTE_ACTIONS = "actions";
+	const std::string Entity::ATTRIBUTE_OWNER_SECTOR = "ownerSector";
 
 	Entity::Entity() :
-		mName(), mIsPendingDestroy(false)
+		mName(), mIsPendingDestroy(false), mSector(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
 		AddNestedScope(ATTRIBUTE_ACTIONS);
+		AddExternalAttribute(ATTRIBUTE_OWNER_SECTOR, 1, &mSector);
+	}
+
+	Entity::~Entity()
+	{
+		delete mSector;
 	}
 
 	const std::string& Entity::Name() const
@@ -59,6 +66,8 @@ namespace Library
 
 	void Entity::BeginPlay(WorldState& worldState)
 	{
+		*mSector = *worldState.sector;
+
 		ScriptedBeginPlay(worldState);
 		ActionsBeginPlay(worldState);
 		ReactionsBeginPlay(worldState);

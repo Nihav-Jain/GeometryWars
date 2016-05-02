@@ -17,8 +17,9 @@ namespace Library
 		if (!attributes.ContainsKey(ATTRIBUTE_CLASS))
 			throw std::exception("ClearScreen syntax for <gameobject>. Missing attribute: class");
 
-		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::GAMEOBJECT_START))
-			throw std::exception("ClearScreen script syntax");
+
+		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_START))
+			throw std::exception("Invalid script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
@@ -27,7 +28,6 @@ namespace Library
 		Sector* sector = static_cast<Sector*>(sharedDataPtr->CurrentScopePtr);
 
 		GameObject* gameObject = sector->CreateEntity(attributes[ATTRIBUTE_CLASS], attributes[ATTRIBUTE_NAME]).As<GameObject>();
-		gameObject->SetType(sector->Name());
 
 		sharedDataPtr->CurrentScopePtr = gameObject;
 		return true;
@@ -41,7 +41,7 @@ namespace Library
 		if (elementName != ELEMENT_NAME)
 			return false;
 
-		bool transitionToGameObjectEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::GAMEOBJECT_END);
+		bool transitionToGameObjectEnd = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_END);
 		UNREFERENCED_PARAMETER(transitionToGameObjectEnd);
 		assert(transitionToGameObjectEnd);
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);

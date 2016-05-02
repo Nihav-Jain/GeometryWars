@@ -88,7 +88,18 @@ namespace WpfApplication1
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if(cbox.SelectedItem != null)
-                mWindow.AddSection(mOffset, cbox.Text, items, hasText);
+            {
+                if((cbox.SelectedItem as ComboBoxItem).Content as string == "polygon_renderer")
+                {
+                    PolygonDrawing win2 = new PolygonDrawing(mWindow, mOffset);
+                    win2.Show();
+                    this.Close();
+                }
+                else
+                {
+                    mWindow.AddSection(mOffset, cbox.Text, items, hasText);
+                }
+            }         
         }
     }
 }

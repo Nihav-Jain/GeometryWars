@@ -22,5 +22,6 @@
  <reaction name="testReaction" class="ReactionAttributed"/>
  <event name="mouseDownEvent" subtype="mousedown"/>
  <while name="something"/>
+ <polygon_renderer name=""/>
  <loop/>
 </root> 

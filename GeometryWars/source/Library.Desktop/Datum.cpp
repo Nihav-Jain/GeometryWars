@@ -40,6 +40,18 @@ namespace Library
 		{ Datum::DatumType::STRING, &Datum::LessThan<DatumType::STRING> }
 	};
 
+	const Hashmap<Datum::DatumType, std::string> Datum::DatumTypeToString = {
+		{ Datum::DatumType::INTEGER,	"INTEGER" },
+		{ Datum::DatumType::FLOAT,		"FLOAT" },
+		{ Datum::DatumType::STRING,		"STRING" },
+		{ Datum::DatumType::VECTOR4,	"VECTOR4" },
+		{ Datum::DatumType::MATRIX4x4,	"MATRIX4x4" },
+		{ Datum::DatumType::BOOLEAN,	"BOOLEAN" },
+		{ Datum::DatumType::TABLE,		"TABLE" },
+		{ Datum::DatumType::POINTER,	"POINTER" },
+		{ Datum::DatumType::REFERENCE,	"REFERENCE" }
+	};
+
 	Datum::Datum() :
 		mType(DatumType::UNKNOWN), mSize(0), mCapacity(0), mStorageType(DatumStorageType::UNKNOWN)
 	{

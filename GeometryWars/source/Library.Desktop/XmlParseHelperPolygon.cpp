@@ -6,6 +6,8 @@
 
 namespace Library {
 	const std::string XmlParseHelperPolygon::ELEMENT_NAME = "polygon_renderer";
+	const std::string XmlParseHelperPolygon::ATTRIBUTE_NAME = "name";
+
 
 	XmlParseHelperPolygon::XmlParseHelperPolygon()
 	{
@@ -30,6 +32,7 @@ namespace Library {
 		// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 		Scope* parent = sharedDataPtr->CurrentScopePtr;
 		PolygonRenderer * polygon = new PolygonRenderer();
+		polygon->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *polygon);
 
 		Renderer::GetInstance()->AddRenderable(polygon);

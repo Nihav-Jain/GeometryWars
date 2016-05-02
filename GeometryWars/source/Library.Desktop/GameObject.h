@@ -9,14 +9,6 @@ namespace Library
 
 	public:
 
-		enum class GameObjectType
-		{
-			INVALID,
-			PLAYER,
-			ENEMY,
-			BULLET
-		};
-
 		GameObject();
 		virtual ~GameObject() = default;
 
@@ -29,28 +21,27 @@ namespace Library
 		const glm::vec4& Scale() const;
 		void SetScale(const glm::vec4& scale);
 
-		GameObjectType Type() const;
-		void SetType(const std::string& type);
-		void SetType(GameObjectType type);
+		const std::float_t& MoveSpeed() const;
+		void SetMoveSpeed(const std::float_t& moveSpeed);
 
 		Action* GetComponent(const std::string& typeName) const;
 		bool HasComponent(const std::string& typeName) const;
 
-		virtual void OnOverlapBegin(const GameObject& other);
+		virtual void BeginPlay(WorldState& worldState) override;
+		virtual void Update(WorldState& worldState) override;
+		virtual void OnDestroy(WorldState& worldState) override;
+		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState);
 
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_ROTATION;
 		static const std::string ATTRIBUTE_SCALE;
-
-		static const std::string SECTOR_PLAYER;
-		static const std::string SECTOR_ENEMIES;
-		static const std::string SECTOR_BULLETS;
-		static const Hashmap<std::string, GameObjectType> SectorTypeStrings;
+		static const std::string ATTRIBUTE_MOVESPEED;
 
 	protected:
 		glm::vec4 mPosition, mRotation, mScale;
-		GameObjectType mType;
+		std::float_t mMoveSpeed;
 
+		std::int32_t mWorldWidth, mWorldHeight;
 	};
 
 	CONCRETE_ENTITY_FACTORY(GameObject);

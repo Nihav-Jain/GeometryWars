@@ -43,7 +43,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	game.SetRenderer(renderer);
 	game.Start("Content/config/polygon.xml");
 
-	KeyBoardHandlerFactory khf;
 	XBoxControllerHandlerFactory xchf;
 	ActionDebugFactory adf;
 

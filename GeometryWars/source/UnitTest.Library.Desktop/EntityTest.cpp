@@ -61,8 +61,11 @@ namespace UnitTestLibraryDesktop
 			gameClock.Reset();
 			GameTime gameTime;
 
+			SharedDataTable sharedDataTable;
+			XmlParseMaster master(sharedDataTable);
+
 			std::string worldName = "World";
-			World world(gameTime);
+			World world(gameTime, master);
 			world.SetName("World");
 
 			Assert::AreEqual(worldName, world.Name());
@@ -120,12 +123,13 @@ namespace UnitTestLibraryDesktop
 			GameClock gameClock;
 			gameClock.Reset();
 			GameTime gameTime;
-			World completeWorld(gameTime);
 
 			SharedDataTable sharedData;
+			XmlParseMaster master(sharedData);
+
+			World completeWorld(gameTime, master);
 			sharedData.SetRootScope(completeWorld);
 
-			XmlParseMaster master(sharedData);
 			XmlParseHelperWorld worldParser;
 			XmlParseHelperSector sectorParser;
 			XmlParseHelperEntity entityParser;

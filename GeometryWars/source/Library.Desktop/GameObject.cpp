@@ -8,28 +8,15 @@ namespace Library
 	const std::string GameObject::ATTRIBUTE_POSITION = "position";
 	const std::string GameObject::ATTRIBUTE_ROTATION = "rotation";
 	const std::string GameObject::ATTRIBUTE_SCALE = "scale";
-
-	// TODO : Move these somewhere else?
-	const std::string GameObject::SECTOR_PLAYER = "playerSector";
-	const std::string GameObject::SECTOR_ENEMIES = "enemiesSector";
-	const std::string GameObject::SECTOR_BULLETS = "bulletsSector";
-
-
-#pragma warning (disable:4592)
-	const Hashmap<std::string, GameObject::GameObjectType> GameObject::SectorTypeStrings =
-	{
-		{ GameObject::SECTOR_PLAYER,	GameObject::GameObjectType::PLAYER },
-		{ GameObject::SECTOR_ENEMIES,	GameObject::GameObjectType::ENEMY },
-		{ GameObject::SECTOR_BULLETS,	GameObject::GameObjectType::BULLET }
-	};
-#pragma warning (default:4592)
+	const std::string GameObject::ATTRIBUTE_MOVESPEED = "speed";
 
 	GameObject::GameObject()
-		: mType(GameObjectType::INVALID), mPosition(), mRotation(), mScale(1.0f)
+		: mPosition(), mRotation(), mScale(1.0f), mMoveSpeed(), mWorldWidth(), mWorldHeight()
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
 		AddExternalAttribute(ATTRIBUTE_SCALE, 1, &mScale);
+		AddExternalAttribute(ATTRIBUTE_MOVESPEED, 1, &mMoveSpeed);
 	}
 
 	const glm::vec4 & GameObject::Position() const
@@ -62,19 +49,14 @@ namespace Library
 		mScale = scale;
 	}
 
-	GameObject::GameObjectType GameObject::Type() const
+	const std::float_t & GameObject::MoveSpeed() const
 	{
-		return mType;
+		return mMoveSpeed;
 	}
 
-	void GameObject::SetType(const std::string & type)
+	void GameObject::SetMoveSpeed(const std::float_t & moveSpeed)
 	{
-		mType = SectorTypeStrings[type];
-	}
-
-	void GameObject::SetType(GameObjectType type)
-	{
-		mType = type;
+		mMoveSpeed = moveSpeed;
 	}
 
 	Action* GameObject::GetComponent(const std::string & typeName) const
@@ -87,9 +69,28 @@ namespace Library
 		return (GetComponent(typeName) != nullptr);
 	}
 
-	void GameObject::OnOverlapBegin(const GameObject & other)
+	void GameObject::BeginPlay(WorldState & worldState)
+	{
+		Entity::BeginPlay(worldState);
+
+		mWorldWidth = worldState.world->GetWidth();
+		mWorldHeight = worldState.world->GetHeight();
+	}
+
+	void GameObject::Update(WorldState & worldState)
+	{
+		Entity::Update(worldState);
+	}
+
+	void GameObject::OnDestroy(WorldState & worldState)
+	{
+		Entity::OnDestroy(worldState);
+	}
+
+	void GameObject::OnOverlapBegin(const GameObject & other, WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(other);
+		UNREFERENCED_PARAMETER(worldState);
 	}
 }
 

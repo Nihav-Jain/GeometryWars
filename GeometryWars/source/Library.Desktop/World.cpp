@@ -12,12 +12,20 @@ namespace Library
 	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
 	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
 
-	World::World(const GameTime& gameTime) :
-		mName(), mWorldState(gameTime), mEventQueue()
+	const std::string World::ATTRIBUTE_WIDTH = "width";
+	const std::string World::ATTRIBUTE_HEIGHT = "height";
+
+	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
+		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
+		mWidth(0), mHeight(0)
 	{
 		mWorldState.world = this;
 
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+
+		AddExternalAttribute(ATTRIBUTE_WIDTH, 1, &mWidth);
+		AddExternalAttribute(ATTRIBUTE_HEIGHT, 1, &mHeight);
+
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
 	}
@@ -142,6 +150,31 @@ namespace Library
 		return targetScope->Find(referenceName);
 	}
 
+	XmlParseMaster& World::ParseMaster()
+	{
+		return *mParseMaster;
+	}
+
+	void World::SetWidth(std::int32_t width)
+	{
+		mWidth = width;
+	}
+
+	void World::SetHeight(std::int32_t height)
+	{
+		mHeight = height;
+	}
+
+	std::int32_t World::GetWidth()
+	{
+		return mWidth;
+	}
+
+	std::int32_t World::GetHeight()
+	{
+		return mHeight;
+	}
+
 	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch) const
 	{
 		Scope* scopeToFind = nullptr;
@@ -193,7 +226,12 @@ namespace Library
 		if (scopeToFind == nullptr)
 		{
 			if (referenceToFind != nullptr)
-				scopeToFind = &referenceToFind->Get<Scope>();
+			{
+				if (referenceToFind->Type() == Datum::DatumType::TABLE)
+					scopeToFind = &referenceToFind->Get<Scope>();
+				else if (referenceToFind->Type() == Datum::DatumType::REFERENCE)
+					scopeToFind = &referenceToFind->Get<Datum>().Get<Scope>();
+			}
 			else if(caller.GetParent() != nullptr && doRecursiveSearch)
 				scopeToFind = ComplexSearchHelper(name, *caller.GetParent(), doRecursiveSearch);
 		}
