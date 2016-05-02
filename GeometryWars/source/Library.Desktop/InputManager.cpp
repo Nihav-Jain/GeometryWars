@@ -18,8 +18,6 @@ namespace Library
 
 	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
 	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
-	const std::int32_t				InputHandler::zero_ms					= 0;	//= std::chrono::milliseconds::zero();
-	const std::int32_t				InputHandler::negative_ms				= -1;	//= std::chrono::milliseconds(-1);
 
 	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
 	{
@@ -129,7 +127,7 @@ namespace Library
 		X_ADDSCOPE(RightStick);
 	}
 #undef X_ADDSCOPE
-
+	
 	void Button::UpdateState(const std::chrono::milliseconds & deltaTime, bool IsPressed)
 	{
 		bool PrevKeyDownState = IsKeyDown;
