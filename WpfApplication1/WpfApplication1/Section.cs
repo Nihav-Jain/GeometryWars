@@ -42,6 +42,9 @@ namespace WpfApplication1
                 case "comment":
                     SectionStack.Background = Brushes.Wheat;
                     break;
+                case "polygon_renderer":
+                    SectionStack.Background = Brushes.Blue;
+                    break;
                 default:
                     SectionStack.Background = Brushes.Gray;
                     break;
@@ -136,7 +139,7 @@ namespace WpfApplication1
             //SectorNode.InnerText = text.Value;
 
             //add button
-            if (name != "comment")
+            if (name != "comment" && name != "polygon_renderer")
             {
                 
                 AddButton.Content = "Add";

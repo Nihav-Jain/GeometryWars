@@ -73,18 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -96,8 +100,10 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4091;4201;4239;4592;4055;4152;4099;4005</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)..\external\Expat\include</AdditionalIncludeDirectories>
-    </ClCompile>
+
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
+
+	  </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -106,9 +112,11 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Expat.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+	
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+
+	  </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
@@ -123,7 +131,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4091;4201;4239;4592;4055;4152;4099;4005</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)..\external\Expat\include</AdditionalIncludeDirectories>
+
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
+
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,8 +143,10 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Expat.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -152,7 +164,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4091;4201;4239;4592;4055;4152;4099;4005</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)..\external\Expat\include</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
+
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,9 +178,11 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Expat.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+	
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+
+	</Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
@@ -183,7 +199,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4091;4201;4239;4592;4055;4152;4099;4005</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)..\external\Expat\include</AdditionalIncludeDirectories>
+
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
+
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,8 +213,10 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Expat.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -212,8 +232,16 @@
     <ClInclude Include="ActionIfThenElse.h" />
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
+    <ClInclude Include="ActionLoadMusic.h" />
+    <ClInclude Include="ActionPlayMusic.h" />
+    <ClInclude Include="ActionStopMusic.h" />
+    <ClInclude Include="ActionTogglePauseMusic.h" />
     <ClInclude Include="ActionWhileLoop.h" />
+    <ClInclude Include="AnimationFrame.h" />
+    <ClInclude Include="AnimationState.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Attributed.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="Datum.h" />
     <ClInclude Include="DefaultHash.h" />
@@ -261,6 +289,9 @@
     <ClInclude Include="XmlParseHelperActionIf.h" />
     <ClInclude Include="XmlParseHelperActionSwitch.h" />
     <ClInclude Include="XmlParseHelperActionWhile.h" />
+    <ClInclude Include="XmlParseHelperAnimationFrame.h" />
+    <ClInclude Include="XmlParseHelperAnimationState.h" />
+    <ClInclude Include="XmlParseHelperAnimator.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
     <ClInclude Include="XmlParseHelperDefine.h" />
@@ -288,8 +319,16 @@
     <ClCompile Include="ActionIfThenElse.cpp" />
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
+    <ClCompile Include="ActionLoadMusic.cpp" />
+    <ClCompile Include="ActionPlayMusic.cpp" />
+    <ClCompile Include="ActionStopMusic.cpp" />
+    <ClCompile Include="ActionTogglePauseMusic.cpp" />
     <ClCompile Include="ActionWhileLoop.cpp" />
+    <ClCompile Include="AnimationFrame.cpp" />
+    <ClCompile Include="AnimationState.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Attributed.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="Datum.cpp" />
     <ClCompile Include="DefaultHash.cpp" />
@@ -332,6 +371,9 @@
     <ClCompile Include="XmlParseHelperActionIf.cpp" />
     <ClCompile Include="XmlParseHelperActionSwitch.cpp" />
     <ClCompile Include="XmlParseHelperActionWhile.cpp" />
+    <ClCompile Include="XmlParseHelperAnimationFrame.cpp" />
+    <ClCompile Include="XmlParseHelperAnimationState.cpp" />
+    <ClCompile Include="XmlParseHelperAnimator.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
     <ClCompile Include="XmlParseHelperDefine.cpp" />

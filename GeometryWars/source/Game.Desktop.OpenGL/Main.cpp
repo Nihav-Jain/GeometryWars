@@ -10,6 +10,8 @@
 
 using namespace Library;
 
+
+
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR commandLine, int showCommand)
 {
 	UNREFERENCED_PARAMETER(instance);
@@ -31,9 +33,13 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	Game game;
 	game.SetRenderer(renderer);
-	game.Start("Content/config/player_test.xml");
 
-	renderDevice.InitOpenGl(game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
+	game.Start("Content/config/geometrywars_test.xml");
+	//game.Start("Content/config/player_test.xml");
+	//game.Start("Content/config/polygon.xml"); // TODO use the final world here
+	//game.Start("Content/config/input_v2.xml");
+
+	renderDevice.InitOpenGl("Geomatry War", game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
@@ -44,3 +50,5 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	return 0;
 }
+
+

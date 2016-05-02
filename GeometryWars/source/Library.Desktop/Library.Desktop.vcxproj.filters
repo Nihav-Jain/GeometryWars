@@ -156,6 +156,24 @@
     <ClInclude Include="Viewport.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
+
+    <ClInclude Include="ActionTogglePauseMusic.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="ActionLoadMusic.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPlayMusic.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionStopMusic.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderDevice.h">
+      <Filter>Kernel\Graphic\opengl</Filter>
+    </ClInclude>
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -186,12 +204,8 @@
     <ClInclude Include="CircleColliderComponent.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h" />
     <ClInclude Include="XmlParseHelperImage.h">
       <Filter>XmlParseHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="XmlParseHelperPolygon.h">
       <Filter>XmlParseHelpers</Filter>
@@ -208,9 +222,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Kernel\Input</Filter>
     </ClInclude>
-    <ClInclude Include="PolygonRenderer.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
@@ -218,6 +229,33 @@
       <Filter>Kernel\Actions</Filter>
     </ClInclude>
     <ClInclude Include="XmlParseHelperDefine.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonRenderer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationState.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAnimationState.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAnimator.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrame.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperAnimationFrame.h">
       <Filter>XmlParseHelpers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -380,16 +418,27 @@
     <ClCompile Include="CircleColliderComponent.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp">
       <Filter>XmlParseHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseHelperPolygon.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
+
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="ActionLoadMusic.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionPlayMusic.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionStopMusic.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionTogglePauseMusic.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+
     <ClCompile Include="ActionCreateEntity.cpp">
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
@@ -403,9 +452,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Kernel\Input</Filter>
     </ClCompile>
-    <ClCompile Include="PolygonRenderer.cpp">
-      <Filter>Kernel</Filter>
-    </ClCompile>
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
@@ -413,6 +459,33 @@
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
     <ClCompile Include="XmlParseHelperDefine.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAnimationState.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAnimator.cpp">
+      <Filter>XmlParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationFrame.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperAnimationFrame.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>

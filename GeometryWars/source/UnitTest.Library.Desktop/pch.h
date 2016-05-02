@@ -36,6 +36,7 @@
 #include "AttributedFoo.h"
 #include "AttributedFooChild.h"
 #include "AttributedNative.h"
+#include "AudioManager.h"
 
 #ifndef UNREFERENCED_PARAMETER
 #define UNREFERENCED_PARAMETER(P)          (P)

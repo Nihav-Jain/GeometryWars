@@ -6,7 +6,7 @@ namespace Library
 
 	Game::Game() :
 		mSharedData(), mParseMaster(mSharedData),
-		mGameClock(), mGameTime(), mWorld(mGameTime, mParseMaster), mRenderer(nullptr)
+		mGameClock(), mGameTime(), mWorld(mGameTime, mParseMaster), mRenderer(nullptr), mAudioManager()
 	{
 		mSharedData.SetRootScope(mWorld);
 		AddParseHelpers();
@@ -37,7 +37,7 @@ namespace Library
 	void Game::Start()
 	{
 		mGameClock.Reset();
-		mGameClock.UpdateGameTime(mGameTime);
+		mGameClock.UpdateGameTime(mGameTime); 
 		mWorld.BeginPlay();
 	}
 
@@ -99,6 +99,9 @@ namespace Library
 		mParseMaster.AddHelper(mSpriteParser);
 		mParseMaster.AddHelper(mPolygonParser);
 		mParseMaster.AddHelper(mImageParser);
+		mParseMaster.AddHelper(mAnimatorParser);
+		mParseMaster.AddHelper(mAnimationStateParser);
+		mParseMaster.AddHelper(mAnimationFrameParser);
 		mParseMaster.AddHelper(mCircleColliderComponent);
 	}
 }

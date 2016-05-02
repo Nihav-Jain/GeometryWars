@@ -27,10 +27,13 @@ namespace Library {
 		SpriteRenderer(const SpriteRenderer & rhs) = delete;
 		SpriteRenderer & operator=(const SpriteRenderer & rhs) = delete;
 
+		void SetUV(float origin_x, float origin_y, float width, float height);
+
 		virtual void Render(RenderDevice * device) override;
 
 	private:
 		void Init(RenderDevice * device);
+		void SetBufferData();
 		bool mInited;
 		Texture * mTexture;
 		Shader * mShader;
@@ -40,6 +43,11 @@ namespace Library {
 		Datum * mRotation;
 		Datum * mScale;
 		glm::vec4 * mSize;
+
+		float mU;
+		float mV;
+		float mUWidth;
+		float mVHeight;
 	};
 
 	CONCRETE_ACTION_FACTORY(SpriteRenderer);
