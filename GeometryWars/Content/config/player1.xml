@@ -15,7 +15,7 @@
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 	<vector name="scale" value="vec4(12.5, 12.5, 1, 0)"/>
-	<float name="speed" value="10" />
+	<float name="speed" value="0.5" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -130,18 +130,21 @@
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
 	
-		<!-- Update position -->
-		<expression name="updateposition">
+		<!-- Update position 
+		<expression name="movement">
 			<string name="expression">position = position + velocity</string>
 		</expression>
+		-->
 		
-		<!-- Update attack delay --> <!--
+		<!-- Update attack delay -->
+		<!--
 		<reaction class="ReactionAttributed" name="CanAttack">
 			<string name="subtype" value="AttackDelay" />
 			<expression name="enableattack">
 				<string name="expression">canattack = {true}</string>
 			</expression>
-		</reaction> -->
+		</reaction> 
+		-->
   
 	</action>		
 		

@@ -180,14 +180,15 @@ namespace Library
 
 	void Player::BeginPlay(WorldState & worldState)
 	{
-		GameObject::BeginPlay(worldState);
-
 		mHeading = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+
+		GameObject::BeginPlay(worldState);
 	}
 
 	void Player::Update(WorldState & worldState)
 	{
-		GameObject::Update(worldState);
+		// Update position
+		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
 
 		// Update heading with rotation
 		//mHeading.x = -sin(mRotation.z);
@@ -226,6 +227,8 @@ namespace Library
 		{
 			UseBomb(worldState);
 		}
+
+		GameObject::Update(worldState);
 	}
 
 	void Player::OnDestroy(WorldState & worldState)

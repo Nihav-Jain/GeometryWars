@@ -30,13 +30,13 @@
 	<!-- XBoxControllerHandler: Handles XBox Controller Events -->
 	<action name="XBoxControllerManager" class="XBoxControllerHandler">
 		<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
+			<string name="B"				value="Bomb"/>
+			<string name="START"			value="Start"/>
+			<string name="SELECT"			value="Select"/>
 			<!--
 			<string name="X"				value="Shoot"/>
 			<string name="Y"				value="Shoot"/>
 			<string name="A"				value="Shoot"/>
-			<string name="B"				value="Shoot"/>
-			<string name="START"			value="Start"/>
-			<string name="SELECT"			value="Select"/>
 			<string name="DPAD_UP"			value="MoveUp"/>
 			<string name="DPAD_DOWN"		value="MoveDown"/>
 			<string name="DPAD_LEFT"		value="MoveLeft"/>
@@ -53,9 +53,10 @@
     
 		<include file="Content\config\player1.xml" />
 		
-		<include file="Content\config\pinwheelenemy.xml" />	
-		<include file="Content\config\diamondenemy.xml" />
-		<include file="Content\config\squareenemy.xml" />
+		<!-- TODO: Spawn enemies randomly on escalating intervals -->
+		<include file="Content\config\enemy_pinwheel.xml" />	
+		<include file="Content\config\enemy_diamond.xml" />
+		<include file="Content\config\enemy_square.xml" />
 		
 	</sector>	
 </world>

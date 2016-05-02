@@ -54,11 +54,10 @@ namespace Library
 
 	void Enemy::Update(WorldState & worldState)
 	{
-		GameObject::Update(worldState);
+		// Update position
+		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
 
-		// TODO: separate this out for different derived enemy types
-		mPosition += mVelocity;
-
+		// TODO: separate this out for different derived enemy types?
 		// Check if out of bounds
 		if (mPosition.x > mWorldWidth / 2.0f)
 		{
@@ -81,6 +80,8 @@ namespace Library
 			mPosition.y = -mWorldHeight / 2.0f;
 			mVelocity.y *= -1.0f;
 		}
+
+		GameObject::Update(worldState);
 	}
 
 	void Enemy::OnDestroy(WorldState & worldState)

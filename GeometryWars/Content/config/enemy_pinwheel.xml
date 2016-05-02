@@ -66,16 +66,16 @@
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
 		<vector name="delta" value="vec4(0, 0, -0.05, 0)"/>
-		
-		<!-- Update position -->
-		<expression name="movement">
-			<string name="expression">position = position + velocity</string>
-		</expression>
-		
 		<!-- Update rotation -->
 		<expression name="change_rot">
 			<string name="expression">rotation = rotation + delta</string>
 		</expression>
+		
+		<!-- Update position 
+		<expression name="movement">
+			<string name="expression">position = position + velocity</string>
+		</expression>
+		-->
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
