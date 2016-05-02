@@ -22,7 +22,7 @@
 			<string name="message" value="Player Disconnected!"/>
 		</action>
 	</reaction>
-	
+
 	<!-- "InputHandlers" ActionList removed for accessibility Purposes 									-->
 	<!-- Every InputHandler will have the following characteristics:									-->
 	<!--	ButtonMapping:	HashMap (hence Scope) mapping the Event's Subtype with the button events	-->
@@ -50,7 +50,13 @@
 	</action>
 	
 	<sector name="InGameSector">
-    
+
+		<action class="ActionDebug" name="TimeDebug">
+			<expression name="asc">
+				<string name="expression">message = {"Time = "} + ownerWorld.deltaTime</string>
+			</expression>
+		</action>
+
 		<include file="Content\config\player1.xml" />
 		
 		<!-- TODO: Spawn enemies randomly on escalating intervals -->

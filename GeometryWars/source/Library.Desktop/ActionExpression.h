@@ -83,7 +83,7 @@ namespace Library
 
 	private:
 		void ConvertExpressionToPostfix();
-		void EvaluateExpression(const World& world);
+		void EvaluateExpression();
 
 		SList<std::string>* mPostfixExpression;
 

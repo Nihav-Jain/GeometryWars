@@ -195,7 +195,7 @@ namespace Library
 	void ActionExpression::Update(WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
-		EvaluateExpression(*worldState.world);
+		EvaluateExpression();
 	}
 
 	Scope* ActionExpression::Clone(const Scope& rhs) const
@@ -383,7 +383,7 @@ namespace Library
 		}
 	}
 
-	void ActionExpression::EvaluateExpression(const World& world)
+	void ActionExpression::EvaluateExpression()
 	{
 		Stack<Datum*> evaluationStack;
 		SList<std::string> postfixExpression(*mPostfixExpression);
@@ -441,7 +441,7 @@ namespace Library
 			{
 				Datum* operand = nullptr;
 				if (postfixExpression.Front().find('.')  < postfixExpression.Front().length())
-					operand = world.ComplexSearch(postfixExpression.Front(), *this);
+					operand = World::ComplexSearch(postfixExpression.Front(), *this);
 				else
 					operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);

@@ -97,6 +97,8 @@
 							</expression>
 							<action class="ActionCreateEntityFromFile" name="spawnBullet">
 							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
+								<string name="className" value="Content/config/bullet.xml" index="0" />
+								<string name="instanceName" value="Content/config/bullet.xml" index="0" />
 							</action>  
 							<!--
 							<expression name="updateheading">
