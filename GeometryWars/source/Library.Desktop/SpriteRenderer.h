@@ -30,6 +30,7 @@ namespace Library {
 		void SetUV(float origin_x, float origin_y, float width, float height);
 
 		virtual void Render(RenderDevice * device) override;
+		virtual void BeginPlay(WorldState & worldState) override;
 
 	private:
 		void Init(RenderDevice * device);

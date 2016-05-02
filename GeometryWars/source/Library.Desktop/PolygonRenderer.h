@@ -29,6 +29,7 @@ namespace Library {
 		PolygonRenderer & operator=(const PolygonRenderer & rhs) = delete;
 
 		virtual void Render(RenderDevice * device) override;
+		virtual void BeginPlay(WorldState& worldState) override;
 
 	private:
 		void Init(RenderDevice * device);

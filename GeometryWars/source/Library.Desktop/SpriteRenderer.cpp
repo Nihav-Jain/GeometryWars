@@ -134,6 +134,10 @@ namespace Library {
 			mBuffer->SetData(vertices, sizeof(vertices), 4 * sizeof(float), nullptr, 0, 4);
 	}
 
-
+	void SpriteRenderer::BeginPlay(WorldState & worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+		Renderer::GetInstance()->AddRenderable(this);
+	}
 
 }

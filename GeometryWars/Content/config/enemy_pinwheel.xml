@@ -1,4 +1,4 @@
-<gameobject class="Enemy" name="PinwheelEnemy">
+<gameobject class="Enemy" name="adsfasdf">
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
@@ -83,6 +83,9 @@
 				<string name="expression">isdead</string>
 			</condition>
 			<then>
+				<expression name="exp">
+					<string name="expression">destroySelf.entityInstanceName = ownerEntity.name</string>
+				</expression>
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<string name="entityInstanceName" value="PinwheelEnemy"/>
 				</action>

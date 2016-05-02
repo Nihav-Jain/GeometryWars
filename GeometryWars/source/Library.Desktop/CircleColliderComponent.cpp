@@ -120,7 +120,7 @@ namespace Library
 
 	void CircleColliderComponent::ResetAttributePointers()
 	{
-		(*this)[ATTRIBUTE_NAME].SetStorage(&mRadius, 1);
+		(*this)[ATTRIBUTE_RADIUS].SetStorage(&mRadius, 1);
 		(*this)[ATTRIBUTE_ENABLED].SetStorage(&mEnabled, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}

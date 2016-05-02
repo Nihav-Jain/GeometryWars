@@ -76,6 +76,13 @@ namespace Library {
 		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size());
 	}
 
+
+	void PolygonRenderer::BeginPlay(WorldState & worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+		Renderer::GetInstance()->AddRenderable(this);
+	}
+
 	void PolygonRenderer::Init(RenderDevice * device)
 	{
 		mInited = true;

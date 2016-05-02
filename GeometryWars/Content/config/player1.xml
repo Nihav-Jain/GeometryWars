@@ -95,19 +95,11 @@
 							<expression name="updateheading">
 								<string name="expression">heading = XBoxControllerManager.PlayerOneState.RightStick.Direction</string>
 							</expression>
-							<action class="ActionCreateEntityFromFile" name="spawnBullet">
+							<action class="ActionCreateEntityFromFile" name="SpawnBullet">
 							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
-								<string name="className" value="Content/config/bullet.xml" index="0" />
-								<string name="instanceName" value="Content/config/bullet.xml" index="0" />
-							</action>  
-							<!--
-							<expression name="updateheading">
-								<string name="expression">heading = XBoxControllerManager.PlayerOneState.RightStick.Direction * {1.5}</string>
-							</expression>
-							<action class="ActionCreateEntityFromFile" name="spawnBullet">
-							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
+								<string name="className" value="Bullet" index="0" />
+								<string name="instanceName" value="Bullet" index="0" />
 							</action>
-							-->
 						</then>
 					</if>
 				</then>
