@@ -30,7 +30,7 @@ namespace Library
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
-		  mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		  mScore(0), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -114,6 +114,21 @@ namespace Library
 			--mLives;
 			OutputDebugStringA("Player Hit!");
 		}
+	}
+
+	const std::int64_t Player::Score() const
+	{
+		return mScore;
+	}
+
+	void Player::AddScore(const std::int32_t & score)
+	{
+		mScore += score;
+	}
+
+	void Player::SetScore(const std::int64_t & score)
+	{
+		mScore = score;
 	}
 
 	std::int32_t Player::Bombs() const
