@@ -25,7 +25,9 @@ namespace WpfApplication1
         Line Line;
         bool LineEnd = true;
         List<Line> Lines;
-        bool finished = false;
+        Dictionary<Tuple<double, double>, int> mVertexDic;
+        Dictionary<Tuple<double, double>, int> mVertexDicReferences;
+        int mVertexCount = 0;
         MainWindow mWindow;
         private int mOffset { get; set; }
 
@@ -33,6 +35,8 @@ namespace WpfApplication1
         {
             InitializeComponent();
             Lines = new List<Line>();
+            mVertexDic = new Dictionary<Tuple<double, double>, int>();
+            mVertexDicReferences = new Dictionary<Tuple<double, double>, int>();
             mWindow = window;
             mOffset = offset;
 
@@ -104,68 +108,71 @@ namespace WpfApplication1
 
         void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs args)
         {
-            if(!finished)
+            if (LineEnd)
             {
-                if (LineEnd)
-                {
-                    Line = new Line();
-                    ColorConverter conv = new ColorConverter();
-                    Line.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString((Colorsbox.SelectedItem as ComboBoxItem).Content as string));
-                    Line.StrokeThickness = Convert.ToDouble((Thickness.SelectedItem as ComboBoxItem).Content as string);
-                    Line.StrokeStartLineCap = PenLineCap.Round;
-                    Line.StrokeEndLineCap = PenLineCap.Round;
-                    Line.StrokeDashCap = PenLineCap.Round;
+                Line = new Line();
+                ColorConverter conv = new ColorConverter();
+                Line.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString((Colorsbox.SelectedItem as ComboBoxItem).Content as string));
+                Line.StrokeThickness = Convert.ToDouble((Thickness.SelectedItem as ComboBoxItem).Content as string);
+                Line.StrokeStartLineCap = PenLineCap.Round;
+                Line.StrokeEndLineCap = PenLineCap.Round;
+                Line.StrokeDashCap = PenLineCap.Round;
 
-                    Line.X1 = args.GetPosition(MainGrid).X;
-                    Line.Y1 = args.GetPosition(MainGrid).Y;
-                    LineEnd = false;
-
-                    MainGrid.Children.Add(Line);
-                    Colorsbox.IsEnabled = false;
-                    Thickness.IsEnabled = false;
-                }
-                else
+                if (Lines.Count > 0)
                 {
-                    lock (Line)
+                    foreach(var value in mVertexDic)
                     {
-                        if (Lines.Count > 0)
+                        double distance = Math.Pow((value.Key.Item1 - args.GetPosition(MainGrid).X), 2) + Math.Pow((value.Key.Item2 - args.GetPosition(MainGrid).Y), 2);
+                        distance = Math.Sqrt(distance);
+                        if (distance <= 10)
                         {
-                            double distance = Math.Pow((Lines[0].X1 - args.GetPosition(MainGrid).X), 2) + Math.Pow((Lines[0].Y1 - args.GetPosition(MainGrid).Y), 2);
-                            distance = Math.Sqrt(distance);
-                            if (distance <= 10)
-                            {
-                                Finish();
-                                return;
-                            }
+                            Line.X1 = value.Key.Item1;
+                            Line.Y1 = value.Key.Item2;
+                                
+                            LineEnd = false;
+                            MainGrid.Children.Add(Line);
+                            mVertexDicReferences[new Tuple<double, double>(value.Key.Item1, value.Key.Item2)] += 1;
+                            return;
                         }
-
-                        Line.X2 = args.GetPosition(MainGrid).X;
-                        Line.Y2 = args.GetPosition(MainGrid).Y;
-                        Lines.Add(Line);
-
-                        Line = new Line();
-                        Line.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString((Colorsbox.SelectedItem as ComboBoxItem).Content as string));
-                        Line.StrokeThickness = Convert.ToDouble((Thickness.SelectedItem as ComboBoxItem).Content as string);
-                        Line.StrokeStartLineCap = PenLineCap.Round;
-                        Line.StrokeEndLineCap = PenLineCap.Round;
-                        Line.StrokeDashCap = PenLineCap.Round;
-
-                        Line.X1 = args.GetPosition(MainGrid).X;
-                        Line.Y1 = args.GetPosition(MainGrid).Y;
-                        MainGrid.Children.Add(Line);
                     }
                 }
-            }
-        }
 
-        private void Finish()
-        {
-            Line.X2 = Lines[0].X1;
-            Line.Y2 = Lines[0].Y1;
-            Lines.Add(Line);
-            Line = null;
-            finished = true;
-            return;
+                Line.X1 = args.GetPosition(MainGrid).X;
+                Line.Y1 = args.GetPosition(MainGrid).Y;
+                LineEnd = false;
+                mVertexDic.Add(new Tuple<double, double>(Line.X1, Line.Y1), mVertexCount++);
+                mVertexDicReferences.Add(new Tuple<double, double>(Line.X1, Line.Y1), 1);
+
+                MainGrid.Children.Add(Line);
+                Colorsbox.IsEnabled = false;
+                Thickness.IsEnabled = false;
+            }
+            else
+            {
+                foreach (var value in mVertexDic)
+                {
+                    double distance = Math.Pow((value.Key.Item1 - args.GetPosition(MainGrid).X), 2) + Math.Pow((value.Key.Item2 - args.GetPosition(MainGrid).Y), 2);
+                    distance = Math.Sqrt(distance);
+                    if (distance <= 10)
+                    {
+                        Line.X2 = value.Key.Item1;
+                        Line.Y2 = value.Key.Item2;
+                        Lines.Add(Line);
+                        LineEnd = true;
+                        Line = null;
+                        mVertexDicReferences[new Tuple<double, double>(value.Key.Item1, value.Key.Item2)] += 1;
+                        return;
+                    }
+                }
+
+                Line.X2 = args.GetPosition(MainGrid).X;
+                Line.Y2 = args.GetPosition(MainGrid).Y;
+                Lines.Add(Line);
+                mVertexDic.Add(new Tuple<double, double>(Line.X2, Line.Y2), mVertexCount++);
+                mVertexDicReferences.Add(new Tuple<double, double>(Line.X2, Line.Y2), 1);
+                Line = null;
+                LineEnd = true;
+            }            
         }
 
         private void MainGrid_MouseMove(object sender, MouseEventArgs e)
@@ -180,18 +187,8 @@ namespace WpfApplication1
             }
         }
 
-        private void FinsihButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(Lines.Count > 0)
-            {
-                if(!finished)
-                    Finish();
-            }
-        }
-
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            finished = false;
             LineEnd = true;
             if(Line != null)
             {
@@ -202,86 +199,132 @@ namespace WpfApplication1
                 MainGrid.Children.Remove(l);
             }
             Lines.Clear();
+            mVertexDic.Clear();
+            mVertexCount = 0;
             Colorsbox.IsEnabled = true;
             Thickness.IsEnabled = true;
         }
 
         private void UndoButton_Click(object sender, RoutedEventArgs e)
         {
-            finished = false;
-            if (Line != null)
+            if(Line != null || Lines.Count > 0)
             {
-                MainGrid.Children.Remove(Line);
-            }
-            if(Lines.Count > 0)
-            {
-                MainGrid.Children.Remove(Lines.Last());
-                Lines.Remove(Lines.Last());
-                if(Lines.Count > 0)
+                if (Line != null)
                 {
-                    Line = Lines.Last();
+                    MainGrid.Children.Remove(Line);
+                    LineEnd = true;
+                    foreach (var value in mVertexDic)
+                    {
+                        if (value.Key.Item1 == Line.X1 && value.Key.Item2 == Line.Y1)
+                        {
+                            mVertexDicReferences[value.Key]--;
+                            if (mVertexDicReferences[value.Key] <= 0)
+                            {
+                                mVertexDicReferences.Remove(value.Key);
+                                mVertexDic.Remove(value.Key);
+                                mVertexCount--;
+                                break;
+                            }
+                        }
+                    }
+                    Line = null;
                 }
                 else
                 {
+                    MainGrid.Children.Remove(Lines.Last());
+                    Line = Lines.Last();
                     LineEnd = true;
-                    Colorsbox.IsEnabled = true;
-                    Thickness.IsEnabled = true;
+                    foreach (var value in mVertexDic)
+                    {
+                        if (value.Key.Item1 == Line.X1 && value.Key.Item2 == Line.Y1)
+                        {
+                            mVertexDicReferences[value.Key]--;
+                            if (mVertexDicReferences[value.Key] <= 0)
+                            {
+                                mVertexDicReferences.Remove(value.Key);
+                                mVertexDic.Remove(value.Key);
+                                mVertexCount--;
+                                break;
+                            }
+                        }
+                    }
+                    foreach (var value in mVertexDic)
+                    {
+                        if (value.Key.Item1 == Line.X2 && value.Key.Item2 == Line.Y2)
+                        {
+                            mVertexDicReferences[value.Key]--;
+                            if (mVertexDicReferences[value.Key] <= 0)
+                            {
+                                mVertexDicReferences.Remove(value.Key);
+                                mVertexDic.Remove(value.Key);
+                                mVertexCount--;
+                                break;
+                            }
+                        }
+                    }
+                    Lines.Remove(Line);
+                    Line = null;
                 }
-            }
+            }            
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if(finished)
+            //polygon
+            Hashtable items = new Hashtable();
+            List<Tuple<string, string>> list = new List<Tuple<string, string>>();
+            Tuple<string, string> tuple = new Tuple<string, string>("name", NameBox.Text);
+            list.Add(tuple);
+            items["polygon_renderer"] = list;
+            Section section = mWindow.AddSection(mOffset++, "polygon_renderer", items, new Hashtable());
+
+            //thickness
+            AddPrimitiveSection("float", "width", (Thickness.SelectedItem as ComboBoxItem).Content as string, list, items);
+            mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "float", items, new Hashtable());
+
+            //color
+            Color color = (Color)ColorConverter.ConvertFromString((Colorsbox.SelectedItem as ComboBoxItem).Content as string);
+            AddPrimitiveSection("vector", "color", "vec4(" + color.ScR.ToString() + ", " + color.ScG.ToString() + ", " + color.ScB.ToString() + ", 1)", list, items);
+            mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "vector", items, new Hashtable());
+
+            //lines
+            foreach( var line in Lines)
             {
-                //polygon
-                Hashtable items = new Hashtable();
-                List<Tuple<string, string>> list = new List<Tuple<string, string>>();
-                Tuple<string, string> tuple = new Tuple<string, string>("name", NameBox.Text);
-                list.Add(tuple);
-                items["polygon_renderer"] = list;
-                Section section = mWindow.AddSection(mOffset++, "polygon_renderer", items, new Hashtable());
-
-                //thickness
-                AddPrimitiveSection("float", "width", (Thickness.SelectedItem as ComboBoxItem).Content as string, list, items);
-                mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "float", items, new Hashtable());
-
-                //color
-                Color color = (Color)ColorConverter.ConvertFromString((Colorsbox.SelectedItem as ComboBoxItem).Content as string);
-                AddPrimitiveSection("vector", "color", "vec4(" + color.ScR.ToString() + ", " + color.ScG.ToString() + ", " + color.ScB.ToString() + ", 1)", list, items);
-                mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "vector", items, new Hashtable());
-
-                //lines
-                int i;
-                for (i = 0; i < Lines.Count - 1; )
+                foreach(var value in mVertexDic)
                 {
-                    AddPrimitiveSection("integer", "indices", (i).ToString(), list, items);
-                    mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "integer", items, new Hashtable());
-
-                    AddPrimitiveSection("integer", "indices", (++i).ToString(), list, items);
-                    mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "integer", items, new Hashtable());
+                    if(value.Key.Item1 == line.X1 && value.Key.Item2 == line.Y1)
+                    {
+                        AddPrimitiveSection("integer", "indices", (value.Value).ToString(), list, items);
+                        mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "integer", items, new Hashtable());
+                    }
                 }
-                AddPrimitiveSection("integer", "indices", (i).ToString(), list, items);
-                mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "integer", items, new Hashtable());
-                AddPrimitiveSection("integer", "indices", "0", list, items);
-                mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "integer", items, new Hashtable());
-
-                foreach (var line in Lines)
+                foreach (var value in mVertexDic)
                 {
-                    list.Clear();
-                    items.Clear();
-                    tuple = new Tuple<string, string>("name", "points");
-                    list.Add(tuple);
-                    double x = (line.X1 - (MainGrid.Width / 2)) / (MainGrid.Width / 2);
-                    double y = ((line.Y1 - (MainGrid.Height / 2)) / (MainGrid.Height / 2)) * -1;
-                    tuple = new Tuple<string, string>("value", "vec4(" + x.ToString() + ", " + y.ToString() + ", 0, 0)");
-                    list.Add(tuple);
-                    items["vector"] = list;
-                    mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "vector", items, new Hashtable());
+                    if (value.Key.Item1 == line.X2 && value.Key.Item2 == line.Y2)
+                    {
+                        AddPrimitiveSection("integer", "indices", (value.Value).ToString(), list, items);
+                        mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "integer", items, new Hashtable());
+                    }
                 }
-
-                this.Close();
             }
+
+            foreach (var vertex in mVertexDic)
+            {
+                list.Clear();
+                items.Clear();
+                tuple = new Tuple<string, string>("name", "points");
+                list.Add(tuple);
+                double x = (vertex.Key.Item1 - (MainGrid.Width / 2)) / (MainGrid.Width / 2);
+                x = Math.Round(x, 2);
+                double y = ((vertex.Key.Item2 - (MainGrid.Height / 2)) / (MainGrid.Height / 2)) * -1;
+                y = Math.Round(y, 2);
+                tuple = new Tuple<string, string>("value", "vec4(" + x.ToString() + ", " + y.ToString() + ", 0, 0)");
+                list.Add(tuple);
+                items["vector"] = list;
+                mWindow.AddInteranlSection(mOffset, section, section.SectorNode, "vector", items, new Hashtable());
+            }
+
+            this.Close();
         }
 
         private void AddPrimitiveSection(string type, string name, string value, List<Tuple<string, string>> list, Hashtable items)
