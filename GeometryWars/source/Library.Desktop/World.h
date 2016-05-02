@@ -120,7 +120,7 @@ namespace Library
 		AudioManager& GetAudioManager();
 		
 		
-		Datum* ComplexSearch(const std::string& name, const Scope& caller) const;
+		static Datum* ComplexSearch(const std::string& name, const Scope& caller);
 
 		XmlParseMaster& ParseMaster();
 
@@ -139,7 +139,7 @@ namespace Library
 		static const std::string ATTRIBUTE_HEIGHT;
 
 	private:
-		Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false) const;
+		static Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false);
 
 		void ScriptedBeginPlay();
 		void SectorsBeginPlay();
