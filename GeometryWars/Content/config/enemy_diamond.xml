@@ -14,7 +14,7 @@
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="7" />
-		<vector name="color" value="vec4(0.21875, 0.57031, 0.67578, 1)" />
+		<vector name="color" value="vec4(0, 0.5, 1, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
@@ -23,10 +23,10 @@
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(-0.995555555555556, 0.00888888888888889, 0, 0)" />
-		<vector name="points" value="vec4(-0.0133333333333333, -0.991111111111111, 0, 0)" />
-		<vector name="points" value="vec4(0.986666666666667, 0, 0, 0)" />
+		<vector name="points" value="vec4(0, 0.8, 0, 0)" />
+		<vector name="points" value="vec4(-0.81, 0, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.81, 0, 0)" />
+		<vector name="points" value="vec4(0.8, -0.01, 0, 0)" />
 	</polygon_renderer>
 	  
 	<!-- CircleCollider Component -->

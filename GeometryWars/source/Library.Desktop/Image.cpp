@@ -20,6 +20,13 @@ namespace Library
 	{
 	}
 
+	Image::Image(const Image & rhs) :
+		Action(rhs)
+	{
+		(*this)[ATTRIBUTE_PATH].SetStorage(&mPath, 1);
+		(*this)[ATTRIBUTE_SIZE].SetStorage(&mSize, 1);
+	}
+
 	void Image::Init(RenderDevice * device)
 	{
 		if (mTexture != nullptr)
@@ -54,5 +61,10 @@ namespace Library
 	void Image::SetSize(const glm::vec4 & size)
 	{
 		mSize = size;
+	}
+	Scope * Image::Clone(const Scope & rhs) const
+	{
+		Image& action = *rhs.AssertiveAs<Image>();
+		return new Image(action);
 	}
 }

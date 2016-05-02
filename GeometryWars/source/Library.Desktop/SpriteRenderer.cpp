@@ -93,6 +93,12 @@ namespace Library {
 		device->Draw();
 	}
 
+	Scope * SpriteRenderer::Clone(const Scope & rhs) const
+	{
+		SpriteRenderer& action = *rhs.AssertiveAs<SpriteRenderer>();
+		return new SpriteRenderer(action);
+	}
+
 	void SpriteRenderer::Init(RenderDevice * device)
 	{
 		mInited = true;

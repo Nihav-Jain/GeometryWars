@@ -42,6 +42,13 @@ namespace Library {
 			delete mBuffer;
 	}
 
+	PolygonRenderer::PolygonRenderer(const PolygonRenderer & rhs) :
+		ActionList(rhs), mWidth(rhs.mWidth), mColor(rhs.mColor), mInited(false)
+	{
+		(*this)["color"].SetStorage(&mColor, 1);
+		(*this)["width"].SetStorage(&mWidth, 1);
+	}
+
 	void PolygonRenderer::Render(RenderDevice * device)
 	{
 		if (!mInited) {
@@ -76,11 +83,16 @@ namespace Library {
 		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size());
 	}
 
-
 	void PolygonRenderer::BeginPlay(WorldState & worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		Renderer::GetInstance()->AddRenderable(this);
+	}
+
+	Scope * PolygonRenderer::Clone(const Scope & rhs) const
+	{
+		PolygonRenderer& action = *rhs.AssertiveAs<PolygonRenderer>();
+		return new PolygonRenderer(action);
 	}
 
 	void PolygonRenderer::Init(RenderDevice * device)

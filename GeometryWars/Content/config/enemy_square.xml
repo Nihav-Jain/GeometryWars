@@ -22,32 +22,23 @@
 		<integer name="indices" value="2" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="9" />
-		<integer name="indices" value="9" />
-		<integer name="indices" value="10" />
-		<integer name="indices" value="10" />
 		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(-1, -0.991111111111111, 0, 0)" />
-		<vector name="points" value="vec4(-0.986666666666667, 0.00444444444444444, 0, 0)" />
-		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(1, 0.00444444444444444, 0, 0)" />
-		<vector name="points" value="vec4(-0.00444444444444444, -1, 0, 0)" />
+		<integer name="indices" value="4" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="7" />
+		<integer name="indices" value="7" />
+		<integer name="indices" value="4" />
+		<vector name="points" value="vec4(-1, -0.99, 0, 0)" />
+		<vector name="points" value="vec4(-1, 1, 0, 0)" />
+		<vector name="points" value="vec4(0.99, 1, 0, 0)" />
+		<vector name="points" value="vec4(1, -0.99, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.99, 0, 0)" />
 		<vector name="points" value="vec4(-1, 0, 0, 0)" />
-		<vector name="points" value="vec4(-0.995555555555556, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(0, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(1.00444444444444, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(1.00888888888889, 0, 0, 0)" />
-		<vector name="points" value="vec4(1.01333333333333, -0.995555555555556, 0, 0)" />
+		<vector name="points" value="vec4(0, 1, 0, 0)" />
+		<vector name="points" value="vec4(0.98, 0, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->
