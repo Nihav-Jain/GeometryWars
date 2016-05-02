@@ -25,21 +25,18 @@ namespace Library
 		 */
 		virtual ~ActionEvent() = default;
 
-		/**
-		 *	disallow copy constructor
-		 */
-		ActionEvent(const ActionEvent& rhs) = delete;
-		
-		/**
-		 *	disallow copy assignment operator
-		 */
-		ActionEvent& operator=(const ActionEvent& rhs) = delete;
+		ActionEvent(const ActionEvent& rhs);
+		ActionEvent(ActionEvent&& rhs);
+
+		ActionEvent& operator=(const ActionEvent& rhs);
+		ActionEvent& operator=(ActionEvent&& rhs);
 
 		/**
 		 *	Preapres the event payload with the proper subtype, copies its auxiliary attributes to it and enqueues the event
 		 *	@param reference to the world state
 		 */
 		virtual void Update(WorldState& worldState) override;
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_SUBTYPE;
 		static const std::string ATTRIBUTE_DELAY;

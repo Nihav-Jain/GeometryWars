@@ -7,11 +7,13 @@
 
 using namespace Library;
 
+
 void InitializeWindow(HINSTANCE instance, const std::wstring& className, const std::wstring windowTitle, int showCommand);
 LRESULT WINAPI WndProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam);
 POINT CenterWindow(int windowWidth, int windowHeight);
 void InitializeDirectX();
 void Shutdown(const std::wstring& className);
+
 
 UINT mScreenWidth = 1024;
 UINT mScreenHeight = 768;
@@ -40,11 +42,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	std::wstring windowClassName = L"RenderingClass";
 
-	InitializeWindow(instance, windowClassName, L"DirectX Essentials", showCommand);
+	InitializeWindow(instance, windowClassName, L"Geometry Wars DirectX", showCommand);
 	InitializeDirectX();
 
 	MSG message;
 	ZeroMemory(&message, sizeof(message));
+
 
 	Game game;
 

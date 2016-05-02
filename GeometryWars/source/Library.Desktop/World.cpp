@@ -11,17 +11,19 @@ namespace Library
 	const std::string World::ATTRIBUTE_BEGIN_PLAY = "beginplay";
 	const std::string World::ATTRIBUTE_REACTIONS = "reactions";
 	const std::string World::ATTRIBUTE_ON_DESTROY = "on-destroy";
+	const std::string World::ATTRIBUTE_DELTA_TIME = "deltaTime";
 
 	const std::string World::ATTRIBUTE_WIDTH = "width";
 	const std::string World::ATTRIBUTE_HEIGHT = "height";
 
 	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
 		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
-		mWidth(0), mHeight(0)
+		mWidth(0), mHeight(0), ClassDefinitionContainer()
 	{
 		mWorldState.world = this;
 
 		AddExternalAttribute(ATTRIBUTE_NAME, 1, &mName);
+		AddInternalAttribute(ATTRIBUTE_DELTA_TIME, 0, 1);
 
 		AddExternalAttribute(ATTRIBUTE_WIDTH, 1, &mWidth);
 		AddExternalAttribute(ATTRIBUTE_HEIGHT, 1, &mHeight);
@@ -101,6 +103,8 @@ namespace Library
 		mWorldState.entity = nullptr;
 		mWorldState.action = nullptr;
 
+		(*this)[ATTRIBUTE_DELTA_TIME] = static_cast<std::int32_t>(mWorldState.mGameTime->ElapsedGameTime().count());
+
 		mEventQueue.Update(*mWorldState.mGameTime);
 		UpdateWorldActions();
 		UpdateWorldSectors();
@@ -124,14 +128,14 @@ namespace Library
 		return mEventQueue;
 	}
 
-	Datum* World::ComplexSearch(const std::string& name, const Scope& caller) const
+	Datum* World::ComplexSearch(const std::string& name, const Scope& caller)
 	{
 		std::string referenceName = name;
 		Scope* targetScope = nullptr;
 
 		std::uint32_t pos = (std::uint32_t)referenceName.find('.');
 		if (pos == std::string::npos)
-			return Search(referenceName);
+			return caller.Search(referenceName);
 		else
 		{
 			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), caller, true);
@@ -175,7 +179,7 @@ namespace Library
 		return mHeight;
 	}
 
-	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch) const
+	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch)
 	{
 		Scope* scopeToFind = nullptr;
 		Datum* referenceToFind = caller.Find(name);
@@ -366,6 +370,16 @@ namespace Library
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);
 		}
+	}
+
+	void World::SetAudioManager(AudioManager & audioManager)
+	{
+		mAudioManager = &audioManager;
+	}
+
+	AudioManager & World::GetAudioManager()
+	{
+		return (*mAudioManager);
 	}
 
 }

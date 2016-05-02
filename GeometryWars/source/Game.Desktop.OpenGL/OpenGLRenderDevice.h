@@ -19,7 +19,7 @@ namespace Library {
 		OpenGLRenderDevice(const OpenGLRenderDevice &) = delete;
 		OpenGLRenderDevice & operator=(const OpenGLRenderDevice &) = delete;
 
-		void InitOpenGl(std::int32_t width, std::int32_t height);
+		void InitOpenGl(const std::string & title, std::int32_t width, std::int32_t height);
 
 		virtual std::int32_t GetViewportWidth() override;
 		virtual std::int32_t GetViewportHeight() override;

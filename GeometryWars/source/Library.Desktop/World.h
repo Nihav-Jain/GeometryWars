@@ -5,6 +5,7 @@
 #include "GameTime.h"
 #include "EventQueue.h"
 #include "ActionList.h"
+#include "AudioManager.h"
 #include "XmlParseMaster.h"
 
 namespace Library
@@ -106,7 +107,20 @@ namespace Library
 		 */
 		EventQueue& GetEventQueue();
 
-		Datum* ComplexSearch(const std::string& name, const Scope& caller) const;
+
+		/**
+		*	SetAudioManager - Set the address of contained variableof audio manager
+		*/
+		void SetAudioManager(AudioManager &audioManager);
+
+		/**
+		*	GetAudioManager - Get the reference to contained variableof audio manager
+		*	@return reference to the contained variable of audio manager
+		*/
+		AudioManager& GetAudioManager();
+		
+		
+		static Datum* ComplexSearch(const std::string& name, const Scope& caller);
 
 		XmlParseMaster& ParseMaster();
 
@@ -115,15 +129,18 @@ namespace Library
 		std::int32_t GetWidth();
 		std::int32_t GetHeight();
 
+		Sector ClassDefinitionContainer;
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 		static const std::string ATTRIBUTE_REACTIONS;
 		static const std::string ATTRIBUTE_ON_DESTROY;
 		static const std::string ATTRIBUTE_WIDTH;
 		static const std::string ATTRIBUTE_HEIGHT;
+		static const std::string ATTRIBUTE_DELTA_TIME;
 
 	private:
-		Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false) const;
+		static Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false);
 
 		void ScriptedBeginPlay();
 		void SectorsBeginPlay();
@@ -145,6 +162,8 @@ namespace Library
 
 		std::int32_t mWidth;
 		std::int32_t mHeight;
+
+		AudioManager *mAudioManager;
 
 		static const std::string ATTRIBUTE_NAME;
 

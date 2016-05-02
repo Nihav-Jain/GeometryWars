@@ -50,7 +50,11 @@ namespace Library
 		Player& player = *worldState.entity->AssertiveAs<Player>();
 		mPosition = player.Position();
 		mVelocity = player.Heading() * mMoveSpeed;
-		mRotation = player.Rotation();
+		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
+
+		//mHeading.x = -sin(mRotation.z);
+		//mHeading.y = cos(mRotation.z);
+		//mHeading = glm::normalize(mHeading);
 	}
 
 	void Bullet::Update(WorldState & worldState)
@@ -84,6 +88,8 @@ namespace Library
 		Enemy* enemy = other.AssertiveAs<Enemy>();
 
 		enemy->EnemyDeath(worldState);
+
+		/// TODO: playerThatSpawnedMe->AddScore( enemy->Score() ); ///
 
 		BulletDeath(worldState);
 	}

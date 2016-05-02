@@ -11,7 +11,15 @@ namespace Library
 		ActionDestroyEntity();
 		virtual ~ActionDestroyEntity() = default;
 
+		ActionDestroyEntity(const ActionDestroyEntity& rhs);
+		ActionDestroyEntity(ActionDestroyEntity&& rhs);
+
+		ActionDestroyEntity& operator=(const ActionDestroyEntity& rhs);
+		ActionDestroyEntity& operator=(ActionDestroyEntity&& rhs);
+
 		virtual void Update(WorldState& worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_ENTITY_INSTANCE_NAME;
 

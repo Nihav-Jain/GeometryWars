@@ -16,6 +16,7 @@ namespace Library
 		void SetVelocity(const glm::vec4 & velocity);
 
 		void EnemyDeath(WorldState& worldState);
+		std::int32_t Score() const;
 
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
@@ -25,12 +26,14 @@ namespace Library
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
 		static const std::string ATTRIBUTE_CHANNEL;
+		static const std::string ATTRIBUTE_SCORE;
 
 	protected:
 
 		glm::vec4 mVelocity;
 		bool mIsDead;
 		std::string mCollisionChannel;
+		std::int32_t mScore;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Enemy);

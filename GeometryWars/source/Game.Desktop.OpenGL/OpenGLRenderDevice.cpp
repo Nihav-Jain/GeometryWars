@@ -41,7 +41,7 @@ namespace Library {
 		glfwTerminate();
 	}
 
-	void OpenGLRenderDevice::InitOpenGl(std::int32_t width, std::int32_t height)
+	void OpenGLRenderDevice::InitOpenGl(const std::string & title, ::int32_t width, std::int32_t height)
 	{
 		mWidth = width;
 		mHeight = height;
@@ -56,7 +56,7 @@ namespace Library {
 			throw std::exception("glfwInit falied");
 		}
 
-		mWindow = glfwCreateWindow(mWidth, mHeight, "OpenGL Essentials", nullptr, nullptr);
+		mWindow = glfwCreateWindow(mWidth, mHeight, title.c_str(), nullptr, nullptr);
 		if (mWindow == nullptr)
 		{
 			throw std::exception("glfwCreateWindow falied");

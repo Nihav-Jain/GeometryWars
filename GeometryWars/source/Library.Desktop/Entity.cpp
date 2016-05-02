@@ -26,6 +26,62 @@ namespace Library
 		delete mSector;
 	}
 
+	Entity::Entity(const Entity& rhs) :
+		Attributed::Attributed(rhs), mName(rhs.mName), mSector(new Datum(*rhs.mSector)), mIsPendingDestroy(rhs.mIsPendingDestroy)
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+		(*this)[ATTRIBUTE_OWNER_SECTOR].SetStorage(&mSector, 1);
+	}
+
+	Entity::Entity(Entity&& rhs) :
+		Attributed::Attributed(std::move(rhs)), mName(std::move(rhs.mName)), mSector(rhs.mSector), mIsPendingDestroy(rhs.mIsPendingDestroy)
+	{
+		(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+		(*this)[ATTRIBUTE_OWNER_SECTOR].SetStorage(&mSector, 1);
+
+		rhs.mSector = nullptr;
+		rhs.mIsPendingDestroy = false;
+	}
+
+	Entity& Entity::operator=(const Entity& rhs)
+	{
+		if (this != &rhs)
+		{
+			delete mSector;
+
+			mName = rhs.mName;
+			mSector = new Datum(*rhs.mSector);
+			mIsPendingDestroy = rhs.mIsPendingDestroy;
+
+			Attributed::operator=(rhs);
+
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_OWNER_SECTOR].SetStorage(&mSector, 1);
+		}
+		return *this;
+	}
+
+	Entity& Entity::operator=(Entity&& rhs)
+	{
+		if (this != &rhs)
+		{
+			delete mSector;
+
+			mName = std::move(rhs.mName);
+			mSector = rhs.mSector;
+			mIsPendingDestroy = rhs.mIsPendingDestroy;
+
+			Attributed::operator=(std::move(rhs));
+
+			(*this)[ATTRIBUTE_NAME].SetStorage(&mName, 1);
+			(*this)[ATTRIBUTE_OWNER_SECTOR].SetStorage(&mSector, 1);
+
+			rhs.mSector = nullptr;
+			rhs.mIsPendingDestroy = false;
+		}
+		return *this;
+	}
+
 	const std::string& Entity::Name() const
 	{
 		return mName;
@@ -86,6 +142,12 @@ namespace Library
 				action->Update(worldState);
 			}
 		}
+	}
+
+	Scope* Entity::Clone(const Scope& rhs) const
+	{
+		Entity& action = *rhs.AssertiveAs<Entity>();
+		return new Entity(action);
 	}
 
 	void Entity::OnDestroy(WorldState& worldState)
