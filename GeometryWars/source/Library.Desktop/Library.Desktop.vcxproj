@@ -263,6 +263,7 @@
     <ClInclude Include="XmlParseHelperActionWhile.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
+    <ClInclude Include="XmlParseHelperDefine.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperImage.h" />
@@ -333,6 +334,7 @@
     <ClCompile Include="XmlParseHelperActionWhile.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
+    <ClCompile Include="XmlParseHelperDefine.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp" />

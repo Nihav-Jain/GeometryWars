@@ -118,6 +118,15 @@ namespace Library
 		return *entity;
 	}
 
+	void Sector::AdoptEntity(Entity& entity, const std::string& name)
+	{
+		entity.SetName(name);
+		entity.SetSector(*this);
+
+		mEntityListByType[entity.TypeIdInstance()].PushBack(&entity);
+		AddEntityToTypeMap(entity, RTTI::ClassHeirarchy()[entity.TypeIdInstance()]);
+	}
+
 	Entity* Sector::FindEntity(const std::string& entityName) const
 	{
 		const Datum& entities = Entities();

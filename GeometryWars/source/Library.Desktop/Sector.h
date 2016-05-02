@@ -69,6 +69,8 @@ namespace Library
 		 *	@return reference to the newly created Entity
 		 */
 		Entity& CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName);
+
+		void AdoptEntity(Entity& entity, const std::string& name);
 		
 		/**
 		 *	Searches for the Entity of the given name in this Sector

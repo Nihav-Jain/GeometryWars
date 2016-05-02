@@ -481,7 +481,7 @@ namespace UnitTestLibraryDesktop
 			Entity* newEntity = sector->FindEntity("newEntity");
 			Assert::IsNotNull(newEntity);
 
-			Datum* newSomeInt = newEntity->Find("someInt");
+			Datum* newSomeInt = newEntity->Find("someInt1");
 			Assert::IsNotNull(newSomeInt);
 			Assert::AreEqual(0, newSomeInt->Get<std::int32_t>());
 

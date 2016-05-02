@@ -43,6 +43,7 @@
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
+#include "XmlParseHelperDefine.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
@@ -152,6 +153,7 @@ namespace Library
 		GameTime mGameTime;
 		World mWorld;
 
+		XmlParseHelperDefine mDefineParser;
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;

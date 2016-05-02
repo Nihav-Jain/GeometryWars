@@ -217,6 +217,9 @@
     <ClInclude Include="ActionCreateEntityFromFile.h">
       <Filter>Kernel\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="XmlParseHelperDefine.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -408,6 +411,9 @@
     </ClCompile>
     <ClCompile Include="ActionCreateEntityFromFile.cpp">
       <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperDefine.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

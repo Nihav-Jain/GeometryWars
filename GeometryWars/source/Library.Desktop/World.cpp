@@ -17,7 +17,7 @@ namespace Library
 
 	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
 		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
-		mWidth(0), mHeight(0)
+		mWidth(0), mHeight(0), ClassDefinitionContainer()
 	{
 		mWorldState.world = this;
 

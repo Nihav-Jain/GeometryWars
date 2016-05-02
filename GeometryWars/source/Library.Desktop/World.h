@@ -115,6 +115,8 @@ namespace Library
 		std::int32_t GetWidth();
 		std::int32_t GetHeight();
 
+		Sector ClassDefinitionContainer;
+
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
 		static const std::string ATTRIBUTE_REACTIONS;
