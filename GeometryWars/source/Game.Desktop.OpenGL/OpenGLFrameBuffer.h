@@ -18,9 +18,11 @@ namespace OpenGLImplmentation {
 		virtual void Init(std::int32_t width, std::int32_t height) override;
 		virtual void Use() override;
 		virtual Library::Texture * GetFrameTexture() override;
+		virtual void ClearColor(glm::vec4 color) override;
 
 	private:
 		GLuint mFBO;
+		GLuint mRBO;
 		OpenGLTexture * mTexture;
 	};
 

@@ -37,17 +37,20 @@ namespace Library {
 		void Update();
 
 	private:
+
 		// TODO: Remove this !!!!!!!!
 		static Renderer * sInstance;
 
 		FrameBuffer * mFrameBuffer;
 		FrameBuffer * mDefaultFrameBuffer;
 
-		// TODO: Add layer support
+		// TODO: Add layer(z-buffer) support
 		RenderDevice * mDevice;
 		std::vector<Renderable*> mObjects;
 		// TODO: PostProcessing handler
 		std::vector<PostProcessing*> mPostProcessings;
+
+		void RenderToScreen();
 	};
 
 }

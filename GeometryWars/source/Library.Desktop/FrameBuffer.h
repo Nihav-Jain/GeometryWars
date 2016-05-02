@@ -15,6 +15,7 @@ namespace Library {
 		virtual void Use() = 0;
 
 		virtual Texture * GetFrameTexture() = 0;
+		virtual void ClearColor(glm::vec4 color) = 0;
 	protected:
 		FrameBuffer() = default;
 	};

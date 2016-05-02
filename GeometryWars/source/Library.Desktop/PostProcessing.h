@@ -10,7 +10,7 @@ namespace Library {
 		PostProcessing() = default;
 		~PostProcessing() = default;
 
-		virtual void Apply(RenderDevice * device, FrameBuffer * buffer) = 0;
+		virtual FrameBuffer * Apply(RenderDevice * device, FrameBuffer * src_buffer, FrameBuffer * target_buffer) = 0;
 	};
 
 }

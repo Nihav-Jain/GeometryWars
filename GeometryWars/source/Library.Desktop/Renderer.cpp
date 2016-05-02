@@ -54,20 +54,28 @@ namespace Library {
 		}
 
 		mFrameBuffer->Use();
+		mFrameBuffer->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
 
 		for (auto obj : mObjects) {
 			obj->Render(mDevice);
 		}
 
-		for (auto postProcessing : mPostProcessings) {
-			postProcessing->Apply(mDevice, mFrameBuffer);
+		FrameBuffer * buff = mFrameBuffer;
+		for (auto & it = mPostProcessings.begin();
+			it != mPostProcessings.end(); ++it) {
+			
+			if (it + 1 == mPostProcessings.end())
+				buff = (*it)->Apply(mDevice, buff, mDefaultFrameBuffer);
+			buff = (*it)->Apply(mDevice, buff, nullptr);
 		}
-
-		mDefaultFrameBuffer->Use();
 
 		if (mDevice != nullptr) {
 			mDevice->Invalid();
 		}
+	}
+
+	void Renderer::RenderToScreen()
+	{
 	}
 
 

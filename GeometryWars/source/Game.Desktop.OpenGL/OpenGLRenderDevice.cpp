@@ -97,7 +97,7 @@ namespace OpenGLImplmentation {
 	{
 		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
-		const glm::vec4 Black = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+		const glm::vec4 Black = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 		glClearBufferfv(GL_COLOR, 0, &Black[0]);
 	}
 
