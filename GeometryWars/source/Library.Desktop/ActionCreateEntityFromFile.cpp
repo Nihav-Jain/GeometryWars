@@ -42,7 +42,7 @@ namespace Library
 		Entity* entityCopy = worldState.world->ClassDefinitionContainer.FindEntity((*this)[ATTRIBUTE_ENTITY_CLASS_NAME].Get<std::string>());
 		assert(entityCopy != nullptr);
 
-		Entity* newEntity = new Entity(*entityCopy);
+		Entity* newEntity = entityCopy->Clone(*entityCopy)->AssertiveAs<Entity>();
 
 		worldState.sector->AdoptEntity(*newEntity, (*this)[ATTRIBUTE_ENTITY_INSTANCE_NAME].Get<std::string>());
 		newEntity->BeginPlay(worldState);
