@@ -42,6 +42,13 @@ namespace Library {
 			delete mBuffer;
 	}
 
+	PolygonRenderer::PolygonRenderer(const PolygonRenderer & rhs) :
+		ActionList(rhs)
+	{
+		(*this)["color"].SetStorage(&mColor, 1);
+		(*this)["width"].SetStorage(&mWidth, 1);
+	}
+
 	void PolygonRenderer::Render(RenderDevice * device)
 	{
 		if (!mInited) {
@@ -74,6 +81,12 @@ namespace Library {
 
 		mBuffer->Use();
 		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size());
+	}
+
+	Scope * PolygonRenderer::Clone(const Scope & rhs) const
+	{
+		PolygonRenderer& action = *rhs.AssertiveAs<PolygonRenderer>();
+		return new PolygonRenderer(action);
 	}
 
 	void PolygonRenderer::Init(RenderDevice * device)

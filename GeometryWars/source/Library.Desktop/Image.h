@@ -13,6 +13,8 @@ namespace Library
 		Image();
 		~Image();
 
+		Image(const Image & rhs);
+
 		void Init(RenderDevice * device);
 
 		void GetImageInfo(Texture ** texture, glm::vec4 ** size);
@@ -25,6 +27,8 @@ namespace Library
 		virtual void Update(WorldState& worldState) {
 			(worldState);
 		};
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 	private:
 		Texture * mTexture;
