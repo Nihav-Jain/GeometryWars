@@ -17,7 +17,7 @@ namespace Library
 
 	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
 		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
-		mWidth(0), mHeight(0)
+		mWidth(0), mHeight(0), ClassDefinitionContainer()
 	{
 		mWorldState.world = this;
 
@@ -366,6 +366,16 @@ namespace Library
 			mWorldState.sector = sector;
 			sector->Update(mWorldState);
 		}
+	}
+
+	void World::SetAudioManager(AudioManager & audioManager)
+	{
+		mAudioManager = &audioManager;
+	}
+
+	AudioManager & World::GetAudioManager()
+	{
+		return (*mAudioManager);
 	}
 
 }

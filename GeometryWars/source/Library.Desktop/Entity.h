@@ -27,20 +27,15 @@ namespace Library
 		Entity();
 
 		/**
-		 *	disallow copy construtor
-		 */
-		Entity(const Entity& rhs) = delete;
-
-		/**
 		 *	Default destructor
 		 */
 		virtual ~Entity();
 
-		/**
-		 *	disallow copy assignemnt operator
-		 */
-		Entity& operator=(const Entity& rhs) = delete;
-		
+		Entity(const Entity& rhs);
+		Entity(Entity&& rhs);
+
+		Entity& operator=(const Entity& rhs);
+		Entity& operator=(Entity&& rhs);
 
 		/**
 		 *	Getter for the name of this Entity
@@ -93,6 +88,7 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState);
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		virtual void OnDestroy(WorldState& worldState);
 

@@ -21,15 +21,11 @@ namespace Library
 		 */
 		ActionExpression();
 
-		/**
-		 *	disallow copy construtor
-		 */
-		ActionExpression(const ActionExpression& rhs) = delete;
+		ActionExpression(const ActionExpression& rhs);
+		ActionExpression(ActionExpression&& rhs);
 
-		/**
-		 *	disallow copy assignment operator
-		 */
-		ActionExpression& operator=(const ActionExpression& rhs) = delete;
+		ActionExpression& operator=(const ActionExpression& rhs);
+		ActionExpression& operator=(ActionExpression&& rhs);
 
 		/**
 		 *	disallow copy construtor
@@ -43,6 +39,8 @@ namespace Library
 		 *	@param reference to the world state
 		 */
 		virtual void Update(WorldState& worldState) override;
+		
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		/**
 		 *	Clears the static memebers to avoid memory leak detection in the Unit Tests

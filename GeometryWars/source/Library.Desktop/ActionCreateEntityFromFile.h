@@ -22,7 +22,8 @@ namespace Library
 
 		virtual Scope* Clone(const Scope& rhs) const override;
 
-		static const std::string ATTRIBUTE_FILE_PATH;
+		static const std::string ATTRIBUTE_ENTITY_CLASS_NAME;
+		static const std::string ATTRIBUTE_ENTITY_INSTANCE_NAME;
 	};
 
 	CONCRETE_ACTION_FACTORY(ActionCreateEntityFromFile);

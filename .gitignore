@@ -252,6 +252,17 @@ _Pvt_Extensions
 !GeometryWars/external/glfw/lib/x64/*
 !GeometryWars/external/glfw/lib/x64/Debug/*
 !GeometryWars/external/glfw/lib/x64/Release/*
+
+!GeometryWars/external/FMOD/*
+!GeometryWars/external/FMOD/lib/*
+!GeometryWars/external/FMOD/lib/Win32/*
+!GeometryWars/external/FMOD/lib/Win32/Debug/*
+!GeometryWars/external/FMOD/lib/Win32/Release/*
+!GeometryWars/external/FMOD/lib/x64/*
+!GeometryWars/external/FMOD/lib/x64/Debug/*
+!GeometryWars/external/FMOD/lib/x64/Release/*
+
+
 GeometryWars/build/GeometryWars.VC.db
 
 !GeometryWars/external/soil/*

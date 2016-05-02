@@ -40,4 +40,15 @@
 #include "Entity.h"
 #include "Sector.h"
 #include "World.h"
+
+#pragma region SoundFMOD
+
+#include <fstream>
+#pragma warning(disable: 4505)
+#include "fmod.hpp"
+#include "fmod_errors.h"
+#include "AudioManager.h"
+
+#pragma endregion
+
 #include "GameObject.h"
