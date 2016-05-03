@@ -44,7 +44,7 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
-
+		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 		// TODO: Spawn score multiplier at current location
 	}
 

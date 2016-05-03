@@ -45,6 +45,7 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 	}
 
 	Scope * Bullet::Clone(const Scope & rhs) const
