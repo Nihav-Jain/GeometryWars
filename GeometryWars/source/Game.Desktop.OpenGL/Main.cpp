@@ -7,8 +7,10 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "BloomPostProcessing.h"
 
 using namespace Library;
+using namespace OpenGLImplmentation;
 
 
 
@@ -28,8 +30,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	EnemyFactory mEnemyFactory;
 	BulletFactory mBulletFactory;
 
+	BloomPostProcessing bloom;
+
 	// TODO: Remove singleton!!!!!!!!!!!!!!!!!!!! By Yuhsiang
 	Renderer * renderer = Renderer::GetInstance(&renderDevice);
+
+	renderer->AddPostPostProcessing(&bloom);
 
 	Game game;
 	game.SetRenderer(renderer);

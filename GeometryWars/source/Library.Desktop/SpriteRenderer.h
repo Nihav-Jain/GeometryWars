@@ -8,7 +8,7 @@ namespace Library {
 
 	class Texture;
 	class Shader;
-	class RenderBuffer;
+	class Buffer;
 
 	/**
 	* The renderable sprite class
@@ -41,7 +41,7 @@ namespace Library {
 		bool mInited;
 		Texture * mTexture;
 		Shader * mShader;
-		RenderBuffer * mBuffer;
+		Buffer * mBuffer;
 
 		Datum * mPosition;
 		Datum * mRotation;

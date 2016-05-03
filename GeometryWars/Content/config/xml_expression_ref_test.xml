@@ -17,11 +17,11 @@
 			<ref name="someIntPtr" value="someInt"/>
 			
 			<expression name="exp1">
-				<string name="expression">intResult = someIntPtr + {100}</string>
+				<string name="expression">intResult = ref(someIntPtr) + {100}</string>
 			</expression>
 
 			<expression name="exp2">
-				<string name="expression">someIntPtr = {100}</string>
+				<string name="expression">ref(someIntPtr) = {100}</string>
 			</expression>
 
 			<integer name="anotherResult" value="0" />

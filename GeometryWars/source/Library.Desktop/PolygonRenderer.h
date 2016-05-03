@@ -8,7 +8,7 @@ namespace Library {
 
 	class Texture;
 	class Shader;
-	class RenderBuffer;
+	class Buffer;
 
 	/**
 	* The renderable polygon class
@@ -37,7 +37,7 @@ namespace Library {
 		void Init(RenderDevice * device);
 		bool mInited;
 		Shader * mShader;
-		RenderBuffer * mBuffer;
+		Buffer * mBuffer;
 
 		float mWidth;
 		glm::vec4 mColor;

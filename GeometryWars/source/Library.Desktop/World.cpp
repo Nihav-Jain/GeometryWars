@@ -134,7 +134,7 @@ namespace Library
 		Scope* targetScope = nullptr;
 
 		std::uint32_t pos = (std::uint32_t)referenceName.find('.');
-		if (pos == std::string::npos)
+		if (pos > referenceName.length())
 			return caller.Search(referenceName);
 		else
 		{
@@ -144,7 +144,7 @@ namespace Library
 			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
 		}
 
-		while ((pos = (std::uint32_t)referenceName.find('.')) != std::string::npos)
+		while ((pos = (std::uint32_t)referenceName.find('.')) < referenceName.length())
 		{
 			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), *targetScope);
 			if (targetScope == nullptr)
