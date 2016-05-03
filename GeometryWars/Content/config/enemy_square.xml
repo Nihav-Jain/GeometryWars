@@ -82,7 +82,9 @@
 					<string name="expression">destroySelf.entityInstanceName = ownerEntity.name</string>
 				</expression>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="SquareEnemy"/>
+					<expression name="exp">
+						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+					</expression>
 				</action>
 				
 				<!-- Collectible Spawning -->

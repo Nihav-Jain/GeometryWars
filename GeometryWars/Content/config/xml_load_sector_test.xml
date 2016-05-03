@@ -1,0 +1,77 @@
+<root>
+	
+<define-sectors>
+	<sector name="worldSector">
+		<integer name="testInt" value="0" />
+		<expression name="testExp">
+			<string name="expression">testInt = testInt + {10}</string>
+		</expression>
+
+		<entity class="Entity" name="actor">
+			<integer name="switchInteger" value="10" />
+			<integer name="result" value="0"/>
+			<integer name="anotherInt" value="1"/>
+			
+			<while name="something">
+				<condition>
+					<string name="expression">result &lt; switchInteger</string>
+				</condition>
+				<loop>
+					<expression name="looper">
+						<string name="expression">result = anotherInt + result</string>
+					</expression>
+				</loop>
+			</while>
+
+			<!--<action class="ActionLoadSector" name="loadSector2">
+				<string name="sectorName" value="worldSector2" />
+			</action>-->
+			
+		</entity>		
+	</sector>
+
+	<sector name="worldSector2">
+
+		<integer name="testInt" value="0" />
+		<expression name="testExp">
+			<string name="expression">testInt = testInt + {2}</string>
+		</expression>
+
+		<entity class="Entity" name="actor">
+			<integer name="switchInteger" value="10" />
+			<integer name="result" value="0"/>
+			<integer name="anotherInt" value="1"/>
+
+			<while name="something">
+				<condition>
+					<string name="expression">result &lt; switchInteger</string>
+				</condition>
+				<loop>
+					<expression name="looper">
+						<string name="expression">result = anotherInt + result</string>
+					</expression>
+				</loop>
+			</while>
+
+		</entity>
+
+		<!--<action class="ActionLoadSector" name="loadSector1">
+			<string name="sectorName" value="worldSector" />
+		</action>-->
+
+	</sector>
+
+
+</define-sectors>
+
+<world name="NihavWorld">
+	
+	<beginplay>
+		<action class="ActionLoadSector" name="loadWorldSector2">
+			<string name="sectorName" value="worldSector2" />
+		</action>
+	</beginplay>
+
+</world>
+
+</root>
