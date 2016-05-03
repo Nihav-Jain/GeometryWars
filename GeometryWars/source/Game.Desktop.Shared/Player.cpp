@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "Score.h"
+#include "ScoreManager.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -31,6 +31,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Player::ATTRIBUTE_HEADING = "heading";
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
+	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
@@ -47,12 +48,15 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_HEADING, 1, &mHeading);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 
-		Score::CreateInstance();
+		AddInternalAttribute(ATTRIBUTE_SCOREBASE, 10);
+
+		ScoreManager* score = ScoreManager::CreateInstance();
+		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
 	}
 
 	Player::~Player()
 	{
-		Score::DeleteInstance();
+		ScoreManager::DeleteInstance();
 	}
 
 	Player::Player(const Player & rhs)
@@ -131,17 +135,17 @@ namespace Library
 
 	const std::int32_t Player::Score() const
 	{
-		return Score::GetInstance()->GetScore();
+		return ScoreManager::GetInstance()->GetValue();
 	}
 
 	void Player::AddScore(const std::int32_t & score)
 	{
-		Score::GetInstance()->AddScore(score);
+		ScoreManager::GetInstance()->AddValue(score);
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
-		Score::GetInstance()->SetScore(score);
+		ScoreManager::GetInstance()->SetValue(score);
 	}
 
 	std::int32_t Player::Bombs() const
@@ -207,6 +211,11 @@ namespace Library
 		mHeading = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 
 		GameObject::BeginPlay(worldState);
+
+		ScoreManager* score = ScoreManager::GetInstance();
+		score->SetNumberBase( Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>() );
+		score->Init();
+		score->RefreshSprites();
 	}
 
 	void Player::Update(WorldState & worldState)

@@ -53,7 +53,7 @@ namespace Library
 	{
 		for (std::uint32_t i = 0; i < SCORE_LENGTH; ++i)
 		{
-			for (std::uint32_t j = 0; i < NUM_DIGITS; ++j)
+			for (std::uint32_t j = 0; j < NUM_DIGITS; ++j)
 			{
 				delete mSprites[i][j];
 				mSprites[i][j] = nullptr;
