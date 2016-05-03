@@ -8,11 +8,10 @@
 //OldPolygonRenderer* opr;
 namespace Library
 {
-	D3DRenderDevice::D3DRenderDevice(HWND window, UINT screenWidth, UINT screenHeight) : mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr), mSwapChain(nullptr),
+	D3DRenderDevice::D3DRenderDevice() : mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr), mSwapChain(nullptr),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr),// poly(nullptr),
 		mWidth(800), mHeight(600)
 	{
-		InitializeDirectX(window, screenWidth, screenHeight);
 		//opr = new OldPolygonRenderer(*mDirect3DDevice, *mDirect3DDeviceContext);
 	}
 
@@ -98,10 +97,10 @@ namespace Library
 
 	void D3DRenderDevice::ClearScreen()
 	{
-		static float hue = 0;
-		static XMVECTORF32 BackgroundColor = { 0.392f, 0.584f, 0.929f, 1.0f };
-		hue += 0.001f;
-		BackgroundColor = { std::sin(hue), std::sin(hue + 6.28f/3), std::sin(hue + 2 * 6.28f / 3), 1.0f };
+		//static float hue = 0;
+		static XMVECTORF32 BackgroundColor = { 0, 0, 0, 1.0f };
+		//hue += 0.001f;
+		//BackgroundColor = { std::sin(hue), std::sin(hue + 6.28f/3), std::sin(hue + 2 * 6.28f / 3), 1.0f };
 		ThrowIfFailed(mSwapChain->Present(0, 0), "IDXGISwapChain::Present() failed.");
 		mDirect3DDeviceContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&BackgroundColor));
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -110,6 +109,8 @@ namespace Library
 
 	void D3DRenderDevice::InitializeDirectX(HWND window, UINT mScreenWidth, UINT mScreenHeight)
 	{
+		mWidth = mScreenWidth;
+		mHeight = mScreenHeight;
 		UINT createDeviceFlags = 0;
 	
 	#if defined(DEBUG) || defined(_DEBUG)  

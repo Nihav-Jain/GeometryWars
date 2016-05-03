@@ -20,8 +20,10 @@ namespace Library
 	class D3DRenderDevice final : public RenderDevice
 	{
 	public:
-		D3DRenderDevice(HWND window, UINT screenWidth, UINT screenHeight);
+		D3DRenderDevice();
 		virtual ~D3DRenderDevice();
+
+		void InitializeDirectX(HWND window, UINT mScreenWidth, UINT mScreenHeight);
 
 		virtual Library::Texture * CreateTexture(const std::string & imagePath) override;
 		virtual Library::Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
@@ -44,7 +46,6 @@ namespace Library
 		ID3D11Texture2D* mDepthStencilBuffer;
 		ID3D11RenderTargetView* mRenderTargetView;
 		ID3D11DepthStencilView* mDepthStencilView;
-		void InitializeDirectX(HWND window, UINT mScreenWidth, UINT mScreenHeight);
 
 		//OldPolygonRenderer* poly;
 

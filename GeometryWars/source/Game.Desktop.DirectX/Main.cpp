@@ -5,6 +5,10 @@
 #include "InputManager.h"
 #include "ActionDebug.h"
 #include "D3DRenderDevice.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Bullet.h"
+//#include "BloomPostProcessing.h"
 
 #include <fstream>
 
@@ -17,8 +21,8 @@ POINT CenterWindow(int windowWidth, int windowHeight);
 void Shutdown(const std::wstring& className);
 
 
-UINT mScreenWidth = 1024;
-UINT mScreenHeight = 768;
+UINT mScreenWidth = 800;
+UINT mScreenHeight = 600;
 
 HWND mWindowHandle;
 WNDCLASSEX mWindow;
@@ -31,30 +35,35 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	UNREFERENCED_PARAMETER(commandLine);
 	UNREFERENCED_PARAMETER(showCommand);
 
+	XBoxControllerHandlerFactory xchf;
+	ActionDebugFactory adf;
+	PlayerFactory mPlayerFactory;
+	EnemyFactory mEnemyFactory;
+	BulletFactory mBulletFactory;
+
 	std::wstring windowClassName = L"RenderingClass";
 
-	InitializeWindow(instance, windowClassName, L"Geometry Wars DirectX", showCommand);
-	MSG message;
-	ZeroMemory(&message, sizeof(message));
 
 	WCHAR buffer[MAX_PATH];
 	GetModuleFileName(nullptr, buffer, MAX_PATH);
 	PathRemoveFileSpec(buffer);
 	SetCurrentDirectory(std::wstring(buffer).c_str());
 
-	using namespace Library;
-	D3DRenderDevice device(mWindowHandle, mScreenWidth, mScreenHeight);
+	D3DRenderDevice device;
 	Renderer * renderer = Renderer::GetInstance(&device);
-
 
 	Game game;
 	game.SetRenderer(renderer);
-	game.Start("Content/config/polygon.xml");
+	game.Start("Content/config/geometrywars_test.xml");
+
+	mScreenWidth = game.GetWorld().GetWidth();
+	mScreenHeight = game.GetWorld().GetHeight();
+	InitializeWindow(instance, windowClassName, L"Geometry Wars DirectX", showCommand);
+	MSG message;
+	ZeroMemory(&message, sizeof(message));
+	device.InitializeDirectX(mWindowHandle, mScreenWidth, mScreenHeight);
 
 	//game.Start("Content/config/geometrywars_test.xml");
-	XBoxControllerHandlerFactory xchf;
-	ActionDebugFactory adf;
-
 	while (message.message != WM_QUIT)
 	{
 		if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
