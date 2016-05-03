@@ -57,9 +57,9 @@ namespace OpenGLImplmentation {
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
-	void OpenGLTexture::Use()
+	void OpenGLTexture::Use(std::uint32_t useAsTextureIndex)
 	{
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + useAsTextureIndex);
 		glBindTexture(GL_TEXTURE_2D, mTextureId);
 	}
 

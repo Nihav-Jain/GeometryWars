@@ -21,8 +21,12 @@ namespace Library {
 		void Init(RenderDevice * device);
 		bool mInited;
 		FrameBuffer * mFrameBuffer;
-		Shader * mShader;
+		FrameBuffer * mFrameBufferForBlur[2];
+		Shader * mShaderHDR;
+		Shader * mShaderBlur;
+		Shader * mShaderBlend;
 		Buffer * mBuffer;
+
 	};
 
 }

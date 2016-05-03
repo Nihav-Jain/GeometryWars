@@ -13,7 +13,8 @@ namespace Library {
 		virtual void SetMatrix4(const std::string & name, const glm::mat4 & value) = 0;
 		virtual void SetVector4(const std::string & name, const glm::vec4 & value) = 0;
 		virtual void SetFloat(const std::string & name, float value) = 0;
-
+		virtual void SetBool(const std::string & name, bool value) = 0;
+		virtual void SetInt(const std::string & name, std::int32_t value) = 0;
 	protected:
 		Shader() = default;
 	};

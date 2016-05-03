@@ -46,7 +46,7 @@ namespace Library {
 	void Renderer::Update()
 	{
 		if (mFrameBuffer == nullptr) {
-			mFrameBuffer = mDevice->CreateFrameBuffer();
+			mFrameBuffer = mDevice->CreateFrameBuffer(1);
 		}
 
 		if (mDefaultFrameBuffer == nullptr) {
@@ -64,9 +64,12 @@ namespace Library {
 		for (auto & it = mPostProcessings.begin();
 			it != mPostProcessings.end(); ++it) {
 			
-			if (it + 1 == mPostProcessings.end())
+			if (it + 1 == mPostProcessings.end()) {
 				buff = (*it)->Apply(mDevice, buff, mDefaultFrameBuffer);
-			buff = (*it)->Apply(mDevice, buff, nullptr);
+			}
+			else {
+				buff = (*it)->Apply(mDevice, buff, nullptr);
+			}
 		}
 
 		if (mDevice != nullptr) {

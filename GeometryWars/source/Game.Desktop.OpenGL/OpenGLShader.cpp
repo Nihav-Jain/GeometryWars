@@ -73,6 +73,16 @@ namespace OpenGLImplmentation {
 		glUniform1f(glGetUniformLocation(mShaderId, name.c_str()), value);
 	}
 
+	void OpenGLShader::SetBool(const std::string & name, bool value)
+	{
+		glUniform1i(glGetUniformLocation(mShaderId, name.c_str()), value);
+	}
+
+	void OpenGLShader::SetInt(const std::string & name, std::int32_t value)
+	{
+		glUniform1i(glGetUniformLocation(mShaderId, name.c_str()), value);
+	}
+
 	GLuint OpenGLShader::createOpenGLShaderObj(GLuint type, const std::string & path)
 	{
 		GLuint shadeId = 0;

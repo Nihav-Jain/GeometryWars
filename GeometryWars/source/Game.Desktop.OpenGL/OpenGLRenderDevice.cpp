@@ -135,10 +135,10 @@ namespace OpenGLImplmentation {
 		mBuffers.push_back(buffer);
 		return buffer;
 	}
-	Library::FrameBuffer * OpenGLRenderDevice::CreateFrameBuffer()
+	Library::FrameBuffer * OpenGLRenderDevice::CreateFrameBuffer(std::uint32_t textureCnt)
 	{
 		OpenGLFrameBuffer * fb = new OpenGLFrameBuffer();
-		fb->Init(mWidth, mHeight);
+		fb->Init(textureCnt, mWidth, mHeight);
 		return fb;
 	}
 	Library::FrameBuffer * OpenGLRenderDevice::GetDefaultFrameBuffer()

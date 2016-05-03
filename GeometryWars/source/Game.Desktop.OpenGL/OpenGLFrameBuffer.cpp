@@ -15,15 +15,13 @@
 namespace OpenGLImplmentation {
 	OpenGLFrameBuffer::OpenGLFrameBuffer() :
 		mFBO(0),
-		mRBO(0),
-		mTexture(nullptr)
+		mRBO(0)
 	{
 	}
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(GLuint id) :
 		mFBO(id),
-		mRBO(0),
-		mTexture(nullptr)
+		mRBO(0)
 	{
 	}
 
@@ -32,32 +30,41 @@ namespace OpenGLImplmentation {
 	{
 		if (mFBO != 0)
 			glDeleteFramebuffers(1, &mFBO);
-		if (mTexture != 0)
-			delete mTexture;
+	
+		for (auto & t : mTextures) {
+			delete t;
+		}
+
 		if (mRBO != 0)
 			glDeleteRenderbuffers(1, &mRBO);
 	}
 
-	void OpenGLFrameBuffer::Init(std::int32_t width, std::int32_t height)
+	void OpenGLFrameBuffer::Init(std::uint32_t textureCnt, std::int32_t width, std::int32_t height)
 	{
-		GLuint textureId = 0;
 		glGenFramebuffers(1, &mFBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
 
-		glGenTextures(1, &textureId);
-		glBindTexture(GL_TEXTURE_2D, textureId);
+		for (std::uint32_t i = 0; i < textureCnt; i++) {
+			GLuint textureId = 0;
+			glGenTextures(1, &textureId);
+			glBindTexture(GL_TEXTURE_2D, textureId);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glBindTexture(GL_TEXTURE_2D, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glBindTexture(GL_TEXTURE_2D, 0);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, textureId, 0);
+
+			mTextures.push_back(new OpenGLTexture(textureId));
+		}
 
 		glGenRenderbuffers(1, &mRBO);
 		glBindRenderbuffer(GL_RENDERBUFFER, mRBO);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 		glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mRBO);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
@@ -65,8 +72,6 @@ namespace OpenGLImplmentation {
 		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		mTexture = new OpenGLTexture(textureId);
 	}
 	void OpenGLFrameBuffer::Use()
 	{
@@ -79,8 +84,11 @@ namespace OpenGLImplmentation {
 				throw std::exception("Error");
 			}
 		
-			GLenum buff[] = { GL_COLOR_ATTACHMENT0 };
-			glDrawBuffers(1, buff);
+			GLenum buff[16] = { 0 };
+			for (std::uint32_t i = 0; i < mTextures.size(); i++) {
+				buff[i] = GL_COLOR_ATTACHMENT0 + i;
+			}
+			glDrawBuffers(mTextures.size(), buff);
 
 			glEnable(GL_DEPTH_TEST);
 		}
@@ -88,15 +96,20 @@ namespace OpenGLImplmentation {
 
 			glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
 
+			auto rt = glGetError();
+			if (rt != GL_NO_ERROR) {
+				throw std::exception("Error");
+			}
+
 			glDisable(GL_DEPTH_TEST);
 			GLenum buff[] = { GL_BACK_LEFT };
 			glDrawBuffers(1, buff);
 		}
 	}
 
-	Library::Texture * OpenGLFrameBuffer::GetFrameTexture()
+	const std::vector<Library::Texture *> & OpenGLFrameBuffer::GetFrameTexture()
 	{
-		return mTexture;
+		return mTextures;
 	}
 	void OpenGLFrameBuffer::ClearColor(glm::vec4 color)
 	{

@@ -14,7 +14,7 @@ namespace OpenGLImplmentation {
 		~OpenGLTexture();
 
 		virtual void Init(const std::string & imagePath) override;
-		virtual void Use() override;
+		virtual void Use(std::uint32_t useAsTextureIndex) override;
 	private:
 		GLuint mTextureId;
 	};
