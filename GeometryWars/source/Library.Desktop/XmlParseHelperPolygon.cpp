@@ -35,7 +35,6 @@ namespace Library {
 		polygon->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *polygon);
 
-		Renderer::GetInstance()->AddRenderable(polygon);
 		sharedDataPtr->CurrentScopePtr = polygon;
 
 		return true;

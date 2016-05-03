@@ -44,8 +44,15 @@
 //#include "PolygonRenderer.h"
 #include "CircleColliderComponent.h"
 
+#include "ActionLoadMusic.h"
+#include "ActionPlayMusic.h"
+#include "ActionTogglePauseMusic.h"
+#include "ActionStopMusic.h"
+
+
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
+#include "XmlParseHelperDefine.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
@@ -103,6 +110,12 @@ namespace Library
 		Game& operator=(const Game& rhs) = delete;
 
 		/**
+		*	Init - All inits required, go here.
+		*/
+		void Init();
+
+
+		/**
 		 *	Getter for the game World
 		 *	@return reference to World
 		 */
@@ -115,22 +128,24 @@ namespace Library
 		XmlParseMaster& ParseMaster();
 
 		/**
-		 *	Getter of Game time
-		 *	@return const reference to game time
-		 */
+		*	Getter of Game time
+		*	@return const reference to game time
+		*/
 		const GameTime& GetGameTime() const;
+
+		void Start();
+
+		/**
+		*	AddHelpers - Add helpers to parse master.
+		*/
+		void AddHelpers();
 
 		/**
 		*	Resets the game clock and other things to be initialized before starting the game loop
 		*	Must be called before entering the game loop
 		*/
-		void Start();
-
-		/**
-		 *	Resets the game clock and other things to be initialized before starting the game loop
-		 *	Must be called before entering the game loop
-		 */
 		void Start(const std::string & config);
+
 
 		/**
 		 *	Updates the game clock and calls Update on the game World
@@ -151,13 +166,15 @@ namespace Library
 
 		Renderer* mRenderer;
 
-		SharedDataTable mSharedData;
-		XmlParseMaster mParseMaster;
-
 		GameClock mGameClock;
 		GameTime mGameTime;
 		World mWorld;
+		AudioManager mAudioManager;
+		
+		SharedDataTable mSharedData;
+		XmlParseMaster mParseMaster;
 
+		XmlParseHelperDefine mDefineParser;
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
@@ -179,7 +196,9 @@ namespace Library
 
 		XmlParseHelperActionWhile mActionWhile;
 		XmlParseHelperActionWhile::XmlParseHelperActionWhileLoopBody mActionWhileLoop;
+
 		XmlParseHelperBeginPlay mActionBeginPlay;
+	
 		XmlParseHelperOnDestroy mActionOnDestroy;
 
 		XmlParseHelperSprite mSpriteParser;

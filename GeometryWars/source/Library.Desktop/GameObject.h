@@ -12,6 +12,9 @@ namespace Library
 		GameObject();
 		virtual ~GameObject() = default;
 
+		GameObject(const GameObject& rhs);
+
+
 		const glm::vec4& Position() const;
 		void SetPosition(const glm::vec4& position);
 
@@ -27,6 +30,7 @@ namespace Library
 		Action* GetComponent(const std::string& typeName) const;
 		bool HasComponent(const std::string& typeName) const;
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
@@ -42,6 +46,9 @@ namespace Library
 		std::float_t mMoveSpeed;
 
 		std::int32_t mWorldWidth, mWorldHeight;
+
+	private:
+		void ResetAttributePointers();
 	};
 
 	CONCRETE_ENTITY_FACTORY(GameObject);

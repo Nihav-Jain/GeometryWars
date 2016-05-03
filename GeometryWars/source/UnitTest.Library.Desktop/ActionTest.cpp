@@ -446,7 +446,7 @@ namespace UnitTestLibraryDesktop
 
 			Assert::AreEqual(110, result->Get<std::int32_t>());
 			Assert::AreEqual(100, someInt->Get<std::int32_t>());
-			Assert::AreEqual(120, anotherResult->Get<std::int32_t>()); 
+			Assert::AreEqual(120, anotherResult->Get<std::int32_t>());
 			Assert::AreEqual(200, someResult->Get<std::int32_t>());
 			Assert::AreEqual(125, refResult->Get<std::int32_t>());
 		}
@@ -481,7 +481,7 @@ namespace UnitTestLibraryDesktop
 			Entity* newEntity = sector->FindEntity("newEntity");
 			Assert::IsNotNull(newEntity);
 
-			Datum* newSomeInt = newEntity->Find("someInt");
+			Datum* newSomeInt = newEntity->Find("someInt1");
 			Assert::IsNotNull(newSomeInt);
 			Assert::AreEqual(0, newSomeInt->Get<std::int32_t>());
 

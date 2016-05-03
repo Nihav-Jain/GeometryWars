@@ -35,19 +35,17 @@ namespace Library
 			ActionListSwitchCase();
 
 			/**
-			 *	disallow copy construtor
-			 */
-			ActionListSwitchCase(const ActionListSwitchCase& rhs) = delete;
-
-			/**
 			 *	Default destructor
 			 */
 			virtual ~ActionListSwitchCase() = default;
 
-			/**
-			 *	disallow copy assignment operator
-			 */
-			ActionListSwitchCase& operator=(const ActionListSwitchCase& rhs) = delete;
+			ActionListSwitchCase(const ActionListSwitchCase& rhs);
+			ActionListSwitchCase(ActionListSwitchCase&& rhs);
+
+			ActionListSwitchCase& operator=(const ActionListSwitchCase& rhs);
+			ActionListSwitchCase& operator=(ActionListSwitchCase&& rhs);
+
+			virtual Scope* Clone(const Scope& rhs) const override;
 
 			/**
 			 *	boolean to indicate if this case must break from the switch block after executing itself
@@ -72,19 +70,15 @@ namespace Library
 		ActionListSwitch();
 
 		/**
-		 *	disallow copy construtor
-		 */
-		ActionListSwitch(const ActionListSwitch& rhs) = delete;
-
-		/**
 		 *	Destructor
 		 */
 		virtual ~ActionListSwitch();
 
-		/**
-		 *	disallow copy assignment operator
-		 */
-		ActionListSwitch& operator=(const ActionListSwitch& rhs) = delete;
+		ActionListSwitch(const ActionListSwitch& rhs);
+		ActionListSwitch(ActionListSwitch&& rhs);
+
+		ActionListSwitch& operator=(const ActionListSwitch& rhs);
+		ActionListSwitch& operator=(ActionListSwitch&& rhs);
 
 		/**
 		 *	parses the cases inthis ActionList and generates a Hashmap for quick comparison
@@ -99,6 +93,8 @@ namespace Library
 		 *	@param reference to the world state
 		 */
 		virtual void Update(WorldState& worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_SWITCH_VALUE;
 

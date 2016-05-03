@@ -13,6 +13,28 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_ENTITY_INSTANCE_NAME, 1, &mEntityToDestroy);
 	}
 
+	ActionDestroyEntity::ActionDestroyEntity(const ActionDestroyEntity& rhs) :
+		Action::Action(rhs), mEntityToDestroy(rhs.mEntityToDestroy)
+	{
+		(*this)[ATTRIBUTE_ENTITY_INSTANCE_NAME].SetStorage(&mEntityToDestroy, 1);
+	}
+
+	ActionDestroyEntity::ActionDestroyEntity(ActionDestroyEntity&& rhs) :
+		Action::Action(std::move(rhs))
+	{}
+
+	ActionDestroyEntity& ActionDestroyEntity::operator=(const ActionDestroyEntity& rhs)
+	{
+		Action::operator=(rhs);
+		return *this;
+	}
+
+	ActionDestroyEntity& ActionDestroyEntity::operator=(ActionDestroyEntity&& rhs)
+	{
+		Action::operator=(std::move(rhs));
+		return *this;
+	}
+
 	void ActionDestroyEntity::Update(WorldState& worldState)
 	{
 		assert(worldState.sector != nullptr);
@@ -22,6 +44,12 @@ namespace Library
 		{
 			entity->MarkForDestroy(worldState);
 		}
+	}
+
+	Scope* ActionDestroyEntity::Clone(const Scope& rhs) const
+	{
+		ActionDestroyEntity& action = *rhs.AssertiveAs<ActionDestroyEntity>();
+		return new ActionDestroyEntity(action);
 	}
 
 }

@@ -14,11 +14,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	OpenGLTexture::OpenGLTexture() :
 		mTextureId(0)
 	{
+	}
+
+	OpenGLTexture::OpenGLTexture(GLuint textureId)
+	{
+		mTextureId = textureId;
 	}
 
 
@@ -52,9 +57,9 @@ namespace Library {
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
-	void OpenGLTexture::Use()
+	void OpenGLTexture::Use(std::uint32_t useAsTextureIndex)
 	{
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + useAsTextureIndex);
 		glBindTexture(GL_TEXTURE_2D, mTextureId);
 	}
 

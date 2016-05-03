@@ -10,10 +10,12 @@
 
 using namespace Library;
 
+
 void InitializeWindow(HINSTANCE instance, const std::wstring& className, const std::wstring windowTitle, int showCommand);
 LRESULT WINAPI WndProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam);
 POINT CenterWindow(int windowWidth, int windowHeight);
 void Shutdown(const std::wstring& className);
+
 
 UINT mScreenWidth = 1024;
 UINT mScreenHeight = 768;
@@ -31,7 +33,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	std::wstring windowClassName = L"RenderingClass";
 
-	InitializeWindow(instance, windowClassName, L"DirectX Essentials", showCommand);
+	InitializeWindow(instance, windowClassName, L"Geometry Wars DirectX", showCommand);
 	MSG message;
 	ZeroMemory(&message, sizeof(message));
 
@@ -43,6 +45,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	using namespace Library;
 	D3DRenderDevice device(mWindowHandle, mScreenWidth, mScreenHeight);
 	Renderer * renderer = Renderer::GetInstance(&device);
+
 
 	Game game;
 	game.Start("Content/config/polygon.xml");

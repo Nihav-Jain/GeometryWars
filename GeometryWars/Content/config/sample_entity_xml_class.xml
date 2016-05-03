@@ -1,9 +1,9 @@
-<entity class="Entity" name="newEntity">
+<entity class="Entity" name="SampleEntity">
 	<string name="entity1Str" value="stringvalue" />
-	<integer name="someInt" value="0"/>
+	<integer name="someInt1" value="0"/>
 
 	<expression name="exp1">
-		<string name="expression">someInt = someInt + {20}</string>
+		<string name="expression">someInt1 = someInt1 + {20}</string>
 	</expression>	
 	
 </entity>

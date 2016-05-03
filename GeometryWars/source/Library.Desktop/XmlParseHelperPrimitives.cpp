@@ -76,7 +76,7 @@ namespace Library
 				}
 				else
 				{
-					Datum* reference = sharedDataPtr->CurrentScopePtr->Search(attributes["value"]);
+					Datum* reference = World::ComplexSearch(attributes["value"], *sharedDataPtr->CurrentScopePtr);
 					if (reference == nullptr)
 					{
 						std::stringstream str;
@@ -115,7 +115,7 @@ namespace Library
 				datum.SetFromString(mCharData, index);
 			else
 			{
-				Datum* reference = sharedDataPtr->CurrentScopePtr->Search(mCharData);
+				Datum* reference = World::ComplexSearch(mCharData, *sharedDataPtr->CurrentScopePtr);
 				if (reference == nullptr)
 				{
 					std::stringstream str;
@@ -143,7 +143,7 @@ namespace Library
 				primitiveDatum.SetFromString(sharedDataPtr->DataValue, index);
 			else
 			{
-				Datum* reference = sharedDataPtr->CurrentScopePtr->Search(sharedDataPtr->DataName);
+				Datum* reference = World::ComplexSearch(sharedDataPtr->DataName, *sharedDataPtr->CurrentScopePtr);
 				if (reference == nullptr)
 				{
 					std::stringstream str;
