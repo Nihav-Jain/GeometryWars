@@ -29,7 +29,7 @@
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.8549926, 0.223228, 0.8549926, 1)" />
+		<vector name="color" value="vec4(0.796875, 0.19921875, 1, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
