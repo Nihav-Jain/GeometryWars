@@ -35,7 +35,7 @@ namespace Library
 		void SetAttackSpeed(std::int32_t attackSpeed);
 		void Shoot();
 
-		std::int32_t Lives() const;
+		const std::int32_t & Lives() const;
 		void SetLives(std::int32_t lives);
 		void PlayerDeath(WorldState& worldState);
 

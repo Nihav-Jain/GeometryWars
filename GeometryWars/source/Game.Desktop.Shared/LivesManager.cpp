@@ -54,11 +54,13 @@ namespace Library
 		mSprites.resize(mNumSprites);
 		mImages.resize(mNumSprites);
 
+		std::int32_t padding = 0;
 		for (std::int32_t i = 0; i < mNumSprites; ++i)
 		{
 			// Determine position
 			std::int32_t order = (mOrderLeftToRight) ? i : (mNumSprites - i);
-			glm::vec4 pos = glm::vec4(order * mImageSize + mHorizontalOffset, mVerticalOffset, 1, 1);
+			glm::vec4 pos = glm::vec4(order * mImageSize + mHorizontalOffset + padding, mVerticalOffset, 1, 1);
+			padding = (mOrderLeftToRight) ? padding - mPadding : padding + mPadding;
 
 			mSprites[i] = new SpriteRenderer();
 			SpriteRenderer* renderer = mSprites[i];
