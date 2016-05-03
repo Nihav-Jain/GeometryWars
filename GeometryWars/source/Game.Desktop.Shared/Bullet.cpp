@@ -73,13 +73,7 @@ namespace Library
 		GameObject::BeginPlay(worldState);
 
 		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
-		mPosition = mPlayerOwner->Position();
-		mVelocity = mPlayerOwner->Heading() * mMoveSpeed;
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
-
-		//mHeading.x = -sin(mRotation.z);
-		//mHeading.y = cos(mRotation.z);
-		//mHeading = glm::normalize(mHeading);
 	}
 
 	void Bullet::Update(WorldState & worldState)
