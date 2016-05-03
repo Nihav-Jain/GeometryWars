@@ -70,7 +70,12 @@ namespace Library
 	{
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Enemy::TypeIdClass());
 
+		Entity* worldStateEntityCache = worldState.entity;
+		worldState.entity = this;
+
 		GameObject::BeginPlay(worldState);
+
+		worldState.entity = worldStateEntityCache;
 
 		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
