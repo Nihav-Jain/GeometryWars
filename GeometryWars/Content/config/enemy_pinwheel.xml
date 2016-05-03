@@ -1,4 +1,4 @@
-<gameobject class="Enemy" name="adsfasdf">
+<gameobject class="Enemy" name="PinwheelEnemy">
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
@@ -25,34 +25,34 @@
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="4" />
+		<integer name="indices" value="0" />
 		<integer name="indices" value="4" />
 		<integer name="indices" value="0" />
-		<integer name="indices" value="0" />
 		<integer name="indices" value="5" />
 		<integer name="indices" value="5" />
 		<integer name="indices" value="6" />
+		<integer name="indices" value="0" />
 		<integer name="indices" value="6" />
 		<integer name="indices" value="0" />
+		<integer name="indices" value="7" />
 		<integer name="indices" value="0" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="7" />
 		<integer name="indices" value="8" />
 		<integer name="indices" value="8" />
-		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(0, 0.8, 0, 0)" />
+		<integer name="indices" value="7" />
 		<vector name="points" value="vec4(0, 0.01, 0, 0)" />
+		<vector name="points" value="vec4(0, 0.82, 0, 0)" />
 		<vector name="points" value="vec4(0.4, 0.4, 0, 0)" />
-		<vector name="points" value="vec4(0.8, 0.01, 0, 0)" />
-		<vector name="points" value="vec4(0.41, -0.4, 0, 0)" />
-		<vector name="points" value="vec4(-0.01, -0.79, 0, 0)" />
+		<vector name="points" value="vec4(0.8, 0, 0, 0)" />
+		<vector name="points" value="vec4(0.4, -0.4, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.8, 0, 0)" />
 		<vector name="points" value="vec4(-0.4, -0.4, 0, 0)" />
-		<vector name="points" value="vec4(-0.81, 0, 0, 0)" />
-		<vector name="points" value="vec4(-0.4, 0.39, 0, 0)" />
+		<vector name="points" value="vec4(-0.82, 0, 0, 0)" />
+		<vector name="points" value="vec4(-0.4, 0.4, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="3.5" />
+		<float name="radius" value="4" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
