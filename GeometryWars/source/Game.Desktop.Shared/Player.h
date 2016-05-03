@@ -18,6 +18,7 @@ namespace Library
 		static const std::string ATTRIBUTE_ATTACKSPEED;
 		static const std::string ATTRIBUTE_CANATTACK;
 		static const std::string ATTRIBUTE_LIVES;
+		static const std::string ATTRIBUTE_MULTIPLIER;
 		static const std::string ATTRIBUTE_SHOOT;
 		static const std::string ATTRIBUTE_USEBOMB;
 		static const std::string ATTRIBUTE_BOMBS;
@@ -35,13 +36,17 @@ namespace Library
 		void SetAttackSpeed(std::int32_t attackSpeed);
 		void Shoot();
 
-		std::int32_t Lives() const;
+		const std::int32_t & Lives() const;
 		void SetLives(std::int32_t lives);
 		void PlayerDeath(WorldState& worldState);
 
 		const std::int32_t Score() const;
 		void AddScore(const std::int32_t & score);
 		void SetScore(const std::int32_t & score);
+
+		const std::int32_t Multiplier() const;
+		void IncrementMultiplier();
+		void ResetMultiplier();
 
 		std::int32_t Bombs() const;
 		void SetBombs(std::int32_t bombs);
@@ -71,6 +76,8 @@ namespace Library
 
 		std::int32_t mLives;
 		std::string mCollisionChannel;
+
+		std::int32_t mMultiplier;
 
 		bool mUseBomb;
 		std::int32_t mBombCount;

@@ -12,14 +12,16 @@ namespace Library
 
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
+	const std::string Enemy::ATTRIBUTE_CANSPAWNCOLLECTIBLE = "canspawncollectible";
 	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
 	const std::string Enemy::ATTRIBUTE_SCORE = "score";
 
 	Enemy::Enemy()
-		: mVelocity(), mIsDead(false), mCollisionChannel(), mScore(0)
+		: mVelocity(), mIsDead(false), mCanSpawnCollectible(false), mCollisionChannel(), mScore(0)
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
+		AddExternalAttribute(ATTRIBUTE_CANSPAWNCOLLECTIBLE, 1, &mCanSpawnCollectible);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
 
@@ -50,12 +52,13 @@ namespace Library
 		mVelocity = velocity;
 	}
 
-	void Enemy::EnemyDeath(WorldState & worldState)
+	void Enemy::EnemyDeath(WorldState & worldState, bool canSpawnCollectible)
 	{
 		//MarkForDestroy(worldState);
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+		mCanSpawnCollectible = canSpawnCollectible;
 		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 		// TODO: Spawn score multiplier at current location
 	}

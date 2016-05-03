@@ -141,7 +141,9 @@
 			</condition>
 			<then>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="Player0"/>
+					<expression name="exp">
+						<string name="expression">entityInstanceName = ownerEntity</string>
+					</expression>
 				</action>
 			</then>
 		  </if>
