@@ -5,15 +5,6 @@
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
 	
-	<beginplay>
-		<!-- playMusic -->
-		<action class="ActionPlayMusic" name="playMusic1">
-			<string name="musicName" value="Fire_normal.mp3"/>
-				<integer name="loop" value="0"  index="0"/>
-			<float name="volume" value="0.9" index="0"/>
-		</action>
-	</beginplay>
-	
 	<!-- Polygon Render Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />
@@ -51,12 +42,20 @@
 	</component>
 	
 	<beginplay>
+		
 		<expression name="spawn_velocity">
 			<string name="expression">velocity = Player1.heading</string>
 		</expression>
 		<expression name="spawn_position">
 			<string name="expression">position = Player1.position</string>
 		</expression>
+		<!-- playMusic -->
+		<action class="ActionPlayMusic" name="playMusic1">
+			<string name="musicName" value="Fire_normal.mp3"/>
+				<integer name="loop" value="1"  index="0"/>
+			<float name="volume" value="0.9" index="0"/>
+		</action>
+		
 	</beginplay>
 	
 	<!-- Update Loop -->
