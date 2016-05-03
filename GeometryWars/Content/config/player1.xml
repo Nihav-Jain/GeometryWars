@@ -97,7 +97,7 @@
 								<string name="expression">heading = XBoxControllerManager.PlayerOneState.RightStick.Direction</string>
 							</expression>
 							<action class="ActionCreateEntityFromFile" name="SpawnBullet">
-							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
+								<string name="filePath" value="Content/config/bullet.xml" index="0" />
 								<string name="className" value="Bullet" index="0" />
 								<string name="instanceName" value="Bullet" index="0" />
 							</action>
