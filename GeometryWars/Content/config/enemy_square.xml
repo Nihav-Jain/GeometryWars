@@ -63,7 +63,9 @@
 			</condition>
 			<then>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="SquareEnemy"/>
+					<expression name="exp">
+						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+					</expression>
 				</action>
 			</then>
 		</if>

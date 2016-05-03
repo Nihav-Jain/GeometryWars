@@ -16,6 +16,8 @@ namespace Library
 	const std::string World::ATTRIBUTE_WIDTH = "width";
 	const std::string World::ATTRIBUTE_HEIGHT = "height";
 
+	Stack<Datum*> World::sTempReferenceDatums;
+
 	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
 		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
 		mWidth(0), mHeight(0), ClassDefinitionContainer()
@@ -30,6 +32,15 @@ namespace Library
 
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
+	}
+
+	World::~World()
+	{
+		while (!sTempReferenceDatums.IsEmpty())
+		{
+			delete sTempReferenceDatums.Top();
+			sTempReferenceDatums.Pop();
+		}
 	}
 
 	const std::string& World::Name() const
@@ -151,7 +162,18 @@ namespace Library
 				return nullptr;
 			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
 		}
-		return targetScope->Find(referenceName);
+		Datum* foundDatum = targetScope->Find(referenceName);
+		if (foundDatum == nullptr)
+		{
+			Scope* foundScope = ComplexSearchHelper(referenceName, *targetScope, false);
+			if (foundScope != nullptr)
+			{
+				foundDatum = new Datum();
+				*foundDatum = *foundScope;
+				sTempReferenceDatums.Push(foundDatum);
+			}
+		}
+		return foundDatum;
 	}
 
 	XmlParseMaster& World::ParseMaster()

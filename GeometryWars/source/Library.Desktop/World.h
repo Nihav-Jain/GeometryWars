@@ -34,7 +34,7 @@ namespace Library
 		/**
 		 *	Default destructor
 		 */
-		virtual ~World() = default;
+		virtual ~World();
 
 		/**
 		 *	disallow copy construtor
@@ -141,6 +141,7 @@ namespace Library
 
 	private:
 		static Scope* ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch = false);
+		static Stack<Datum*> sTempReferenceDatums;
 
 		void ScriptedBeginPlay();
 		void SectorsBeginPlay();

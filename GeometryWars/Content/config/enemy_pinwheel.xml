@@ -77,11 +77,10 @@
 				<string name="expression">isdead</string>
 			</condition>
 			<then>
-				<expression name="exp">
-					<string name="expression">destroySelf.entityInstanceName = ownerEntity.name</string>
-				</expression>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="PinwheelEnemy"/>
+					<expression name="exp">
+						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+					</expression>
 				</action>
 			</then>
 		</if>
