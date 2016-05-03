@@ -40,7 +40,7 @@
 
 #include "SpriteManager.h"
 #include "ScoreManager.h"
-#include "Score.h"
+#include "LivesManager.h"
 
 #include "Player.h"
 #include "Enemy.h"
