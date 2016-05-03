@@ -65,7 +65,7 @@
 			<then>
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<expression name="exp">
-						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+						<string name="expression">entityInstanceName = ref(Bullet)</string>
 					</expression>
 				</action>
 			</then>
