@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	Game startMenu;
 	startMenu.SetRenderer(renderer);
 	startMenu.Start("Content/config/start_menu.xml");
-	renderDevice.InitOpenGl("Geomatry War", startMenu.GetWorld().GetWidth(), startMenu.GetWorld().GetHeight());
+	renderDevice.InitOpenGl("Geometry Wars", startMenu.GetWorld().GetWidth(), startMenu.GetWorld().GetHeight());
 
 	bool & wait = startMenu.GetWorld().Find("wait")->Get<bool>();
 	SpriteRenderer* title = startMenu.GetWorld().FindSector("ImageSector")->FindEntity("TitleScreen")->FindAction("titleSprite")->AssertiveAs<SpriteRenderer>();

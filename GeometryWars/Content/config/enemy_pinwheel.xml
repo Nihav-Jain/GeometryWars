@@ -13,7 +13,7 @@
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
 	<float name="speed" value="0.2" />
 	
-	<!-- Begin Play, Get a random velocity -->
+	<!-- Begin Play, Get a random velocity, get Numbered name -->
 	<beginplay>
 		<expression name="GetRandomTargetPosition">
 			<string name="expression">TargetPosition = RandomVector()</string>
@@ -25,12 +25,17 @@
 		<expression name="change_vel">
 			<string name="expression">velocity = normalize(direction)</string>
 		</expression>
+		
+		<expression name="GetEnemyCount">
+			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
+		</expression>
+		
 	</beginplay>
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.8549926, 0.223228, 0.8549926, 1)" />
+		<vector name="color" value="vec4(0.796875, 0.19921875, 1, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
