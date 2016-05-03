@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "Score.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -33,7 +34,7 @@ namespace Library
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
-		  mScore(0), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		  mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -45,11 +46,18 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_HEADING, 1, &mHeading);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
+
+		Score::CreateInstance();
+	}
+
+	Player::~Player()
+	{
+		Score::DeleteInstance();
 	}
 
 	Player::Player(const Player & rhs)
 		: GameObject::GameObject(rhs), mPlayerNumber(rhs.mPlayerNumber), mAttackSpeed(rhs.mAttackSpeed), mShootTimer(rhs.mShootTimer), mCanAttack(rhs.mCanAttack),
-		mShoot(rhs.mShoot), mLives(rhs.mLives), mScore(rhs.mScore), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
+		mShoot(rhs.mShoot), mLives(rhs.mLives), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
 		mVelocity(rhs.mVelocity), mHeading(rhs.mHeading), mCollisionChannel(rhs.mCollisionChannel)
 	{
 		ResetAttributePointers();
@@ -116,22 +124,24 @@ namespace Library
 		{
 			--mLives;
 			OutputDebugStringA("Player Hit!");
+
+			// TODO: Kill all enemies, kill all multipliers, reset multiplier to 1
 		}
 	}
 
-	const std::int64_t Player::Score() const
+	const std::int32_t Player::Score() const
 	{
-		return mScore;
+		return Score::GetInstance()->GetScore();
 	}
 
 	void Player::AddScore(const std::int32_t & score)
 	{
-		mScore += score;
+		Score::GetInstance()->AddScore(score);
 	}
 
-	void Player::SetScore(const std::int64_t & score)
+	void Player::SetScore(const std::int32_t & score)
 	{
-		mScore = score;
+		Score::GetInstance()->SetScore(score);
 	}
 
 	std::int32_t Player::Bombs() const
@@ -203,11 +213,6 @@ namespace Library
 	{
 		// Update position
 		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
-
-		// Update heading with rotation
-		//mHeading.x = -sin(mRotation.z);
-		//mHeading.y = cos(mRotation.z);
-		//mHeading = glm::normalize(mHeading);
 
 		// Prevent moving out of bounds
 		if (mPosition.x > mWorldWidth / 2.0f)

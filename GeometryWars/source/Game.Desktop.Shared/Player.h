@@ -10,7 +10,7 @@ namespace Library
 	public:
 		
 		Player();
-		virtual ~Player() = default;
+		virtual ~Player();
 
 		Player(const Player& rhs);
 
@@ -36,9 +36,9 @@ namespace Library
 		void SetLives(std::int32_t lives);
 		void PlayerDeath(WorldState& worldState);
 
-		const std::int64_t Score() const;
+		const std::int32_t Score() const;
 		void AddScore(const std::int32_t & score);
-		void SetScore(const std::int64_t & score);
+		void SetScore(const std::int32_t & score);
 
 		std::int32_t Bombs() const;
 		void SetBombs(std::int32_t bombs);
@@ -64,7 +64,6 @@ namespace Library
 		bool mShoot;
 
 		std::int32_t mLives;
-		std::int64_t mScore;
 		std::string mCollisionChannel;
 
 		bool mUseBomb;

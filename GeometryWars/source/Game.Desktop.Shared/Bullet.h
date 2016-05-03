@@ -38,6 +38,7 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
+		class Player* mPlayerOwner;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);
