@@ -26,6 +26,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_ATTACKSPEED = "attackspeed";
 	const std::string Player::ATTRIBUTE_CANATTACK = "canattack";
 	const std::string Player::ATTRIBUTE_LIVES = "lives";
+	const std::string Player::ATTRIBUTE_MULTIPLIER = "multiplier";
 	const std::string Player::ATTRIBUTE_BOMBS = "bombs";
 	const std::string Player::ATTRIBUTE_SHOOT = "shoot";
 	const std::string Player::ATTRIBUTE_USEBOMB = "useBomb";
@@ -36,13 +37,14 @@ namespace Library
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
-		  mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
 		AddExternalAttribute(ATTRIBUTE_CANATTACK, 1, &mCanAttack);
 		AddExternalAttribute(ATTRIBUTE_SHOOT, 1, &mShoot);
 		AddExternalAttribute(ATTRIBUTE_LIVES, 1, &mLives);
+		AddExternalAttribute(ATTRIBUTE_MULTIPLIER, 1, &mMultiplier);
 		AddExternalAttribute(ATTRIBUTE_BOMBS, 1, &mBombCount);
 		AddExternalAttribute(ATTRIBUTE_USEBOMB, 1, &mUseBomb);
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
@@ -61,7 +63,7 @@ namespace Library
 
 	Player::Player(const Player & rhs)
 		: GameObject::GameObject(rhs), mPlayerNumber(rhs.mPlayerNumber), mAttackSpeed(rhs.mAttackSpeed), mShootTimer(rhs.mShootTimer), mCanAttack(rhs.mCanAttack),
-		mShoot(rhs.mShoot), mLives(rhs.mLives), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
+		mShoot(rhs.mShoot), mLives(rhs.mLives), mMultiplier(rhs.mMultiplier), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
 		mVelocity(rhs.mVelocity), mHeading(rhs.mHeading), mCollisionChannel(rhs.mCollisionChannel)
 	{
 		ResetAttributePointers();
@@ -128,6 +130,7 @@ namespace Library
 		else
 		{
 			--mLives;
+			ResetMultiplier();
 			LivesManager::GetInstance()->SetValue(mLives);
 			OutputDebugStringA("Player Hit!");
 
@@ -142,12 +145,28 @@ namespace Library
 
 	void Player::AddScore(const std::int32_t & score)
 	{
-		ScoreManager::GetInstance()->AddValue(score);
+		std::int32_t scoreWMultiplier = score * mMultiplier;
+		ScoreManager::GetInstance()->AddValue(scoreWMultiplier);
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
 		ScoreManager::GetInstance()->SetValue(score);
+	}
+
+	const std::int32_t Player::Multiplier() const
+	{
+		return mMultiplier;
+	}
+
+	void Player::IncrementMultiplier()
+	{
+		mMultiplier++;
+	}
+
+	void Player::ResetMultiplier()
+	{
+		mMultiplier = 1;
 	}
 
 	std::int32_t Player::Bombs() const
@@ -293,6 +312,7 @@ namespace Library
 		(*this)[ATTRIBUTE_CANATTACK].SetStorage(&mCanAttack, 1);
 		(*this)[ATTRIBUTE_SHOOT].SetStorage(&mShoot, 1);
 		(*this)[ATTRIBUTE_LIVES].SetStorage(&mLives, 1);
+		(*this)[ATTRIBUTE_LIVES].SetStorage(&mMultiplier, 1);
 		(*this)[ATTRIBUTE_BOMBS].SetStorage(&mBombCount, 1);
 		(*this)[ATTRIBUTE_USEBOMB].SetStorage(&mUseBomb, 1);
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
