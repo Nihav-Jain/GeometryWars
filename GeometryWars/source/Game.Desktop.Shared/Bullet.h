@@ -31,6 +31,7 @@ namespace Library
 		glm::vec4 mVelocity;
 		bool mIsDead;
 		std::string mCollisionChannel;
+		class Player* mPlayerOwner;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);

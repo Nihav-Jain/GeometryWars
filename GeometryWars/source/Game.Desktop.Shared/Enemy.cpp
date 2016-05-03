@@ -38,6 +38,8 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+
+		// TODO: Spawn score multiplier at current location
 	}
 
 	std::int32_t Enemy::Score() const

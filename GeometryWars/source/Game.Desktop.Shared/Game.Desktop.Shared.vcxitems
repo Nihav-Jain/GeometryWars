@@ -19,11 +19,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionDebug.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Score.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bullet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionDebug.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp" />
   </ItemGroup>
 </Project>

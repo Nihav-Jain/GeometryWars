@@ -30,7 +30,12 @@ namespace Library {
 		mU(.0f),
 		mV(.0f),
 		mUWidth(1.0f),
-		mVHeight(1.0f)
+		mVHeight(1.0f),
+
+		mIsStatic(false),
+		mStaticPosition(),
+		mStaticRotation(),
+		mStaticScale()
 	{
 	}
 
@@ -42,6 +47,14 @@ namespace Library {
 			delete mBuffer;
 		if (mTexture != nullptr)
 			delete mTexture;
+	}
+
+	void SpriteRenderer::SetTransform(const glm::vec4 & position, const glm::vec4 & rotation, const glm::vec4 & scale)
+	{
+		mIsStatic = true;
+		mStaticPosition = position;
+		mStaticRotation = rotation;
+		mStaticScale = scale;
 	}
 
 	void SpriteRenderer::SetUV(float origin_x, float origin_y, float width, float height)
@@ -72,15 +85,29 @@ namespace Library {
 
 		glm::mat4 model;
 
-		glm::vec4 pos = mPosition->Get<glm::vec4>();
-		glm::vec4 rotate = mRotation->Get<glm::vec4>();
-		glm::vec4 scale = mScale->Get<glm::vec4>();
 
-		// TODO: Handle nullptr case
-		model = glm::translate(model, glm::vec3(pos));
-		model = glm::rotate(model, rotate.x, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3((*mSize).x * mUWidth, (*mSize).y * mVHeight, 1.0f));
-		model = glm::scale(model, glm::vec3(scale.x, scale.y, 1.0f));
+		// Dynamic image
+		if (!mIsStatic)
+		{
+			glm::vec4 pos = mPosition->Get<glm::vec4>();
+			glm::vec4 rotate = mRotation->Get<glm::vec4>();
+			glm::vec4 scale = mScale->Get<glm::vec4>();
+
+			// TODO: Handle nullptr case
+			model = glm::translate(model, glm::vec3(pos));
+			model = glm::rotate(model, rotate.x, glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::scale(model, glm::vec3((*mSize).x * mUWidth, (*mSize).y * mVHeight, 1.0f));
+			model = glm::scale(model, glm::vec3(scale.x, scale.y, 1.0f));
+		}
+
+		// Image does not change
+		else
+		{
+			model = glm::translate(model, glm::vec3(mStaticPosition));
+			model = glm::rotate(model, mStaticRotation.x, glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::scale(model, glm::vec3((*mSize).x * mUWidth, (*mSize).y * mVHeight, 1.0f));
+			model = glm::scale(model, glm::vec3(mStaticScale.x, mStaticScale.y, mStaticScale.z));
+		}
 
 		float halfwidth = (float)device->GetViewportWidth() / 2;
 		float halfheight = (float)device->GetViewportHeight() / 2;
@@ -107,7 +134,7 @@ namespace Library {
 
 		assert(mTexture != nullptr);
 
-		// TODO: Handle failed case
+		// TODO: Handle failed case -- do not throw exception because I'm not using these! -Will
 		mPosition = Search("position");
 		mRotation = Search("rotation");
 		mScale = Search("scale");
