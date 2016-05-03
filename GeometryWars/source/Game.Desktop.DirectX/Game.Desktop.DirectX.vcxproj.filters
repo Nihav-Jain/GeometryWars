@@ -31,6 +31,12 @@
     <FxCompile Include="GeometryShader.hlsl">
       <Filter>HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="SpriteVertexShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="SpritePixelShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">

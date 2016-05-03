@@ -90,8 +90,8 @@ namespace Library
 		}
 		if(useIndicesBuffer)
 			mDirect3DDeviceContext->DrawIndexed(counts, 0, 0);
-		//else
-			//mDirect3DDeviceContext->Draw(counts, 0);
+		else
+			mDirect3DDeviceContext->Draw(counts, 0);
 		//opr->Draw();
 	}
 
