@@ -219,19 +219,8 @@ namespace Library
 
 	void Player::Update(WorldState & worldState)
 	{
-		// Update position
-		//mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
-
 		// Prevent moving out of bounds
-		if (mPosition.x > mWorldWidth / 2.0f)
-			mPosition.x = mWorldWidth / 2.0f;
-		else if (mPosition.x < -mWorldWidth / 2.0f)
-			mPosition.x = -mWorldWidth / 2.0f;
-
-		if (mPosition.y > mWorldHeight / 2.0f)
-			mPosition.y = mWorldHeight / 2.0f;
-		else if (mPosition.y < -mWorldHeight / 2.0f)
-			mPosition.y = -mWorldHeight / 2.0f;
+		CheckScreenBounds();
 
 		// Shoot
 		if (mShoot)
@@ -256,6 +245,19 @@ namespace Library
 		}
 
 		GameObject::Update(worldState);
+	}
+
+	void Player::CheckScreenBounds()
+	{
+		if (mPosition.x > (mWorldWidth / 2.0f) - mScale.x)
+			mPosition.x = (mWorldWidth / 2.0f) - mScale.x;
+		else if (mPosition.x < (-mWorldWidth / 2.0f) + mScale.x)
+			mPosition.x = (-mWorldWidth / 2.0f) + mScale.x;
+
+		if (mPosition.y > (mWorldHeight / 2.0f) - mScale.y)
+			mPosition.y = (mWorldHeight / 2.0f) - mScale.y;
+		else if (mPosition.y < (-mWorldHeight / 2.0f) + mScale.y)
+			mPosition.y = (-mWorldHeight / 2.0f) + mScale.y;
 	}
 
 	void Player::OnDestroy(WorldState & worldState)

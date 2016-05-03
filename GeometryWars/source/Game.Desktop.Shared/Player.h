@@ -26,6 +26,8 @@ namespace Library
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCOREBASE;
 
+		void CheckScreenBounds();
+
 		std::int32_t PlayerNumber() const;
 		void SetPlayerNumber(std::int32_t playerNumber);
 
