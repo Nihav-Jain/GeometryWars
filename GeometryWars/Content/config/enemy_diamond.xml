@@ -75,7 +75,6 @@
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
-				
 				<!-- Collectible Spawning -->
 				<if name="CheckIfCanSpawnCollectible">
 					<condition>
@@ -86,13 +85,19 @@
 						<action class="ActionCreateEntityFromFile" name="Multiplier">
 							<string name="filePath" value="Content/config/collect_multiplier.xml" index="0" />
 							<string name="className" value="CollectMultiplier" index="0" />
-							<string name="instanceName" value="Collect" index="0" />
+							<string name="instanceName" value="CollectMultiplier" index="0" />
 						</action>
 						<expression name="SetPosition">
 							<string name="expression">Multiplier.newEntity.position = position</string>
 						</expression>
 					</then>
 				</if>
+				<!-- playMusic -->
+				<action class="ActionPlayMusic" name="playMusic1">
+					<string name="musicName" value="Enemy_explode.mp3"/>
+					<integer name="loop" value="1"  index="0"/>
+					<float name="volume" value="1.0" index="0"/>
+				</action>			
 			</then>
 		</if>
 	</action>
