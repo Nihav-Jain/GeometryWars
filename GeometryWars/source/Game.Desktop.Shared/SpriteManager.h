@@ -13,7 +13,7 @@ namespace Library
 		void SetValue(std::int32_t value);
 		std::int32_t GetValue() const;
 		void SetData(std::int32_t value, std::int32_t numSprites, std::int32_t imageSize, std::int32_t xOffset, std::int32_t yOffset,
-			bool leftToRight, const std::string & path, const std::string & folder, const std::string & extension);
+			std::int32_t padding, bool leftToRight, const std::string & path, const std::string & folder, const std::string & extension);
 
 		virtual void Init() = 0;
 		virtual void RefreshSprites() = 0;
@@ -26,6 +26,7 @@ namespace Library
 
 		std::int32_t mHorizontalOffset;
 		std::int32_t mVerticalOffset;
+		std::int32_t mPadding;
 
 		bool mOrderLeftToRight;
 
