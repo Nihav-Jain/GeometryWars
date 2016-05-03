@@ -230,5 +230,11 @@ namespace Library
 		AnimatorFactory mAnimatorFactory;
 		AnimationStateFactory mAnimationStateFactory;
 		AnimationFrameFactory mAnimationFrameFactory;
+
+		//sound 
+		ActionLoadMusicFactory actionLoadMusicFactory;
+		ActionPlayMusicFactory actionPlayMusicFactory;
+		ActionTogglePauseMusicFactory actionTogglePauseMusicFactory;
+		ActionStopMusicFactory actionStopMusicFactory;
 	};
 }

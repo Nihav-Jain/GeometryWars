@@ -1,4 +1,18 @@
 <world name="GeometryWarsWorld">
+
+	<beginplay>
+		<action class="ActionLoadMusic" name="loadMusic">
+			<string name="musicName" value="Enemy_explode.mp3"/>
+			<string name="musicName" value="GW3Dimensions.mp3"/>
+			<string name="musicName" value="Fire_normal.mp3"/>
+		</action>
+		<action class="ActionPlayMusic" name="playMusic1">
+			<string name="musicName" value="GW3Dimensions.mp3"/>
+			<integer name="loop" value="0"  index="0"/>
+			<float name="volume" value="1.0" index="0"/>
+		</action>
+	</beginplay>
+
 	<integer name="width" value="1280"/>
 	<integer name="height" value="720" />
 

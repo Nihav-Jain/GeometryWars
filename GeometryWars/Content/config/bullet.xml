@@ -5,6 +5,13 @@
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
 	
+	<beginplay>
+		<action class="ActionPlayMusic" name="playMusic1">
+			<string name="musicName" value="Fire_normal.mp3"/>
+			<float name="volume" value="0.3" index="0"/>
+		</action>
+	</beginplay>
+	<!-- playMusic -->
 	<!-- Polygon Render Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />

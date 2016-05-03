@@ -53,6 +53,14 @@
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<string name="entityInstanceName" value="DiamondEnemy"/>
 				</action>
+				
+				<!-- playMusic -->
+				<action class="ActionPlayMusic" name="playMusic1">
+					<string name="musicName" value="Enemy_explode.mp3"/>
+					<integer name="loop" value="1"  index="0"/>
+					<float name="volume" value="1.0" index="0"/>
+				</action>
+				
 			</then>
 		</if>
 	</action>
