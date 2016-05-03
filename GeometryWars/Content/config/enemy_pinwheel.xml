@@ -12,7 +12,7 @@
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
 	<float name="speed" value="0.2" />
 	
-	<!-- Begin Play, Get a random velocity -->
+	<!-- Begin Play, Get a random velocity, get Numbered name -->
 	<beginplay>
 		<expression name="GetRandomTargetPosition">
 			<string name="expression">TargetPosition = RandomVector()</string>
@@ -24,6 +24,11 @@
 		<expression name="change_vel">
 			<string name="expression">velocity = normalize(direction)</string>
 		</expression>
+		
+		<expression name="GetEnemyCount">
+			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
+		</expression>
+		
 	</beginplay>
   
 	<!-- Polygon Renderer Component -->

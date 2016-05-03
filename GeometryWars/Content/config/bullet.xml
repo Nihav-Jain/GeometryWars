@@ -1,7 +1,7 @@
 <gameobject class="Bullet" name="Bullet">
 	<!-- Bullet Class Attributes -->
 	<vector name="scale" value="vec4(15, 15, 15, 0)"/>
-	<float name="speed" value="1" />
+	<float name="speed" value="0.9" />
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
 	
@@ -41,6 +41,8 @@
 		<vector name="points" value="vec4(0.124444444444444, -0.4, 0, 0)" />
 	</polygon_renderer>
 	
+	
+	
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
       <float name="radius" value="3.0" />
@@ -48,11 +50,20 @@
       <bool name="enabled" value="true" />	  
 	</component>
 	
+	<beginplay>
+		<expression name="spawn_velocity">
+			<string name="expression">velocity = Player1.heading</string>
+		</expression>
+		<expression name="spawn_position">
+			<string name="expression">position = Player1.position</string>
+		</expression>
+	</beginplay>
+	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
 		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
 		<!-- Destroy self if dead -->
