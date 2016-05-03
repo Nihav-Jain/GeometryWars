@@ -52,6 +52,7 @@
 
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
+#include "XmlParseHelperDefine.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
@@ -173,6 +174,7 @@ namespace Library
 		SharedDataTable mSharedData;
 		XmlParseMaster mParseMaster;
 
+		XmlParseHelperDefine mDefineParser;
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;

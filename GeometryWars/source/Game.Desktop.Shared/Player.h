@@ -10,7 +10,9 @@ namespace Library
 	public:
 		
 		Player();
-		virtual ~Player() = default;
+		virtual ~Player();
+
+		Player(const Player& rhs);
 
 		static const std::string ATTRIBUTE_PLAYERNUMBER;
 		static const std::string ATTRIBUTE_ATTACKSPEED;
@@ -22,6 +24,9 @@ namespace Library
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_HEADING;
 		static const std::string ATTRIBUTE_CHANNEL;
+		static const std::string ATTRIBUTE_SCOREBASE;
+
+		void CheckScreenBounds();
 
 		std::int32_t PlayerNumber() const;
 		void SetPlayerNumber(std::int32_t playerNumber);
@@ -34,9 +39,9 @@ namespace Library
 		void SetLives(std::int32_t lives);
 		void PlayerDeath(WorldState& worldState);
 
-		const std::int64_t Score() const;
+		const std::int32_t Score() const;
 		void AddScore(const std::int32_t & score);
-		void SetScore(const std::int64_t & score);
+		void SetScore(const std::int32_t & score);
 
 		std::int32_t Bombs() const;
 		void SetBombs(std::int32_t bombs);
@@ -48,11 +53,15 @@ namespace Library
 		const glm::vec4 & Heading() const;
 		void SetHeading(const glm::vec4 & heading);
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
 
 	protected:
+
+		void CreateSpriteManagers() const;
+		void InitSpriteManagers() const;
 
 		std::int32_t mPlayerNumber;
 
@@ -61,7 +70,6 @@ namespace Library
 		bool mShoot;
 
 		std::int32_t mLives;
-		std::int64_t mScore;
 		std::string mCollisionChannel;
 
 		bool mUseBomb;
@@ -72,6 +80,8 @@ namespace Library
 
 	private:
 		std::chrono::milliseconds mShootTimer;
+
+		void ResetAttributePointers();
 
 	};
 

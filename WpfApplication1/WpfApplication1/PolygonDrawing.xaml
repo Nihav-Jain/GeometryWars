@@ -21,9 +21,8 @@
         <Label x:Name="NameLabel" Content="Name" HorizontalAlignment="Left" Margin="654,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.192,-0.321"/>
         <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="23" Margin="510,129,0,0" TextWrapping="Wrap" Text="PolygonRenderer" IsEnabled="False" VerticalAlignment="Top" Width="186"/>
         <Button x:Name="AddButton" Click="AddButton_Click" Content="Add" HorizontalAlignment="Left" Margin="615,441,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="FinsihButton" Click="FinsihButton_Click" Content="Finsih" HorizontalAlignment="Left" Margin="485,441,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="ClearButton" Click="ClearButton_Click" Content="Clear" HorizontalAlignment="Left" Margin="485,416,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="UndoButton" Click="UndoButton_Click" Content="Undo" HorizontalAlignment="Left" Margin="485,391,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="ClearButton" Click="ClearButton_Click" Content="Clear" HorizontalAlignment="Left" Margin="485,441,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="UndoButton" Click="UndoButton_Click" Content="Undo" HorizontalAlignment="Left" Margin="485,416,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>

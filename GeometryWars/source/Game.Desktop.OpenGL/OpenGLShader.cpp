@@ -12,7 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	OpenGLShader::OpenGLShader() :
 		mShaderId(0)
@@ -71,6 +71,16 @@ namespace Library {
 	void OpenGLShader::SetFloat(const std::string & name, float value)
 	{
 		glUniform1f(glGetUniformLocation(mShaderId, name.c_str()), value);
+	}
+
+	void OpenGLShader::SetBool(const std::string & name, bool value)
+	{
+		glUniform1i(glGetUniformLocation(mShaderId, name.c_str()), value);
+	}
+
+	void OpenGLShader::SetInt(const std::string & name, std::int32_t value)
+	{
+		glUniform1i(glGetUniformLocation(mShaderId, name.c_str()), value);
 	}
 
 	GLuint OpenGLShader::createOpenGLShaderObj(GLuint type, const std::string & path)

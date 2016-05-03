@@ -21,15 +21,11 @@ namespace Library
 		 */
 		ActionExpression();
 
-		/**
-		 *	disallow copy construtor
-		 */
-		ActionExpression(const ActionExpression& rhs) = delete;
+		ActionExpression(const ActionExpression& rhs);
+		ActionExpression(ActionExpression&& rhs);
 
-		/**
-		 *	disallow copy assignment operator
-		 */
-		ActionExpression& operator=(const ActionExpression& rhs) = delete;
+		ActionExpression& operator=(const ActionExpression& rhs);
+		ActionExpression& operator=(ActionExpression&& rhs);
 
 		/**
 		 *	disallow copy construtor
@@ -43,6 +39,8 @@ namespace Library
 		 *	@param reference to the world state
 		 */
 		virtual void Update(WorldState& worldState) override;
+		
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		/**
 		 *	Clears the static memebers to avoid memory leak detection in the Unit Tests
@@ -66,6 +64,17 @@ namespace Library
 		};
 		typedef Hashmap<std::string, FunctionDefinition> CallableFunctions;
 
+		struct RefFunctionDefinition
+		{
+			RefFunctionDefinition(std::uint32_t numParams, std::function<Datum*(const Vector<Datum*>&)> functionBody) :
+				NumParams(numParams), FunctionBody(std::move(functionBody))
+			{}
+			std::uint32_t NumParams;
+			std::function<Datum*(const Vector<Datum*>&)> FunctionBody;
+		};
+		typedef Hashmap<std::string, RefFunctionDefinition> CallableRefFunctions;
+
+
 		/**
 		 *	Adds a FunctionDefinition to the list of defined functions, this function can now be used in XML expressions
 		 *	@param name of the function
@@ -73,6 +82,8 @@ namespace Library
 		 *	@return true if function was added successfully, false if there was already a function by this name
 		 */
 		static bool AddFunction(const std::string& functionName, FunctionDefinition functionDefinition);
+
+		static bool AddRefFunction(const std::string& functionName, RefFunctionDefinition functionDefinition);
 
 		/**
 		 *	Checks if a function with the given name has already been defined or not
@@ -85,12 +96,13 @@ namespace Library
 
 	private:
 		void ConvertExpressionToPostfix();
-		void EvaluateExpression(const World& world);
+		void EvaluateExpression();
 
 		SList<std::string>* mPostfixExpression;
 
 		static const Hashmap<std::string, std::uint32_t> mOperatorPrecedence;
 		static CallableFunctions mDefinedFunctions;
+		static CallableRefFunctions mDefinedRefFunctions;
 
 		Datum Add(Datum& lhs, Datum& rhs);
 		Datum Subtract(Datum& lhs, Datum& rhs);

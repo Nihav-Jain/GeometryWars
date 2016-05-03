@@ -19,6 +19,12 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
+	CircleColliderComponent::CircleColliderComponent(const CircleColliderComponent & rhs)
+		: Action::Action(rhs), mRadius(rhs.mRadius), mEnabled(rhs.mEnabled), mCollisionChannel(rhs.mCollisionChannel), mOwner(nullptr), mCollidableEntities(nullptr)
+	{	
+		ResetAttributePointers();
+	}
+
 	const std::float_t & CircleColliderComponent::Radius() const
 	{
 		return mRadius;
@@ -49,7 +55,7 @@ namespace Library
 
 	void CircleColliderComponent::Update(WorldState & worldState)
 	{
-		if (mCollidableEntities != nullptr)
+		if (mEnabled && mCollidableEntities != nullptr)
 		{
 			for (Entity* entity : *mCollidableEntities)
 			{
@@ -60,6 +66,12 @@ namespace Library
 				}
 			}
 		}		
+	}
+
+	Scope* CircleColliderComponent::Clone(const Scope & rhs) const
+	{
+		CircleColliderComponent& action = *rhs.AssertiveAs<CircleColliderComponent>();
+		return new CircleColliderComponent(action);
 	}
 
 	void CircleColliderComponent::BeginPlay(WorldState & worldState)
@@ -91,16 +103,25 @@ namespace Library
 		{
 			CircleColliderComponent *otherCollider = otherComponent->AssertiveAs<CircleColliderComponent>();
 
-			std::float_t distX = other.Position().x - mOwner->Position().x;
-			std::float_t distY = other.Position().y - mOwner->Position().y;
+			if (otherCollider->mEnabled)
+			{
+				std::float_t distX = other.Position().x - mOwner->Position().x;
+				std::float_t distY = other.Position().y - mOwner->Position().y;
 
-			// Note: right now this only scales with X
-			std::float_t radii = (otherCollider->mRadius * other.Scale().x) - (mRadius * mOwner->Scale().x);
+				// Note: right now this only scales with X
+				std::float_t radii = (otherCollider->mRadius * other.Scale().x) - (mRadius * mOwner->Scale().x);
 
-			isColliding = ((distX * distX) + (distY * distY) < (radii * radii));
+				isColliding = ((distX * distX) + (distY * distY) < (radii * radii));
+			}
 		}
 
 		return isColliding;
 	}
 
+	void CircleColliderComponent::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_RADIUS].SetStorage(&mRadius, 1);
+		(*this)[ATTRIBUTE_ENABLED].SetStorage(&mEnabled, 1);
+		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
+	}
 }

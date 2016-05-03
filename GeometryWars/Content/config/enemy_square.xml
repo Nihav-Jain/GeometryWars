@@ -9,7 +9,7 @@
 	<vector name="position" value="vec4(-250, 250, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
-	<float name="speed" value="10" />
+	<float name="speed" value="0.275" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -22,32 +22,23 @@
 		<integer name="indices" value="2" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="9" />
-		<integer name="indices" value="9" />
-		<integer name="indices" value="10" />
-		<integer name="indices" value="10" />
 		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(-1, -0.991111111111111, 0, 0)" />
-		<vector name="points" value="vec4(-0.986666666666667, 0.00444444444444444, 0, 0)" />
-		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(1, 0.00444444444444444, 0, 0)" />
-		<vector name="points" value="vec4(-0.00444444444444444, -1, 0, 0)" />
+		<integer name="indices" value="4" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="5" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="6" />
+		<integer name="indices" value="7" />
+		<integer name="indices" value="7" />
+		<integer name="indices" value="4" />
+		<vector name="points" value="vec4(-1, -0.99, 0, 0)" />
+		<vector name="points" value="vec4(-1, 1, 0, 0)" />
+		<vector name="points" value="vec4(0.99, 1, 0, 0)" />
+		<vector name="points" value="vec4(1, -0.99, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.99, 0, 0)" />
 		<vector name="points" value="vec4(-1, 0, 0, 0)" />
-		<vector name="points" value="vec4(-0.995555555555556, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(0, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(1.00444444444444, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(1.00888888888889, 0, 0, 0)" />
-		<vector name="points" value="vec4(1.01333333333333, -0.995555555555556, 0, 0)" />
+		<vector name="points" value="vec4(0, 1, 0, 0)" />
+		<vector name="points" value="vec4(0.98, 0, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->
@@ -59,12 +50,20 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-	
+		<!-- Update velocity -->
+		<vector name="direction" value="vec4(0, 0, 0, 0)" />
+		<expression name="update_dir">
+			<string name="expression">direction = Player1.position - position</string>
+		</expression>
+		<expression name="change_vel">
+			<string name="expression">velocity = normalize(direction)</string>
+		</expression>	 	
+		
 		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity</string>
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
-	
+		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
 			<condition>

@@ -112,7 +112,7 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-	
+
       <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
 
@@ -143,7 +143,7 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-	
+
       <AdditionalLibraryDirectories>$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
 
@@ -164,7 +164,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4091;4201;4239;4592;4055;4152;4099;4005</DisableSpecificWarnings>
-	  
+
       <AdditionalIncludeDirectories>$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\soil\include\</AdditionalIncludeDirectories>
 
     </ClCompile>
@@ -178,7 +178,7 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-	
+
       <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod_vc.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
 
@@ -213,7 +213,7 @@
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Lib>
-	
+
       <AdditionalLibraryDirectories>$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib;XInput.lib;glfw3.lib;opengl32.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
 
@@ -241,6 +241,7 @@
     <ClInclude Include="AnimationState.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Attributed.h" />
+    <ClInclude Include="BloomPostProcessing.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="Datum.h" />
@@ -261,8 +262,9 @@
     <ClInclude Include="IEventSubscriber.h" />
     <ClInclude Include="PolygonRenderer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="PostProcessing.h" />
     <ClInclude Include="Renderable.h" />
-    <ClInclude Include="RenderBuffer.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="RenderDevice.h" />
     <ClInclude Include="IXmlParseHelper.h" />
     <ClInclude Include="pch.h" />
@@ -280,7 +282,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Viewport.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="XmlParseHelperAction.h" />
@@ -294,6 +296,7 @@
     <ClInclude Include="XmlParseHelperAnimator.h" />
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
+    <ClInclude Include="XmlParseHelperDefine.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperImage.h" />
@@ -327,6 +330,7 @@
     <ClCompile Include="AnimationState.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Attributed.cpp" />
+    <ClCompile Include="BloomPostProcessing.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="Datum.cpp" />
@@ -342,8 +346,6 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="PolygonRenderer.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="RenderBuffer.cpp" />
-    <ClCompile Include="RenderDevice.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -356,12 +358,9 @@
     <ClCompile Include="RTTI.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="Sector.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SharedDataTable.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
-    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Image.cpp" />
-    <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="XmlParseHelperAction.cpp" />
@@ -375,6 +374,7 @@
     <ClCompile Include="XmlParseHelperAnimator.cpp" />
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
+    <ClCompile Include="XmlParseHelperDefine.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp" />

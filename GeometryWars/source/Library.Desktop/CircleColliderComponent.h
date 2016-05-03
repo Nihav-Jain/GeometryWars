@@ -11,6 +11,8 @@ namespace Library
 		CircleColliderComponent();
 		~CircleColliderComponent() = default;
 
+		CircleColliderComponent(const CircleColliderComponent& rhs);
+
 		const std::float_t& Radius() const;
 		void SetRadius(const std::float_t& radius);
 
@@ -26,7 +28,7 @@ namespace Library
 		*	@param reference to the WorldState
 		*/
 		virtual void Update(WorldState& worldState) override;
-
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 
 		/**
@@ -50,6 +52,7 @@ namespace Library
 		const Vector<Entity*> *mCollidableEntities;
 
 		bool IsColliding(const GameObject& other) const;
+		void ResetAttributePointers();
 	};
 
 	CONCRETE_ACTION_FACTORY(CircleColliderComponent);

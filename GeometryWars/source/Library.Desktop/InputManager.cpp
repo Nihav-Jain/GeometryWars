@@ -18,8 +18,6 @@ namespace Library
 
 	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
 	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
-	const std::int32_t				InputHandler::zero_ms					= 0;	//= std::chrono::milliseconds::zero();
-	const std::int32_t				InputHandler::negative_ms				= -1;	//= std::chrono::milliseconds(-1);
 
 	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
 	{
@@ -129,7 +127,7 @@ namespace Library
 		X_ADDSCOPE(RightStick);
 	}
 #undef X_ADDSCOPE
-
+	
 	void Button::UpdateState(const std::chrono::milliseconds & deltaTime, bool IsPressed)
 	{
 		bool PrevKeyDownState = IsKeyDown;
@@ -203,31 +201,13 @@ namespace Library
 
 	void AnalogStick::UpdateState(const std::chrono::milliseconds&  deltaTime, const std::int32_t& newMagnitudeX, const std::int32_t& newMagnitudeY, const std::int32_t& threshold)
 	{
-		bool IsInUse = false;
 		bool PrevKeyDownState = IsKeyDown;
-
-		if (newMagnitudeX > threshold || newMagnitudeX < -threshold)
+		// Check Distance rather than X and Y separately
+		if (newMagnitudeX * newMagnitudeX + newMagnitudeY * newMagnitudeY >= threshold * threshold)
 		{
 			mRawX = newMagnitudeX;
-			IsInUse = true;
-		}
-		else
-		{
-			mRawX = 0;
-		}
-
-		if (newMagnitudeY > threshold || newMagnitudeY < -threshold)
-		{
 			mRawY = newMagnitudeY;
-			IsInUse = true;
-		}
-		else
-		{
-			mRawY = 0;
-		}
 
-		if (IsInUse)
-		{
 			if (mDuration < 0)
 			{	// If this is the first frame being pressed, start at zero duration
 				mDuration = 0;
@@ -238,7 +218,11 @@ namespace Library
 			}
 		}
 		else
-		{	// Negative Duration is equivalent to not being pressed
+		{
+			mRawX = 0;
+			mRawY = 0;
+
+			// Negative Duration is equivalent to not being pressed
 			mDuration = -1;
 		}
 

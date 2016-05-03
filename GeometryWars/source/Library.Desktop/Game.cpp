@@ -72,6 +72,8 @@ namespace Library
 
 	void Game::AddParseHelpers()
 	{
+		mParseMaster.AddHelper(mDefineParser);
+
 		mParseMaster.AddHelper(mWorldParser);
 		mParseMaster.AddHelper(mSectorParser);
 		mParseMaster.AddHelper(mEntityParser);

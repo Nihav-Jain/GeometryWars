@@ -2,18 +2,19 @@
 #include "Texture.h"
 #include "GL/gl3w.h"
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	class OpenGLTexture :
-		public Texture
+		public Library::Texture
 	{
 
 	public:
 		OpenGLTexture();
+		OpenGLTexture(GLuint textureId);
 		~OpenGLTexture();
 
 		virtual void Init(const std::string & imagePath) override;
-		virtual void Use() override;
+		virtual void Use(std::uint32_t useAsTextureIndex) override;
 	private:
 		GLuint mTextureId;
 	};

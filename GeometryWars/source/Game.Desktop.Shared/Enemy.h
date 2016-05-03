@@ -12,12 +12,15 @@ namespace Library
 		Enemy();
 		virtual ~Enemy() = default;
 
+		Enemy(const Enemy& rhs);
+
 		const glm::vec4 & Velocity() const;
 		void SetVelocity(const glm::vec4 & velocity);
 
 		void EnemyDeath(WorldState& worldState);
 		std::int32_t Score() const;
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
@@ -34,6 +37,10 @@ namespace Library
 		bool mIsDead;
 		std::string mCollisionChannel;
 		std::int32_t mScore;
+
+	private:
+
+		void ResetAttributePointers();
 	};
 
 	CONCRETE_ENTITY_FACTORY(Enemy);

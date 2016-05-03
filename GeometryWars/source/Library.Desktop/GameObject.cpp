@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "ActionExpression.h"
 
 namespace Library
 {
@@ -17,6 +18,21 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
 		AddExternalAttribute(ATTRIBUTE_SCALE, 1, &mScale);
 		AddExternalAttribute(ATTRIBUTE_MOVESPEED, 1, &mMoveSpeed);
+
+		ActionExpression::AddFunction("normalize", ActionExpression::FunctionDefinition(1, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 1);
+			Datum result;
+			result = glm::normalize((*params[0]).Get<glm::vec4>());
+			return result;
+		}));
+	}
+
+	GameObject::GameObject(const GameObject & rhs) :
+		Entity::Entity(rhs), mPosition(rhs.mPosition), mRotation(rhs.mRotation), mScale(rhs.mScale), mMoveSpeed(rhs.mMoveSpeed),
+		mWorldWidth(rhs.mWorldWidth), mWorldHeight(rhs.mWorldHeight)
+	{
+		ResetAttributePointers();
 	}
 
 	const glm::vec4 & GameObject::Position() const
@@ -69,6 +85,12 @@ namespace Library
 		return (GetComponent(typeName) != nullptr);
 	}
 
+	Scope * GameObject::Clone(const Scope & rhs) const
+	{
+		GameObject& entity = *rhs.AssertiveAs<GameObject>();
+		return new GameObject(entity);
+	}
+
 	void GameObject::BeginPlay(WorldState & worldState)
 	{
 		Entity::BeginPlay(worldState);
@@ -91,6 +113,14 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(other);
 		UNREFERENCED_PARAMETER(worldState);
+	}
+
+	void GameObject::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_POSITION].SetStorage(&mPosition, 1);
+		(*this)[ATTRIBUTE_ROTATION].SetStorage(&mRotation, 1);
+		(*this)[ATTRIBUTE_SCALE].SetStorage(&mScale, 1);
+		(*this)[ATTRIBUTE_MOVESPEED].SetStorage(&mMoveSpeed, 1);
 	}
 }
 

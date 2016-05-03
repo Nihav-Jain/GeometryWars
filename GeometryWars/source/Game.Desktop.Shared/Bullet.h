@@ -12,11 +12,14 @@ namespace Library
 		Bullet();
 		virtual ~Bullet() = default;
 
+		Bullet(const Bullet& rhs);
+
 		const glm::vec4 & Velocity() const;
 		void SetVelocity(const glm::vec4 & velocity);
 
 		void BulletDeath(WorldState& worldState);
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
@@ -31,6 +34,11 @@ namespace Library
 		glm::vec4 mVelocity;
 		bool mIsDead;
 		std::string mCollisionChannel;
+
+	private:
+
+		void ResetAttributePointers();
+		class Player* mPlayerOwner;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);

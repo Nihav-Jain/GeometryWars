@@ -1,3 +1,9 @@
+<root>
+	
+<define>
+	<include file="Content\config\sample_entity_xml_class.xml" />
+</define>
+
 <world name="world">
 	<sector name="worldSector">
 		<vector name="sectorCorners" value="vec4(10, 20, 30, 40)" />
@@ -14,7 +20,8 @@
 				<case name="case2" caseValue="15">
 					<action class="ActionList" name="case2"/>
 					<action class="ActionCreateEntityFromFile" name="createAnEntity">
-						<string name="filePath" value="Content/config/sample_entity_xml_class.xml" index="0" />
+						<string name="className" value="SampleEntity" index="0" />
+						<string name="instanceName" value="newEntity" index="0" />
 					</action>
 					<action class="ActionCreateEntity" name="createAnotherEntity">
 						<string name="entityClassName" value="SampleEntity" index="0" />
@@ -35,3 +42,5 @@
 		</entity>
 	</sector>	
 </world>
+
+</root>

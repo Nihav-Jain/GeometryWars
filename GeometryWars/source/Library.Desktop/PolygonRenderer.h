@@ -8,7 +8,7 @@ namespace Library {
 
 	class Texture;
 	class Shader;
-	class RenderBuffer;
+	class Buffer;
 
 	/**
 	* The renderable polygon class
@@ -25,16 +25,19 @@ namespace Library {
 		PolygonRenderer();
 		virtual ~PolygonRenderer();
 
-		PolygonRenderer(const PolygonRenderer & rhs) = delete;
+		PolygonRenderer(const PolygonRenderer & rhs);
 		PolygonRenderer & operator=(const PolygonRenderer & rhs) = delete;
 
 		virtual void Render(RenderDevice * device) override;
+		virtual void BeginPlay(WorldState& worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 	private:
 		void Init(RenderDevice * device);
 		bool mInited;
 		Shader * mShader;
-		RenderBuffer * mBuffer;
+		Buffer * mBuffer;
 
 		float mWidth;
 		glm::vec4 mColor;

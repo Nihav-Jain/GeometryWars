@@ -11,11 +11,15 @@ namespace Library
 		ActionWhileLoop();
 		virtual ~ActionWhileLoop() = default;
 
-		ActionWhileLoop(const ActionWhileLoop& rhs) = delete;
-		ActionWhileLoop& operator=(const ActionWhileLoop& rhs) = delete;
+		ActionWhileLoop(const ActionWhileLoop& rhs);
+		ActionWhileLoop(ActionWhileLoop&& rhs);
+
+		ActionWhileLoop& operator=(const ActionWhileLoop& rhs);
+		ActionWhileLoop& operator=(ActionWhileLoop&& rhs);
 
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 		static const std::string ATTRIBUTE_CONDITIONAL_EXP;
 		static const std::string ATTRIBUTE_LOOP;
