@@ -94,9 +94,9 @@ namespace Library
 				std::int32_t digit = value % mNumberBase;
 
 				// Set new image
-				Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i]);
+				Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i], 101);
 				mCurrentSprites[i] = mSprites[i][digit];
-				Renderer::GetInstance()->AddRenderable(mCurrentSprites[i]);
+				Renderer::GetInstance()->AddRenderable(mCurrentSprites[i], 101);
 
 				value = value / mNumberBase;
 			}

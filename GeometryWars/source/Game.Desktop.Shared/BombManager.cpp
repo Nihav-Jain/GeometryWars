@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "LivesManager.h"
+#include "BombManager.h"
 #include "../../source/Library.Desktop/RenderDevice.h"
 #include "../../source/Library.Desktop/Renderer.h"
 #include "../../source/Library.Desktop/Image.h"
@@ -7,26 +7,26 @@
 
 namespace Library
 {
-	const std::string LivesManager::IMAGE_NAME = "life";
+	const std::string BombManager::IMAGE_NAME = "bomb";
 
-	LivesManager* LivesManager::sInstance = nullptr;
+	BombManager* BombManager::sInstance = nullptr;
 
-	LivesManager* LivesManager::CreateInstance()
+	BombManager* BombManager::CreateInstance()
 	{
 		if (sInstance == nullptr)
 		{
-			sInstance = new LivesManager();
+			sInstance = new BombManager();
 		}
 
 		return sInstance;
 	}
 
-	LivesManager* LivesManager::GetInstance()
+	BombManager* BombManager::GetInstance()
 	{
 		return sInstance;
 	}
 
-	void LivesManager::DeleteInstance()
+	void BombManager::DeleteInstance()
 	{
 		if (sInstance != nullptr)
 		{
@@ -35,12 +35,12 @@ namespace Library
 		}
 	}
 
-	LivesManager::LivesManager()
+	BombManager::BombManager()
 		: mSprites(), mImages()
 	{
 	}
 
-	LivesManager::~LivesManager()
+	BombManager::~BombManager()
 	{
 		for (std::int32_t i = 0; i < mNumSprites; ++i)
 		{
@@ -49,7 +49,7 @@ namespace Library
 		}
 	}
 
-	void LivesManager::Init()
+	void BombManager::Init()
 	{
 		mSprites.resize(mNumSprites);
 		mImages.resize(mNumSprites);
@@ -71,7 +71,7 @@ namespace Library
 		}
 	}
 
-	void LivesManager::RefreshSprites()
+	void BombManager::RefreshSprites()
 	{
 		for (std::int32_t i = 0; i < mNumSprites; ++i)
 		{
