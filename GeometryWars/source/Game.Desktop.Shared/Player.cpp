@@ -221,7 +221,7 @@ namespace Library
 	void Player::Update(WorldState & worldState)
 	{
 		// Update position
-		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
+		//mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
 
 		// Prevent moving out of bounds
 		if (mPosition.x > mWorldWidth / 2.0f)

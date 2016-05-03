@@ -69,7 +69,7 @@ namespace Library
 	void Enemy::Update(WorldState & worldState)
 	{
 		// Update position
-		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
+		//mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
 
 		// TODO: separate this out for different derived enemy types?
 		// Check if out of bounds

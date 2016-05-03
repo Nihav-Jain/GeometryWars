@@ -50,11 +50,10 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<!-- Update position 
+		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity</string>
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
 		</expression>
-		-->
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">

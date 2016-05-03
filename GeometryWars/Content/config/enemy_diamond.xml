@@ -31,18 +31,17 @@
 	  
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="2.0" />
+		<float name="radius" value="3.0" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
 	 
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<!-- Update position 
+		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity</string>
-		</expression>
-		-->
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
+		</expression>	
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">

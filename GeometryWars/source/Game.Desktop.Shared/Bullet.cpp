@@ -74,7 +74,7 @@ namespace Library
 	{
 		GameObject::Update(worldState);
 
-		mPosition += mVelocity;
+		//mPosition += mVelocity;
 
 		// Destroy if out of bounds
 		if ((mPosition.x > mWorldWidth / 2.0f) ||
@@ -89,9 +89,6 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-
-		// TODO: find a better way to do this
-		//SpriteRenderer* renderer = GetComponent(SpriteRenderer::TypeName())->AssertiveAs<SpriteRenderer>();
 		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
