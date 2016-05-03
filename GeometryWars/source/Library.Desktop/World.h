@@ -107,6 +107,7 @@ namespace Library
 		 */
 		EventQueue& GetEventQueue();
 
+		bool LoadSector(const std::string& sectorName);
 
 		/**
 		*	SetAudioManager - Set the address of contained variableof audio manager
@@ -130,6 +131,9 @@ namespace Library
 		std::int32_t GetHeight();
 
 		Sector ClassDefinitionContainer;
+		World* SectorDefinitionContainer;
+
+		Sector* ActiveSector();
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;
 		static const std::string ATTRIBUTE_BEGIN_PLAY;
@@ -160,6 +164,9 @@ namespace Library
 		WorldState mWorldState;
 		EventQueue mEventQueue;
 		XmlParseMaster* mParseMaster;
+
+		Sector* mActiveSector;
+		Sector* mLastActiveSector;
 
 		std::int32_t mWidth;
 		std::int32_t mHeight;
