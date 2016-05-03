@@ -33,7 +33,7 @@ namespace Library
 
 		std::int32_t AttackSpeed() const;
 		void SetAttackSpeed(std::int32_t attackSpeed);
-		void Shoot(WorldState& worldState);
+		void Shoot();
 
 		std::int32_t Lives() const;
 		void SetLives(std::int32_t lives);

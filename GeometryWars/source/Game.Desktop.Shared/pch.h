@@ -41,6 +41,7 @@
 #include "SpriteManager.h"
 #include "ScoreManager.h"
 #include "LivesManager.h"
+#include "BombManager.h"
 
 #include "Player.h"
 #include "Enemy.h"
