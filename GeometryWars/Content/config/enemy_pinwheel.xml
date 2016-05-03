@@ -10,7 +10,7 @@
 	<vector name="TargetPosition" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
-	<float name="speed" value="10" />
+	<float name="speed" value="0.2" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -60,10 +60,10 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<vector name="delta" value="vec4(0, 0, -0.05, 0)"/>
+		<vector name="delta" value="vec4(0, 0, -0.005, 0)"/>
 		<!-- Update rotation -->
 		<expression name="change_rot">
-			<string name="expression">rotation = rotation + delta</string>
+			<string name="expression">rotation = rotation + delta * ownerWorld.deltaTime</string>
 		</expression>
 		
 		<!-- Update position -->
@@ -72,7 +72,7 @@
 		</expression>
 		
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
 		<!-- Destroy self if dead -->
