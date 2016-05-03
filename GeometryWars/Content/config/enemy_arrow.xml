@@ -1,20 +1,24 @@
-<gameobject class="Enemy" name="SquareEnemy">
+<gameobject class="Enemy" name="ArrowEnemy">
 	<!-- Enemy Class Attributes -->
-	<vector name="velocity" value="vec4(-0.1, -0.1, 0, 0)"/>
+	<vector name="velocity" value="vec4(0, 4, 0, 0)"/>
 	<bool name="isdead" value="false" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
   
+	<!-- Specific to ArrowEnemy -->
+	<vector name="previousVelocity" value="vec4(0, 4, 0, 0)"/>
+	<integer name="orientation" value="0"/>
+  
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(-250, 250, 0, 0)"/>
-	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
+	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
 	<float name="speed" value="10" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.2788943, 0.8549926, 0.2788943, 1)" />
+		<vector name="color" value="vec4(1, 0.3762621, 0, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
@@ -22,32 +26,11 @@
 		<integer name="indices" value="2" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="9" />
-		<integer name="indices" value="9" />
-		<integer name="indices" value="10" />
-		<integer name="indices" value="10" />
 		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(-1, -0.991111111111111, 0, 0)" />
-		<vector name="points" value="vec4(-0.986666666666667, 0.00444444444444444, 0, 0)" />
 		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(1, 0.00444444444444444, 0, 0)" />
-		<vector name="points" value="vec4(-0.00444444444444444, -1, 0, 0)" />
-		<vector name="points" value="vec4(-1, 0, 0, 0)" />
-		<vector name="points" value="vec4(-0.995555555555556, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(0, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(1.00444444444444, 1.00444444444444, 0, 0)" />
-		<vector name="points" value="vec4(1.00888888888889, 0, 0, 0)" />
-		<vector name="points" value="vec4(1.01333333333333, -0.995555555555556, 0, 0)" />
+		<vector name="points" value="vec4(0.8, -1, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.6, 0, 0)" />
+		<vector name="points" value="vec4(-0.8, -1, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->
@@ -65,6 +48,21 @@
 			<string name="expression">position = position + velocity</string>
 		</expression>
 	
+		<!-- Update rotation -->
+		<if name="CheckFacing">
+			<condition>
+				<string name="expression">previousVelocity != velocity</string>
+			</condition>
+			<then>
+				<expression name="rotate">
+					<string name="expression">rotation = rotation + {vec4(0,0,3.1416,0)}</string>
+				</expression>
+				<expression name="keep_update">
+					<string name="expression">previousVelocity = velocity</string>
+				</expression>
+			</then>
+		</if><!---->
+		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
 			<condition>
@@ -72,7 +70,7 @@
 			</condition>
 			<then>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="SquareEnemy"/>
+					<string name="entityInstanceName" value="ArrowEnemy"/>
 				</action>
 			</then>
 		</if>

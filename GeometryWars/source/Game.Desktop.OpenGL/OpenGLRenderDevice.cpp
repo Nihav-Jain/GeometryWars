@@ -13,7 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Library {
+namespace OpenGLImplmentation {
 
 	OpenGLRenderDevice::OpenGLRenderDevice() :
 		mWindow(nullptr),
@@ -85,7 +85,7 @@ namespace Library {
 		return mHeight;
 	}
 
-	Texture * OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
+	Library::Texture * OpenGLRenderDevice::CreateTexture(const std::string & imagePath)
 	{
 		OpenGLTexture * texture = new OpenGLTexture();
 		texture->Init(imagePath);
@@ -101,7 +101,7 @@ namespace Library {
 		glClearBufferfv(GL_COLOR, 0, &Black[0]);
 	}
 
-	Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath)
+	Library::Shader * OpenGLRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath)
 	{
 		OpenGLShader * shader = new OpenGLShader();
 		shader->Init(vPath, fPath, gPath);
@@ -128,11 +128,22 @@ namespace Library {
 		glBindVertexArray(0);
 	}
 
-	RenderBuffer * OpenGLRenderDevice::CreateBuffer(bool createIndicesBuffer)
+	Library::Buffer * OpenGLRenderDevice::CreateBuffer(bool createIndicesBuffer)
 	{
 		OpenGLRenderBuffer * buffer = new OpenGLRenderBuffer();
 		buffer->Init(createIndicesBuffer);
 		mBuffers.push_back(buffer);
 		return buffer;
+	}
+	Library::FrameBuffer * OpenGLRenderDevice::CreateFrameBuffer(std::uint32_t textureCnt)
+	{
+		OpenGLFrameBuffer * fb = new OpenGLFrameBuffer();
+		fb->Init(textureCnt, mWidth, mHeight);
+		return fb;
+	}
+	Library::FrameBuffer * OpenGLRenderDevice::GetDefaultFrameBuffer()
+	{
+		OpenGLFrameBuffer * fb = new OpenGLFrameBuffer(0);
+		return fb;
 	}
 }

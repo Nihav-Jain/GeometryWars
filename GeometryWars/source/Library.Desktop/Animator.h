@@ -17,6 +17,8 @@ namespace Library
 
 		virtual void Update(WorldState& worldState) override;
 
+		virtual Scope* Clone(const Scope& rhs) const override;
+
 	private:
 
 		AnimationState * mState;

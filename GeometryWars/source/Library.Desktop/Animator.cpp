@@ -68,4 +68,9 @@ namespace Library
 
 		mSprite->SetUV(mX, mY, width, height);
 	}
+	Scope * Animator::Clone(const Scope & rhs) const
+	{
+		Animator& action = *rhs.AssertiveAs<Animator>();
+		return new Animator(action);
+	}
 }

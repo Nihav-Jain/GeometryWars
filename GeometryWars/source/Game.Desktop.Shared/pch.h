@@ -38,6 +38,7 @@
 #include "../../source/Library.Desktop/World.h"
 #include "../../source/Library.Desktop/GameObject.h"
 
+#include "Score.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"

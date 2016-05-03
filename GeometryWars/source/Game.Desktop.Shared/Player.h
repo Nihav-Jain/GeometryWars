@@ -10,7 +10,9 @@ namespace Library
 	public:
 		
 		Player();
-		virtual ~Player() = default;
+		virtual ~Player();
+
+		Player(const Player& rhs);
 
 		static const std::string ATTRIBUTE_PLAYERNUMBER;
 		static const std::string ATTRIBUTE_ATTACKSPEED;
@@ -34,9 +36,9 @@ namespace Library
 		void SetLives(std::int32_t lives);
 		void PlayerDeath(WorldState& worldState);
 
-		const std::int64_t Score() const;
+		const std::int32_t Score() const;
 		void AddScore(const std::int32_t & score);
-		void SetScore(const std::int64_t & score);
+		void SetScore(const std::int32_t & score);
 
 		std::int32_t Bombs() const;
 		void SetBombs(std::int32_t bombs);
@@ -48,6 +50,7 @@ namespace Library
 		const glm::vec4 & Heading() const;
 		void SetHeading(const glm::vec4 & heading);
 
+		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
@@ -61,7 +64,6 @@ namespace Library
 		bool mShoot;
 
 		std::int32_t mLives;
-		std::int64_t mScore;
 		std::string mCollisionChannel;
 
 		bool mUseBomb;
@@ -72,6 +74,8 @@ namespace Library
 
 	private:
 		std::chrono::milliseconds mShootTimer;
+
+		void ResetAttributePointers();
 
 	};
 

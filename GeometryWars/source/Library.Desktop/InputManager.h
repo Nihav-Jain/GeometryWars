@@ -13,10 +13,6 @@ namespace Library
 	{
 		RTTI_DECLARATIONS(InputHandler, Action)
 	protected:
-		// To help calculate and set input state durations
-		static const std::int32_t zero_ms;
-		static const std::int32_t negative_ms;
-
 		// IOEventTypes - Represents common events among all input devices
 		enum class EIOEventType
 		{
@@ -26,6 +22,7 @@ namespace Library
 		};
 		// Get String Representation of the IOEventTypes
 		static std::string GetIOEventType(const EIOEventType& type);
+
 		// Easy Accessor to retrieve the XML-Defined Button Mapping
 		Scope& GetButtonMapping();
 		// Easy Method Call to Send Button Pressed Events
@@ -41,6 +38,10 @@ namespace Library
 		static const std::string sIOEventTypeToString[static_cast<std::int32_t>(EIOEventType::NUMBER_OF_IO_EVENT_TYPES)];
 	public:
 		InputHandler();
+		InputHandler(const InputHandler& other) = default;
+		InputHandler(InputHandler&& other) = default;
+		InputHandler& operator=(const InputHandler& rhs) = default;
+		InputHandler& operator=(InputHandler&& rhs) = default;
 		virtual ~InputHandler() = default;
 	};
 
@@ -57,6 +58,10 @@ namespace Library
 		bool			IsOnRelease;
 	public:
 		Button();
+		Button(const Button& other) = default;
+		Button(Button&& other) = default;
+		Button& operator=(const Button& rhs) = default;
+		Button& operator=(Button&& rhs) = default;
 		void UpdateState(const std::chrono::milliseconds& deltaTime, bool IsPressed);
 	};
 
@@ -74,6 +79,10 @@ namespace Library
 
 	public:
 		Trigger();
+		Trigger(const Trigger& other) = default;
+		Trigger(Trigger&& other) = default;
+		Trigger& operator=(const Trigger& rhs) = default;
+		Trigger& operator=(Trigger&& rhs) = default;
 		void UpdateState(const std::chrono::milliseconds&, const std::int32_t& newMagnitude, const std::int32_t& threshold);
 	};
 
@@ -98,6 +107,10 @@ namespace Library
 
 	public:
 		AnalogStick();
+		AnalogStick(const AnalogStick& other) = default;
+		AnalogStick(AnalogStick&& other) = default;
+		AnalogStick& operator=(const AnalogStick& rhs) = default;
+		AnalogStick& operator=(AnalogStick&& rhs) = default;
 		void UpdateState(const std::chrono::milliseconds& deltaTime, const std::int32_t& newMagnitudeX, const std::int32_t& newMagnitudeY, const std::int32_t& threshold);
 	};
 
@@ -117,9 +130,13 @@ namespace Library
 		// Analog
 		AnalogStick LeftStick, RightStick;
 
+	public:
 		XBoxControllerState();
+		XBoxControllerState(const XBoxControllerState& other) = default;
+		XBoxControllerState(XBoxControllerState&& other) = default;
+		XBoxControllerState& operator=(const XBoxControllerState& rhs) = default;
+		XBoxControllerState& operator=(XBoxControllerState&& rhs) = default;
 		void UpdateState(XINPUT_STATE & currentPlayerState, std::chrono::milliseconds deltaTime);
-
 	};
 
 	// XBox Controller Input Event Handler
@@ -142,6 +159,10 @@ namespace Library
 
 	public:
 		XBoxControllerHandler();
+		XBoxControllerHandler(const XBoxControllerHandler& other) = default;
+		XBoxControllerHandler(XBoxControllerHandler&& other) = default;
+		XBoxControllerHandler& operator=(const XBoxControllerHandler& rhs) = default;
+		XBoxControllerHandler& operator=(XBoxControllerHandler&& rhs) = default;
 		~XBoxControllerHandler() override;
 
 		// Check for player connection

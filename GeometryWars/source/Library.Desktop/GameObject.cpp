@@ -19,6 +19,13 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_MOVESPEED, 1, &mMoveSpeed);
 	}
 
+	GameObject::GameObject(const GameObject & rhs) :
+		Entity::Entity(rhs), mPosition(rhs.mPosition), mRotation(rhs.mRotation), mScale(rhs.mScale), mMoveSpeed(rhs.mMoveSpeed),
+		mWorldWidth(rhs.mWorldWidth), mWorldHeight(rhs.mWorldHeight)
+	{
+		ResetAttributePointers();
+	}
+
 	const glm::vec4 & GameObject::Position() const
 	{
 		return mPosition;
@@ -69,6 +76,12 @@ namespace Library
 		return (GetComponent(typeName) != nullptr);
 	}
 
+	Scope * GameObject::Clone(const Scope & rhs) const
+	{
+		GameObject& entity = *rhs.AssertiveAs<GameObject>();
+		return new GameObject(entity);
+	}
+
 	void GameObject::BeginPlay(WorldState & worldState)
 	{
 		Entity::BeginPlay(worldState);
@@ -91,6 +104,14 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(other);
 		UNREFERENCED_PARAMETER(worldState);
+	}
+
+	void GameObject::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_POSITION].SetStorage(&mPosition, 1);
+		(*this)[ATTRIBUTE_ROTATION].SetStorage(&mRotation, 1);
+		(*this)[ATTRIBUTE_SCALE].SetStorage(&mScale, 1);
+		(*this)[ATTRIBUTE_MOVESPEED].SetStorage(&mMoveSpeed, 1);
 	}
 }
 
