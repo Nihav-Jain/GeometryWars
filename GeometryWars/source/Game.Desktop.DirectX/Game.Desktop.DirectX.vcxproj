@@ -74,21 +74,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\..\source\$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\source\$(ProjectName)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\..\external\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,15 +103,17 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\source\Game.Desktop.Shared\</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -116,7 +122,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"</Command>
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\lib\$(Platform)\$(Configuration)\fmod.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,15 +135,17 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\source\Game.Desktop.Shared\</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -145,7 +154,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"</Command>
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\lib\$(Platform)\$(Configuration)\fmod64.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,7 +169,8 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\</AdditionalIncludeDirectories>
+	  
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -168,8 +179,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -178,7 +190,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"</Command>
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\lib\$(Platform)\$(Configuration)\fmod.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -192,7 +205,8 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\</AdditionalIncludeDirectories>
+
+      <AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);$(SolutionDir)\..\source\Library.Desktop;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4091;4201;4239;4592</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -201,8 +215,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  
+      <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\FMOD\inc\;$(SolutionDir)\..\external\FMOD\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.Desktop.lib;d3d11.lib;Expat.lib;shlwapi.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(ProjectDir)log\$(MSBuildProjectName).log</Path>
@@ -211,7 +226,8 @@
       <Command>IF EXIST "$(SolutionDir)..\Content" xcopy /E /Y "$(SolutionDir)..\Content" "$(TargetDir)Content\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)"</Command>
+      <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
+IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\lib\$(Platform)\$(Configuration)\fmod64.dll" "$(TargetDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

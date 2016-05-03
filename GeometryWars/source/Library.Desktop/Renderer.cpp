@@ -45,33 +45,40 @@ namespace Library {
 
 	void Renderer::Update()
 	{
-		if (mFrameBuffer == nullptr) {
-			mFrameBuffer = mDevice->CreateFrameBuffer(1);
-		}
+		// TODO: Refactor this.....
+		if (mPostProcessings.size() != 0) {
+			if (mFrameBuffer == nullptr) {
+				mFrameBuffer = mDevice->CreateFrameBuffer(1);
+			}
 
-		if (mDefaultFrameBuffer == nullptr) {
-			mDefaultFrameBuffer = mDevice->GetDefaultFrameBuffer();
-		}
+			if (mDefaultFrameBuffer == nullptr) {
+				mDefaultFrameBuffer = mDevice->GetDefaultFrameBuffer();
+			}
 
-		mFrameBuffer->Use();
-		mFrameBuffer->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
+			mFrameBuffer->Use();
+			mFrameBuffer->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
 
-		for (auto obj : mObjects) {
-			obj->Render(mDevice);
-		}
+			for (auto obj : mObjects) {
+				obj->Render(mDevice);
+			}
 
-		FrameBuffer * buff = mFrameBuffer;
-		for (auto & it = mPostProcessings.begin();
+			FrameBuffer * buff = mFrameBuffer;
+			for (auto & it = mPostProcessings.begin();
 			it != mPostProcessings.end(); ++it) {
-			
-			if (it + 1 == mPostProcessings.end()) {
-				buff = (*it)->Apply(mDevice, buff, mDefaultFrameBuffer);
-			}
-			else {
-				buff = (*it)->Apply(mDevice, buff, nullptr);
+
+				if (it + 1 == mPostProcessings.end()) {
+					buff = (*it)->Apply(mDevice, buff, mDefaultFrameBuffer);
+				}
+				else {
+					buff = (*it)->Apply(mDevice, buff, nullptr);
+				}
 			}
 		}
-
+		else {
+			for (auto obj : mObjects) {
+				obj->Render(mDevice);
+			}
+		}
 		if (mDevice != nullptr) {
 			mDevice->Invalid();
 		}

@@ -147,6 +147,45 @@ namespace Library
 			delete mPostfixExpression;
 	}
 
+	ActionExpression::ActionExpression(const ActionExpression& rhs) :
+		Action::Action(rhs), mPostfixExpression(nullptr), mTempVariableCounter(0)
+	{}
+
+	ActionExpression::ActionExpression(ActionExpression&& rhs) :
+		Action::Action(std::move(rhs)), mPostfixExpression(rhs.mPostfixExpression), mTempVariableCounter(rhs.mTempVariableCounter)
+	{
+		rhs.mPostfixExpression = nullptr;
+		rhs.mTempVariableCounter = 0;
+	}
+
+	ActionExpression& ActionExpression::operator=(const ActionExpression& rhs)
+	{
+		if (this != &rhs)
+		{
+			delete mPostfixExpression;
+			mPostfixExpression = nullptr;
+
+			Action::operator=(rhs);
+		}
+		return *this;
+	}
+
+	ActionExpression& ActionExpression::operator=(ActionExpression&& rhs)
+	{
+		if (this != &rhs)
+		{
+			mPostfixExpression = rhs.mPostfixExpression;
+			mTempVariableCounter = rhs.mTempVariableCounter;
+
+			rhs.mPostfixExpression = nullptr;
+			rhs.mTempVariableCounter = 0;
+
+			Action::operator=(std::move(rhs));
+		}
+		return *this;
+	}
+
+
 	void ActionExpression::BeginPlay(WorldState& worldState)
 	{
 		Action::BeginPlay(worldState);
@@ -156,7 +195,13 @@ namespace Library
 	void ActionExpression::Update(WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
-		EvaluateExpression(*worldState.world);
+		EvaluateExpression();
+	}
+
+	Scope* ActionExpression::Clone(const Scope& rhs) const
+	{
+		ActionExpression& action = *rhs.AssertiveAs<ActionExpression>();
+		return new ActionExpression(action);
 	}
 
 	void ActionExpression::ClearStaticMemebers()
@@ -338,7 +383,7 @@ namespace Library
 		}
 	}
 
-	void ActionExpression::EvaluateExpression(const World& world)
+	void ActionExpression::EvaluateExpression()
 	{
 		Stack<Datum*> evaluationStack;
 		SList<std::string> postfixExpression(*mPostfixExpression);
@@ -396,7 +441,7 @@ namespace Library
 			{
 				Datum* operand = nullptr;
 				if (postfixExpression.Front().find('.')  < postfixExpression.Front().length())
-					operand = world.ComplexSearch(postfixExpression.Front(), *this);
+					operand = World::ComplexSearch(postfixExpression.Front(), *this);
 				else
 					operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);

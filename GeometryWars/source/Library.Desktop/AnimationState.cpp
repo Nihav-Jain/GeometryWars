@@ -13,4 +13,9 @@ namespace Library
 	AnimationState::~AnimationState()
 	{
 	}
+	Scope * AnimationState::Clone(const Scope & rhs) const
+	{
+		AnimationState& action = *rhs.AssertiveAs<AnimationState>();
+		return new AnimationState(action);
+	}
 }

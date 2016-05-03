@@ -34,6 +34,15 @@
 
 #include "GameException.h"
 
+#pragma region SoundFMOD
+
+#include <fstream>
+#pragma warning(disable: 4505)
+#include "fmod.hpp"
+#include "fmod_errors.h"
+
+#pragma endregion
+
 namespace Library
 {
 	typedef unsigned char byte;

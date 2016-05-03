@@ -25,6 +25,12 @@ namespace Library
 		 */
 		virtual ~Reaction() = default;
 
+		Reaction(const Reaction& rhs);
+		Reaction(Reaction&& rhs);
+
+		Reaction& operator=(const Reaction& rhs);
+		Reaction& operator=(Reaction&& rhs);
+
 		/**
 		 *	@override from ActionList - empty implementation, does nothing
 		 *	Child classes must either invoke ActionList::Update() or override the Update method themselves

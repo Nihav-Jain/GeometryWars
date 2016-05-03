@@ -16,11 +16,17 @@ namespace Library
 
 
 	Bullet::Bullet()
-		: mVelocity(), mIsDead(false), mCollisionChannel()
+		: mVelocity(), mIsDead(false), mCollisionChannel(), mPlayerOwner(nullptr)
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
+	}
+
+	Bullet::Bullet(const Bullet & rhs)
+		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel)
+	{
+		ResetAttributePointers();
 	}
 
 	const glm::vec4 & Bullet::Velocity() const
@@ -41,15 +47,21 @@ namespace Library
 		mIsDead = true;
 	}
 
+	Scope * Bullet::Clone(const Scope & rhs) const
+	{
+		Bullet& entity = *rhs.AssertiveAs<Bullet>();
+		return new Bullet(entity);
+	}
+
 	void Bullet::BeginPlay(WorldState & worldState)
 	{
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Enemy::TypeIdClass());
 
 		GameObject::BeginPlay(worldState);
 
-		Player& player = *worldState.entity->AssertiveAs<Player>();
-		mPosition = player.Position();
-		mVelocity = player.Heading() * mMoveSpeed;
+		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		mPosition = mPlayerOwner->Position();
+		mVelocity = mPlayerOwner->Heading() * mMoveSpeed;
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
 
 		//mHeading.x = -sin(mRotation.z);
@@ -89,9 +101,16 @@ namespace Library
 
 		enemy->EnemyDeath(worldState);
 
-		/// TODO: playerThatSpawnedMe->AddScore( enemy->Score() ); ///
+		mPlayerOwner->AddScore( enemy->Score() );
 
 		BulletDeath(worldState);
+	}
+
+	void Bullet::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
+		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
+		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}
 
 }

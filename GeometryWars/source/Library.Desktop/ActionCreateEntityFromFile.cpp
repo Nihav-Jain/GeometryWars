@@ -6,10 +6,21 @@ namespace Library
 	RTTI_DEFINITIONS(ActionCreateEntityFromFile, Action);
 
 	const std::string ActionCreateEntityFromFile::ATTRIBUTE_FILE_PATH = "filePath";
+	const std::string ActionCreateEntityFromFile::ATTRIBUTE_ENTITY_CLASS_NAME = "className";
+	const std::string ActionCreateEntityFromFile::ATTRIBUTE_ENTITY_INSTANCE_NAME = "instanceName";
+	const std::string ActionCreateEntityFromFile::ATTRIBUTE_NEW_ENTITY = "newEntity";
 
-	ActionCreateEntityFromFile::ActionCreateEntityFromFile()
+	ActionCreateEntityFromFile::ActionCreateEntityFromFile() :
+		mNewEntity(new Datum())
 	{
-		AddInternalAttribute(ATTRIBUTE_FILE_PATH, "", 0);
+		AddInternalAttribute(ATTRIBUTE_ENTITY_CLASS_NAME, "", 0);
+		AddInternalAttribute(ATTRIBUTE_ENTITY_INSTANCE_NAME, "", 0);
+		AddInternalAttribute(ATTRIBUTE_NEW_ENTITY, mNewEntity, 1);
+	}
+
+	ActionCreateEntityFromFile::~ActionCreateEntityFromFile()
+	{
+		delete mNewEntity;
 	}
 
 	ActionCreateEntityFromFile::ActionCreateEntityFromFile(const ActionCreateEntityFromFile& rhs) :
@@ -34,36 +45,17 @@ namespace Library
 
 
 	void ActionCreateEntityFromFile::Update(WorldState& worldState)
-	{
+	{ 
 		assert(worldState.sector != nullptr);
 
-		SharedDataTable* sharedDataPtr = worldState.world->ParseMaster().GetSharedData()->AssertiveAs<SharedDataTable>();
-		Scope* cacheCurrentScope = sharedDataPtr->CurrentScopePtr;
+		Entity* entityCopy = worldState.world->ClassDefinitionContainer.FindEntity((*this)[ATTRIBUTE_ENTITY_CLASS_NAME].Get<std::string>());
+		assert(entityCopy != nullptr);
 
-		sharedDataPtr->CurrentScopePtr = worldState.sector;
+		Entity* newEntity = entityCopy->Clone(*entityCopy)->AssertiveAs<Entity>();
 
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::WORLD_START);
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SECTOR_START);
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
-
-		bool parsingSuccessful = worldState.world->ParseMaster().ParseFromFile((*this)[ATTRIBUTE_FILE_PATH].Get<std::string>());
-
-		sharedDataPtr->CurrentScopePtr = cacheCurrentScope;
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SECTOR_END);
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
-		sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::WORLD_END);
-
-		if (!parsingSuccessful)
-		{
-			std::stringstream str;
-			str << "Error in parsing file - " << (*this)[ATTRIBUTE_FILE_PATH].Get<std::string>();
-			throw std::exception(str.str().c_str());
-		}
-
-		Datum& sectorEntities = worldState.sector->Entities();
-		Entity& newEntity = *sectorEntities.Get<Scope>(sectorEntities.Size() - 1).AssertiveAs<Entity>();
-		newEntity.BeginPlay(worldState);
+		worldState.sector->AdoptEntity(*newEntity, (*this)[ATTRIBUTE_ENTITY_INSTANCE_NAME].Get<std::string>());
+		newEntity->BeginPlay(worldState);
+		*mNewEntity = *newEntity;
 	}
 
 	Scope* ActionCreateEntityFromFile::Clone(const Scope& rhs) const

@@ -25,10 +25,13 @@ namespace Library {
 		PolygonRenderer();
 		virtual ~PolygonRenderer();
 
-		PolygonRenderer(const PolygonRenderer & rhs) = delete;
+		PolygonRenderer(const PolygonRenderer & rhs);
 		PolygonRenderer & operator=(const PolygonRenderer & rhs) = delete;
 
 		virtual void Render(RenderDevice * device) override;
+		virtual void BeginPlay(WorldState& worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 	private:
 		void Init(RenderDevice * device);

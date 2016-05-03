@@ -13,4 +13,10 @@ namespace Library
 	AnimationFrame::~AnimationFrame()
 	{
 	}
+
+	Scope * AnimationFrame::Clone(const Scope & rhs) const
+	{
+		AnimationFrame& action = *rhs.AssertiveAs<AnimationFrame>();
+		return new AnimationFrame(action);
+	}
 }

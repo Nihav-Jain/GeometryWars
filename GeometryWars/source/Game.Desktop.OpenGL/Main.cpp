@@ -12,6 +12,8 @@
 using namespace Library;
 using namespace OpenGLImplmentation;
 
+
+
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR commandLine, int showCommand)
 {
 	UNREFERENCED_PARAMETER(instance);
@@ -54,3 +56,5 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	return 0;
 }
+
+
