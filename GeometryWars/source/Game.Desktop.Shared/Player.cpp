@@ -185,7 +185,7 @@ namespace Library
 			for (std::int32_t i = 0; i < numEnemies; ++i)
 			{
 				Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
-				enemy->EnemyDeath(worldState);
+				enemy->EnemyDeath(worldState, true);
 			}
 
 			--mBombCount;

@@ -17,7 +17,7 @@ namespace Library
 		const glm::vec4 & Velocity() const;
 		void SetVelocity(const glm::vec4 & velocity);
 
-		void EnemyDeath(WorldState& worldState);
+		void EnemyDeath(WorldState& worldState, bool canSpawnCollectible = false);
 		std::int32_t Score() const;
 
 		virtual Scope* Clone(const Scope& rhs) const override;
@@ -28,6 +28,7 @@ namespace Library
 
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
+		static const std::string ATTRIBUTE_CANSPAWNCOLLECTIBLE;
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCORE;
 
@@ -35,6 +36,7 @@ namespace Library
 
 		glm::vec4 mVelocity;
 		bool mIsDead;
+		bool mCanSpawnCollectible;
 		std::string mCollisionChannel;
 		std::int32_t mScore;
 

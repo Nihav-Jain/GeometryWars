@@ -91,7 +91,7 @@ namespace Library
 	{
 		Enemy* enemy = other.AssertiveAs<Enemy>();
 
-		enemy->EnemyDeath(worldState);
+		enemy->EnemyDeath(worldState, true);
 
 		mPlayerOwner->AddScore( enemy->Score() );
 
