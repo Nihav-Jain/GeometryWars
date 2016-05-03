@@ -71,6 +71,8 @@
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<string name="entityInstanceName" value="ArrowEnemy"/>
 				</action>
+				
+				<!-- Spawn Multiplier Collectible at Enemy Position -->
 				<action class="ActionCreateEntityFromFile" name="Multiplier">
 					<string name="filePath" value="Content/config/collect_multiplier.xml" index="0" />
 					<string name="className" value="CollectMultiplier" index="0" />
