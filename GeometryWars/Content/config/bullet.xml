@@ -1,7 +1,7 @@
 <gameobject class="Bullet" name="Bullet">
 	<!-- Bullet Class Attributes -->
 	<vector name="scale" value="vec4(15, 15, 15, 0)"/>
-	<float name="speed" value="20" />
+	<float name="speed" value="1" />
 	<bool name="isdead" value="false" />
 	<string name="bulletchannel" value="collideenemies" />
 	
@@ -41,6 +41,12 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
+		<!-- Update position -->
+		<expression name="movement">
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
+		</expression>
+		
+		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
 			<condition>
 				<string name="expression">isdead</string>

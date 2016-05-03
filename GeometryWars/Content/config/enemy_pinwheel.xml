@@ -65,11 +65,10 @@
 			<string name="expression">rotation = rotation + delta</string>
 		</expression>
 		
-		<!-- Update position 
+		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity</string>
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
 		</expression>
-		-->
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">

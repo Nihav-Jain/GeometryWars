@@ -10,7 +10,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "Score.h"
+#include "ScoreManager.h"
+#include "LivesManager.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -31,6 +32,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Player::ATTRIBUTE_HEADING = "heading";
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
+	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
@@ -47,12 +49,14 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_HEADING, 1, &mHeading);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 
-		Score::CreateInstance();
+		AddInternalAttribute(ATTRIBUTE_SCOREBASE, 10);
+
+		CreateSpriteManagers();
 	}
 
 	Player::~Player()
 	{
-		Score::DeleteInstance();
+		ScoreManager::DeleteInstance();
 	}
 
 	Player::Player(const Player & rhs)
@@ -107,6 +111,7 @@ namespace Library
 	void Player::SetLives(std::int32_t lives)
 	{
 		mLives = lives;
+		LivesManager::GetInstance()->SetValue(mLives);
 	}
 
 	void Player::PlayerDeath(WorldState& worldState)
@@ -123,6 +128,7 @@ namespace Library
 		else
 		{
 			--mLives;
+			LivesManager::GetInstance()->SetValue(mLives);
 			OutputDebugStringA("Player Hit!");
 
 			// TODO: Kill all enemies, kill all multipliers, reset multiplier to 1
@@ -131,17 +137,17 @@ namespace Library
 
 	const std::int32_t Player::Score() const
 	{
-		return Score::GetInstance()->GetScore();
+		return ScoreManager::GetInstance()->GetValue();
 	}
 
 	void Player::AddScore(const std::int32_t & score)
 	{
-		Score::GetInstance()->AddScore(score);
+		ScoreManager::GetInstance()->AddValue(score);
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
-		Score::GetInstance()->SetScore(score);
+		ScoreManager::GetInstance()->SetValue(score);
 	}
 
 	std::int32_t Player::Bombs() const
@@ -207,12 +213,14 @@ namespace Library
 		mHeading = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 
 		GameObject::BeginPlay(worldState);
+
+		InitSpriteManagers();
 	}
 
 	void Player::Update(WorldState & worldState)
 	{
 		// Update position
-		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
+		//mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
 
 		// Prevent moving out of bounds
 		if (mPosition.x > mWorldWidth / 2.0f)
@@ -253,6 +261,27 @@ namespace Library
 	void Player::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
+	}
+
+	void Player::CreateSpriteManagers() const
+	{
+		ScoreManager* score = ScoreManager::CreateInstance();
+		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
+
+		LivesManager* lives = LivesManager::CreateInstance();
+		lives->SetData(mLives, mLives, 22, -620, 335, true, "Content//resource//", "", ".png");
+	}
+
+	void Player::InitSpriteManagers() const
+	{
+		ScoreManager* score = ScoreManager::GetInstance();
+		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
+		score->Init();
+		score->RefreshSprites();
+
+		LivesManager* lives = LivesManager::GetInstance();
+		lives->Init();
+		lives->RefreshSprites();
 	}
 
 	void Player::ResetAttributePointers()

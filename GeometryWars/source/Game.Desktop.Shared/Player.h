@@ -24,6 +24,7 @@ namespace Library
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_HEADING;
 		static const std::string ATTRIBUTE_CHANNEL;
+		static const std::string ATTRIBUTE_SCOREBASE;
 
 		std::int32_t PlayerNumber() const;
 		void SetPlayerNumber(std::int32_t playerNumber);
@@ -56,6 +57,9 @@ namespace Library
 		virtual void OnDestroy(WorldState& worldState) override;
 
 	protected:
+
+		void CreateSpriteManagers() const;
+		void InitSpriteManagers() const;
 
 		std::int32_t mPlayerNumber;
 
