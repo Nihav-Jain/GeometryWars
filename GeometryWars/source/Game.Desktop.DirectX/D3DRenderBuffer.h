@@ -15,25 +15,17 @@ namespace Library
 		D3DRenderBuffer(ID3D11Device1& device, ID3D11DeviceContext& context);
 		virtual ~D3DRenderBuffer();
 
-		virtual void Init(float * data, std::uint32_t size, std::uint32_t stride,
-			std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt);
+		virtual void Init(bool createIndicesBuffer) override;
+		virtual void SetData(float * data, std::uint32_t size, std::uint32_t stride,
+			std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt) override;
 
-		virtual void Use();
+		virtual void Use() override;
 	private:
-		struct VertexPositionColor
-		{
-			XMFLOAT4 Position;
-			XMFLOAT4 Color;
-		};
-		struct CVertexBufferPerObject
-		{
-			XMFLOAT4X4 WorldViewProjection;
-		};
-
 		ID3D11Device1* mDevice;
 		ID3D11DeviceContext* mContext;
 		ID3D11Buffer* mVertexBuffer;
 		ID3D11Buffer* mIndexBuffer;
+		bool mUseIndices;
 		UINT mStride;
 	};
 }

@@ -5,14 +5,15 @@
 #include "D3DRenderBuffer.h"
 #include "OldPolygonRenderer.h"
 
-
+//OldPolygonRenderer* opr;
 namespace Library
 {
 	D3DRenderDevice::D3DRenderDevice(HWND window, UINT screenWidth, UINT screenHeight) : mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr), mSwapChain(nullptr),
-		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), poly(nullptr)
+		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr),// poly(nullptr),
+		mWidth(800), mHeight(600)
 	{
 		InitializeDirectX(window, screenWidth, screenHeight);
-		poly = new OldPolygonRenderer(*mDirect3DDevice, *mDirect3DDeviceContext);
+		//opr = new OldPolygonRenderer(*mDirect3DDevice, *mDirect3DDeviceContext);
 	}
 
 
@@ -37,9 +38,14 @@ namespace Library
 		ReleaseObject(mDepthStencilView);
 	}
 
-	Viewport * D3DRenderDevice::CreateViewport()
+	std::int32_t D3DRenderDevice::GetViewportWidth()
 	{
-		return nullptr;
+		return mWidth;
+	}
+
+	std::int32_t D3DRenderDevice::GetViewportHeight()
+	{
+		return mHeight;
 	}
 
 	Texture * D3DRenderDevice::CreateTexture(const std::string & imagePath)
@@ -50,35 +56,56 @@ namespace Library
 		return texture;
 	}
 
-	Shader * D3DRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath)
+	Shader * D3DRenderDevice::CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath)
 	{
 		D3DShader * shader = new D3DShader(*mDirect3DDevice, *mDirect3DDeviceContext);
-		shader->Init(vPath, fPath);
+		shader->Init(vPath, fPath, gPath);
 		mShaders.push_back(shader);
 		return shader;
 	}
 
-	RenderBuffer * D3DRenderDevice::CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride, std::uint32_t * indices, std::uint32_t indices_size, std::uint32_t elementCnt)
+	RenderBuffer * D3DRenderDevice::CreateBuffer(bool createIndicesBuffer)
 	{
 		D3DRenderBuffer * buffer = new D3DRenderBuffer(*mDirect3DDevice, *mDirect3DDeviceContext);
-		buffer->Init(data, size, stride, indices, indices_size, elementCnt);
+		buffer->Init(createIndicesBuffer);
 		mBuffers.push_back(buffer);
 		return buffer;
 	}
 
 	void D3DRenderDevice::Draw(DrawMode mode, std::uint32_t counts)
 	{
-		UNREFERENCED_PARAMETER(mode);
-		UNREFERENCED_PARAMETER(counts);
-		poly->Draw();
+
+		switch (mode)
+		{
+		case Library::RenderDevice::DrawMode::TRIANGLES:
+			mDirect3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			break;
+		case Library::RenderDevice::DrawMode::LINES:
+			mDirect3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+			break;
+		case Library::RenderDevice::DrawMode::POINTS:
+			mDirect3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+			break;
+		default:
+			break;
+		}
+		mDirect3DDeviceContext->DrawIndexed(counts, 0, 0);
+		//mDirect3DDeviceContext->Draw(counts, 0);
+		//opr->Draw();
 	}
 
 	void D3DRenderDevice::ClearScreen()
 	{
+		static float hue = 0;
+		static XMVECTORF32 BackgroundColor = { 0.392f, 0.584f, 0.929f, 1.0f };
+		hue += 0.001f;
+		BackgroundColor = { std::sin(hue), std::sin(hue + 6.28f/3), std::sin(hue + 2 * 6.28f / 3), 1.0f };
 		ThrowIfFailed(mSwapChain->Present(0, 0), "IDXGISwapChain::Present() failed.");
 		mDirect3DDeviceContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&BackgroundColor));
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
+
+
 	void D3DRenderDevice::InitializeDirectX(HWND window, UINT mScreenWidth, UINT mScreenHeight)
 	{
 		UINT createDeviceFlags = 0;

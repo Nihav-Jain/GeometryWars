@@ -7,7 +7,7 @@
 using namespace Library;
 OldPolygonRenderer::OldPolygonRenderer(ID3D11Device1 & device, ID3D11DeviceContext & context): 
 	mDevice(&device), mContext(&context), mPixelShader(nullptr), mVertexShader(nullptr), mGeomShader(nullptr),
-	mVertexBuffer(nullptr), mIndexBuffer(nullptr), mConstantVertexBuffer(nullptr), mConstantGeometryBuffer(nullptr),
+	mVertexBuffer(nullptr), mIndexBuffer(nullptr), mConstantPixelBuffer(nullptr), mConstantGeometryBuffer(nullptr),
 mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 1.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 1.0f, 0.0f,
@@ -38,8 +38,7 @@ mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
 	// Create an input layout
 	D3D11_INPUT_ELEMENT_DESC inputElementDescriptions[] =
 	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
 	ThrowIfFailed(device.CreateInputLayout(inputElementDescriptions, ARRAYSIZE(inputElementDescriptions), &compiledVertexShader[0], compiledVertexShader.size(), &mInputLayout), "ID3D11Device::CreateInputLayout() failed.");
@@ -47,15 +46,15 @@ mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
 	// Create a vertex buffer
 	VertexPositionColor vertices[] =
 	{
-		VertexPositionColor { XMFLOAT4(  0, -200, 0, 1), XMFLOAT4(1, 0, 0, 0) },
-		VertexPositionColor { XMFLOAT4(-50, -150, 0, 1), XMFLOAT4(0, 1, 0, 0) },
-		VertexPositionColor { XMFLOAT4(  0, -100, 0, 1), XMFLOAT4(0, 0, 1, 0) },
-		VertexPositionColor { XMFLOAT4( 50, -150, 0, 1), XMFLOAT4(1, 1, 0, 0) },
-		VertexPositionColor { XMFLOAT4(  0,    0, 0, 1), XMFLOAT4(0, 1, 1, 0) },
-		VertexPositionColor { XMFLOAT4(-50,    0, 0, 1), XMFLOAT4(1, 0, 1, 0) },
-		VertexPositionColor { XMFLOAT4( 50,    0, 0, 1), XMFLOAT4(1, 1, 1, 0) },
-		VertexPositionColor { XMFLOAT4(-50,  100, 0, 1), XMFLOAT4(0, 0, 0, 0) },
-		VertexPositionColor { XMFLOAT4( 50,  100, 0, 1), XMFLOAT4(0, 0, 0, 0) }
+		VertexPositionColor { XMFLOAT4(  0, -200, 0, 1) },
+		VertexPositionColor { XMFLOAT4(-50, -150, 0, 1) },
+		VertexPositionColor { XMFLOAT4(  0, -100, 0, 1) },
+		VertexPositionColor { XMFLOAT4( 50, -150, 0, 1) },
+		VertexPositionColor { XMFLOAT4(  0,    0, 0, 1) },
+		VertexPositionColor { XMFLOAT4(-50,    0, 0, 1) },
+		VertexPositionColor { XMFLOAT4( 50,    0, 0, 1) },
+		VertexPositionColor { XMFLOAT4(-50,  100, 0, 1) },
+		VertexPositionColor { XMFLOAT4( 50,  100, 0, 1) }
 	};
 
 	D3D11_BUFFER_DESC vertexBufferDesc;
@@ -96,8 +95,8 @@ mWorldMatrix(XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
 	constantBufferDesc.ByteWidth = sizeof(CGeometryBufferPerObject);
 	ThrowIfFailed(device.CreateBuffer(&constantBufferDesc, nullptr, &mConstantGeometryBuffer), "ID3D11Device::CreateBuffer() failed.");
 
-	constantBufferDesc.ByteWidth = sizeof(CVertexBufferPerObject);
-	ThrowIfFailed(device.CreateBuffer(&constantBufferDesc, nullptr, &mConstantVertexBuffer), "ID3D11Device::CreateBuffer() failed.");
+	constantBufferDesc.ByteWidth = sizeof(CPixelBufferPerObject);
+	ThrowIfFailed(device.CreateBuffer(&constantBufferDesc, nullptr, &mConstantPixelBuffer), "ID3D11Device::CreateBuffer() failed.");
 }
 
 OldPolygonRenderer::~OldPolygonRenderer()
@@ -124,13 +123,17 @@ void OldPolygonRenderer::Draw()
 	mContext->PSSetShader(mPixelShader, nullptr, 0);
 	mContext->GSSetShader(mGeomShader, nullptr, 0);
 
-	float width = 0.02f;
+	
+	CGeometryBufferPerObject geoBuff = { mWorldMatrix, 5 };
 
-	mContext->UpdateSubresource(mConstantVertexBuffer, 0, nullptr, &mWorldMatrix, 0, 0);
-	mContext->VSSetConstantBuffers(0, 1, &mConstantVertexBuffer);
-
-	mContext->UpdateSubresource(mConstantGeometryBuffer, 0, nullptr, &width, 0, 0);
+	mContext->UpdateSubresource(mConstantGeometryBuffer, 0, nullptr, &geoBuff, 0, 0);
 	mContext->GSSetConstantBuffers(0, 1, &mConstantGeometryBuffer);
+
+	CPixelBufferPerObject color = { {0, 1, 0, 0} };
+
+	mContext->UpdateSubresource(mConstantPixelBuffer, 0, nullptr, &color, 0, 0);
+	mContext->PSSetConstantBuffers(0, 1, &mConstantPixelBuffer);
+
 
 	mContext->DrawIndexed(2 * 9, 0, 0);
 }

@@ -17,18 +17,18 @@ namespace Library
 	class D3DTexture;
 	class D3DShader;
 	class D3DRenderBuffer;
-	class D3DRenderDevice final : public Library::RenderDevice
+	class D3DRenderDevice final : public RenderDevice
 	{
 	public:
 		D3DRenderDevice(HWND window, UINT screenWidth, UINT screenHeight);
 		virtual ~D3DRenderDevice();
 
-
-		virtual Library::Viewport * CreateViewport() override;
 		virtual Library::Texture * CreateTexture(const std::string & imagePath) override;
-		virtual Library::Shader * CreateShader(const std::string & vPath, const std::string & fPath) override;
-		virtual Library::RenderBuffer * CreateBuffer(float * data, std::uint32_t size, std::uint32_t stride,
-			std::uint32_t * indices = nullptr, std::uint32_t indices_size = 0, std::uint32_t elementCnt = 0) override;
+		virtual Library::Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
+		virtual Library::RenderBuffer * CreateBuffer(bool createIndicesBuffer) override;
+
+		virtual std::int32_t GetViewportWidth() override;
+		virtual std::int32_t GetViewportHeight() override;
 
 		virtual void Draw(DrawMode mode, std::uint32_t counts) override;
 
@@ -43,13 +43,14 @@ namespace Library
 		ID3D11RenderTargetView* mRenderTargetView;
 		ID3D11DepthStencilView* mDepthStencilView;
 		void InitializeDirectX(HWND window, UINT mScreenWidth, UINT mScreenHeight);
-		XMVECTORF32 BackgroundColor = { 0.392f, 0.584f, 0.929f, 1.0f };
 
-		OldPolygonRenderer* poly;
+		//OldPolygonRenderer* poly;
 
 		std::vector<D3DShader*> mShaders;
 		std::vector<D3DTexture*> mTextures;
 		std::vector<D3DRenderBuffer*> mBuffers;
+		std::int32_t mWidth;
+		std::int32_t mHeight;
 	};
 }
 

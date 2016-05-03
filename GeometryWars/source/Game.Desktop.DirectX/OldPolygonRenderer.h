@@ -19,14 +19,14 @@ private:
 	struct VertexPositionColor
 	{
 		XMFLOAT4 Position;
-		XMFLOAT4 Color;
 	};
-	struct CVertexBufferPerObject
+	struct CPixelBufferPerObject
 	{
-		XMFLOAT4X4 WorldViewProjection;
+		XMFLOAT4 Color;
 	};
 	struct CGeometryBufferPerObject
 	{
+		XMFLOAT4X4 WorldViewProjection;
 		float width;
 		XMFLOAT3 bullshit;
 	};
@@ -39,7 +39,7 @@ private:
 	ID3D11InputLayout* mInputLayout;
 	ID3D11Buffer* mVertexBuffer;
 	ID3D11Buffer* mIndexBuffer;
-	ID3D11Buffer* mConstantVertexBuffer;
+	ID3D11Buffer* mConstantPixelBuffer;
 	ID3D11Buffer* mConstantGeometryBuffer;
 
 	//CBufferPerObject mCBufferPerObject;
