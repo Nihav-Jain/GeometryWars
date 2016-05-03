@@ -64,9 +64,9 @@ namespace Library {
 		// Blur
 		bool horizontal = true;
 		mFrameBufferForBlur[0]->Use();
-		mFrameBufferForBlur[0]->ClearColor(glm::vec4(0.0f, .0f, 0.0f, 1.0f));
+		mFrameBufferForBlur[0]->ClearColor(glm::vec4(0.0f, .0f, 0.0f, 0.0f));
 		mFrameBufferForBlur[1]->Use();
-		mFrameBufferForBlur[1]->ClearColor(glm::vec4(0.0f, .0f, 0.0f, 1.0f));
+		mFrameBufferForBlur[1]->ClearColor(glm::vec4(0.0f, .0f, 0.0f, 0.0f));
 
 		for (std::uint32_t i = 0; i < 10; i++) {
 
@@ -91,7 +91,7 @@ namespace Library {
 
 		// Blend
 		target->Use();
-		target->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+		target->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
 
 		mShaderBlend->Use();
 		mShaderBlend->SetInt("scene", 0);
