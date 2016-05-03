@@ -11,7 +11,8 @@
 	<integer name="bombs" value="3" />
 	<bool name="useBomb" value="false" />
 	<integer name="scorebase" value="16" />
-  
+	<ref name="Input" value="player" />
+	
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
@@ -64,13 +65,13 @@
 				<then>
 					<!-- TODO : Add switch on player type to support multiplayer -->
 					<if name="CheckLeftAnalog">
-						<condition><string name="expression">XBoxControllerManager.PlayerOneState.LeftStick.IsKeyDown</string></condition>
+						<condition><string name="expression">Input.LeftStick.IsKeyDown</string></condition>
 						<then>
 							<expression name="updatevelocity">
-								<string name="expression">velocity = XBoxControllerManager.PlayerOneState.LeftStick.MagnitudeVector * speed</string>
+								<string name="expression">velocity = Input.LeftStick.MagnitudeVector * speed</string>
 							</expression>
 							<expression name="updaterotation">
-								<string name="expression">rotation = XBoxControllerManager.PlayerOneState.LeftStick.RotationVector + {vec4(0,0,-1.5708,0)}</string>
+								<string name="expression">rotation = Input.LeftStick.RotationVector + {vec4(0,0,-1.5708,0)}</string>
 							</expression>
 						</then>
 						<else>
@@ -80,7 +81,7 @@
 						</else>
 					</if>
 					<if name="CheckRightAnalog">
-						<condition><string name="expression">XBoxControllerManager.PlayerOneState.RightStick.IsKeyDown &amp;&amp; canattack</string></condition>
+						<condition><string name="expression">Input.RightStick.IsKeyDown &amp;&amp; canattack</string></condition>
 						<then>						
 							<expression name="disableattack">
 							  <string name="expression">canattack = {false}</string>
@@ -94,7 +95,7 @@
 							</event>
 							-->
 							<expression name="updateheading">
-								<string name="expression">heading = XBoxControllerManager.PlayerOneState.RightStick.Direction</string>
+								<string name="expression">heading = Input.RightStick.Direction</string>
 							</expression>
 							<action class="ActionCreateEntityFromFile" name="SpawnBullet">
 							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
