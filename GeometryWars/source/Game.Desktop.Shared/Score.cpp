@@ -11,9 +11,9 @@
 #define PATH "Content//resource//digits//"
 #define EXT ".png"
 
-#define IMAGE_SIZE 100
-#define OFFSET -500
-#define HEIGHT 150
+#define IMAGE_SIZE 40
+#define OFFSET 200
+#define HEIGHT 315
 
 namespace Library
 {
@@ -88,6 +88,8 @@ namespace Library
 			mCurrentSprites[i] = mSprites[i][0];
 			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i]);
 		}
+
+		RefreshSprites();
 	}
 
 	void Score::AddScore(std::int32_t value)
