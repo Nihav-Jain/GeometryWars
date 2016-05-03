@@ -13,7 +13,7 @@ namespace Library
 	{
 		AddInternalAttribute(ATTRIBUTE_NAME, "", 0);
 		AddInternalAttribute(ATTRIBUTE_VOLUME, 1.0f, 1);
-		AddInternalAttribute(ATTRIBUTE_LOOP, 0, 1);
+		AddInternalAttribute(ATTRIBUTE_LOOP, 1, 1);
 	}
 
 

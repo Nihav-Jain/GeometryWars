@@ -1,22 +1,34 @@
-<gameobject class="Enemy" name="SquareEnemy">
+<gameobject class="Enemy" name="EnemySpawner">
 	<!-- Enemy Class Attributes -->
-	<vector name="velocity" value="vec4(-0.1, -0.1, 0, 0)"/>
+	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
 	<bool name="canspawncollectible" value="false" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
   
 	<!-- GameObject Class Attributes -->
-	<vector name="position" value="vec4(-500, 250, 0, 0)"/>
+	<vector name="position" value="vec4(0, 250, 0, 0)"/>
+	<vector name="TargetPosition" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
-	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
-	<float name="speed" value="0.275" />
+	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
+	<float name="speed" value="0.2" />
 	
-	<!-- get Numbered name -->
+	<!-- Begin Play, Get a random velocity, get Numbered name -->
 	<beginplay>
+		<expression name="GetRandomTargetPosition">
+			<string name="expression">TargetPosition = RandomVector()</string>
+		</expression>
+		<vector name="direction" value="vec4(0, 0, 0, 0)" />
+		<expression name="update_dir">
+			<string name="expression">direction = TargetPosition - position</string>
+		</expression>
+		<expression name="change_vel">
+			<string name="expression">velocity = normalize(direction)</string>
+		</expression>
+		
 		<expression name="GetEnemyCount">
 			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>		
+		</expression>
 	</beginplay>
   
 	<!-- Polygon Renderer Component -->
@@ -28,49 +40,60 @@
 		<integer name="indices" value="1" />
 		<integer name="indices" value="2" />
 		<integer name="indices" value="2" />
+		<integer name="indices" value="0" />
+		<integer name="indices" value="0" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
+		<integer name="indices" value="4" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="4" />
+		<integer name="indices" value="0" />
 		<integer name="indices" value="5" />
 		<integer name="indices" value="5" />
 		<integer name="indices" value="6" />
+		<integer name="indices" value="0" />
 		<integer name="indices" value="6" />
+		<integer name="indices" value="0" />
 		<integer name="indices" value="7" />
+		<integer name="indices" value="0" />
+		<integer name="indices" value="8" />
+		<integer name="indices" value="8" />
 		<integer name="indices" value="7" />
-		<integer name="indices" value="4" />
-		<vector name="points" value="vec4(-1, -0.99, 0, 0)" />
-		<vector name="points" value="vec4(-1, 1, 0, 0)" />
-		<vector name="points" value="vec4(0.99, 1, 0, 0)" />
-		<vector name="points" value="vec4(1, -0.99, 0, 0)" />
-		<vector name="points" value="vec4(0, -0.99, 0, 0)" />
-		<vector name="points" value="vec4(-1, 0, 0, 0)" />
-		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(0.98, 0, 0, 0)" />
+		<vector name="points" value="vec4(0, 0.01, 0, 0)" />
+		<vector name="points" value="vec4(0, 0.82, 0, 0)" />
+		<vector name="points" value="vec4(0.4, 0.4, 0, 0)" />
+		<vector name="points" value="vec4(0.8, 0, 0, 0)" />
+		<vector name="points" value="vec4(0.4, -0.4, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.8, 0, 0)" />
+		<vector name="points" value="vec4(-0.4, -0.4, 0, 0)" />
+		<vector name="points" value="vec4(-0.82, 0, 0, 0)" />
+		<vector name="points" value="vec4(-0.4, 0.4, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="2.0" />
-		<bool name="enabled" value="true" />
+		<float name="radius" value="4" />
+		<bool name="enabled" value="false" />
 		<string name="channel" value="collideplayers" />
 	</component>
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<!-- Update velocity -->
-		<vector name="direction" value="vec4(0, 0, 0, 0)" />
-		<expression name="update_dir">
-			<string name="expression">direction = Player1.position - position</string>
-		</expression>
-		<expression name="change_vel">
-			<string name="expression">velocity = normalize(direction)</string>
-		</expression>	 	
+		<vector name="delta" value="vec4(0, 0, -0.005, 0)"/>
 		
-		<!-- Update position -->
+		<!-- Update position -->		
 		<expression name="movement">
 			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
+		
+		<!--<action class="ActionCreateEntityFromFile" name="SpawnEnemy">
+			<string name="filePath" value="Content/config/enemy_pinwheel.xml" index="0" />
+			<string name="className" value="Enemy" index="0" />
+			<string name="instanceName" value="PinwheelEnemy" index="0" />
+		</action>
+		<expression name="SetPosition">
+			<string name="expression">Multiplier.newEntity.position = position</string>
+		</expression>-->
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">

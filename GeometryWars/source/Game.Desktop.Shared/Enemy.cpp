@@ -8,18 +8,32 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Enemy, GameObject);
 
+	std::int32_t Enemy::sEnemyCount = 0;
+
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
+	const std::string Enemy::ATTRIBUTE_CANSPAWNCOLLECTIBLE = "canspawncollectible";
 	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
 	const std::string Enemy::ATTRIBUTE_SCORE = "score";
 
 	Enemy::Enemy()
-		: mVelocity(), mIsDead(false), mCollisionChannel(), mScore(0)
+		: mVelocity(), mIsDead(false), mCanSpawnCollectible(false), mCollisionChannel(), mScore(0)
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
+		AddExternalAttribute(ATTRIBUTE_CANSPAWNCOLLECTIBLE, 1, &mCanSpawnCollectible);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
+
+		ActionExpression::AddFunction("IncrementEnemyCount", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() >= 0);
+			Datum result;
+			result = std::to_string(sEnemyCount++);
+			if (sEnemyCount < 0)
+				sEnemyCount = 0;
+			return result;
+		}));
 	}
 
 	Enemy::Enemy(const Enemy & rhs)
@@ -38,12 +52,13 @@ namespace Library
 		mVelocity = velocity;
 	}
 
-	void Enemy::EnemyDeath(WorldState & worldState)
+	void Enemy::EnemyDeath(WorldState & worldState, bool canSpawnCollectible)
 	{
 		//MarkForDestroy(worldState);
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+		mCanSpawnCollectible = canSpawnCollectible;
 		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 		// TODO: Spawn score multiplier at current location
 	}
@@ -68,30 +83,26 @@ namespace Library
 
 	void Enemy::Update(WorldState & worldState)
 	{
-		// Update position
-		//mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
-
-		// TODO: separate this out for different derived enemy types?
 		// Check if out of bounds
-		if (mPosition.x > mWorldWidth / 2.0f)
+		if (mPosition.x > (mWorldWidth / 2.0f) - mScale.x)
 		{
-			mPosition.x = mWorldWidth / 2.0f;
+			mPosition.x = (mWorldWidth / 2.0f) - mScale.x;
 			mVelocity.x *= -1.0f;
 		}
-		else if (mPosition.x < -mWorldWidth / 2.0f)
+		else if (mPosition.x < (-mWorldWidth / 2.0f) + mScale.x)
 		{
-			mPosition.x = -mWorldWidth / 2.0f;
+			mPosition.x = (-mWorldWidth / 2.0f) + mScale.x;
 			mVelocity.x *= -1.0f;
 		}
 
-		if (mPosition.y > mWorldHeight / 2.0f)
+		if (mPosition.y > (mWorldHeight / 2.0f) - mScale.y)
 		{
-			mPosition.y = mWorldHeight / 2.0f;
+			mPosition.y = (mWorldHeight / 2.0f) - mScale.y;
 			mVelocity.y *= -1.0f;
 		}
-		else if (mPosition.y < -mWorldHeight / 2.0f)
+		else if (mPosition.y < (-mWorldHeight / 2.0f) + mScale.y)
 		{
-			mPosition.y = -mWorldHeight / 2.0f;
+			mPosition.y = (-mWorldHeight / 2.0f) + mScale.y;
 			mVelocity.y *= -1.0f;
 		}
 

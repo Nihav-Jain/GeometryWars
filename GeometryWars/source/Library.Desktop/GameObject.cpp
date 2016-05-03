@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "ActionExpression.h"
 
 namespace Library
 {
@@ -17,6 +18,14 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
 		AddExternalAttribute(ATTRIBUTE_SCALE, 1, &mScale);
 		AddExternalAttribute(ATTRIBUTE_MOVESPEED, 1, &mMoveSpeed);
+
+		ActionExpression::AddFunction("normalize", ActionExpression::FunctionDefinition(1, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 1);
+			Datum result;
+			result = glm::normalize((*params[0]).Get<glm::vec4>());
+			return result;
+		}));
 	}
 
 	GameObject::GameObject(const GameObject & rhs) :

@@ -13,8 +13,13 @@
 				</condition>
 				<then>
 					<action class="ActionDestroyEntity" name="destroyEntity">
-						<string name="entityInstanceName" value="anotherEntity"/>
+						<expression name="exp">
+							<string name="expression">entityInstanceName = worldSector.anotherEntity</string>
+						</expression>
 					</action>
+					<expression name="elseExp">
+						<string name="expression">switchInteger = {1000}</string>
+					</expression>
 				</then>	<!-- ActionList -->
 				<else>
 					<expression name="elseExp">

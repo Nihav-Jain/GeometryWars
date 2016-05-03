@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "ScoreManager.h"
 #include "LivesManager.h"
+#include "BombManager.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -26,6 +27,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_ATTACKSPEED = "attackspeed";
 	const std::string Player::ATTRIBUTE_CANATTACK = "canattack";
 	const std::string Player::ATTRIBUTE_LIVES = "lives";
+	const std::string Player::ATTRIBUTE_MULTIPLIER = "multiplier";
 	const std::string Player::ATTRIBUTE_BOMBS = "bombs";
 	const std::string Player::ATTRIBUTE_SHOOT = "shoot";
 	const std::string Player::ATTRIBUTE_USEBOMB = "useBomb";
@@ -35,14 +37,15 @@ namespace Library
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
 	Player::Player()
-		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
-		  mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(),
+		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
 		AddExternalAttribute(ATTRIBUTE_CANATTACK, 1, &mCanAttack);
 		AddExternalAttribute(ATTRIBUTE_SHOOT, 1, &mShoot);
 		AddExternalAttribute(ATTRIBUTE_LIVES, 1, &mLives);
+		AddExternalAttribute(ATTRIBUTE_MULTIPLIER, 1, &mMultiplier);
 		AddExternalAttribute(ATTRIBUTE_BOMBS, 1, &mBombCount);
 		AddExternalAttribute(ATTRIBUTE_USEBOMB, 1, &mUseBomb);
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
@@ -61,7 +64,7 @@ namespace Library
 
 	Player::Player(const Player & rhs)
 		: GameObject::GameObject(rhs), mPlayerNumber(rhs.mPlayerNumber), mAttackSpeed(rhs.mAttackSpeed), mShootTimer(rhs.mShootTimer), mCanAttack(rhs.mCanAttack),
-		mShoot(rhs.mShoot), mLives(rhs.mLives), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
+		mShoot(rhs.mShoot), mLives(rhs.mLives), mMultiplier(rhs.mMultiplier), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
 		mVelocity(rhs.mVelocity), mHeading(rhs.mHeading), mCollisionChannel(rhs.mCollisionChannel)
 	{
 		ResetAttributePointers();
@@ -87,23 +90,13 @@ namespace Library
 		mAttackSpeed = attackSpeed;
 	}
 
-	void Player::Shoot(WorldState & worldState)
+	void Player::Shoot()
 	{
-		// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
-		//       and have a Reaction (in XML) to that event that sets mCanAttack to true
-
-		UNREFERENCED_PARAMETER(worldState);
 		mShootTimer = std::chrono::milliseconds(mAttackSpeed);
 		mShoot = false;
-		
-		//EventMessageAttributed message;
-		//message.SetSubtype("AttackDelay");
-		//message.SetWorldState(worldState);
-		//std::shared_ptr<Event<EventMessageAttributed>> attributedEvent = std::make_shared<Event<EventMessageAttributed>>(message);
-		//worldState.world->GetEventQueue().Enqueue(attributedEvent, *worldState.mGameTime, std::chrono::milliseconds(mAttackSpeed));
 	}
 
-	std::int32_t Player::Lives() const
+	const std::int32_t & Player::Lives() const
 	{
 		return mLives;
 	}
@@ -128,6 +121,7 @@ namespace Library
 		else
 		{
 			--mLives;
+			ResetMultiplier();
 			LivesManager::GetInstance()->SetValue(mLives);
 			OutputDebugStringA("Player Hit!");
 
@@ -142,12 +136,28 @@ namespace Library
 
 	void Player::AddScore(const std::int32_t & score)
 	{
-		ScoreManager::GetInstance()->AddValue(score);
+		std::int32_t scoreWMultiplier = score * mMultiplier;
+		ScoreManager::GetInstance()->AddValue(scoreWMultiplier);
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
 		ScoreManager::GetInstance()->SetValue(score);
+	}
+
+	const std::int32_t Player::Multiplier() const
+	{
+		return mMultiplier;
+	}
+
+	void Player::IncrementMultiplier()
+	{
+		mMultiplier++;
+	}
+
+	void Player::ResetMultiplier()
+	{
+		mMultiplier = 1;
 	}
 
 	std::int32_t Player::Bombs() const
@@ -158,6 +168,7 @@ namespace Library
 	void Player::SetBombs(std::int32_t bombs)
 	{
 		mBombCount = bombs;
+		BombManager::GetInstance()->SetValue(mBombCount);
 	}
 
 	void Player::UseBomb(WorldState& worldState)
@@ -174,11 +185,11 @@ namespace Library
 			for (std::int32_t i = 0; i < numEnemies; ++i)
 			{
 				Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
-				enemy->EnemyDeath(worldState);
+				enemy->EnemyDeath(worldState, true);
 			}
 
-			// Use bomb, TODO: put on cooldown?
 			--mBombCount;
+			BombManager::GetInstance()->SetValue(mBombCount);
 		}
 	}
 
@@ -219,24 +230,13 @@ namespace Library
 
 	void Player::Update(WorldState & worldState)
 	{
-		// Update position
-		//mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
-
 		// Prevent moving out of bounds
-		if (mPosition.x > mWorldWidth / 2.0f)
-			mPosition.x = mWorldWidth / 2.0f;
-		else if (mPosition.x < -mWorldWidth / 2.0f)
-			mPosition.x = -mWorldWidth / 2.0f;
-
-		if (mPosition.y > mWorldHeight / 2.0f)
-			mPosition.y = mWorldHeight / 2.0f;
-		else if (mPosition.y < -mWorldHeight / 2.0f)
-			mPosition.y = -mWorldHeight / 2.0f;
+		CheckScreenBounds();
 
 		// Shoot
 		if (mShoot)
 		{
-			Shoot(worldState);
+			Shoot();
 		}
 
 		// Update cooldown on shooting
@@ -258,6 +258,19 @@ namespace Library
 		GameObject::Update(worldState);
 	}
 
+	void Player::CheckScreenBounds()
+	{
+		if (mPosition.x > (mWorldWidth / 2.0f) - mScale.x)
+			mPosition.x = (mWorldWidth / 2.0f) - mScale.x;
+		else if (mPosition.x < (-mWorldWidth / 2.0f) + mScale.x)
+			mPosition.x = (-mWorldWidth / 2.0f) + mScale.x;
+
+		if (mPosition.y > (mWorldHeight / 2.0f) - mScale.y)
+			mPosition.y = (mWorldHeight / 2.0f) - mScale.y;
+		else if (mPosition.y < (-mWorldHeight / 2.0f) + mScale.y)
+			mPosition.y = (-mWorldHeight / 2.0f) + mScale.y;
+	}
+
 	void Player::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
@@ -265,23 +278,28 @@ namespace Library
 
 	void Player::CreateSpriteManagers() const
 	{
-		ScoreManager* score = ScoreManager::CreateInstance();
-		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
-
-		LivesManager* lives = LivesManager::CreateInstance();
-		lives->SetData(mLives, mLives, 22, -620, 335, true, "Content//resource//", "", ".png");
+		ScoreManager::CreateInstance();
+		LivesManager::CreateInstance();
+		BombManager::CreateInstance();
 	}
 
 	void Player::InitSpriteManagers() const
 	{
 		ScoreManager* score = ScoreManager::GetInstance();
+		score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
 		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
 		score->Init();
 		score->RefreshSprites();
 
 		LivesManager* lives = LivesManager::GetInstance();
+		lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
 		lives->Init();
 		lives->RefreshSprites();
+
+		BombManager* bomb = BombManager::GetInstance();
+		bomb->SetData(mBombCount, mBombCount, 30, 30, 315, 5, true, "Content//resource//", "", ".png");
+		bomb->Init();
+		bomb->RefreshSprites();
 	}
 
 	void Player::ResetAttributePointers()
@@ -291,6 +309,7 @@ namespace Library
 		(*this)[ATTRIBUTE_CANATTACK].SetStorage(&mCanAttack, 1);
 		(*this)[ATTRIBUTE_SHOOT].SetStorage(&mShoot, 1);
 		(*this)[ATTRIBUTE_LIVES].SetStorage(&mLives, 1);
+		(*this)[ATTRIBUTE_LIVES].SetStorage(&mMultiplier, 1);
 		(*this)[ATTRIBUTE_BOMBS].SetStorage(&mBombCount, 1);
 		(*this)[ATTRIBUTE_USEBOMB].SetStorage(&mUseBomb, 1);
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);

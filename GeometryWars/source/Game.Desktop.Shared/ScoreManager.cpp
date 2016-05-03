@@ -56,11 +56,13 @@ namespace Library
 		mDigits.resize(mNumSprites);
 		mCurrentSprites.resize(mNumSprites);
 
+		std::int32_t padding = 0;
 		for (std::int32_t i = 0; i < mNumSprites; ++i)
 		{
 			// Determine position
 			std::int32_t order = (mOrderLeftToRight) ? i : (mNumSprites - i);
-			glm::vec4 pos = glm::vec4(order * mImageSize + mHorizontalOffset, mVerticalOffset, 1, 1);
+			glm::vec4 pos = glm::vec4(order * mImageSize + mHorizontalOffset + padding, mVerticalOffset, 1, 1);
+			padding = (mOrderLeftToRight) ? padding - mPadding : padding + mPadding;
 
 			mDigits[i].resize(mNumberBase);
 			mSprites[i].resize(mNumberBase);
@@ -94,9 +96,9 @@ namespace Library
 				std::int32_t digit = value % mNumberBase;
 
 				// Set new image
-				Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i]);
+				Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i], 101);
 				mCurrentSprites[i] = mSprites[i][digit];
-				Renderer::GetInstance()->AddRenderable(mCurrentSprites[i]);
+				Renderer::GetInstance()->AddRenderable(mCurrentSprites[i], 101);
 
 				value = value / mNumberBase;
 			}
