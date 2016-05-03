@@ -96,8 +96,7 @@ namespace Library {
 		mShaderBlend->Use();
 		mShaderBlend->SetInt("scene", 0);
 		mShaderBlend->SetInt("bloomBlur", 1);
-		mShaderBlend->SetFloat("exposure", 2.0f);
-		mShaderBlend->SetFloat("gamma", 2.2f);
+		mShaderBlend->SetFloat("exposure", 3.0f);
 
 		mFrameBuffer->GetFrameTexture()[0]->Use(0);
 		mFrameBufferForBlur[0]->GetFrameTexture()[0]->Use(1);
