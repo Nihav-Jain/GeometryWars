@@ -13,7 +13,7 @@ namespace Library
 	class Viewport;
 	class Texture;
 	class Shader;
-	class RenderBuffer;
+	class Buffer;
 	class D3DTexture;
 	class D3DShader;
 	class D3DRenderBuffer;
@@ -25,12 +25,14 @@ namespace Library
 
 		virtual Library::Texture * CreateTexture(const std::string & imagePath) override;
 		virtual Library::Shader * CreateShader(const std::string & vPath, const std::string & fPath, const std::string & gPath) override;
-		virtual Library::RenderBuffer * CreateBuffer(bool createIndicesBuffer) override;
+		virtual Library::Buffer * CreateBuffer(bool createIndicesBuffer) override;
+		virtual FrameBuffer * CreateFrameBuffer(std::uint32_t textureCnt) override { UNREFERENCED_PARAMETER(textureCnt); return nullptr; };
+		virtual FrameBuffer * GetDefaultFrameBuffer() override { return nullptr; };
 
 		virtual std::int32_t GetViewportWidth() override;
 		virtual std::int32_t GetViewportHeight() override;
 
-		virtual void Draw(DrawMode mode, std::uint32_t counts) override;
+		virtual void Draw(DrawMode mode, std::uint32_t counts, bool useIndices) override;
 
 		virtual void ClearScreen();
 

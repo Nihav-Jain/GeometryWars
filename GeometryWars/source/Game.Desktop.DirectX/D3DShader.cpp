@@ -82,14 +82,13 @@ namespace Library
 	void D3DShader::SetMatrix4(const std::string & name, const glm::mat4 & value)
 	{
 		UNREFERENCED_PARAMETER(name);
-		UNREFERENCED_PARAMETER(value);
 		//mGeoBufferInstance
 		mGeoBufferInstance.WorldViewProjection =
 			XMFLOAT4X4(
-				value[0][0], value[0][1], value[0][2], value[0][3],
-				value[1][0], value[1][1], value[1][2], value[1][3],
-				value[2][0], value[2][1], value[2][2], value[2][3],
-				value[3][0], value[3][1], value[3][2], value[3][3]);
+				value[0][0], value[1][0], value[2][0], value[3][0],
+				value[0][1], value[1][1], value[2][1], value[3][1],
+				value[0][2], value[1][2], value[2][2], value[3][2],
+				value[0][3], value[1][3], value[2][3], value[3][3]);
 		mContext->UpdateSubresource(mConstantGeometryBuffer, 0, nullptr, &mGeoBufferInstance, 0, 0);
 	}
 	void D3DShader::SetVector4(const std::string & name, const glm::vec4 & value)

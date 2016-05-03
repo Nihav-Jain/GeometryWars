@@ -20,6 +20,8 @@ namespace Library
 		virtual void SetMatrix4(const std::string & name, const glm::mat4 & value) override;
 		virtual void SetVector4(const std::string & name, const glm::vec4 & value) override;
 		virtual void SetFloat(const std::string & name, float value) override;
+		virtual void SetBool(const std::string & name, bool value) { UNREFERENCED_PARAMETER(name); UNREFERENCED_PARAMETER(value); };
+		virtual void SetInt(const std::string & name, std::int32_t value) { UNREFERENCED_PARAMETER(name); UNREFERENCED_PARAMETER(value); };
 	private:
 
 		struct CGeometryBufferPerObject

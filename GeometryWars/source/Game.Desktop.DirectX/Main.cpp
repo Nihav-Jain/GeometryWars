@@ -48,10 +48,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 
 	Game game;
+	game.SetRenderer(renderer);
 	game.Start("Content/config/polygon.xml");
 
 	//game.Start("Content/config/geometrywars_test.xml");
-	game.SetRenderer(renderer);
 	XBoxControllerHandlerFactory xchf;
 	ActionDebugFactory adf;
 

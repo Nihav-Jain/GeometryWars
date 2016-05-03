@@ -15,7 +15,9 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(imagePath);
 	}
-	void D3DTexture::Use()
+	void D3DTexture::Use(std::uint32_t useAsTextureIndex)
 	{
+
+		UNREFERENCED_PARAMETER(useAsTextureIndex);
 	}
 }

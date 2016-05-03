@@ -9,6 +9,6 @@ namespace Library
 		~D3DTexture();
 
 		virtual void Init(const std::string & imagePath) override;
-		virtual void Use() override;
+		virtual void Use(std::uint32_t useAsTextureIndex = 0) override;
 	};
 }

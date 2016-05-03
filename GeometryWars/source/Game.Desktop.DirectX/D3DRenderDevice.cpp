@@ -64,7 +64,7 @@ namespace Library
 		return shader;
 	}
 
-	RenderBuffer * D3DRenderDevice::CreateBuffer(bool createIndicesBuffer)
+	Buffer * D3DRenderDevice::CreateBuffer(bool createIndicesBuffer)
 	{
 		D3DRenderBuffer * buffer = new D3DRenderBuffer(*mDirect3DDevice, *mDirect3DDeviceContext);
 		buffer->Init(createIndicesBuffer);
@@ -72,7 +72,7 @@ namespace Library
 		return buffer;
 	}
 
-	void D3DRenderDevice::Draw(DrawMode mode, std::uint32_t counts)
+	void D3DRenderDevice::Draw(DrawMode mode, std::uint32_t counts, bool useIndicesBuffer)
 	{
 
 		switch (mode)
@@ -89,8 +89,10 @@ namespace Library
 		default:
 			break;
 		}
-		mDirect3DDeviceContext->DrawIndexed(counts, 0, 0);
-		//mDirect3DDeviceContext->Draw(counts, 0);
+		if(useIndicesBuffer)
+			mDirect3DDeviceContext->DrawIndexed(counts, 0, 0);
+		//else
+			//mDirect3DDeviceContext->Draw(counts, 0);
 		//opr->Draw();
 	}
 

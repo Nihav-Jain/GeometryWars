@@ -30,7 +30,7 @@ namespace OpenGLImplmentation {
 		virtual Library::FrameBuffer * CreateFrameBuffer(std::uint32_t textureCnt) override;
 		virtual Library::FrameBuffer * GetDefaultFrameBuffer() override;
 
-		virtual void Draw(DrawMode mode, std::uint32_t counts) override;
+		virtual void Draw(DrawMode mode, std::uint32_t counts, bool useIndices) override;
 
 	private:
 		// The actuall draw call

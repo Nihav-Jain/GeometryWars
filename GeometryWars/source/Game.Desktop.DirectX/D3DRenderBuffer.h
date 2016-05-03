@@ -1,5 +1,5 @@
 #pragma once
-#include <RenderBuffer.h>
+#include <Buffer.h>
 
 struct ID3D11Device1;
 struct ID3D11DeviceContext;
@@ -9,7 +9,7 @@ struct ID3D11InputLayout;
 struct ID3D11Buffer;
 namespace Library
 {
-	class D3DRenderBuffer : public Library::RenderBuffer
+	class D3DRenderBuffer : public Buffer
 	{
 	public:
 		D3DRenderBuffer(ID3D11Device1& device, ID3D11DeviceContext& context);
