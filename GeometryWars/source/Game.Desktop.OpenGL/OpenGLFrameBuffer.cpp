@@ -88,7 +88,7 @@ namespace OpenGLImplmentation {
 			for (std::uint32_t i = 0; i < mTextures.size(); i++) {
 				buff[i] = GL_COLOR_ATTACHMENT0 + i;
 			}
-			glDrawBuffers(mTextures.size(), buff);
+			glDrawBuffers((GLsizei)mTextures.size(), buff);
 
 			glEnable(GL_DEPTH_TEST);
 		}
