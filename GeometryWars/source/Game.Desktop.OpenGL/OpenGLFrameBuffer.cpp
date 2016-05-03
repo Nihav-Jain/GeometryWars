@@ -49,7 +49,7 @@ namespace OpenGLImplmentation {
 			glGenTextures(1, &textureId);
 			glBindTexture(GL_TEXTURE_2D, textureId);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -76,7 +76,6 @@ namespace OpenGLImplmentation {
 	void OpenGLFrameBuffer::Use()
 	{
 		if (mFBO != 0) {
-			glActiveTexture(GL_TEXTURE0);
 			glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
 
 			auto rt = glGetError();
@@ -89,8 +88,6 @@ namespace OpenGLImplmentation {
 				buff[i] = GL_COLOR_ATTACHMENT0 + i;
 			}
 			glDrawBuffers((GLsizei)mTextures.size(), buff);
-
-			glEnable(GL_DEPTH_TEST);
 		}
 		else {
 
@@ -101,7 +98,6 @@ namespace OpenGLImplmentation {
 				throw std::exception("Error");
 			}
 
-			glDisable(GL_DEPTH_TEST);
 			GLenum buff[] = { GL_BACK_LEFT };
 			glDrawBuffers(1, buff);
 		}

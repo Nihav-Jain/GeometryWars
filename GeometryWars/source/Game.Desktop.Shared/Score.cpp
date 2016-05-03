@@ -86,7 +86,7 @@ namespace Library
 			}
 
 			mCurrentSprites[i] = mSprites[i][0];
-			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i], 99U);
+			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i], 101U);
 		}
 	}
 
