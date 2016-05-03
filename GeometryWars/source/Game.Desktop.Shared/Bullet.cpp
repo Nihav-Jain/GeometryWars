@@ -10,6 +10,8 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Bullet, GameObject);
 
+	std::int32_t Bullet::sBulletCount = 0;
+
 	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Bullet::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Bullet::ATTRIBUTE_CHANNEL = "bulletchannel";
@@ -21,6 +23,16 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
+
+		ActionExpression::AddFunction("GetBullets", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() >= 0);
+			Datum result;
+			result = std::to_string(Bullet::sBulletCount++);
+			if (Bullet::sBulletCount < 0)
+				Bullet::sBulletCount = 0;
+			return result;
+		}));
 	}
 
 	Bullet::Bullet(const Bullet & rhs)
@@ -45,6 +57,7 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 	}
 
 	Scope * Bullet::Clone(const Scope & rhs) const
@@ -60,20 +73,14 @@ namespace Library
 		GameObject::BeginPlay(worldState);
 
 		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
-		mPosition = mPlayerOwner->Position();
-		mVelocity = mPlayerOwner->Heading() * mMoveSpeed;
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
-
-		//mHeading.x = -sin(mRotation.z);
-		//mHeading.y = cos(mRotation.z);
-		//mHeading = glm::normalize(mHeading);
 	}
 
 	void Bullet::Update(WorldState & worldState)
 	{
 		GameObject::Update(worldState);
 
-		mPosition += mVelocity;
+		//mPosition += mVelocity;
 
 		// Destroy if out of bounds
 		if ((mPosition.x > mWorldWidth / 2.0f) ||
@@ -88,9 +95,6 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-
-		// TODO: find a better way to do this
-		//SpriteRenderer* renderer = GetComponent(SpriteRenderer::TypeName())->AssertiveAs<SpriteRenderer>();
 		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
@@ -103,7 +107,8 @@ namespace Library
 
 		mPlayerOwner->AddScore( enemy->Score() );
 
-		BulletDeath(worldState);
+		
+		(worldState);
 	}
 
 	void Bullet::ResetAttributePointers()
