@@ -14,6 +14,13 @@
 	<vector name="rotation" value="vec4(0, 0, 1.571, 0)"/>
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
 	<float name="speed" value="0.4" />
+	
+	<!-- get Numbered name -->
+	<beginplay>
+		<expression name="GetEnemyCount">
+			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
+		</expression>		
+	</beginplay>
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -68,6 +75,9 @@
 				<string name="expression">isdead</string>
 			</condition>
 			<then>
+				<expression name="exp">
+					<string name="expression">destroySelf.entityInstanceName = ownerEntity.name</string>
+				</expression>
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<string name="entityInstanceName" value="ArrowEnemy"/>
 				</action>
