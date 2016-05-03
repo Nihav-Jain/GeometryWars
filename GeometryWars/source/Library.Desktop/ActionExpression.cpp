@@ -139,6 +139,14 @@ namespace Library
 			return &params[0]->Get<Datum>();
 		}));
 
+		ActionExpression::AddFunction("RandomVector", ActionExpression::FunctionDefinition(4, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() >= 4);
+			Datum result;
+			result = glm::vec4((rand() % params[0]->Get<std::int32_t>()) + params[1]->Get<std::int32_t>(), (rand() % params[2]->Get<std::int32_t>()) + params[3]->Get<std::int32_t>(), 0, 0);
+			return result;
+		}));
+
 		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;
@@ -464,6 +472,8 @@ namespace Library
 					resultDatums.Push(new Datum());
 				if (funcItr != mDefinedFunctions.end())
 				{
+					if (resultDatums.IsEmpty())
+						resultDatums.Push(new Datum());
 					*resultDatums.Top() = funcItr->second.FunctionBody(functionParams);
 					evaluationStack.Push(resultDatums.Top());
 				}

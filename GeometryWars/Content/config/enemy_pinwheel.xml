@@ -7,6 +7,7 @@
   
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 250, 0, 0)"/>
+	<vector name="TargetPosition" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
 	<float name="speed" value="10" />
@@ -66,6 +67,10 @@
 		</expression>
 		
 		<!-- Update position -->
+		<expression name="GetRandomTargetPosition">
+			<string name="expression">TargetPosition = RandomVector({1080}, {0}, {720}, {0})</string>
+		</expression>
+		
 		<expression name="movement">
 			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
 		</expression>
