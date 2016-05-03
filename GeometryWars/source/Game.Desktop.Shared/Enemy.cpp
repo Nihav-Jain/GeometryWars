@@ -22,6 +22,12 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
 	}
 
+	Enemy::Enemy(const Enemy & rhs)
+		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel), mScore(rhs.mScore)
+	{
+		ResetAttributePointers();
+	}
+
 	const glm::vec4 & Enemy::Velocity() const
 	{
 		return mVelocity;
@@ -47,6 +53,12 @@ namespace Library
 		return mScore;
 	}
 
+	Scope * Enemy::Clone(const Scope & rhs) const
+	{
+		Enemy& entity = *rhs.AssertiveAs<Enemy>();
+		return new Enemy(entity);
+	}
+
 	void Enemy::BeginPlay(WorldState & worldState)
 	{
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Player::TypeIdClass());
@@ -56,11 +68,10 @@ namespace Library
 
 	void Enemy::Update(WorldState & worldState)
 	{
-		GameObject::Update(worldState);
+		// Update position
+		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
 
-		// TODO: separate this out for different derived enemy types
-		mPosition += mVelocity;
-
+		// TODO: separate this out for different derived enemy types?
 		// Check if out of bounds
 		if (mPosition.x > mWorldWidth / 2.0f)
 		{
@@ -83,6 +94,8 @@ namespace Library
 			mPosition.y = -mWorldHeight / 2.0f;
 			mVelocity.y *= -1.0f;
 		}
+
+		GameObject::Update(worldState);
 	}
 
 	void Enemy::OnDestroy(WorldState & worldState)
@@ -101,6 +114,14 @@ namespace Library
 		player->PlayerDeath(worldState);
 		
 		EnemyDeath(worldState);
+	}
+
+	void Enemy::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
+		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
+		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
+		(*this)[ATTRIBUTE_SCORE].SetStorage(&mScore, 1);
 	}
 
 }

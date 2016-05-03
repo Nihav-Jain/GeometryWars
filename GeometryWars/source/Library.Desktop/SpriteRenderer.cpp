@@ -120,6 +120,12 @@ namespace Library {
 		device->Draw();
 	}
 
+	Scope * SpriteRenderer::Clone(const Scope & rhs) const
+	{
+		SpriteRenderer& action = *rhs.AssertiveAs<SpriteRenderer>();
+		return new SpriteRenderer(action);
+	}
+
 	void SpriteRenderer::Init(RenderDevice * device)
 	{
 		mInited = true;
@@ -161,6 +167,10 @@ namespace Library {
 			mBuffer->SetData(vertices, sizeof(vertices), 4 * sizeof(float), nullptr, 0, 4);
 	}
 
-
+	void SpriteRenderer::BeginPlay(WorldState & worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+		Renderer::GetInstance()->AddRenderable(this);
+	}
 
 }

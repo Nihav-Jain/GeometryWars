@@ -14,8 +14,10 @@ namespace Library
 	}
 
 	ActionDestroyEntity::ActionDestroyEntity(const ActionDestroyEntity& rhs) :
-		Action::Action(rhs)
-	{}
+		Action::Action(rhs), mEntityToDestroy(rhs.mEntityToDestroy)
+	{
+		(*this)[ATTRIBUTE_ENTITY_INSTANCE_NAME].SetStorage(&mEntityToDestroy, 1);
+	}
 
 	ActionDestroyEntity::ActionDestroyEntity(ActionDestroyEntity&& rhs) :
 		Action::Action(std::move(rhs))

@@ -13,6 +13,8 @@ namespace Library
 		virtual void Update(WorldState& worldState) {
 			(worldState);
 		};
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 	};
 
 	CONCRETE_ACTION_FACTORY(AnimationState);

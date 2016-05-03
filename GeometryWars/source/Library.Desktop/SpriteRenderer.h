@@ -24,13 +24,16 @@ namespace Library {
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
 
-		SpriteRenderer(const SpriteRenderer & rhs) = delete;
+		SpriteRenderer(const SpriteRenderer & rhs) = default;
 		SpriteRenderer & operator=(const SpriteRenderer & rhs) = delete;
 
 		void SetTransform(const glm::vec4 & position, const glm::vec4 & rotation, const glm::vec4 & scale);
 		void SetUV(float origin_x, float origin_y, float width, float height);
 
 		virtual void Render(RenderDevice * device) override;
+		virtual void BeginPlay(WorldState & worldState) override;
+
+		virtual Scope* Clone(const Scope& rhs) const override;
 
 	private:
 		void Init(RenderDevice * device);

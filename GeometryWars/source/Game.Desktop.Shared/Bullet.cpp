@@ -23,6 +23,12 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
+	Bullet::Bullet(const Bullet & rhs)
+		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel)
+	{
+		ResetAttributePointers();
+	}
+
 	const glm::vec4 & Bullet::Velocity() const
 	{
 		return mVelocity;
@@ -39,6 +45,12 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+	}
+
+	Scope * Bullet::Clone(const Scope & rhs) const
+	{
+		Bullet& entity = *rhs.AssertiveAs<Bullet>();
+		return new Bullet(entity);
 	}
 
 	void Bullet::BeginPlay(WorldState & worldState)
@@ -92,6 +104,13 @@ namespace Library
 		mPlayerOwner->AddScore( enemy->Score() );
 
 		BulletDeath(worldState);
+	}
+
+	void Bullet::ResetAttributePointers()
+	{
+		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
+		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
+		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}
 
 }
