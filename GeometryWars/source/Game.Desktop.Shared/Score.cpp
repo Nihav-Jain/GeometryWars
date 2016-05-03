@@ -86,7 +86,7 @@ namespace Library
 			}
 
 			mCurrentSprites[i] = mSprites[i][0];
-			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i]);
+			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i], 99U);
 		}
 	}
 
@@ -116,9 +116,9 @@ namespace Library
 			std::int32_t digit = value % 10;
 
 			// Set new image
-			Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i]);
+			Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i], 101U);
 			mCurrentSprites[i] = mSprites[i][digit];
-			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i]);
+			Renderer::GetInstance()->AddRenderable(mCurrentSprites[i], 101U);
 
 			value = value / 10;
 		}

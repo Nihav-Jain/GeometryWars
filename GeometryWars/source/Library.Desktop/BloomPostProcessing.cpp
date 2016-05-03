@@ -45,17 +45,17 @@ namespace Library {
 			delete mBuffer;
 	}
 
-	FrameBuffer * BloomPostProcessing::Apply(RenderDevice * device, FrameBuffer * src_buffer, FrameBuffer * target_buffer)
+	void BloomPostProcessing::Apply(RenderDevice * device, FrameBuffer * src_buffer, FrameBuffer * target_buffer)
 	{
 		// Refered http://www.learnopengl.com/#!Advanced-Lighting/Bloom
 		if (!mInited) {
 			Init(device);
 		}
-		FrameBuffer * target = target_buffer == nullptr ? mFrameBuffer : target_buffer;
+		FrameBuffer * target = target_buffer;;
 
 		// Find HDR
 		mFrameBuffer->Use();
-		mFrameBuffer->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
+		mFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
 		src_buffer->GetFrameTexture()[0]->Use();
 		mShaderHDR->Use();
 		mBuffer->Use();
@@ -64,9 +64,9 @@ namespace Library {
 		// Blur
 		bool horizontal = true;
 		mFrameBufferForBlur[0]->Use();
-		mFrameBufferForBlur[0]->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
+		mFrameBufferForBlur[0]->ClearColor(glm::vec4(0.0f, .0f, 0.0f, 1.0f));
 		mFrameBufferForBlur[1]->Use();
-		mFrameBufferForBlur[1]->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
+		mFrameBufferForBlur[1]->ClearColor(glm::vec4(0.0f, .0f, 0.0f, 1.0f));
 
 		for (std::uint32_t i = 0; i < 10; i++) {
 
@@ -91,7 +91,7 @@ namespace Library {
 
 		// Blend
 		target->Use();
-		target->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
+		target->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		mShaderBlend->Use();
 		mShaderBlend->SetInt("scene", 0);
@@ -102,10 +102,7 @@ namespace Library {
 		mFrameBufferForBlur[0]->GetFrameTexture()[0]->Use(1);
 		mBuffer->Use();
 
-
 		device->Draw();
-
-		return target_buffer;
 	}
 
 	void BloomPostProcessing::Init(RenderDevice * device)

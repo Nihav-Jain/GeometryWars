@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
+#include <map>
 
 namespace Library {
-
+	class Shader;
+	class Buffer;
 	class RenderDevice;
 	class Renderable;
 	class PostProcessing;
@@ -28,11 +30,11 @@ namespace Library {
 		Renderer(const Renderer &) = delete;
 		Renderer & operator=(const Renderer &) = delete;
 
-		void AddPostPostProcessing(PostProcessing * postProcessing);
+		void AddPostPostProcessing(PostProcessing * postProcessing, std::uint32_t layerId = 100U);
 
 		// TODO: Should the factory create the object from the XML accordingly or should we hava a way for the renderer create the obj 
-		void AddRenderable(Renderable *);
-		void RemoveRenderable(Renderable *);
+		void AddRenderable(Renderable *, std::uint32_t layerId = 100U);
+		void RemoveRenderable(Renderable *, std::uint32_t layerId = 100U);
 
 		void Update();
 
@@ -41,16 +43,24 @@ namespace Library {
 		// TODO: Remove this !!!!!!!!
 		static Renderer * sInstance;
 
-		FrameBuffer * mFrameBuffer;
+		bool mInited;
 		FrameBuffer * mDefaultFrameBuffer;
-
-		// TODO: Add layer(z-buffer) support
+		Shader * mShader;
+		Buffer * mBuffer;
 		RenderDevice * mDevice;
-		std::vector<Renderable*> mObjects;
-		// TODO: PostProcessing handler
-		std::vector<PostProcessing*> mPostProcessings;
 
-		void RenderToScreen();
+		void Init();
+
+		void CreateNewLayer(std::uint32_t layerId);
+
+		struct Layer {
+			std::vector<Renderable*> Objects;
+			std::vector<PostProcessing*> PostProcessings;
+			FrameBuffer * TargetFrameBuffer;
+			FrameBuffer * PostProcessingFrameBuffer;
+		};
+
+		std::map<std::uint32_t, Layer> mLayers;
 	};
 
 }

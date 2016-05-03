@@ -15,7 +15,7 @@ namespace Library {
 		BloomPostProcessing();
 		~BloomPostProcessing();
 
-		virtual FrameBuffer * Apply(RenderDevice * device, FrameBuffer * src_buffer, FrameBuffer * target_buffer) override;
+		virtual void Apply(RenderDevice * device, FrameBuffer * src_buffer, FrameBuffer * target_buffer) override;
 
 	private:
 		void Init(RenderDevice * device);

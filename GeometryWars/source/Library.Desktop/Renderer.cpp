@@ -4,6 +4,9 @@
 #include "Renderable.h"
 #include "PostProcessing.h"
 #include "FrameBuffer.h"
+#include "Shader.h"
+#include "Buffer.h"
+#include "Texture.h"
 #include <algorithm>
 
 namespace Library {
@@ -11,82 +14,136 @@ namespace Library {
 	Renderer * Renderer::sInstance = nullptr;
 
 	Renderer::Renderer(RenderDevice * device) :
+		mInited(false),
 		mDevice(device),
-		mFrameBuffer(nullptr),
-		mDefaultFrameBuffer(nullptr)
+		mDefaultFrameBuffer(nullptr),
+		mShader(nullptr),
+		mBuffer(nullptr)
 	{
 	}
 
 	Renderer::~Renderer()
 	{
-		if (mFrameBuffer != nullptr) {
-			delete mFrameBuffer;
+		for (auto & it : mLayers) {
+			if (it.second.TargetFrameBuffer != nullptr)
+				delete it.second.TargetFrameBuffer;
+			if (it.second.PostProcessingFrameBuffer != nullptr)
+				delete it.second.PostProcessingFrameBuffer;
+		}
+
+		if (mShader != nullptr) {
+			delete mShader;
+		}
+		if (mBuffer != nullptr) {
+			delete mBuffer;
 		}
 	}
 
-	void Renderer::AddPostPostProcessing(PostProcessing * postProcessing)
+	void Renderer::AddPostPostProcessing(PostProcessing * postProcessing, std::uint32_t layerId)
 	{
-		mPostProcessings.push_back(postProcessing);
+		if (mLayers.find(layerId) == mLayers.end()) {
+			CreateNewLayer(layerId);
+		}
+		mLayers[layerId].PostProcessings.push_back(postProcessing);
 	}
 
-	void Renderer::AddRenderable(Renderable * object)
+	void Renderer::AddRenderable(Renderable * object, std::uint32_t layerId)
 	{
-		mObjects.push_back(object);
+		if (mLayers.find(layerId) == mLayers.end()) {
+			CreateNewLayer(layerId);
+		}
+		mLayers[layerId].Objects.push_back(object);
 	}
 
-	void Renderer::RemoveRenderable(Renderable * object)
+	void Renderer::RemoveRenderable(Renderable * object, std::uint32_t layerId)
 	{
-		auto itr = std::find(mObjects.begin(), mObjects.end(), object);
-		if(itr != mObjects.end())
-		{
-			mObjects.erase(itr);
+		if (mLayers.find(layerId) != mLayers.end()) {
+			auto itr = std::find(mLayers[layerId].Objects.begin(), mLayers[layerId].Objects.end(), object);
+			if (itr != mLayers[layerId].Objects.end())
+			{
+				mLayers[layerId].Objects.erase(itr);
+			}
 		}
 	}
 
 	void Renderer::Update()
 	{
-		// TODO: Refactor this.....
-		if (mPostProcessings.size() != 0) {
-			if (mFrameBuffer == nullptr) {
-				mFrameBuffer = mDevice->CreateFrameBuffer(1);
-			}
+		if (mDevice == nullptr)
+			return;
 
-			if (mDefaultFrameBuffer == nullptr) {
-				mDefaultFrameBuffer = mDevice->GetDefaultFrameBuffer();
-			}
+		if (!mInited) {
+			Init();
+		}
+		
+		for (auto & it : mLayers) {
 
-			mFrameBuffer->Use();
-			mFrameBuffer->ClearColor(glm::vec4(0.0f, .0f, .0f, 1.0f));
+			if (it.second.TargetFrameBuffer == nullptr)
+				it.second.TargetFrameBuffer = mDevice->CreateFrameBuffer(1);
+			if (it.second.PostProcessingFrameBuffer == nullptr)
+				it.second.PostProcessingFrameBuffer = mDevice->CreateFrameBuffer(1);
 
-			for (auto obj : mObjects) {
+			it.second.TargetFrameBuffer->Use();
+			it.second.TargetFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+			// objects
+			for (auto obj : it.second.Objects) {
 				obj->Render(mDevice);
 			}
 
-			FrameBuffer * buff = mFrameBuffer;
-			for (auto & it = mPostProcessings.begin();
-			it != mPostProcessings.end(); ++it) {
+			FrameBuffer * buff = it.second.TargetFrameBuffer;
+			// Post processing
+			for (auto & p = it.second.PostProcessings.begin();
+			p != it.second.PostProcessings.end(); ++p) {
+				(*p)->Apply(mDevice, buff, it.second.PostProcessingFrameBuffer);
+			}
+		}
 
-				if (it + 1 == mPostProcessings.end()) {
-					buff = (*it)->Apply(mDevice, buff, mDefaultFrameBuffer);
-				}
-				else {
-					buff = (*it)->Apply(mDevice, buff, nullptr);
-				}
-			}
+		// Render to the final screen
+		mDefaultFrameBuffer->Use();
+		mDefaultFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+		for (auto & it : mLayers) {
+			mShader->Use();
+			mBuffer->Use();
+
+			FrameBuffer * buff = it.second.PostProcessings.size() == 0 ?
+				it.second.TargetFrameBuffer : it.second.PostProcessingFrameBuffer;
+
+			buff->GetFrameTexture()[0]->Use(0);
+
+			mDevice->Draw();
 		}
-		else {
-			for (auto obj : mObjects) {
-				obj->Render(mDevice);
-			}
-		}
-		if (mDevice != nullptr) {
-			mDevice->Invalid();
-		}
+
+		mDevice->Invalid();
 	}
 
-	void Renderer::RenderToScreen()
+	void Renderer::Init()
 	{
+		mInited = true;
+
+		mDefaultFrameBuffer = mDevice->GetDefaultFrameBuffer();
+
+		float vertices[] = {
+			-1.0f, 1.0f, 0.0f, 1.0f,
+			1.0f, -1.0f, 1.0f, 0.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f,
+
+			-1.0f, 1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, -1.0f, 1.0f, 0.0f
+		};
+
+		mBuffer = mDevice->CreateBuffer(false);
+		mShader = mDevice->CreateShader("Content/shader/glsl/bloom_v.glsl", "Content/shader/glsl/sprite_f.glsl", "");
+
+		if (mBuffer != nullptr)
+			mBuffer->SetData(vertices, sizeof(vertices), 4 * sizeof(float), nullptr, 0, 4);
 	}
 
-
+	void Renderer::CreateNewLayer(std::uint32_t layerId)
+	{
+		Layer layer;
+		layer.TargetFrameBuffer = nullptr;
+		layer.PostProcessingFrameBuffer = nullptr;
+		mLayers[layerId] = layer;
+	}
 }
