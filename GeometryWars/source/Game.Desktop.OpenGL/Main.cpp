@@ -37,15 +37,34 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 	renderer->AddPostPostProcessing(&bloom);
 
+
+
+	/// Start Menu ///
+	Game startMenu;
+	startMenu.SetRenderer(renderer);
+	startMenu.Start("Content/config/start_menu.xml");
+	renderDevice.InitOpenGl("Geomatry War", startMenu.GetWorld().GetWidth(), startMenu.GetWorld().GetHeight());
+
+	bool & wait = startMenu.GetWorld().Find("wait")->Get<bool>();
+	SpriteRenderer* title = startMenu.GetWorld().FindSector("ImageSector")->FindEntity("TitleScreen")->FindAction("titleSprite")->As<SpriteRenderer>();
+	renderer->RemoveRenderable(title);
+	renderer->AddRenderable(title, 101);
+	while (wait)
+	{
+		startMenu.Update();
+	}
+	renderer->RemoveRenderable(title, 101);
+	startMenu.Update();
+
+
+
 	Game game;
 	game.SetRenderer(renderer);
-
 	game.Start("Content/config/geometrywars_test.xml");
 	//game.Start("Content/config/player_test.xml");
 	//game.Start("Content/config/polygon.xml"); // TODO use the final world here
 	//game.Start("Content/config/input_v2.xml");
 
-	renderDevice.InitOpenGl("Geomatry War", game.GetWorld().GetWidth(), game.GetWorld().GetHeight());
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
