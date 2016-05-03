@@ -16,7 +16,6 @@ namespace Library
 
 		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
-		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
 
@@ -31,6 +30,7 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
+		static const class CollectibleFactory cf;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Collectible);

@@ -1,12 +1,12 @@
-<gameobject class="Enemy" name="Multiplier">
-	<!-- Enemy Class Attributes -->
+<gameobject class="Collectible" name="CollectMultiplier">
+	<!-- Collectible Class Attributes -->
 	<bool name="iscollected" value="false" />
 	<string name="collectiblechannel" value="collideplayers" />
   
 	<!-- GameObject Class Attributes -->
-	<vector name="position" value="vec4(-250, 250, 0, 0)"/>
-	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
-	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
+	<vector name="position" value="vec4(0, 0, 0, 0)"/>
+	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
+	<vector name="scale" value="vec4(10, 10, 1, 0)"/>
 	<float name="speed" value="0" />
   
 	<!-- Polygon Renderer Component -->
@@ -21,22 +21,10 @@
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="0" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="4" />
-		<vector name="points" value="vec4(-1, -0.99, 0, 0)" />
-		<vector name="points" value="vec4(-1, 1, 0, 0)" />
-		<vector name="points" value="vec4(0.99, 1, 0, 0)" />
-		<vector name="points" value="vec4(1, -0.99, 0, 0)" />
-		<vector name="points" value="vec4(0, -0.99, 0, 0)" />
-		<vector name="points" value="vec4(-1, 0, 0, 0)" />
 		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(0.98, 0, 0, 0)" />
+		<vector name="points" value="vec4(0.8, 0, 0, 0)" />
+		<vector name="points" value="vec4(0, -1, 0, 0)" />
+		<vector name="points" value="vec4(-0.8, 0, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->
@@ -48,28 +36,14 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<!-- Update velocity -->
-		<vector name="direction" value="vec4(0, 0, 0, 0)" />
-		<expression name="update_dir">
-			<string name="expression">direction = Player1.position - position</string>
-		</expression>
-		<expression name="change_vel">
-			<string name="expression">velocity = normalize(direction)</string>
-		</expression>	 	
-		
-		<!-- Update position -->
-		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
-		</expression>
-		
-		<!-- Destroy self if dead -->
-		<if name="CheckIfDead">
+		<!-- Destroy self if collected -->
+		<if name="CheckIfCollected">
 			<condition>
 				<string name="expression">iscollected</string>
 			</condition>
 			<then>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="Multiplier"/>
+					<string name="entityInstanceName" value="CollectMultiplier"/>
 				</action>
 			</then>
 		</if>

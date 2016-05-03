@@ -10,6 +10,7 @@ namespace Library
 
 	const std::string Collectible::ATTRIBUTE_ISCOLLECTED = "iscollected";
 	const std::string Collectible::ATTRIBUTE_CHANNEL = "collectiblechannel";
+	const CollectibleFactory Collectible::cf;
 
 	Collectible::Collectible()
 		: mIsCollected(false), mCollisionChannel()
@@ -37,13 +38,6 @@ namespace Library
 		GameObject::BeginPlay(worldState);
 	}
 
-	void Collectible::Update(WorldState & worldState)
-	{
-		
-
-		GameObject::Update(worldState);
-	}
-
 	void Collectible::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
@@ -53,7 +47,7 @@ namespace Library
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
-	void Collectible::OnOverlapBegin(const GameObject & other, WorldState & worldState)
+	void Collectible::OnOverlapBegin(const GameObject & other, WorldState &)
 	{
 		Player* player = other.AssertiveAs<Player>();
 
@@ -61,7 +55,6 @@ namespace Library
 
 		mIsCollected = true;
 		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
-		// TODO: Spawn score multiplier at current location
 	}
 
 	void Collectible::ResetAttributePointers()

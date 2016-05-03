@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "ScoreManager.h"
 #include "LivesManager.h"
+#include "BombManager.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -36,8 +37,8 @@ namespace Library
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
 	Player::Player()
-		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(3),
-		mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(),
+		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -89,20 +90,10 @@ namespace Library
 		mAttackSpeed = attackSpeed;
 	}
 
-	void Player::Shoot(WorldState & worldState)
+	void Player::Shoot()
 	{
-		// TODO: Reset cooldown by putting event into queue with mAttackSpeed delay
-		//       and have a Reaction (in XML) to that event that sets mCanAttack to true
-
-		UNREFERENCED_PARAMETER(worldState);
 		mShootTimer = std::chrono::milliseconds(mAttackSpeed);
 		mShoot = false;
-		
-		//EventMessageAttributed message;
-		//message.SetSubtype("AttackDelay");
-		//message.SetWorldState(worldState);
-		//std::shared_ptr<Event<EventMessageAttributed>> attributedEvent = std::make_shared<Event<EventMessageAttributed>>(message);
-		//worldState.world->GetEventQueue().Enqueue(attributedEvent, *worldState.mGameTime, std::chrono::milliseconds(mAttackSpeed));
 	}
 
 	std::int32_t Player::Lives() const
@@ -177,6 +168,7 @@ namespace Library
 	void Player::SetBombs(std::int32_t bombs)
 	{
 		mBombCount = bombs;
+		BombManager::GetInstance()->SetValue(mBombCount);
 	}
 
 	void Player::UseBomb(WorldState& worldState)
@@ -196,8 +188,8 @@ namespace Library
 				enemy->EnemyDeath(worldState);
 			}
 
-			// Use bomb, TODO: put on cooldown?
 			--mBombCount;
+			BombManager::GetInstance()->SetValue(mBombCount);
 		}
 	}
 
@@ -244,7 +236,7 @@ namespace Library
 		// Shoot
 		if (mShoot)
 		{
-			Shoot(worldState);
+			Shoot();
 		}
 
 		// Update cooldown on shooting
@@ -286,23 +278,28 @@ namespace Library
 
 	void Player::CreateSpriteManagers() const
 	{
-		ScoreManager* score = ScoreManager::CreateInstance();
-		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
-
-		LivesManager* lives = LivesManager::CreateInstance();
-		lives->SetData(mLives, mLives, 22, -620, 335, true, "Content//resource//", "", ".png");
+		ScoreManager::CreateInstance();
+		LivesManager::CreateInstance();
+		BombManager::CreateInstance();
 	}
 
 	void Player::InitSpriteManagers() const
 	{
 		ScoreManager* score = ScoreManager::GetInstance();
+		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
 		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
 		score->Init();
 		score->RefreshSprites();
 
 		LivesManager* lives = LivesManager::GetInstance();
+		lives->SetData(mLives, mLives, 22, -620, 335, true, "Content//resource//", "", ".png");
 		lives->Init();
 		lives->RefreshSprites();
+
+		BombManager* bomb = BombManager::GetInstance();
+		bomb->SetData(mBombCount, mBombCount, 50, 450, -325, false, "Content//resource//", "", ".png");
+		bomb->Init();
+		bomb->RefreshSprites();
 	}
 
 	void Player::ResetAttributePointers()
