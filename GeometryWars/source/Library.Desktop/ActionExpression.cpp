@@ -139,11 +139,12 @@ namespace Library
 			return &params[0]->Get<Datum>();
 		}));
 
-		ActionExpression::AddFunction("RandomVector", ActionExpression::FunctionDefinition(4, [](const Vector<Datum*>& params)
+		srand(static_cast<int>(time(nullptr)));
+		ActionExpression::AddFunction("RandomVector", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
 		{
-			assert(params.Size() >= 4);
+			assert(params.Size() >= 0);
 			Datum result;
-			result = glm::vec4((rand() % params[0]->Get<std::int32_t>()) + params[1]->Get<std::int32_t>(), (rand() % params[2]->Get<std::int32_t>()) + params[3]->Get<std::int32_t>(), 0, 0);
+			result = glm::vec4(rand(), rand(), 0, 0);
 			return result;
 		}));
 
