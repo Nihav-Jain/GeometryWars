@@ -35,7 +35,12 @@ namespace Library
 	{
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Player::TypeIdClass());
 
+		Entity* worldStateEntityCache = worldState.entity;
+		worldState.entity = this;
+
 		GameObject::BeginPlay(worldState);
+
+		worldState.entity = worldStateEntityCache;
 	}
 
 	void Collectible::OnDestroy(WorldState & worldState)

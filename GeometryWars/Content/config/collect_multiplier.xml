@@ -44,7 +44,7 @@
 			<then>
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<expression name="exp1">
-						<string name="expression">entityInstanceName = ref(CollectMultiplier)</string>
+						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
 			</then>
