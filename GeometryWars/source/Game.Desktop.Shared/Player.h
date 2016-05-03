@@ -58,6 +58,9 @@ namespace Library
 
 	protected:
 
+		void CreateSpriteManagers() const;
+		void InitSpriteManagers() const;
+
 		std::int32_t mPlayerNumber;
 
 		std::int32_t mAttackSpeed;

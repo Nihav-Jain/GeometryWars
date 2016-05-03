@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "ScoreManager.h"
+#include "LivesManager.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -50,8 +51,7 @@ namespace Library
 
 		AddInternalAttribute(ATTRIBUTE_SCOREBASE, 10);
 
-		ScoreManager* score = ScoreManager::CreateInstance();
-		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
+		CreateSpriteManagers();
 	}
 
 	Player::~Player()
@@ -111,6 +111,7 @@ namespace Library
 	void Player::SetLives(std::int32_t lives)
 	{
 		mLives = lives;
+		LivesManager::GetInstance()->SetValue(mLives);
 	}
 
 	void Player::PlayerDeath(WorldState& worldState)
@@ -127,6 +128,7 @@ namespace Library
 		else
 		{
 			--mLives;
+			LivesManager::GetInstance()->SetValue(mLives);
 			OutputDebugStringA("Player Hit!");
 
 			// TODO: Kill all enemies, kill all multipliers, reset multiplier to 1
@@ -212,10 +214,7 @@ namespace Library
 
 		GameObject::BeginPlay(worldState);
 
-		ScoreManager* score = ScoreManager::GetInstance();
-		score->SetNumberBase( Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>() );
-		score->Init();
-		score->RefreshSprites();
+		InitSpriteManagers();
 	}
 
 	void Player::Update(WorldState & worldState)
@@ -262,6 +261,27 @@ namespace Library
 	void Player::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
+	}
+
+	void Player::CreateSpriteManagers() const
+	{
+		ScoreManager* score = ScoreManager::CreateInstance();
+		score->SetData(0, 10, 40, 200, 315, false, "Content//resource//", "digits//", ".png");
+
+		LivesManager* lives = LivesManager::CreateInstance();
+		lives->SetData(mLives, mLives, 22, -620, 335, true, "Content//resource//", "", ".png");
+	}
+
+	void Player::InitSpriteManagers() const
+	{
+		ScoreManager* score = ScoreManager::GetInstance();
+		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
+		score->Init();
+		score->RefreshSprites();
+
+		LivesManager* lives = LivesManager::GetInstance();
+		lives->Init();
+		lives->RefreshSprites();
 	}
 
 	void Player::ResetAttributePointers()
