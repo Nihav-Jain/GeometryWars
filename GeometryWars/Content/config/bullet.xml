@@ -12,7 +12,7 @@
 		</expression>
 		<expression name="spawn_position">
 			<string name="expression">position = playerOwner.position</string>
-		</expression>
+		</expression><!---->
 		
 		<!-- playMusic -->
 		<action class="ActionPlayMusic" name="playMusic1">

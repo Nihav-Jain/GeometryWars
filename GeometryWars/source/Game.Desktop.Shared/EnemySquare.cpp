@@ -38,13 +38,13 @@ namespace Library
 
 	void EnemySquare::BeginPlay(WorldState & worldState)
 	{
-		if (!mInit)
-		{
-			Bullet *bullet = GetSector()->CreateEntity(Bullet::TypeName(), "deadBullet").AssertiveAs<Bullet>();
-			bullet->SetPosition(glm::vec4(99999.0f, 99999.0f, 99999.0f, 99999.0f));
-			GetSector()->AdoptEntity(*bullet, bullet->Name());
-			mInit = true;
-		}
+		//if (!mInit)
+		//{
+		//	Bullet *bullet = GetSector()->CreateEntity(Bullet::TypeName(), "deadBullet").AssertiveAs<Bullet>();
+		//	bullet->SetPosition(glm::vec4(99999.0f, 99999.0f, 99999.0f, 99999.0f));
+		//	GetSector()->AdoptEntity(*bullet, bullet->Name());
+		//	mInit = true;
+		//}
 		
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mDodgeChannel, Bullet::TypeIdClass());
 

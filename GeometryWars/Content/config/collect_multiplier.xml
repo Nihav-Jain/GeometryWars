@@ -8,6 +8,8 @@
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
 	<float name="speed" value="0" />
+	<integer name="TimeAlive" value="0" />
+	<integer name="LifeSpan" value="3000" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -36,6 +38,21 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
+		<expression name="movement">
+			<string name="expression">TimeAlive = TimeAlive + ownerWorld.deltaTime</string>
+		</expression>
+		<if name="CheckIfCollected">
+			<condition>
+				<string name="expression">TimeAlive &gt;= LifeSpan</string>
+			</condition>
+			<then>
+				<action class="ActionDestroyEntity" name="destroySelf">
+					<expression name="exp1">
+						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+					</expression>
+				</action>
+			</then>
+		</if>
 		<!-- Destroy self if collected -->
 		<if name="CheckIfCollected">
 			<condition>

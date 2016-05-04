@@ -94,7 +94,7 @@
 					<string name="instanceName" value="Player4" index="0" />
 				</action>
 				<expression name="SetPosition">
-					<string name="expression">Player4.player = {0}</string>
+					<string name="expression">Player4.player = {3}</string>
 				</expression>
 				<expression name="playerRefSetter">
 					<string name="expression">Player4.Input = XBoxControllerManager.PlayerFourState</string>
@@ -113,22 +113,10 @@
 			<string name="expression">message = {"Time = "} + ownerWorld.deltaTime</string>
 		</expression>
 	</action>
-<!--
-	<include file="Content\config\player1.xml" />
-	<expression name="playerRefSetter">
-		<string name="expression">Player.Input = XBoxControllerManager.PlayerOneState</string>
-	</expression>
--->
 	
 	<!-- TODO: Spawn enemies randomly on escalating intervals -->
-	<include file="Content\config\enemy_pinwheel.xml" />	
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_spawner.xml" />
+	
 	
 	<include file="Content\config\enemy_diamond.xml" />
 	
@@ -137,5 +125,7 @@
 	
 	
 	<include file="Content\config\enemy_arrow.xml" />
+	
+	<!--<include file="Content\config\bullet.xml" />-->
 	
 </sector>

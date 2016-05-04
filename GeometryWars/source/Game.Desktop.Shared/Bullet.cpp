@@ -71,13 +71,6 @@ namespace Library
 		GameObject::BeginPlay(worldState);
 
 		worldState.entity = worldStateEntityCache;
-		/*
-		//mPlayerOwner = worldState.entity->AssertiveAs<Player>();
-		Player* player = worldState.entity->As<Player>();
-		if (player != nullptr)
-		{
-			mPlayerOwner = player;
-		}*/
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
 	}
 
@@ -98,8 +91,6 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
-		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
 	void Bullet::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)

@@ -1,17 +1,26 @@
 <gameobject class="Enemy" name="EnemySpawner">
 	<!-- Enemy Class Attributes -->
-	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
+	<vector name="velocity" value="vec4(0, 1, 0, 0)"/>
 	<bool name="isdead" value="false" />
 	<bool name="canspawncollectible" value="false" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
-  
+	
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 250, 0, 0)"/>
 	<vector name="TargetPosition" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
-	<float name="speed" value="0.2" />
+	<float name="speed" value="20" />
+	<integer name="frequency" value="2000"/>
+	<float name="time" value="0" />
+	<integer name="currentEnemy" value="0" />
+	<integer name="enemyTeir" value="1" />
+	<integer name="currentTeir" value="1" />
+	<integer name="currentFrequency" value="1" />
+	<bool name="CanSpawn" value="true" />
+	<integer name="MaxNumberOfEnemies" value="10" />
+	<integer name="NumberOfEnemyTypes" value="4" />
 	
 	<!-- Begin Play, Get a random velocity, get Numbered name -->
 	<beginplay>
@@ -26,49 +35,10 @@
 			<string name="expression">velocity = normalize(direction)</string>
 		</expression>
 		
-		<expression name="GetEnemyCount">
-			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>
+
 	</beginplay>
   
-	<!-- Polygon Renderer Component -->
-	<polygon_renderer name="PolygonRenderer">
-		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.2788943, 0.8549926, 0.2788943, 1)" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="1" />
-		<integer name="indices" value="1" />
-		<integer name="indices" value="2" />
-		<integer name="indices" value="2" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="3" />
-		<integer name="indices" value="3" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="4" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="5" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="6" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="7" />
-		<integer name="indices" value="0" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="8" />
-		<integer name="indices" value="7" />
-		<vector name="points" value="vec4(0, 0.01, 0, 0)" />
-		<vector name="points" value="vec4(0, 0.82, 0, 0)" />
-		<vector name="points" value="vec4(0.4, 0.4, 0, 0)" />
-		<vector name="points" value="vec4(0.8, 0, 0, 0)" />
-		<vector name="points" value="vec4(0.4, -0.4, 0, 0)" />
-		<vector name="points" value="vec4(0, -0.8, 0, 0)" />
-		<vector name="points" value="vec4(-0.4, -0.4, 0, 0)" />
-		<vector name="points" value="vec4(-0.82, 0, 0, 0)" />
-		<vector name="points" value="vec4(-0.4, 0.4, 0, 0)" />
-	</polygon_renderer>
+	
 	
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
@@ -86,14 +56,129 @@
 			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
-		<!--<action class="ActionCreateEntityFromFile" name="SpawnEnemy">
-			<string name="filePath" value="Content/config/enemy_pinwheel.xml" index="0" />
-			<string name="className" value="Enemy" index="0" />
-			<string name="instanceName" value="PinwheelEnemy" index="0" />
-		</action>
-		<expression name="SetPosition">
-			<string name="expression">Multiplier.newEntity.position = position</string>
-		</expression>-->
+		<expression name="movement">
+			<string name="expression">time = time + ownerWorld.deltaTime</string>
+		</expression>
+		
+		<if name="TeirCondition">
+			<condition>
+				<string name="expression">Player1.multiplier &gt; currentTeir</string>
+			</condition>
+			<then>
+				<expression name="incrementTeir">
+					<string name="expression">enemyTeir = enemyTeir + {1}</string>
+				</expression>
+				<if name="TeirCondition">
+					<condition>
+						<string name="expression">enemyTeir &gt; NumberOfEnemyTypes</string>
+					</condition>
+					<then>
+						<expression name="incrementTeir">
+							<string name="expression">enemyTeir = NumberOfEnemyTypes</string>
+						</expression>
+					</then>
+				</if>
+				<expression name="incrementMultiplier">
+					<string name="expression">currentTeir = currentTeir + {2}</string>
+				</expression>
+			</then>	
+		</if>
+		
+		<if name="FrequencyCondition">
+			<condition>
+				<string name="expression">Player1.multiplier &gt; currentFrequency</string>
+			</condition>
+			<then>
+				<expression name="increaseFrequency">
+					<string name="expression">frequency = frequency / {2}</string>
+				</expression>
+				<expression name="incrementFrequency">
+					<string name="expression">currentFrequency = currentFrequency + {2}</string>
+				</expression>
+			</then>	
+		</if>
+		
+		<if name="EnemyNumberCondition">
+			<condition>
+				<string name="expression">numberOfEnemies &gt;= MaxNumberOfEnemies</string>
+			</condition>
+			<then>
+				<expression name="CantSpawn">
+					<string name="expression">CanSpawn = {false}</string>
+				</expression>
+			</then>	
+		</if>
+		
+		<if name="EnemyNumberCondition">
+			<condition>
+				<string name="expression">numberOfEnemies &lt;= {0}</string>
+			</condition>
+			<then>
+				<expression name="CantSpawn">
+					<string name="expression">CanSpawn = {true}</string>
+				</expression>
+			</then>	
+		</if>
+		
+		
+		<if name="SpawnCondition">
+			<condition>
+				<string name="expression">frequency &lt; time &amp;&amp; numberOfEnemies &lt; MaxNumberOfEnemies &amp;&amp; CanSpawn</string>
+			</condition>
+			<then>
+				<expression name="ResetTime">
+					<string name="expression">time = {0}</string>
+				</expression>
+				<expression name="ResetTime">
+					<string name="expression">currentEnemy = RandomInt(enemyTeir)</string>
+				</expression>
+				<switch name="EnemySwitch" switchValue="currentEnemy">
+					<case name="case1" caseValue="2" break="true">
+						<action class="ActionCreateEntityFromFile" name="SpawnSquare" break="true">
+							<string name="filePath" value="Content/config/enemy_square.xml" index="0" />
+							<string name="className" value="SquareEnemy" index="0" />
+							<string name="instanceName" value="SquareEnemy" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">SpawnSquare.newEntity.position = position</string>
+						</expression>
+					</case>
+					<case name="case1" caseValue="1" break="true">
+						<action class="ActionCreateEntityFromFile" name="SpawnDiamond" break="true">
+							<string name="filePath" value="Content/config/enemy_diamond.xml" index="0" />
+							<string name="className" value="DiamondEnemy" index="0" />
+							<string name="instanceName" value="DiamondEnemy" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">SpawnDiamond.newEntity.position = position</string>
+						</expression>
+					</case>
+					<case name="case1" caseValue="3" break="true">
+						<action class="ActionCreateEntityFromFile" name="SpawnArrow" break="true">
+							<string name="filePath" value="Content/config/enemy_arrow.xml" index="0" />
+							<string name="className" value="ArrowEnemy" index="0" />
+							<string name="instanceName" value="ArrowEnemy" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">SpawnArrow.newEntity.position = position</string>
+						</expression>
+					</case>
+					<case name="case1" caseValue="0" break="true">
+						<action class="ActionCreateEntityFromFile" name="SpawnPinwheel">
+							<string name="filePath" value="Content/config/enemy_pinwheel.xml" index="0" />
+							<string name="className" value="PinwheelEnemy" index="0" />
+							<string name="instanceName" value="PinwheelEnemy" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">SpawnPinwheel.newEntity.position = position</string>
+						</expression>
+					</case>
+				</switch>
+				<expression name="SetPosition">
+					<string name="expression">numberOfEnemies = numberOfEnemies + {1}</string>
+				</expression>
+			</then>	
+		</if>
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">

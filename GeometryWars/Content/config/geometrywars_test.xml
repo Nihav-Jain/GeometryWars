@@ -7,7 +7,7 @@
 		<include file="Content\config\enemy_diamond.xml" />
 		<include file="Content\config\enemy_square.xml" />
 		<include file="Content\config\enemy_arrow.xml" />
-		 <!-- <include file="Content\config\collect_multiplier.xml" /> -->
+		<include file="Content\config\collect_multiplier.xml" /> <!--  -->
 	</define>
 	
 	<define-sectors>
