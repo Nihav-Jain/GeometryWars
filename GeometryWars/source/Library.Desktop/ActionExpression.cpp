@@ -157,6 +157,14 @@ namespace Library
 			return result;
 		}));
 
+		ActionExpression::AddFunction("normalize", ActionExpression::FunctionDefinition(1, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 1);
+			Datum result;
+			result = glm::normalize((*params[0]).Get<glm::vec4>());
+			return result;
+		}));
+
 		ActionExpression::AddFunction("perpindicular", ActionExpression::FunctionDefinition(2, [] (const Vector<Datum*>& params)
 		{
 			assert(params.Size() == 2);
@@ -177,6 +185,15 @@ namespace Library
 			}
 
 			result = perp;
+			return result;
+		}));
+
+		ActionExpression::AddFunction("distance", ActionExpression::FunctionDefinition(2, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 2);
+			Datum result;
+
+			result = glm::distance((*params[0]).Get<glm::vec4>(), (*params[1]).Get<glm::vec4>());
 			return result;
 		}));
 

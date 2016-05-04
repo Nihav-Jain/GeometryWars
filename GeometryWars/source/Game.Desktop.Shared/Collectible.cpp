@@ -8,22 +8,20 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Collectible, GameObject);
 
-	const std::string Collectible::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Collectible::ATTRIBUTE_ISCOLLECTED = "iscollected";
 	const std::string Collectible::ATTRIBUTE_CHANNEL = "collectiblechannel";
 	const std::string Collectible::ATTRIBUTE_MOVE_CHANNEL = "movechannel";
 
 	Collectible::Collectible()
-		: mVelocity(), mIsCollected(false), mCollisionChannel(), mMoveChannel()
+		: mIsCollected(false), mCollisionChannel(), mMoveChannel()
 	{
-		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISCOLLECTED, 1, &mIsCollected);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_MOVE_CHANNEL, 1, &mMoveChannel);
 	}
 
 	Collectible::Collectible(const Collectible & rhs)
-		: GameObject::GameObject(rhs), mIsCollected(rhs.mIsCollected), mCollisionChannel(rhs.mCollisionChannel), mMoveChannel(rhs.mMoveChannel), mVelocity(rhs.mVelocity)
+		: GameObject::GameObject(rhs), mIsCollected(rhs.mIsCollected), mCollisionChannel(rhs.mCollisionChannel), mMoveChannel(rhs.mMoveChannel)
 	{
 		ResetAttributePointers();
 	}
@@ -49,7 +47,7 @@ namespace Library
 
 	void Collectible::Update(WorldState & worldState)
 	{
-		mVelocity = glm::vec4(0, 0, 0, 0);
+		SetDirection(glm::vec4(0, 0, 0, 0));
 
 		GameObject::Update(worldState);
 	}
@@ -78,13 +76,12 @@ namespace Library
 		else if (channel == mMoveChannel && !mIsCollected)
 		{
 			Player* player = other.AssertiveAs<Player>();
-			mVelocity = glm::normalize(player->Position() - mPosition);
+			SetDirection(glm::normalize(player->Position() - mPosition));
 		}
 	}
 
 	void Collectible::ResetAttributePointers()
 	{
-		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_ISCOLLECTED].SetStorage(&mIsCollected, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 		(*this)[ATTRIBUTE_MOVE_CHANNEL].SetStorage(&mMoveChannel, 1);

@@ -14,9 +14,6 @@ namespace Library
 
 		Enemy(const Enemy& rhs);
 
-		const glm::vec4 & Velocity() const;
-		void SetVelocity(const glm::vec4 & velocity);
-
 		void EnemyDeath(WorldState& worldState, bool canSpawnCollectible = false);
 		std::int32_t Score() const;
 
@@ -26,7 +23,6 @@ namespace Library
 		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState) override;
 
-		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
 		static const std::string ATTRIBUTE_CANSPAWNCOLLECTIBLE;
 		static const std::string ATTRIBUTE_CHANNEL;
@@ -35,7 +31,6 @@ namespace Library
 
 	protected:
 
-		glm::vec4 mVelocity;
 		bool mIsDead;
 		bool mCanSpawnCollectible;
 		std::string mCollisionChannel;

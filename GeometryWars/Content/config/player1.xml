@@ -3,9 +3,9 @@
 	<integer name="player" value="0"/>
 	<integer name="lives" value="3" />
 	<bool name="isdead" value="false" />
-	<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
+	<vector name="direction" value="vec4(0, 0, 0, 0)"/>
 	<vector name="heading" value="vec4(0, 0, 0, 0)" />
-	<integer name="attackspeed" value="50" />
+	<integer name="attackspeed" value="75" />
 	<bool name="canattack" value="true" />    
 	<bool name="shoot" value="false" />
 	<integer name="bombs" value="3" />
@@ -67,16 +67,16 @@
 					<if name="CheckLeftAnalog">
 						<condition><string name="expression">Input.LeftStick.IsKeyDown</string></condition>
 						<then>
-							<expression name="updatevelocity">
-								<string name="expression">velocity = Input.LeftStick.MagnitudeVector * speed</string>
+							<expression name="updatedirection">
+								<string name="expression">direction = Input.LeftStick.MagnitudeVector * speed</string>
 							</expression>
 							<expression name="updaterotation">
 								<string name="expression">rotation = Input.LeftStick.RotationVector + {vec4(0,0,-1.5708,0)}</string>
 							</expression>
 						</then>
 						<else>
-							<expression name="updatevelocity">
-								<string name="expression">velocity = {vec4(0,0,0,0)}</string>
+							<expression name="updatedirection">
+								<string name="expression">direction = {vec4(0,0,0,0)}</string>
 							</expression>
 						</else>
 					</if>
@@ -135,7 +135,7 @@
 	
 		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime</string>
+			<string name="expression">position = position + direction * ownerWorld.deltaTime</string>
 		</expression>
 		
 		

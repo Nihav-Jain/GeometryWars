@@ -1,6 +1,5 @@
 <gameobject class="Enemy" name="PinwheelEnemy">
-	<!-- Enemy Class Attributes -->
-	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
+	<!-- Enemy Class Attributes -->	
 	<bool name="isdead" value="false" />
 	<bool name="canspawncollectible" value="true" />
 	<string name="enemychannel" value="collideplayers" />
@@ -11,19 +10,13 @@
 	<vector name="TargetPosition" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
-	<float name="speed" value="0.2" />
+	<vector name="direction" value="vec4(0, 0.1, 0, 0)"/>
+	<float name="speed" value="0.15" />
 	
-	<!-- Begin Play, Get a random velocity, get Numbered name -->
+	<!-- Begin Play, Get a random direction, get Numbered name -->
 	<beginplay>
-		<expression name="GetRandomTargetPosition">
-			<string name="expression">TargetPosition = RandomVector()</string>
-		</expression>
-		<vector name="direction" value="vec4(0, 0, 0, 0)" />
 		<expression name="update_dir">
-			<string name="expression">direction = TargetPosition - position</string>
-		</expression>
-		<expression name="change_vel">
-			<string name="expression">velocity = normalize(direction)</string>
+			<string name="expression">direction = normalize(RandomVector())</string>
 		</expression>
 	</beginplay>
   
@@ -84,7 +77,7 @@
 		<!-- Update position -->
 		
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
+			<string name="expression">position = position + direction * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
 		<!-- Destroy self if dead -->

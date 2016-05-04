@@ -3,13 +3,13 @@
 	<bool name="iscollected" value="false" />
 	<string name="collectiblechannel" value="collideplayers" />
 	<string name="movechannel" value="movetoplayer" />
-	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
-	<float name="speed" value="0.2" />
+	<vector name="direction" value="vec4(0, 0, 0, 0)"/>
+	<float name="speed" value="0.35" />
 	<integer name="TimeAlive" value="0" />
 	<integer name="LifeSpan" value="4000" />
   
@@ -33,7 +33,7 @@
 	
 	<!-- CircleCollider Component (collideplayers) -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="5.0" />
+		<float name="radius" value="7.0" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
@@ -49,7 +49,7 @@
 	<action class="ActionList" name="Update">
 		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
+			<string name="expression">position = position + direction * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
 		<expression name="update_time">

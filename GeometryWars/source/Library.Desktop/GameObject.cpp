@@ -9,27 +9,21 @@ namespace Library
 	const std::string GameObject::ATTRIBUTE_POSITION = "position";
 	const std::string GameObject::ATTRIBUTE_ROTATION = "rotation";
 	const std::string GameObject::ATTRIBUTE_SCALE = "scale";
+	const std::string GameObject::ATTRIBUTE_DIRECTION = "direction";
 	const std::string GameObject::ATTRIBUTE_MOVESPEED = "speed";
 
 	GameObject::GameObject()
-		: mPosition(), mRotation(), mScale(1.0f), mMoveSpeed(), mWorldWidth(), mWorldHeight()
+		: mPosition(), mRotation(), mScale(1.0f), mDirection(), mMoveSpeed(), mWorldWidth(), mWorldHeight()
 	{
 		AddExternalAttribute(ATTRIBUTE_POSITION, 1, &mPosition);
 		AddExternalAttribute(ATTRIBUTE_ROTATION, 1, &mRotation);
 		AddExternalAttribute(ATTRIBUTE_SCALE, 1, &mScale);
+		AddExternalAttribute(ATTRIBUTE_DIRECTION, 1, &mDirection);
 		AddExternalAttribute(ATTRIBUTE_MOVESPEED, 1, &mMoveSpeed);
-
-		ActionExpression::AddFunction("normalize", ActionExpression::FunctionDefinition(1, [] (const Vector<Datum*>& params)
-		{
-			assert(params.Size() == 1);
-			Datum result;
-			result = glm::normalize((*params[0]).Get<glm::vec4>());
-			return result;
-		}));
 	}
 
 	GameObject::GameObject(const GameObject & rhs) :
-		Entity::Entity(rhs), mPosition(rhs.mPosition), mRotation(rhs.mRotation), mScale(rhs.mScale), mMoveSpeed(rhs.mMoveSpeed),
+		Entity::Entity(rhs), mPosition(rhs.mPosition), mRotation(rhs.mRotation), mScale(rhs.mScale), mDirection(rhs.mDirection), mMoveSpeed(rhs.mMoveSpeed),
 		mWorldWidth(rhs.mWorldWidth), mWorldHeight(rhs.mWorldHeight)
 	{
 		ResetAttributePointers();
@@ -63,6 +57,16 @@ namespace Library
 	void GameObject::SetScale(const glm::vec4 & scale)
 	{
 		mScale = scale;
+	}
+
+	const glm::vec4 & GameObject::Direction() const
+	{
+		return mDirection;
+	}
+
+	void GameObject::SetDirection(const glm::vec4 & direction)
+	{
+		mDirection = direction;
 	}
 
 	const std::float_t & GameObject::MoveSpeed() const
@@ -121,6 +125,7 @@ namespace Library
 		(*this)[ATTRIBUTE_POSITION].SetStorage(&mPosition, 1);
 		(*this)[ATTRIBUTE_ROTATION].SetStorage(&mRotation, 1);
 		(*this)[ATTRIBUTE_SCALE].SetStorage(&mScale, 1);
+		(*this)[ATTRIBUTE_DIRECTION].SetStorage(&mDirection, 1);
 		(*this)[ATTRIBUTE_MOVESPEED].SetStorage(&mMoveSpeed, 1);
 	}
 }

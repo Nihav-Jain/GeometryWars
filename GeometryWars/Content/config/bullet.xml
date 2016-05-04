@@ -1,4 +1,5 @@
 <gameobject class="Bullet" name="Bullet">
+
 	<!-- Bullet Class Attributes -->
 	<vector name="scale" value="vec4(15, 15, 15, 0)"/>
 	<float name="speed" value="0.9" />
@@ -7,8 +8,8 @@
 		
 	<beginplay>
 		
-		<expression name="spawn_velocity">
-			<string name="expression">velocity = Player1.heading</string>
+		<expression name="spawn_direction">
+			<string name="expression">direction = Player1.heading</string>
 		</expression>
 		<expression name="spawn_position">
 			<string name="expression">position = Player1.position</string>
@@ -57,12 +58,12 @@
 	<action class="ActionList" name="Update">
 		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
+			<string name="expression">position = position + direction * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
 		<!-- Update rotation -->
 		<expression name="movement">
-			<string name="expression">rotation = rotateZ(velocity)</string>
+			<string name="expression">rotation = rotateZ(direction)</string>
 		</expression>
 		
 		<!-- Destroy self if dead -->

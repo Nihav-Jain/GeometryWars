@@ -4,9 +4,6 @@
 #include "../../source/Library.Desktop/Image.h"
 #include "../../source/Library.Desktop/Texture.h"
 #include "../../source/Library.Desktop/InputManager.h"
-#include "../../source/Library.Desktop/Event.h"
-#include "../../source/Library.Desktop/EventMessageAttributed.h"
-#include "../../source/Library.Desktop/EventQueue.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
@@ -32,7 +29,6 @@ namespace Library
 	const std::string Player::ATTRIBUTE_BOMBS = "bombs";
 	const std::string Player::ATTRIBUTE_SHOOT = "shoot";
 	const std::string Player::ATTRIBUTE_USEBOMB = "useBomb";
-	const std::string Player::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Player::ATTRIBUTE_HEADING = "heading";
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
@@ -41,7 +37,7 @@ namespace Library
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(), mOutOfLives(false),
-		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		  mMultiplier(1), mBombCount(), mUseBomb(false), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -52,7 +48,6 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_MULTIPLIER, 1, &mMultiplier);
 		AddExternalAttribute(ATTRIBUTE_BOMBS, 1, &mBombCount);
 		AddExternalAttribute(ATTRIBUTE_USEBOMB, 1, &mUseBomb);
-		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_HEADING, 1, &mHeading);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 
@@ -73,7 +68,7 @@ namespace Library
 	Player::Player(const Player & rhs)
 		: GameObject::GameObject(rhs), mPlayerNumber(rhs.mPlayerNumber), mAttackSpeed(rhs.mAttackSpeed), mShootTimer(rhs.mShootTimer), mCanAttack(rhs.mCanAttack),
 		mShoot(rhs.mShoot), mLives(rhs.mLives), mMultiplier(rhs.mMultiplier), mBombCount(rhs.mBombCount), mUseBomb(rhs.mUseBomb),
-		mVelocity(rhs.mVelocity), mHeading(rhs.mHeading), mCollisionChannel(rhs.mCollisionChannel)
+		mHeading(rhs.mHeading), mCollisionChannel(rhs.mCollisionChannel)
 	{
 		ResetAttributePointers();
 	}
@@ -199,16 +194,6 @@ namespace Library
 		}
 	}
 
-	const glm::vec4 & Player::Velocity() const
-	{
-		return mVelocity;
-	}
-
-	void Player::SetVelocity(const glm::vec4 & velocity)
-	{
-		mVelocity = velocity;
-	}
-
 	const glm::vec4 & Player::Heading() const
 	{
 		return mHeading;
@@ -330,7 +315,6 @@ namespace Library
 		(*this)[ATTRIBUTE_MULTIPLIER].SetStorage(&mMultiplier, 1);
 		(*this)[ATTRIBUTE_BOMBS].SetStorage(&mBombCount, 1);
 		(*this)[ATTRIBUTE_USEBOMB].SetStorage(&mUseBomb, 1);
-		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_HEADING].SetStorage(&mHeading, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}

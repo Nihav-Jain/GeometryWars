@@ -23,7 +23,6 @@ namespace Library
 		static const std::string ATTRIBUTE_SHOOT;
 		static const std::string ATTRIBUTE_USEBOMB;
 		static const std::string ATTRIBUTE_BOMBS;
-		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_HEADING;
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCOREBASE;
@@ -53,9 +52,6 @@ namespace Library
 		void SetBombs(std::int32_t bombs);
 		void UseBomb(WorldState& worldState);
 
-		const glm::vec4 & Velocity() const;
-		void SetVelocity(const glm::vec4 & velocity);
-
 		const glm::vec4 & Heading() const;
 		void SetHeading(const glm::vec4 & heading);
 
@@ -76,18 +72,15 @@ namespace Library
 		std::int32_t mAttackSpeed;
 		bool mCanAttack;
 		bool mShoot;
+		glm::vec4 mHeading;
 
 		std::int32_t mLives;
 		bool mOutOfLives;
 		std::string mCollisionChannel;
-
 		std::int32_t mMultiplier;
-
 		bool mUseBomb;
 		std::int32_t mBombCount;
-
-		glm::vec4 mVelocity;
-		glm::vec4 mHeading;
+		
 
 	private:
 		std::chrono::milliseconds mShootTimer;

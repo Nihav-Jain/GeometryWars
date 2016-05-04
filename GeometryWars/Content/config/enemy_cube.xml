@@ -2,7 +2,7 @@
 	<bool name="isparent" value="true" />
 
 	<!-- Enemy Class Attributes -->
-	<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
+	<vector name="direction" value="vec4(0, 0, 0, 0)"/>
 	<bool name="isdead" value="false" />
 	<bool name="canspawncollectible" value="true" />
 	<string name="enemychannel" value="collideplayers" />
@@ -38,31 +38,30 @@
 	  
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="3.0" />
+		<float name="radius" value="6.0" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
 	
-	 
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<!-- Update velocity -->
-		<vector name="direction" value="vec4(0, 0, 0, 0)" />
+		<!-- Update direction -->
+		<vector name="newdirection" value="vec4(0, 0, 0, 0)" />
 		<expression name="update_dir">
-			<string name="expression">direction = Player1.position - position</string>
+			<string name="expression">newdirection = Player1.position - position</string>
 		</expression>
-		<expression name="change_vel">
-			<string name="expression">velocity = normalize(direction)</string>
+		<expression name="change_dir">
+			<string name="expression">direction = normalize(newdirection)</string>
 		</expression>	 	
 		
 		<!-- Update position -->
 		<expression name="movement">
-			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
+			<string name="expression">position = position + direction * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
 		<!-- Update rotation -->
 		<expression name="movement">
-			<string name="expression">rotation = rotateZ(velocity)</string>
+			<string name="expression">rotation = rotateZ(direction)</string>
 		</expression>
 		
 		<!-- Destroy self if dead -->
@@ -125,7 +124,7 @@
 							<string name="expression">BabyCube1.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube1.newEntity.position = perpindicular(velocity, {true}) * {5.0f}</string>
+							<string name="expression">BabyCube1.newEntity.position = perpindicular(direction, {true}) * {50.0f}</string>
 						</expression>
 						<expression name="SetScore">
 							<string name="expression">BabyCube1.newEntity.score = score / {2}</string>
@@ -143,7 +142,7 @@
 							<string name="expression">BabyCube2.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube2.newEntity.position = perpindicular(velocity, {false}) * {5.0f}</string>
+							<string name="expression">BabyCube2.newEntity.position = perpindicular(direction, {false}) * {50.0f}</string>
 						</expression>
 						<expression name="SetScore">
 							<string name="expression">BabyCube1.newEntity.score = score / {2}</string>

@@ -12,7 +12,6 @@ namespace Library
 
 	std::int32_t Enemy::NumberOfEnemies = 0;
 
-	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Enemy::ATTRIBUTE_CANSPAWNCOLLECTIBLE = "canspawncollectible";
 	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
@@ -20,9 +19,8 @@ namespace Library
 	const std::string Enemy::ATTRIBUTE_NUMBEROFENEMIES = "numberOfEnemies";
 
 	Enemy::Enemy()
-		: mVelocity(), mIsDead(false), mCanSpawnCollectible(false), mCollisionChannel(), mScore(0)
+		: mIsDead(false), mCanSpawnCollectible(false), mCollisionChannel(), mScore(0)
 	{
-		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CANSPAWNCOLLECTIBLE, 1, &mCanSpawnCollectible);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
@@ -31,19 +29,9 @@ namespace Library
 	}
 
 	Enemy::Enemy(const Enemy & rhs)
-		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel), mScore(rhs.mScore)
+		: GameObject::GameObject(rhs), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel), mScore(rhs.mScore)
 	{
 		ResetAttributePointers();
-	}
-
-	const glm::vec4 & Enemy::Velocity() const
-	{
-		return mVelocity;
-	}
-
-	void Enemy::SetVelocity(const glm::vec4 & velocity)
-	{
-		mVelocity = velocity;
 	}
 
 	void Enemy::EnemyDeath(WorldState & worldState, bool canSpawnCollectible)
@@ -81,28 +69,32 @@ namespace Library
 
 	void Enemy::Update(WorldState & worldState)
 	{
+		glm::vec4 dir = Direction();
+
 		// Check if out of bounds
 		if (mPosition.x > (mWorldWidth / 2.0f) - mScale.x)
 		{
 			mPosition.x = (mWorldWidth / 2.0f) - mScale.x;
-			mVelocity.x *= -1.0f;
+			dir.x *= -1.0f;
 		}
 		else if (mPosition.x < (-mWorldWidth / 2.0f) + mScale.x)
 		{
 			mPosition.x = (-mWorldWidth / 2.0f) + mScale.x;
-			mVelocity.x *= -1.0f;
+			dir.x *= -1.0f;
 		}
 
 		if (mPosition.y > (mWorldHeight / 2.0f) - mScale.y)
 		{
 			mPosition.y = (mWorldHeight / 2.0f) - mScale.y;
-			mVelocity.y *= -1.0f;
+			dir.y *= -1.0f;
 		}
 		else if (mPosition.y < (-mWorldHeight / 2.0f) + mScale.y)
 		{
 			mPosition.y = (-mWorldHeight / 2.0f) + mScale.y;
-			mVelocity.y *= -1.0f;
+			dir.y *= -1.0f;
 		}
+
+		SetDirection(dir);
 
 		GameObject::Update(worldState);
 	}
@@ -134,7 +126,6 @@ namespace Library
 
 	void Enemy::ResetAttributePointers()
 	{
-		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 		(*this)[ATTRIBUTE_SCORE].SetStorage(&mScore, 1);

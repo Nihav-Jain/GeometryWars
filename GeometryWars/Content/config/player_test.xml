@@ -84,7 +84,7 @@
 		  <integer name="lives" value="3" />
 		  <string name="playerchannel" value="none" />
 		  <bool name="isdead" value="false" />
-		  <vector name="velocity" value="vec4(0, 0, 0, 0)"/>
+		  <vector name="direction" value="vec4(0, 0, 0, 0)"/>
 		  <vector name="heading" value="vec4(0, 0, 0, 0)" />
 		  <integer name="attackspeed" value="1000" />
 		  <bool name="canattack" value="true" />    
@@ -187,7 +187,7 @@
 								<condition><string name="expression">IsButtonPressed</string></condition>
 								<then>
 									<expression name="modify">
-										<string name="expression">velocity = velocity - speed * {vec4(1, 0, 0, 0)}</string>
+										<string name="expression">direction = direction - speed * {vec4(1, 0, 0, 0)}</string>
 									</expression>
 									<expression name="rotate">
 										<string name="expression">rotation = {vec4(0, 0, 1.571, 0)}</string>
@@ -195,7 +195,7 @@
 								</then>
 								<else>
 									<expression name="modify">
-										<string name="expression">velocity = velocity + speed * {vec4(1, 0, 0, 0)}</string>
+										<string name="expression">direction = direction + speed * {vec4(1, 0, 0, 0)}</string>
 									</expression>
 								</else>
 							</if>
@@ -214,7 +214,7 @@
 								<condition><string name="expression">IsButtonPressed</string></condition>
 								<then>
 									<expression name="modify">
-										<string name="expression">velocity = velocity + speed * {vec4(1, 0, 0, 0)}</string>
+										<string name="expression">direction = direction + speed * {vec4(1, 0, 0, 0)}</string>
 									</expression>
 									<expression name="rotate">
 										<string name="expression">rotation = {vec4(0, 0, 4.712, 0)}</string>
@@ -222,7 +222,7 @@
 								</then>
 								<else>						
 									<expression name="modify">
-										<string name="expression">velocity = velocity - speed * {vec4(1, 0, 0, 0)}</string>
+										<string name="expression">direction = direction - speed * {vec4(1, 0, 0, 0)}</string>
 									</expression>
 								</else>
 							</if>
@@ -241,7 +241,7 @@
 								<condition><string name="expression">IsButtonPressed</string></condition>
 								<then>
 									<expression name="modify">
-										<string name="expression">velocity = velocity + speed * {vec4(0, 1, 0, 0)}</string>
+										<string name="expression">direction = direction + speed * {vec4(0, 1, 0, 0)}</string>
 									</expression>
 									<expression name="rotate">
 										<string name="expression">rotation = {vec4(0, 0, 0, 0)}</string>
@@ -249,7 +249,7 @@
 								</then>
 								<else>
 									<expression name="modify">
-										<string name="expression">velocity = velocity - speed * {vec4(0, 1, 0, 0)}</string>
+										<string name="expression">direction = direction - speed * {vec4(0, 1, 0, 0)}</string>
 									</expression>
 								</else>
 							</if>
@@ -268,7 +268,7 @@
 								<condition><string name="expression">IsButtonPressed</string></condition>
 								<then>
 									<expression name="modify">
-										<string name="expression">velocity = velocity - speed * {vec4(0, 1, 0, 0)}</string>
+										<string name="expression">direction = direction - speed * {vec4(0, 1, 0, 0)}</string>
 									</expression>
 									<expression name="rotate">
 										<string name="expression">rotation = {vec4(0, 0, 3.142, 0)}</string>
@@ -276,7 +276,7 @@
 								</then>
 								<else>
 									<expression name="modify">
-										<string name="expression">velocity = velocity + speed * {vec4(0, 1, 0, 0)}</string>
+										<string name="expression">direction = direction + speed * {vec4(0, 1, 0, 0)}</string>
 									</expression>
 								</else>
 							</if>
@@ -286,7 +286,7 @@
 				
 				<!-- UPDATING POSITION HERE -->
 				<expression name="modify">
-					<string name="expression">position = position + velocity</string>
+					<string name="expression">position = position + direction</string>
 				</expression>
 				
 				<!-- Set shoot flag on press/release -->
@@ -354,7 +354,7 @@
 		
 		<gameobject class="Enemy" name="Enemy0">
 			<!-- Enemy Class Attributes -->
-			<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
+			<vector name="direction" value="vec4(0, 0, 0, 0)"/>
 			<bool name="isdead" value="false" />
 			<string name="enemychannel" value="collideplayers" />
 		  
@@ -421,7 +421,7 @@
 		
 		<gameobject class="Enemy" name="Enemy0">
 			<!-- Enemy Class Attributes -->
-			<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
+			<vector name="direction" value="vec4(0, 0, 0, 0)"/>
 			<bool name="isdead" value="false" />
 			<string name="enemychannel" value="collideplayers" />
 			  

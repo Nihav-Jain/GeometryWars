@@ -10,33 +10,21 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Bullet, GameObject);
 
-	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Bullet::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Bullet::ATTRIBUTE_CHANNEL = "bulletchannel";
 
 
 	Bullet::Bullet()
-		: mVelocity(), mIsDead(false), mCollisionChannel(), mPlayerOwner(nullptr)
+		: mIsDead(false), mCollisionChannel(), mPlayerOwner(nullptr)
 	{
-		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 	}
 
 	Bullet::Bullet(const Bullet & rhs)
-		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel)
+		: GameObject::GameObject(rhs), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel)
 	{
 		ResetAttributePointers();
-	}
-
-	const glm::vec4 & Bullet::Velocity() const
-	{
-		return mVelocity;
-	}
-
-	void Bullet::SetVelocity(const glm::vec4 & velocity)
-	{
-		mVelocity = velocity;
 	}
 
 	void Bullet::BulletDeath(WorldState & worldState)
@@ -107,7 +95,6 @@ namespace Library
 
 	void Bullet::ResetAttributePointers()
 	{
-		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}

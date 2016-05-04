@@ -14,9 +14,6 @@ namespace Library
 
 		Bullet(const Bullet& rhs);
 
-		const glm::vec4 & Velocity() const;
-		void SetVelocity(const glm::vec4 & velocity);
-
 		void BulletDeath(WorldState& worldState);
 
 		virtual Scope* Clone(const Scope& rhs) const override;
@@ -25,13 +22,11 @@ namespace Library
 		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState) override;
 
-		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
 		static const std::string ATTRIBUTE_CHANNEL;
 
 	protected:
 
-		glm::vec4 mVelocity;
 		bool mIsDead;
 		std::string mCollisionChannel;
 

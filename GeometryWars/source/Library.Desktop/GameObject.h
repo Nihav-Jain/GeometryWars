@@ -14,7 +14,6 @@ namespace Library
 
 		GameObject(const GameObject& rhs);
 
-
 		const glm::vec4& Position() const;
 		void SetPosition(const glm::vec4& position);
 
@@ -23,6 +22,9 @@ namespace Library
 
 		const glm::vec4& Scale() const;
 		void SetScale(const glm::vec4& scale);
+
+		const glm::vec4& Direction() const;
+		void SetDirection(const glm::vec4& direction);
 
 		const std::float_t& MoveSpeed() const;
 		void SetMoveSpeed(const std::float_t& moveSpeed);
@@ -39,10 +41,11 @@ namespace Library
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_ROTATION;
 		static const std::string ATTRIBUTE_SCALE;
+		static const std::string ATTRIBUTE_DIRECTION;
 		static const std::string ATTRIBUTE_MOVESPEED;
 
 	protected:
-		glm::vec4 mPosition, mRotation, mScale;
+		glm::vec4 mPosition, mRotation, mScale, mDirection;
 		std::float_t mMoveSpeed;
 
 		std::int32_t mWorldWidth, mWorldHeight;

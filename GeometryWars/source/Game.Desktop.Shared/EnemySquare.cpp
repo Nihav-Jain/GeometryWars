@@ -67,7 +67,7 @@ namespace Library
 			Bullet *bullet = other.AssertiveAs<Bullet>();
 
 			glm::vec4 dir = glm::normalize(mPosition - other.Position());
-			std::float_t dot = glm::dot(dir, bullet->Velocity());
+			std::float_t dot = glm::dot(dir, bullet->Direction());
 			std::float_t angle = acos(dot);
 			if (angle < mDodgeAngle)
 			{
@@ -75,22 +75,22 @@ namespace Library
 
 				glm::vec4 perpA, perpB;
 
-				perpA.x = -bullet->Velocity().y;
-				perpA.y = bullet->Velocity().x;
+				perpA.x = -bullet->Direction().y;
+				perpA.y = bullet->Direction().x;
 
-				perpA.x = bullet->Velocity().y;
-				perpA.y = -bullet->Velocity().x;
+				perpA.x = bullet->Direction().y;
+				perpA.y = -bullet->Direction().x;
 
 				glm::vec4 newA = mPosition + perpA * MoveSpeed();
 				glm::vec4 newB = mPosition + perpB * MoveSpeed();
 
 				if (glm::distance(newA, other.Position()) > glm::distance(newB, other.Position()))
 				{
-					mVelocity = perpA;
+					SetDirection(perpA);
 				}
 				else
 				{
-					mVelocity = perpB;
+					SetDirection(perpB);
 				}
 			}	
 		}
