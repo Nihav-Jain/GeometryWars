@@ -66,7 +66,12 @@ namespace Library
 
 		worldState.entity = worldStateEntityCache;
 
-		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		//mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		Player* player = worldState.entity->As<Player>();
+		if (player != nullptr)
+		{
+			mPlayerOwner = player;
+		}
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
 	}
 
@@ -98,7 +103,10 @@ namespace Library
 			Enemy* enemy = other.AssertiveAs<Enemy>();
 			enemy->EnemyDeath(worldState, true);
 
-			mPlayerOwner->AddScore(enemy->Score());
+			if (mPlayerOwner != nullptr)
+			{
+				mPlayerOwner->AddScore(enemy->Score());
+			}
 		}	
 	}
 

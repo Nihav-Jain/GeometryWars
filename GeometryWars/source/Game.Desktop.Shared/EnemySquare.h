@@ -20,15 +20,18 @@ namespace Library
 		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_DODGE_CHANNEL;
+		static const std::string ATTRIBUTE_DODGE_ANGLE;
 		static const std::string ATTRIBUTE_DODGING;
 
 	protected:
 
 		std::string mDodgeChannel;
 		bool mIsDodging;
+		std::float_t mDodgeAngle;
 
 	private:
 
+		static bool mInit;
 		void ResetAttributePointers();
 	};
 
