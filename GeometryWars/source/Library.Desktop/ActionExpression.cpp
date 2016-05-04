@@ -142,6 +142,7 @@ namespace Library
 		srand(static_cast<int>(time(nullptr)));
 		ActionExpression::AddFunction("RandomVector", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
 		{
+			UNREFERENCED_PARAMETER(params);
 			assert(params.Size() >= 0);
 			Datum result;
 			result = glm::vec4(rand(), rand(), 0, 0);

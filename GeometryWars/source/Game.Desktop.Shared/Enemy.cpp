@@ -25,6 +25,7 @@ namespace Library
 
 		ActionExpression::AddFunction("IncrementEnemyCount", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
 		{
+			UNREFERENCED_PARAMETER(params);
 			assert(params.Size() >= 0);
 			Datum result;
 			result = std::to_string(sEnemyCount++);
