@@ -23,6 +23,10 @@ namespace Library
 
 	LivesManager* LivesManager::GetInstance()
 	{
+		if (sInstance == nullptr)
+		{
+			sInstance = new LivesManager();
+		}
 		return sInstance;
 	}
 

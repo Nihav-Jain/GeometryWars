@@ -21,6 +21,10 @@ namespace Library
 
 	ScoreManager * ScoreManager::GetInstance()
 	{
+		if (sInstance == nullptr)
+		{
+			sInstance = new ScoreManager();
+		}
 		return sInstance;
 	}
 
