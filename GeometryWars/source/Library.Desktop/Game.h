@@ -116,7 +116,6 @@ namespace Library
 		*/
 		void Init();
 
-
 		/**
 		 *	Getter for the game World
 		 *	@return reference to World
@@ -130,16 +129,19 @@ namespace Library
 		XmlParseMaster& ParseMaster();
 
 		/**
-		*	Getter of Game time
-		*	@return const reference to game time
-		*/
+		 *	Getter of Game time
+		 *	@return const reference to game time
+		 */
 		const GameTime& GetGameTime() const;
 
+		/**
+		 *	Starts the game timer, calls BeginPlay on World
+		 */
 		void Start();
 
 		/**
-		*	AddHelpers - Add helpers to parse master.
-		*/
+		 *	AddHelpers - Add helpers to parse master.
+		 */
 		void AddHelpers();
 
 		/**
@@ -158,10 +160,14 @@ namespace Library
 		/**
 		 *	Will close off any lose ends before the Game ends
 		 *	Must be called after exiting from the game loop
+		 *	calls OnDestroy on world
 		 */
 		void Destroy();
 
-		void SetRenderer(Renderer * device);
+		/**
+		 *	Sets the renderer - OpenGL or DirectX
+		 */
+		void SetRenderer(Renderer* device);
 
 	private:
 		void AddParseHelpers();
@@ -228,7 +234,6 @@ namespace Library
 		ActionLoadSectorFactory mLoadSectorFactory;
 
 		ImageFactory mImageFactory;
-		//PolygonRendererFactory mPolygonRendererFactory;
 		SpriteRendererFactory mSpriteRendererFactory;
 		CircleColliderComponentFactory mCircleColliderComponentFactory;
 
