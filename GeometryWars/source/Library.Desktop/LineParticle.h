@@ -1,4 +1,5 @@
 #pragma once
+#include "WorldState.h"
 #include <chrono>
 
 namespace Library {

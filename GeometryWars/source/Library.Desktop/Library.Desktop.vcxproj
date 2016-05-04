@@ -217,6 +217,7 @@
     <ClInclude Include="ActionList.h" />
     <ClInclude Include="ActionListSwitch.h" />
     <ClInclude Include="ActionLoadMusic.h" />
+    <ClInclude Include="ActionLoadSector.h" />
     <ClInclude Include="ActionPlayMusic.h" />
     <ClInclude Include="ActionStopMusic.h" />
     <ClInclude Include="ActionTogglePauseMusic.h" />
@@ -283,6 +284,7 @@
     <ClInclude Include="XmlParseHelperBeginPlay.h" />
     <ClInclude Include="XmlParseHelperCircleColliderComponent.h" />
     <ClInclude Include="XmlParseHelperDefine.h" />
+    <ClInclude Include="XmlParseHelperDefineSector.h" />
     <ClInclude Include="XmlParseHelperEntity.h" />
     <ClInclude Include="XmlParseHelperGameObject.h" />
     <ClInclude Include="XmlParseHelperImage.h" />
@@ -308,6 +310,7 @@
     <ClCompile Include="ActionList.cpp" />
     <ClCompile Include="ActionListSwitch.cpp" />
     <ClCompile Include="ActionLoadMusic.cpp" />
+    <ClCompile Include="ActionLoadSector.cpp" />
     <ClCompile Include="ActionPlayMusic.cpp" />
     <ClCompile Include="ActionStopMusic.cpp" />
     <ClCompile Include="ActionTogglePauseMusic.cpp" />
@@ -369,6 +372,7 @@
     <ClCompile Include="XmlParseHelperBeginPlay.cpp" />
     <ClCompile Include="XmlParseHelperCircleColliderComponent.cpp" />
     <ClCompile Include="XmlParseHelperDefine.cpp" />
+    <ClCompile Include="XmlParseHelperDefineSector.cpp" />
     <ClCompile Include="XmlParseHelperEntity.cpp" />
     <ClCompile Include="XmlParseHelperGameObject.cpp" />
     <ClCompile Include="XmlParseHelperImage.cpp" />

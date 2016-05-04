@@ -54,6 +54,7 @@ namespace Library
 		Entity* newEntity = entityCopy->Clone(*entityCopy)->AssertiveAs<Entity>();
 
 		worldState.sector->AdoptEntity(*newEntity, (*this)[ATTRIBUTE_ENTITY_INSTANCE_NAME].Get<std::string>());
+
 		newEntity->BeginPlay(worldState);
 		*mNewEntity = *newEntity;
 	}

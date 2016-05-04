@@ -1,0 +1,61 @@
+<gameobject class="Enemy" name="DiamondEnemy">
+	<!-- Enemy Class Attributes -->
+	<vector name="velocity" value="vec4(0.1, 0.1, 0, 0)"/>
+	<bool name="isdead" value="false" />
+	<string name="enemychannel" value="collideplayers" />
+	<integer name="score" value="1" />
+	  
+	<!-- GameObject Class Attributes -->
+	<vector name="position" value="vec4(250, 250, 0, 0)"/>
+	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
+	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
+	<float name="speed" value="10" />
+	  
+	<!-- Polygon Renderer Component -->
+	<polygon_renderer name="PolygonRenderer">
+		<float name="width" value="7" />
+		<vector name="color" value="vec4(0.21875, 0.57031, 0.67578, 1)" />
+		<integer name="indices" value="0" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="3" />
+		<integer name="indices" value="3" />
+		<integer name="indices" value="0" />
+		<vector name="points" value="vec4(0, 1, 0, 0)" />
+		<vector name="points" value="vec4(-0.995555555555556, 0.00888888888888889, 0, 0)" />
+		<vector name="points" value="vec4(-0.0133333333333333, -0.991111111111111, 0, 0)" />
+		<vector name="points" value="vec4(0.986666666666667, 0, 0, 0)" />
+	</polygon_renderer>
+	  
+	<!-- CircleCollider Component -->
+	<component class="CircleColliderComponent" name="CircleColliderComponent">
+		<float name="radius" value="2.0" />
+		<bool name="enabled" value="true" />
+		<string name="channel" value="collideplayers" />
+	</component>
+	 
+	<!-- Update Loop -->
+	<action class="ActionList" name="Update">
+	
+		<!-- Update position -->
+		<expression name="movement">
+			<string name="expression">position = position + velocity</string>
+		</expression>
+		
+		<!-- Destroy self if dead -->
+		<if name="CheckIfDead">
+			<condition>
+				<string name="expression">isdead</string>
+			</condition>
+			<then>
+				<action class="ActionDestroyEntity" name="destroySelf">
+					<string name="entityInstanceName" value="DiamondEnemy"/>
+				</action>
+			
+				
+			</then>
+		</if>
+	</action>
+</gameobject>

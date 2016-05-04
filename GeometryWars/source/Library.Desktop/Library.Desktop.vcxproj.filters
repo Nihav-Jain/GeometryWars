@@ -265,6 +265,12 @@
     <ClInclude Include="LineParticle.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
+    <ClInclude Include="ActionLoadSector.h">
+      <Filter>Kernel\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParseHelperDefineSector.h">
+      <Filter>XmlParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -483,6 +489,12 @@
     </ClCompile>
     <ClCompile Include="PolygonRenderer.cpp">
       <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionLoadSector.cpp">
+      <Filter>Kernel\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParseHelperDefineSector.cpp">
+      <Filter>XmlParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

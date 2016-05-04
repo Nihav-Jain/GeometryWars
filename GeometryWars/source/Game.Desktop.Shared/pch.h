@@ -38,7 +38,11 @@
 #include "../../source/Library.Desktop/World.h"
 #include "../../source/Library.Desktop/GameObject.h"
 
-#include "Score.h"
+#include "SpriteManager.h"
+#include "ScoreManager.h"
+#include "LivesManager.h"
+#include "BombManager.h"
+
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"

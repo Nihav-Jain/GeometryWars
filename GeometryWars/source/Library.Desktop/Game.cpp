@@ -38,6 +38,7 @@ namespace Library
 	{
 		mGameClock.Reset();
 		mGameClock.UpdateGameTime(mGameTime); 
+		mWorld.SetAudioManager(mAudioManager);
 		mWorld.BeginPlay();
 	}
 
@@ -47,6 +48,7 @@ namespace Library
 
 		mGameClock.Reset();
 		mGameClock.UpdateGameTime(mGameTime);
+		mWorld.SetAudioManager(mAudioManager);
 		mWorld.BeginPlay();
 	}
 
@@ -71,6 +73,7 @@ namespace Library
 	void Game::AddParseHelpers()
 	{
 		mParseMaster.AddHelper(mDefineParser);
+		mParseMaster.AddHelper(mDefineSectorParser);
 
 		mParseMaster.AddHelper(mWorldParser);
 		mParseMaster.AddHelper(mSectorParser);

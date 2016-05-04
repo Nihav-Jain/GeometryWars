@@ -16,9 +16,12 @@ namespace Library
 	const std::string World::ATTRIBUTE_WIDTH = "width";
 	const std::string World::ATTRIBUTE_HEIGHT = "height";
 
+	Stack<Datum*> World::sTempReferenceDatums;
+
 	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
 		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
-		mWidth(0), mHeight(0), ClassDefinitionContainer()
+		mWidth(0), mHeight(0), ClassDefinitionContainer(), mActiveSector(nullptr), mLastActiveSector(nullptr),
+		SectorDefinitionContainer(nullptr)
 	{
 		mWorldState.world = this;
 
@@ -30,6 +33,16 @@ namespace Library
 
 		AddNestedScope(ATTRIBUTE_NAME_SECTOR);
 		AddNestedScope(Entity::ATTRIBUTE_ACTIONS);
+	}
+
+	World::~World()
+	{
+		while (!sTempReferenceDatums.IsEmpty())
+		{
+			delete sTempReferenceDatums.Top();
+			sTempReferenceDatums.Pop();
+		}
+		delete SectorDefinitionContainer;
 	}
 
 	const std::string& World::Name() const
@@ -92,6 +105,13 @@ namespace Library
 	void World::BeginPlay()
 	{
 		ScriptedBeginPlay();
+
+		if (mActiveSector == nullptr && Sectors().Size() >= 1U)
+		{
+			mActiveSector = Sectors().Get<Scope>().AssertiveAs<Sector>();
+			mLastActiveSector = mActiveSector;
+		}
+
 		SectorsBeginPlay();
 		ActionsBeginPlay();
 		ReactionsBeginPlay();
@@ -104,6 +124,24 @@ namespace Library
 		mWorldState.action = nullptr;
 
 		(*this)[ATTRIBUTE_DELTA_TIME] = static_cast<std::int32_t>(mWorldState.mGameTime->ElapsedGameTime().count());
+
+		if (mLastActiveSector != mActiveSector)
+		{
+			if (mLastActiveSector != nullptr)
+			{
+				mWorldState.sector = mLastActiveSector;
+				mLastActiveSector->OnDestroy(mWorldState);
+
+				if (FindSector(mLastActiveSector->Name()) == nullptr)
+					delete mLastActiveSector;
+			}
+			mLastActiveSector = mActiveSector;
+
+			mWorldState.sector = mActiveSector;
+			mWorldState.entity = nullptr;
+			mWorldState.action = nullptr;
+			mActiveSector->BeginPlay(mWorldState);
+		}
 
 		mEventQueue.Update(*mWorldState.mGameTime);
 		UpdateWorldActions();
@@ -128,13 +166,28 @@ namespace Library
 		return mEventQueue;
 	}
 
+	bool World::LoadSector(const std::string& sectorName)
+	{
+		if (SectorDefinitionContainer == nullptr)
+			return false;
+
+		Sector* sector = SectorDefinitionContainer->FindSector(sectorName);
+		if (sector != nullptr)
+		{
+			mLastActiveSector = mActiveSector;
+			mActiveSector = mActiveSector->Clone(*sector)->AssertiveAs<Sector>();
+			return true;
+		}
+		return false;
+	}
+
 	Datum* World::ComplexSearch(const std::string& name, const Scope& caller)
 	{
 		std::string referenceName = name;
 		Scope* targetScope = nullptr;
 
 		std::uint32_t pos = (std::uint32_t)referenceName.find('.');
-		if (pos == std::string::npos)
+		if (pos > referenceName.length())
 			return caller.Search(referenceName);
 		else
 		{
@@ -144,14 +197,25 @@ namespace Library
 			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
 		}
 
-		while ((pos = (std::uint32_t)referenceName.find('.')) != std::string::npos)
+		while ((pos = (std::uint32_t)referenceName.find('.')) < referenceName.length())
 		{
 			targetScope = ComplexSearchHelper(referenceName.substr(0, pos), *targetScope);
 			if (targetScope == nullptr)
 				return nullptr;
 			referenceName = referenceName.substr(pos + 1, (std::uint32_t)referenceName.length() - pos);
 		}
-		return targetScope->Find(referenceName);
+		Datum* foundDatum = targetScope->Find(referenceName);
+		if (foundDatum == nullptr)
+		{
+			Scope* foundScope = ComplexSearchHelper(referenceName, *targetScope, false);
+			if (foundScope != nullptr)
+			{
+				foundDatum = new Datum();
+				*foundDatum = *foundScope;
+				sTempReferenceDatums.Push(foundDatum);
+			}
+		}
+		return foundDatum;
 	}
 
 	XmlParseMaster& World::ParseMaster()
@@ -177,6 +241,11 @@ namespace Library
 	std::int32_t World::GetHeight()
 	{
 		return mHeight;
+	}
+
+	Sector* World::ActiveSector()
+	{
+		return mActiveSector;
 	}
 
 	Scope* World::ComplexSearchHelper(const std::string& name, const Scope& caller, bool doRecursiveSearch)
@@ -213,7 +282,10 @@ namespace Library
 			else if (caller.Is(World::TypeIdClass()))
 			{
 				World& callerWorld = *caller.AssertiveAs<World>();
-				Attributed* attribute = callerWorld.FindSector(name);
+				Attributed* attribute = nullptr;
+				Sector* activeSector = callerWorld.ActiveSector();
+				if (activeSector != nullptr && activeSector->Name() == name)
+					attribute = activeSector;
 				if (attribute == nullptr)
 				{
 					attribute = callerWorld.FindAction(name);
@@ -256,11 +328,9 @@ namespace Library
 
 	void World::SectorsBeginPlay()
 	{
-		std::uint32_t i;
-		Datum& sectors = Sectors();
-		for (i = 0; i < sectors.Size(); i++)
+		if (mActiveSector != nullptr)
 		{
-			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
+			Sector* sector = mActiveSector;
 			mWorldState.sector = sector;
 			sector->BeginPlay(mWorldState);
 		}
@@ -362,13 +432,10 @@ namespace Library
 
 	void World::UpdateWorldSectors()
 	{
-		std::uint32_t i;
-		Datum& sectors = Sectors();
-		for (i = 0; i < sectors.Size(); i++)
+		if (mActiveSector != nullptr)
 		{
-			Sector* sector = sectors.Get<Scope>(i).AssertiveAs<Sector>();
-			mWorldState.sector = sector;
-			sector->Update(mWorldState);
+			mWorldState.sector = mActiveSector;
+			mActiveSector->Update(mWorldState);
 		}
 	}
 

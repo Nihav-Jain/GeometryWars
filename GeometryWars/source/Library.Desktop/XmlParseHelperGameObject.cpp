@@ -13,9 +13,10 @@ namespace Library
 			return false;
 
 		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
-			throw std::exception("Invalid syntax for <gameobject>. Missing attribute: name");
+			throw std::exception("ClearScreen syntax for <gameobject>. Missing attribute: name");
 		if (!attributes.ContainsKey(ATTRIBUTE_CLASS))
-			throw std::exception("Invalid syntax for <gameobject>. Missing attribute: class");
+			throw std::exception("ClearScreen syntax for <gameobject>. Missing attribute: class");
+
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_START))
 			throw std::exception("Invalid script syntax");

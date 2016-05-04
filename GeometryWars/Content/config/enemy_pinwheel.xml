@@ -2,19 +2,40 @@
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
+	<bool name="canspawncollectible" value="false" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
   
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 250, 0, 0)"/>
+	<vector name="TargetPosition" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
-	<float name="speed" value="10" />
+	<float name="speed" value="0.2" />
+	
+	<!-- Begin Play, Get a random velocity, get Numbered name -->
+	<beginplay>
+		<expression name="GetRandomTargetPosition">
+			<string name="expression">TargetPosition = RandomVector()</string>
+		</expression>
+		<vector name="direction" value="vec4(0, 0, 0, 0)" />
+		<expression name="update_dir">
+			<string name="expression">direction = TargetPosition - position</string>
+		</expression>
+		<expression name="change_vel">
+			<string name="expression">velocity = normalize(direction)</string>
+		</expression>
+		
+		<expression name="GetEnemyCount">
+			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
+		</expression>
+		
+	</beginplay>
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.8549926, 0.223228, 0.8549926, 1)" />
+		<vector name="color" value="vec4(0.796875, 0.19921875, 1, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
@@ -59,17 +80,17 @@
 	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
-		<vector name="delta" value="vec4(0, 0, -0.05, 0)"/>
+		<vector name="delta" value="vec4(0, 0, -0.005, 0)"/>
 		<!-- Update rotation -->
 		<expression name="change_rot">
-			<string name="expression">rotation = rotation + delta</string>
+			<string name="expression">rotation = rotation + delta * ownerWorld.deltaTime</string>
 		</expression>
 		
-		<!-- Update position 
+		<!-- Update position -->
+		
 		<expression name="movement">
-			<string name="expression">position = position + velocity</string>
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
-		-->
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
@@ -77,12 +98,29 @@
 				<string name="expression">isdead</string>
 			</condition>
 			<then>
-				<expression name="exp">
-					<string name="expression">destroySelf.entityInstanceName = ownerEntity.name</string>
-				</expression>
 				<action class="ActionDestroyEntity" name="destroySelf">
-					<string name="entityInstanceName" value="PinwheelEnemy"/>
+					<expression name="exp">
+						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+					</expression>
 				</action>
+				
+				<!-- Collectible Spawning -->
+				<if name="CheckIfCanSpawnCollectible">
+					<condition>
+						<string name="expression">canspawncollectible</string>
+					</condition>
+					<then>
+						<!-- Spawn Multiplier Collectible at Enemy Position -->
+						<action class="ActionCreateEntityFromFile" name="Multiplier">
+							<string name="filePath" value="Content/config/collect_multiplier.xml" index="0" />
+							<string name="className" value="CollectMultiplier" index="0" />
+							<string name="instanceName" value="CollectMultiplier" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">Multiplier.newEntity.position = position</string>
+						</expression>
+					</then>
+				</if>
 			</then>
 		</if>
 	</action>
