@@ -97,6 +97,13 @@ namespace Library {
 	}
 
 	template<typename ParticlePattern>
+	void ParticleSystem<ParticlePattern>::OnDestroy(WorldState& worldState)
+	{
+		(worldState);
+		Renderer::GetInstance()->RemoveRenderable(this);
+	}
+
+	template<typename ParticlePattern>
 	void ParticleSystem<ParticlePattern>::Render(RenderDevice * device)
 	{
 		if (!mEnabled || mExpired) {
@@ -107,7 +114,7 @@ namespace Library {
 			Init(device);
 		}
 
-		std::uint32_t cnt = mParticles.size();
+		std::uint32_t cnt = static_cast<std::uint32_t>(mParticles.size());
 
 		for (std::uint32_t i = 0; i < cnt; ++i) {
 

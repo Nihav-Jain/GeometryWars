@@ -118,16 +118,15 @@
 		<reaction class="ReactionAttributed" name="OnUseBomb">
 			<string name="subtype" value="Bomb"/>
 			
-			<!--
-			<if name="CheckPlayer">
-				<condition><string name="expression">PlayerNumber == player</string></condition>
-				<then> -->
+			<if name="CheckIsButtonPressed">
+				<condition><string name="expression">IsButtonPressed</string></condition>
+				<then>
 					<expression name="enablebomb">
 						<string name="expression">useBomb = {true}</string>
-					</expression> <!--
+					</expression>
 				</then>
 			</if>
-			-->
+			
 		</reaction>
 	</action>
 		

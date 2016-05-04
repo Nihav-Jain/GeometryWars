@@ -10,9 +10,9 @@ namespace Library
 	 *	@requires XmlParseHelperActionEvent, ActionEventFactory
 	 *	@inherits Action
 	 */
-	class ActionEvent : public Action
+	class ActionEvent : public ActionList
 	{
-		RTTI_DECLARATIONS(ActionEvent, Action);
+		RTTI_DECLARATIONS(ActionEvent, ActionList);
 
 	public:
 		/**

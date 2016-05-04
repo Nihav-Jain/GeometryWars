@@ -2,7 +2,7 @@
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(1, 0, 0, 0)"/>
 	<bool name="isdead" value="false" />
-	<bool name="canspawncollectible" value="false" />
+	<bool name="canspawncollectible" value="true" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
   
@@ -74,6 +74,17 @@
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
+				
+				<!-- playMusic -->
+				<action class="ActionPlayMusic" name="playMusic1">
+					<string name="musicName" value="Enemy_explode.mp3"/>
+					<integer name="loop" value="1"  index="0"/>
+					<float name="volume" value="1.0" index="0"/>
+				</action>
+				
+				<expression name="SetPosition">
+					<string name="expression">numberOfEnemies = numberOfEnemies - {1}</string>
+				</expression>
 				
 				<!-- Collectible Spawning -->
 				<if name="CheckIfCanSpawnCollectible">

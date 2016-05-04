@@ -1,5 +1,14 @@
 <sector name="start_menu">
-
+	
+		<beginplay>
+			<!-- Play background music -->
+			<action class="ActionPlayMusic" name="playMusic1">
+				<string name="musicName" value="GeometryWarsStart.mp3"/>
+				<integer name="loop" value="0"  index="0"/>
+				<float name="volume" value="1.0" index="0"/>
+			</action>
+		</beginplay>
+		
 	<gameobject class="GameObject" name="TitleScreen">
 	
 		<vector name="position" value="vec4(0, 0, 0, 0)"/>
@@ -17,14 +26,39 @@
 	
 	</gameobject>
 		
+
 	<reaction class="ReactionAttributed" name="ExitStartMenu">
 		<string name="subtype" value="Start"/>
-		
-		<!-- Load Game Sector -->
-		<action class="ActionLoadSector" name="loadGame">
-			<string name="sectorName" value="InGameSector" />
-		</action>
-		
+		<if name="CheckIsButtonPressed">
+			<condition><string name="expression">IsButtonPressed</string></condition>
+			<then>
+								
+				<!-- Load Game Sector -->
+				<action class="ActionLoadSector" name="loadGame">
+					<string name="sectorName" value="InGameSector" />
+				</action>
+
+				<!-- Play GameStart music -->
+				<action class="ActionPlayMusic" name="playMusic1">
+					<string name="musicName" value="UI_Confirm.mp3"/>
+					<integer name="loop" value="1"  index="0"/>
+					<float name="volume" value="1.0" index="0"/>
+				</action>
+
+				<!-- Stop background music -->
+				<action class="ActionStopMusic" name="playMusic1">
+					<string name="musicName" value="GeometryWarsStart.mp3"/>
+				</action>
+
+				<!-- Play background music -->
+				<action class="ActionPlayMusic" name="playMusic1">
+					<string name="musicName" value="GeometryWars_RE2.mp3"/>
+					<integer name="loop" value="0"  index="0"/>
+					<float name="volume" value="0.8" index="0"/>
+				</action>
+
+				</then>
+			</if>
 	</reaction>
 	
 </sector>

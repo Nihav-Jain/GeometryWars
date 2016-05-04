@@ -22,6 +22,8 @@ namespace Library {
 
 		virtual void Update(WorldState& worldState) override;
 
+		virtual void OnDestroy(WorldState& worldState) override;
+
 		virtual void Render(RenderDevice * device) override;
 
 	private:
