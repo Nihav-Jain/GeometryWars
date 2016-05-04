@@ -275,6 +275,12 @@ namespace Library
 			static const Hashmap<DatumType, std::string> DatumTypeToString;
 
 		private:
+			class DatumTypeHash
+			{
+			public:
+				std::uint32_t operator()(const DatumType& key) const;
+			};
+
 			template <DatumType T>
 			Datum Add(const Datum& rhs) const;
 			template<>
@@ -289,7 +295,7 @@ namespace Library
 			Datum Add<DatumType::MATRIX4x4>(const Datum& rhs) const;
 
 			typedef Datum (Datum::*AddDatums)(const Datum&) const;
-			static Hashmap<DatumType, AddDatums> mAddDatums;
+			static Hashmap<DatumType, AddDatums, DatumTypeHash> mAddDatums;
 
 			template <DatumType T>
 			Datum Subtract(const Datum& rhs) const;
@@ -303,7 +309,7 @@ namespace Library
 			Datum Subtract<DatumType::MATRIX4x4>(const Datum& rhs) const;
 
 			typedef Datum(Datum::*SubtractDatums)(const Datum&) const;
-			static Hashmap<DatumType, SubtractDatums> mSubtractDatums;
+			static Hashmap<DatumType, SubtractDatums, DatumTypeHash> mSubtractDatums;
 
 			template <DatumType T>
 			Datum Multiply(const Datum& rhs) const;
@@ -317,7 +323,7 @@ namespace Library
 			Datum Multiply<DatumType::MATRIX4x4>(const Datum& rhs) const;
 
 			typedef Datum(Datum::*MultiplyDatums)(const Datum&) const;
-			static Hashmap<DatumType, MultiplyDatums> mMultiplyDatums;
+			static Hashmap<DatumType, MultiplyDatums, DatumTypeHash> mMultiplyDatums;
 
 			template <DatumType T>
 			Datum Divide(const Datum& rhs) const;
@@ -331,7 +337,7 @@ namespace Library
 			Datum Divide<DatumType::MATRIX4x4>(const Datum& rhs) const;
 
 			typedef Datum(Datum::*DivideDatums)(const Datum&) const;
-			static Hashmap<DatumType, DivideDatums> mDivideDatums;
+			static Hashmap<DatumType, DivideDatums, DatumTypeHash> mDivideDatums;
 
 			template <DatumType T>
 			Datum LessThan(const Datum& rhs) const;
@@ -343,7 +349,7 @@ namespace Library
 			Datum LessThan<DatumType::STRING>(const Datum& rhs) const;
 
 			typedef Datum(Datum::*LessThanDatums)(const Datum&) const;
-			static Hashmap<DatumType, LessThanDatums> mLessThanDatums;
+			static Hashmap<DatumType, LessThanDatums, DatumTypeHash> mLessThanDatums;
 
 			DatumType mType;
 			std::uint32_t mSize;
@@ -368,6 +374,7 @@ namespace Library
 			void Set(DatumType typeToSet, std::uint32_t index);
 			void CurrentTypeCheck(DatumType typeToComapreTo) const;
 			void OutOfBoundsCheck(std::uint32_t index) const;
+
 	};
 
 }

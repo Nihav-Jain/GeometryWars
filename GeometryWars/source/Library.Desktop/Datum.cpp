@@ -5,7 +5,7 @@
 
 namespace Library
 {
-	Hashmap<Datum::DatumType, Datum::AddDatums> Datum::mAddDatums = {
+	Hashmap<Datum::DatumType, Datum::AddDatums, Datum::DatumTypeHash> Datum::mAddDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Add<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Add<DatumType::FLOAT> },
 		{ Datum::DatumType::STRING, &Datum::Add<DatumType::STRING> },
@@ -13,28 +13,28 @@ namespace Library
 		{ Datum::DatumType::MATRIX4x4, &Datum::Add<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::SubtractDatums> Datum::mSubtractDatums = {
+	Hashmap<Datum::DatumType, Datum::SubtractDatums, Datum::DatumTypeHash> Datum::mSubtractDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Subtract<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Subtract<DatumType::FLOAT> },
 		{ Datum::DatumType::VECTOR4, &Datum::Subtract<DatumType::VECTOR4> },
 		{ Datum::DatumType::MATRIX4x4, &Datum::Subtract<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::MultiplyDatums> Datum::mMultiplyDatums = {
+	Hashmap<Datum::DatumType, Datum::MultiplyDatums, Datum::DatumTypeHash> Datum::mMultiplyDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Multiply<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Multiply<DatumType::FLOAT> },
 		{ Datum::DatumType::VECTOR4, &Datum::Multiply<DatumType::VECTOR4> },
 		{ Datum::DatumType::MATRIX4x4, &Datum::Multiply<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::DivideDatums> Datum::mDivideDatums = {
+	Hashmap<Datum::DatumType, Datum::DivideDatums, Datum::DatumTypeHash> Datum::mDivideDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Divide<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Divide<DatumType::FLOAT> },
 		{ Datum::DatumType::VECTOR4, &Datum::Divide<DatumType::VECTOR4> },
 		{ Datum::DatumType::MATRIX4x4, &Datum::Divide<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::LessThanDatums> Datum::mLessThanDatums = {
+	Hashmap<Datum::DatumType, Datum::LessThanDatums, Datum::DatumTypeHash> Datum::mLessThanDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::LessThan<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::LessThan<DatumType::FLOAT> },
 		{ Datum::DatumType::STRING, &Datum::LessThan<DatumType::STRING> }
@@ -936,42 +936,81 @@ namespace Library
 
 		if (index < mSize)
 		{
-			uint32_t sizeOfType = 0;
+			std::uint32_t sizeOfType = 0;
+			std::uint32_t i = index;
 			switch (mType)
 			{
 			case DatumType::INTEGER:
 				sizeOfType = sizeof(std::int32_t);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mInt[i] = mData.mInt[i + 1];
+				}
 				break;
 			case DatumType::FLOAT:
 				sizeOfType = sizeof(std::float_t);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mFloat[i] = mData.mFloat[i + 1];
+				}
 				break;
 			case DatumType::VECTOR4:
 				mData.mVec4[index].glm::vec4::~vec4();
 				sizeOfType = sizeof(glm::vec4);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mVec4[i] = mData.mVec4[i + 1];
+				}
 				break;
 			case DatumType::MATRIX4x4:
 				mData.mMat4x4[index].glm::mat4::~mat4();
 				sizeOfType = sizeof(glm::mat4);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mMat4x4[i] = mData.mMat4x4[i + 1];
+				}
 				break;
 			case DatumType::STRING:
 				mData.mString[index].std::string::~string();
 				sizeOfType = sizeof(std::string);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mString[i] = mData.mString[i + 1];
+				}
 				break;
 			case DatumType::BOOLEAN:
 				sizeOfType = sizeof(bool);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mBool[i] = mData.mBool[i + 1];
+				}
 				break;
 			case DatumType::POINTER:
 				sizeOfType = sizeof(RTTI*);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mRttiPtr[i] = mData.mRttiPtr[i + 1];
+				}
 				break;
 			case DatumType::TABLE:
 				sizeOfType = sizeof(Scope*);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mScopePtr[i] = mData.mScopePtr[i + 1];
+				}
+				break;
 			case DatumType::REFERENCE:
 				sizeOfType = sizeof(Datum*);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mDatumPtr[i] = mData.mDatumPtr[i + 1];
+				}
+				break;
 			default:
 				break;
 			}
 
-			std::memmove(mData.mInt + index, mData.mInt + index + 1, sizeOfType * (mSize - index - 1));
+			//memmove_s(mData.mInt + index, (mSize - index - 1), mData.mInt + index + 1, sizeOfType * (mSize - index - 1));
 			mSize--;
 		}
 	}
@@ -1698,4 +1737,9 @@ namespace Library
 		return result;
 	}
 #pragma endregion
+
+	std::uint32_t Datum::DatumTypeHash::operator()(const DatumType& key) const
+	{
+		return static_cast<std::uint32_t>(key);
+	}
 }

@@ -37,6 +37,8 @@ namespace Library
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
+	bool Player::sInitializedManagers = false;
+
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(), mOutOfLives(false),
 		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
@@ -62,6 +64,10 @@ namespace Library
 	Player::~Player()
 	{
 		ScoreManager::DeleteInstance();
+		LivesManager::DeleteInstance();
+		BombManager::DeleteInstance();
+
+		sInitializedManagers = false;
 	}
 
 	Player::Player(const Player & rhs)
@@ -119,9 +125,9 @@ namespace Library
 		ResetMultiplier();
 		OutputDebugStringA("Player Hit!");
 		
-		// TODO: Kill all enemies on screen
-		//++mBombCount;
-		//UseBomb(worldState);
+		// Destroy all active enemies
+		DestroyAllEnemies(worldState);
+		ResetMultiplier();
 
 		// Check for gameover
 		if (mLives <= 0)
@@ -139,11 +145,19 @@ namespace Library
 	{
 		std::int32_t scoreWMultiplier = score * mMultiplier;
 		ScoreManager::GetInstance()->AddValue(scoreWMultiplier);
+
+		OutputDebugStringA("Score = ");
+		OutputDebugStringA(std::to_string(ScoreManager::GetInstance()->GetValue()).c_str());
+		OutputDebugStringA("\n");
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
 		ScoreManager::GetInstance()->SetValue(score);
+
+		OutputDebugStringA("Score = ");
+		OutputDebugStringA(std::to_string(ScoreManager::GetInstance()->GetValue()).c_str());
+		OutputDebugStringA("\n");
 	}
 
 	const std::int32_t Player::Multiplier() const
@@ -178,16 +192,7 @@ namespace Library
 
 		if (mBombCount > 0)
 		{
-			Sector* mySector = GetSector();
-			Vector<Entity*> enemies = mySector->GetAllEntitiesOfType(Enemy::TypeIdClass());
-			std::int32_t numEnemies = enemies.Size();
-
-			// Destroy all active enemies
-			for (std::int32_t i = 0; i < numEnemies; ++i)
-			{
-				Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
-				enemy->EnemyDeath(worldState, true);
-			}
+			DestroyAllEnemies(worldState);
 
 			--mBombCount;
 			BombManager::GetInstance()->SetValue(mBombCount);
@@ -274,6 +279,8 @@ namespace Library
 
 	void Player::OnDestroy(WorldState & worldState)
 	{
+		sInitializedManagers = false;
+
 		ScoreManager::GetInstance()->CleanupSprites();
 		LivesManager::GetInstance()->CleanupSprites();
 		BombManager::GetInstance()->CleanupSprites();
@@ -290,21 +297,26 @@ namespace Library
 
 	void Player::InitSpriteManagers() const
 	{
-		ScoreManager* score = ScoreManager::GetInstance();
-		score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
-		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
-		score->Init();
-		score->RefreshSprites();
+		if (!sInitializedManagers)
+		{
+			sInitializedManagers = true;
 
-		LivesManager* lives = LivesManager::GetInstance();
-		lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
-		lives->Init();
-		lives->RefreshSprites();
+			ScoreManager* score = ScoreManager::GetInstance();
+			score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
+			score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
+			score->Init();
+			score->RefreshSprites();
 
-		BombManager* bomb = BombManager::GetInstance();
-		bomb->SetData(mBombCount, mBombCount, 30, 30, 315, 5, true, "Content//resource//", "", ".png");
-		bomb->Init();
-		bomb->RefreshSprites();
+			LivesManager* lives = LivesManager::GetInstance();
+			lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
+			lives->Init();
+			lives->RefreshSprites();
+
+			BombManager* bomb = BombManager::GetInstance();
+			bomb->SetData(mBombCount, mBombCount, 30, 30, 315, -5, true, "Content//resource//", "", ".png");
+			bomb->Init();
+			bomb->RefreshSprites();
+		}
 	}
 
 	void Player::ResetAttributePointers()
@@ -321,6 +333,23 @@ namespace Library
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_HEADING].SetStorage(&mHeading, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
+	}
+
+	void Player::DestroyAllEnemies(WorldState& worldState)
+	{
+		Sector* mySector = GetSector();
+		Vector<Entity*> enemies = mySector->GetAllEntitiesOfType(Enemy::TypeIdClass());
+		std::int32_t numEnemies = enemies.Size();
+
+		// Destroy all active enemies
+		for (std::int32_t i = 0; i < numEnemies; ++i)
+		{
+			Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
+			if (enemy->Name() != "EnemySpawner")
+			{
+				enemy->EnemyDeath(worldState, true);
+			}
+		}
 	}
 
 }

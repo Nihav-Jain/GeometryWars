@@ -10,8 +10,8 @@ namespace Library
 			{
 				std::uint32_t hash = 0;
 				std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(const_cast<TKey*>(&key));
-
-				for (std::uint32_t i = 0; i < sizeof(&key); i++)
+				std::uint32_t size = (sizeof(key) >= 4) ? 4U : sizeof(key);
+				for (std::uint32_t i = 0; i < size; i++)
 				{
 					hash += arr[i];
 				}
@@ -57,17 +57,17 @@ namespace Library
 	};
 
 	template <>
-	class DefaultHash<int>
+	class DefaultHash<std::int32_t>
 	{
 	public:
-		std::uint32_t operator()(const int& key) const;
+		std::uint32_t operator()(const std::int32_t& key) const;
 	};
 
 	template <>
-	class DefaultHash<int*>
+	class DefaultHash<std::int32_t*>
 	{
 	public:
-		std::uint32_t operator()(int* key) const;
+		std::uint32_t operator()(std::int32_t* key) const;
 	};
 
 	template <>

@@ -66,6 +66,8 @@ namespace Library
 
 	protected:
 
+		static bool sInitializedManagers;
+
 		void CreateSpriteManagers() const;
 		void InitSpriteManagers() const;
 
@@ -91,6 +93,7 @@ namespace Library
 		std::chrono::milliseconds mShootTimer;
 
 		void ResetAttributePointers();
+		void DestroyAllEnemies(WorldState& worldState);
 
 	};
 

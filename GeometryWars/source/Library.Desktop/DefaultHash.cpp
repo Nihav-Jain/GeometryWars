@@ -3,12 +3,12 @@
 
 namespace Library
 {
-	std::uint32_t DefaultHash<int>::operator()(const int& key) const
+	std::uint32_t DefaultHash<std::int32_t>::operator()(const std::int32_t& key) const
 	{
 		return key;
 	}
 
-	std::uint32_t DefaultHash<int*>::operator()(int* key) const
+	std::uint32_t DefaultHash<std::int32_t*>::operator()(std::int32_t* key) const
 	{
 		std::uint32_t hash = 0;
 		std::uint8_t* arr = reinterpret_cast<std::uint8_t*>(key);

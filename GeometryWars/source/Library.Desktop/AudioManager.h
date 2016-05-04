@@ -12,7 +12,7 @@
 #pragma endregion
 namespace Library
 {
-	const std::int32_t MAX_CHANNELS = 32;
+	const std::int32_t MAX_CHANNELS = 256;
 	
 	class AudioManager
 	{
@@ -84,7 +84,7 @@ namespace Library
 		void CreateMusic(const std::string& audioNameWithExtension);
 	
 		const std::string PATH = "Content/Music/";
-		const std::int32_t VIRTUAL_CHANNELS = 64;
+		const std::int32_t VIRTUAL_CHANNELS = 256;
 		const std::int32_t MIN_PRIORITY = 0;
 		const std::int32_t MAX_PRIORITY = 256;
 		FMOD::Channel *mChannels[MAX_CHANNELS];
