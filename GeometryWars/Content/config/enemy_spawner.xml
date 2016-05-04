@@ -60,20 +60,20 @@
 			<string name="expression">time = time + ownerWorld.deltaTime</string>
 		</expression>
 		
-		<if name="TeirCondition">
+		<if name="TierCondition">
 			<condition>
 				<string name="expression">Player1.multiplier &gt; currentTier</string>
 			</condition>
 			<then>
-				<expression name="incrementTeir">
+				<expression name="incrementTier">
 					<string name="expression">enemyTier = enemyTier + {1}</string>
 				</expression>
-				<if name="TeirCondition">
+				<if name="TierCondition">
 					<condition>
 						<string name="expression">enemyTier &gt; NumberOfEnemyTypes</string>
 					</condition>
 					<then>
-						<expression name="incrementTeir">
+						<expression name="incrementTier">
 							<string name="expression">enemyTier = NumberOfEnemyTypes</string>
 						</expression>
 					</then>
@@ -84,7 +84,7 @@
 					</else>
 				</if>
 				<expression name="incrementMultiplier">
-					<string name="expression">currentTier = currentTier + {15}</string>
+					<string name="expression">currentTier = currentTier + {20}</string>
 				</expression>
 			</then>	
 		</if>
@@ -95,7 +95,7 @@
 			</condition>
 			<then>
 				<expression name="increaseFrequency">
-					<string name="expression">frequency = frequency * {0.75f}</string>
+					<string name="expression">frequency = frequency * {0.5f}</string>
 				</expression>
 				<expression name="incrementFrequency">
 					<string name="expression">currentFrequency = currentFrequency + {5}</string>

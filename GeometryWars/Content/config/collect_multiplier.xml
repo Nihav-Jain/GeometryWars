@@ -2,14 +2,16 @@
 	<!-- Collectible Class Attributes -->
 	<bool name="iscollected" value="false" />
 	<string name="collectiblechannel" value="collideplayers" />
-  
+	<string name="movechannel" value="movetoplayer" />
+	<vector name="position" value="vec4(0, 0, 0, 0)"/>
+	
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
-	<float name="speed" value="0" />
+	<float name="speed" value="0.2" />
 	<integer name="TimeAlive" value="0" />
-	<integer name="LifeSpan" value="3000" />
+	<integer name="LifeSpan" value="4000" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -29,16 +31,28 @@
 		<vector name="points" value="vec4(0, -0.4, 0, 0)" />
 	</polygon_renderer>
 	
-	<!-- CircleCollider Component -->
+	<!-- CircleCollider Component (collideplayers) -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="2.0" />
+		<float name="radius" value="5.0" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
 	
+	<!-- CircleCollider Component (movetoplayer) -->
+	<component class="CircleColliderComponent" name="CircleColliderComponent">
+		<float name="radius" value="10.0" />
+		<bool name="enabled" value="true" />
+		<string name="channel" value="movetoplayer" />
+	</component>
+	
 	<!-- Update Loop -->
 	<action class="ActionList" name="Update">
+		<!-- Update position -->
 		<expression name="movement">
+			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
+		</expression>
+		
+		<expression name="update_time">
 			<string name="expression">TimeAlive = TimeAlive + ownerWorld.deltaTime</string>
 		</expression>
 		<if name="CheckIfCollected">
