@@ -25,18 +25,6 @@ namespace OpenGLImplmentation {
 
 	OpenGLRenderDevice::~OpenGLRenderDevice()
 	{
-		for (auto ptr : mShaders) {
-			delete ptr;
-		}
-
-		for (auto ptr : mBuffers) {
-			delete ptr;
-		}
-
-		for (auto ptr : mTextures) {
-			delete ptr;
-		}
-
 		glfwDestroyWindow(mWindow);
 		glfwTerminate();
 	}
@@ -127,6 +115,11 @@ namespace OpenGLImplmentation {
 		}
 		
 		glBindVertexArray(0);
+	}
+
+	bool OpenGLRenderDevice::IsValid()
+	{
+		return !glfwWindowShouldClose(mWindow);
 	}
 
 	Library::Buffer * OpenGLRenderDevice::CreateBuffer(bool createIndicesBuffer)

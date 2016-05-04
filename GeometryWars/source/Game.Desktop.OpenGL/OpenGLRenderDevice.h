@@ -32,6 +32,8 @@ namespace OpenGLImplmentation {
 
 		virtual void Draw(DrawMode mode, std::uint32_t counts, bool useIndices) override;
 
+		virtual bool IsValid();
+
 	private:
 		// The actuall draw call
 		virtual void ClearScreen() override;
