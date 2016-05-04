@@ -91,15 +91,15 @@ namespace Library
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
-	void Bullet::OnOverlapBegin(const GameObject & other, WorldState & worldState)
+	void Bullet::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)
 	{
-		Enemy* enemy = other.AssertiveAs<Enemy>();
+		if (channel == mCollisionChannel)
+		{
+			Enemy* enemy = other.AssertiveAs<Enemy>();
+			enemy->EnemyDeath(worldState, true);
 
-		enemy->EnemyDeath(worldState, true);
-
-		mPlayerOwner->AddScore( enemy->Score() );
-
-		(worldState);
+			mPlayerOwner->AddScore(enemy->Score());
+		}	
 	}
 
 	void Bullet::ResetAttributePointers()

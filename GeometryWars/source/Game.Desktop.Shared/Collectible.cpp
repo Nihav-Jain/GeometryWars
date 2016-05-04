@@ -52,14 +52,16 @@ namespace Library
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
-	void Collectible::OnOverlapBegin(const GameObject & other, WorldState &)
+	void Collectible::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState &)
 	{
-		Player* player = other.AssertiveAs<Player>();
+		if (channel == mCollisionChannel)
+		{
+			Player* player = other.AssertiveAs<Player>();
+			player->IncrementMultiplier();
 
-		player->IncrementMultiplier();
-
-		mIsCollected = true;
-		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
+			mIsCollected = true;
+			GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
+		}
 	}
 
 	void Collectible::ResetAttributePointers()

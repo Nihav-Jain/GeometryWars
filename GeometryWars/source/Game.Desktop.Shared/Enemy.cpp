@@ -106,13 +106,16 @@ namespace Library
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
-	void Enemy::OnOverlapBegin(const GameObject & other, WorldState & worldState)
+	void Enemy::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)
 	{
-		Player* player = other.AssertiveAs<Player>();
+		if (channel == mCollisionChannel)
+		{
+			Player* player = other.AssertiveAs<Player>();
+			player->PlayerDeath(worldState);
 
-		player->PlayerDeath(worldState);
-		
-		EnemyDeath(worldState);
+			EnemyDeath(worldState);
+		}
+
 	}
 
 	void Enemy::ResetAttributePointers()
