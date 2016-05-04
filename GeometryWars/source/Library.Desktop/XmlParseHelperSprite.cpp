@@ -23,7 +23,7 @@ namespace Library {
 			return false;
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);
@@ -34,7 +34,7 @@ namespace Library {
 		sprite->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
 
-		Renderer::GetInstance()->AddRenderable(sprite);
+		//Renderer::GetInstance()->AddRenderable(sprite);
 		sharedDataPtr->CurrentScopePtr = sprite;
 
 		return true;

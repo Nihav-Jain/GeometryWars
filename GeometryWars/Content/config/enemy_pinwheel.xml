@@ -2,6 +2,7 @@
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
+	<bool name="canspawncollectible" value="false" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
   
@@ -24,17 +25,12 @@
 		<expression name="change_vel">
 			<string name="expression">velocity = normalize(direction)</string>
 		</expression>
-		
-		<expression name="GetEnemyCount">
-			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>
-		
 	</beginplay>
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.8549926, 0.223228, 0.8549926, 1)" />
+		<vector name="color" value="vec4(0.796875, 0.19921875, 1, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
@@ -102,6 +98,24 @@
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
+				
+				<!-- Collectible Spawning -->
+				<if name="CheckIfCanSpawnCollectible">
+					<condition>
+						<string name="expression">canspawncollectible</string>
+					</condition>
+					<then>
+						<!-- Spawn Multiplier Collectible at Enemy Position -->
+						<action class="ActionCreateEntityFromFile" name="Multiplier">
+							<string name="filePath" value="Content/config/collect_multiplier.xml" index="0" />
+							<string name="className" value="CollectMultiplier" index="0" />
+							<string name="instanceName" value="CollectMultiplier" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">Multiplier.newEntity.position = position</string>
+						</expression>
+					</then>
+				</if>
 			</then>
 		</if>
 	</action>

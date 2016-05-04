@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Bullet.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LivesManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionDebug.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScoreManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpriteManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BombManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Bullet.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LivesManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionDebug.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScoreManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpriteManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BombManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="XML">
+      <UniqueIdentifier>{b3de3877-65aa-4bf1-a18b-c937f5261db4}</UniqueIdentifier>
+      <Extensions>.xml</Extensions>
+    </Filter>
+  </ItemGroup>
+</Project>

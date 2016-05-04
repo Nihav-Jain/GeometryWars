@@ -82,24 +82,32 @@ namespace Library {
 			if (it.second.PostProcessingFrameBuffer == nullptr)
 				it.second.PostProcessingFrameBuffer = mDevice->CreateFrameBuffer(1);
 
-			it.second.TargetFrameBuffer->Use();
-			it.second.TargetFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+			if (it.second.TargetFrameBuffer != nullptr)
+			{
+				it.second.TargetFrameBuffer->Use();
+				it.second.TargetFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+			}
 			// objects
 			for (auto obj : it.second.Objects) {
 				obj->Render(mDevice);
 			}
 
-			FrameBuffer * buff = it.second.TargetFrameBuffer;
-			// Post processing
-			for (auto & p = it.second.PostProcessings.begin();
-			p != it.second.PostProcessings.end(); ++p) {
-				(*p)->Apply(mDevice, buff, it.second.PostProcessingFrameBuffer);
+			if (it.second.TargetFrameBuffer != nullptr) {
+				FrameBuffer * buff = it.second.TargetFrameBuffer;
+				// Post processing
+				for (auto & p = it.second.PostProcessings.begin();
+					p != it.second.PostProcessings.end(); ++p) {
+					(*p)->Apply(mDevice, buff, it.second.PostProcessingFrameBuffer);
+				}
 			}
 		}
 
 		// Render to the final screen
-		mDefaultFrameBuffer->Use();
-		mDefaultFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+		if (mDefaultFrameBuffer)
+		{
+			mDefaultFrameBuffer->Use();
+			mDefaultFrameBuffer->ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+		}
 
 		for (auto & it : mLayers) {
 			mShader->Use();
@@ -108,12 +116,13 @@ namespace Library {
 			FrameBuffer * buff = it.second.PostProcessings.size() == 0 ?
 				it.second.TargetFrameBuffer : it.second.PostProcessingFrameBuffer;
 
-			buff->GetFrameTexture()[0]->Use(0);
+			if(buff != nullptr)
+				buff->GetFrameTexture()[0]->Use(0);
 
 			mDevice->Draw();
 		}
 
-		mDevice->Invalid();
+		mDevice->ClearScreen();
 	}
 
 	void Renderer::Init()

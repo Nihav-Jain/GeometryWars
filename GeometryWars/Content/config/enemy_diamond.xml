@@ -2,6 +2,7 @@
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
 	<bool name="isdead" value="false" />
+	<bool name="canspawncollectible" value="false" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
 	  
@@ -10,13 +11,6 @@
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
 	<float name="speed" value="0.2" />
-	
-	<!-- get Numbered name -->
-	<beginplay>
-		<expression name="GetEnemyCount">
-			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>		
-	</beginplay>
 	  
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
@@ -66,22 +60,34 @@
 				<string name="expression">isdead</string>
 			</condition>
 			<then>
-				<expression name="exp">
-					<string name="expression">destroySelf.entityInstanceName = ownerEntity.name</string>
-				</expression>
 				<action class="ActionDestroyEntity" name="destroySelf">
 					<expression name="exp">
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
-				
+				<!-- Collectible Spawning -->
+				<if name="CheckIfCanSpawnCollectible">
+					<condition>
+						<string name="expression">canspawncollectible</string>
+					</condition>
+					<then>
+						<!-- Spawn Multiplier Collectible at Enemy Position -->
+						<action class="ActionCreateEntityFromFile" name="Multiplier">
+							<string name="filePath" value="Content/config/collect_multiplier.xml" index="0" />
+							<string name="className" value="CollectMultiplier" index="0" />
+							<string name="instanceName" value="CollectMultiplier" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">Multiplier.newEntity.position = position</string>
+						</expression>
+					</then>
+				</if>
 				<!-- playMusic -->
 				<action class="ActionPlayMusic" name="playMusic1">
 					<string name="musicName" value="Enemy_explode.mp3"/>
 					<integer name="loop" value="1"  index="0"/>
 					<float name="volume" value="1.0" index="0"/>
-				</action>
-				
+				</action>			
 			</then>
 		</if>
 	</action>

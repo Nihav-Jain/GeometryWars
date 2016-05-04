@@ -12,13 +12,13 @@ namespace Library
 
 		virtual ~ActionPlayMusic() = default;
 
-		ActionPlayMusic(const ActionPlayMusic& rhs) = delete;
 		ActionPlayMusic& operator=(const ActionPlayMusic& rhs) = delete;
 
 		/**
 		*	Calls the update method on all of its child Actions, called by the parent Action / Entity / Sector / World's Update method
 		*	@param reference to the WorldState
 		*/
+		Scope * Clone(const Scope & rhs) const;
 		virtual void Update(WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_NAME;
