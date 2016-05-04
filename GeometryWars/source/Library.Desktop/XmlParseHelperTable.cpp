@@ -14,10 +14,10 @@ namespace Library
 			return false;
 
 		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
-			throw std::exception("Invalid syntax for <scope>. Missing attribute: name");
+			throw std::exception("ClearScreen syntax for <scope>. Missing attribute: name");
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::SCOPE_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);

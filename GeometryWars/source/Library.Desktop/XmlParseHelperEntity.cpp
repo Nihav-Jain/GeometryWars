@@ -13,12 +13,12 @@ namespace Library
 			return false;
 
 		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
-			throw std::exception("Invalid syntax for <entity>. Missing attribute: name");
+			throw std::exception("ClearScreen syntax for <entity>. Missing attribute: name");
 		if (!attributes.ContainsKey(ATTRIBUTE_CLASS))
-			throw std::exception("Invalid syntax for <entity>. Missing attribute: class");
+			throw std::exception("ClearScreen syntax for <entity>. Missing attribute: class");
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ENTITY_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);

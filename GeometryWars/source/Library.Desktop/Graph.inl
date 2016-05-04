@@ -284,7 +284,7 @@ namespace Library
 	bool Graph<T>::Traversor::HasMoreChildren() const
 	{
 		if (mCurrentVertex == nullptr || mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		if (mCurrentVertex->EdgeList().Size() <= mCurrentChildIndex)
 			return false;
 		return true;
@@ -294,9 +294,9 @@ namespace Library
 	T& Graph<T>::Traversor::GetCurrentChildVertex() const
 	{
 		if (mCurrentVertex == nullptr || mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		if (mCurrentVertex->EdgeList().Size() <= mCurrentChildIndex)
-			throw std::exception("Invalid operation. Current vertex does not have any more children.");
+			throw std::exception("ClearScreen operation. Current vertex does not have any more children.");
 		return (mCurrentVertex->EdgeList()[mCurrentChildIndex])->GetHead()->Data();
 	}
 
@@ -304,7 +304,7 @@ namespace Library
 	bool Graph<T>::Traversor::MoveToNextChild()
 	{
 		if (mCurrentVertex == nullptr || mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		mCurrentChildIndex++;
 		if (mCurrentVertex->EdgeList().Size() <= mCurrentChildIndex)
 			return false;
@@ -315,7 +315,7 @@ namespace Library
 	bool Graph<T>::Traversor::TraverseToCurrentChild()
 	{
 		if (mCurrentVertex == nullptr || mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		if (mCurrentVertex->EdgeList().Size() <= mCurrentChildIndex)
 			return false;
 		mCurrentVertex = (mCurrentVertex->EdgeList()[mCurrentChildIndex])->GetHead();
@@ -327,7 +327,7 @@ namespace Library
 	T& Graph<T>::Traversor::operator*()
 	{
 		if (mCurrentVertex == nullptr || mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		return mCurrentVertex->Data();
 	}
 
@@ -335,7 +335,7 @@ namespace Library
 	const T& Graph<T>::Traversor::operator*() const
 	{
 		if (mCurrentVertex == nullptr || mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		return mCurrentVertex->Data();
 	}
 
@@ -447,9 +447,9 @@ namespace Library
 	T& Graph<T>::BreadthFirstTraversor::operator*()
 	{
 		if (mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		if(mQueue.IsEmpty())
-			throw std::exception("Invalid operation. Cannot dereference empty Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference empty Traversor.");
 		return mQueue.Front()->Data();
 	}
 
@@ -457,9 +457,9 @@ namespace Library
 	const T& Graph<T>::BreadthFirstTraversor::operator*() const
 	{
 		if (mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor.");
 		if (mQueue.IsEmpty())
-			throw std::exception("Invalid operation. Cannot dereference empty Traversor.");
+			throw std::exception("ClearScreen operation. Cannot dereference empty Traversor.");
 		return mQueue.Front()->Data();
 	}
 
@@ -529,7 +529,7 @@ namespace Library
 	void Graph<T>::DepthFirstTraversor::MoveToNext()
 	{
 		if (mVertexStack.IsEmpty())
-			throw std::exception("Invalid operation. Traversal already completed.");
+			throw std::exception("ClearScreen operation. Traversal already completed.");
 
 		Vertex* currentVertex = mVertexStack.Top();
 
@@ -558,9 +558,9 @@ namespace Library
 	T& Graph<T>::DepthFirstTraversor::operator*()
 	{
 		if (mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor");
 		if(mVertexStack.IsEmpty())
-			throw std::exception("Invalid operation. Cannot dereference empty Traversor");
+			throw std::exception("ClearScreen operation. Cannot dereference empty Traversor");
 		return mVertexStack.Top()->Data();
 	}
 
@@ -568,9 +568,9 @@ namespace Library
 	const T& Graph<T>::DepthFirstTraversor::operator*() const
 	{
 		if (mOwner == nullptr)
-			throw std::exception("Invalid operation. Cannot dereference non-hosted Traversor");
+			throw std::exception("ClearScreen operation. Cannot dereference non-hosted Traversor");
 		if (mVertexStack.IsEmpty())
-			throw std::exception("Invalid operation. Cannot dereference empty Traversor");
+			throw std::exception("ClearScreen operation. Cannot dereference empty Traversor");
 		return mVertexStack.Top()->Data();
 	}
 
