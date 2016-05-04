@@ -139,6 +139,12 @@
 							<string name="className" value="SquareEnemy" index="0" />
 							<string name="instanceName" value="SquareEnemy" index="0" />
 						</action>
+						
+						<!-- Play Spawning music -->
+						<action class="ActionPlayMusic" name="playMusic1">
+							<string name="musicName" value="Enemy_spawn_red.mp3"/>
+						</action>
+						
 						<expression name="SetPosition">
 							<string name="expression">SpawnSquare.newEntity.position = position</string>
 						</expression>
@@ -149,6 +155,12 @@
 							<string name="className" value="DiamondEnemy" index="0" />
 							<string name="instanceName" value="DiamondEnemy" index="0" />
 						</action>
+
+						<!-- Play Spawning music -->
+						<action class="ActionPlayMusic" name="playMusic1">
+							<string name="musicName" value="Wanderer_spawn.mp3"/>
+						</action>
+						
 						<expression name="SetPosition">
 							<string name="expression">SpawnDiamond.newEntity.position = position</string>
 						</expression>
@@ -159,6 +171,12 @@
 							<string name="className" value="ArrowEnemy" index="0" />
 							<string name="instanceName" value="ArrowEnemy" index="0" />
 						</action>
+
+						<!-- Play Spawning music -->
+						<action class="ActionPlayMusic" name="playMusic1">
+							<string name="musicName" value="Enemy_spawn_blue.mp3"/>
+						</action>
+						
 						<expression name="SetPosition">
 							<string name="expression">SpawnArrow.newEntity.position = position</string>
 						</expression>
@@ -169,6 +187,12 @@
 							<string name="className" value="PinwheelEnemy" index="0" />
 							<string name="instanceName" value="PinwheelEnemy" index="0" />
 						</action>
+
+						<!-- Play Spawning music -->
+						<action class="ActionPlayMusic" name="playMusic1">
+							<string name="musicName" value="Enemy_spawn_orange.mp3"/>
+						</action>
+						
 						<expression name="SetPosition">
 							<string name="expression">SpawnPinwheel.newEntity.position = position</string>
 						</expression>
