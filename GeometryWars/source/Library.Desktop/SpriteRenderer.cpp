@@ -44,12 +44,18 @@ namespace Library {
 
 	SpriteRenderer::~SpriteRenderer()
 	{
-		if (mShader != nullptr)
+		if (mShader != nullptr) {
 			delete mShader;
-		if (mBuffer != nullptr)
+			mShader = nullptr;
+		}
+		if (mBuffer != nullptr) {
 			delete mBuffer;
-		if (mTexture != nullptr)
+			mBuffer = nullptr;
+		}
+		if (mTexture != nullptr) {
 			delete mTexture;
+			mTexture = nullptr;
+		}
 	}
 
 	void SpriteRenderer::SetTransform(const glm::vec4 & position, const glm::vec4 & rotation, const glm::vec4 & scale)
@@ -174,6 +180,19 @@ namespace Library {
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		Renderer::GetInstance()->AddRenderable(this, mLayerNumber);
+
+		if (mShader != nullptr) {
+			delete mShader;
+			mShader = nullptr;
+		}
+		if (mBuffer != nullptr) {
+			delete mBuffer;
+			mBuffer = nullptr;
+		}
+		if (mTexture != nullptr) {
+			delete mTexture;
+			mTexture = nullptr;
+		}
 	}
 
 	void SpriteRenderer::OnDestroy(WorldState & worldState)
