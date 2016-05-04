@@ -9,6 +9,7 @@
 #include "EnemySquare.h"
 #include "Collectible.h"
 #include "Bullet.h"
+#include "ScoreHolder.h"
 #include "BloomPostProcessing.h"
 
 using namespace Library;
@@ -32,6 +33,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	EnemyFactory mEnemyFactory;
 	EnemySquareFactory mEnemySquareFactory;
 	BulletFactory mBulletFactory;
+	ScoreHolderFactory shf;
 	CollectibleFactory mCollectibleFactory;
 
 	BloomPostProcessing bloom;
