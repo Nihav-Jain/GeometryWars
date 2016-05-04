@@ -4,6 +4,10 @@
 
 namespace Library
 {
+	/**
+	 *	Creates an Entity from a constructed saved state
+	 *	@inherits Action
+	 */
 	class ActionCreateEntityFromFile : public Action
 	{
 		RTTI_DECLARATIONS(ActionCreateEntityFromFile, Action);
