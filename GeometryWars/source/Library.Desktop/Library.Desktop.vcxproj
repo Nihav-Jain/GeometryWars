@@ -245,6 +245,8 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="IEventSubscriber.h" />
+    <ClInclude Include="LineParticle.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PolygonRenderer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="PostProcessing.h" />
@@ -331,7 +333,15 @@
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="PolygonRenderer.cpp" />
+    <ClCompile Include="LineParticle.cpp" />
+    <None Include="ParticleSystem.inl">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <FileType>CppCode</FileType>
+    </None>
+    <ClCompile Include="PolygonRenderer.cpp">
+      <FileType>CppCode</FileType>
+    </ClCompile>
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

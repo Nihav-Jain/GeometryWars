@@ -112,9 +112,6 @@ namespace Library
 		entity->SetName(entityInstanceName);
 		entity->SetSector(*this);
 
-		mEntityListByType[entity->TypeIdInstance()].PushBack(entity);
-		AddEntityToTypeMap(*entity, RTTI::ClassHeirarchy()[entity->TypeIdInstance()]);
-
 		return *entity;
 	}
 
@@ -184,6 +181,16 @@ namespace Library
 	void Sector::BeginPlay(WorldState& worldState)
 	{
 		*mWorld = *worldState.world;
+
+		mEntityListByType.Clear();
+		Datum& entities = Entities();
+		for (std::uint32_t i = 0; i < entities.Size(); i++)
+		{
+			Entity& entity = *entities.Get<Scope>(i).AssertiveAs<Entity>();
+			mEntityListByType[entity.TypeIdInstance()].PushBack(&entity);
+			AddEntityToTypeMap(entity, RTTI::ClassHeirarchy()[entity.TypeIdInstance()]);
+		}
+
 
 		ScriptedBeginPlay(worldState);
 		EntitiesBeginPlay(worldState);
@@ -289,7 +296,7 @@ namespace Library
 		{
 			Entity* entity = entities.Get<Scope>(i).AssertiveAs<Entity>();
 			worldState.entity = entity;
-			entity->BeginPlay(worldState);
+			entity->OnDestroy(worldState);
 		}
 
 		worldState.entity = nullptr;

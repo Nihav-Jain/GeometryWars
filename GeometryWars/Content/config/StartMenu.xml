@@ -1,0 +1,27 @@
+<sector name="start_menu">
+	<gameobject class="GameObject" name="TitleScreen">
+	
+		<vector name="position" value="vec4(0, 0, 0, 0)"/>
+		<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
+		<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+		<float name="speed" value="0.0" />
+			
+		<sprite_renderer name="titleSprite">
+			<image name="image">
+				<string name="path" value="Content/resource/title.png"/>
+				<vector name="size" value="vec4(1280, 720, 0, 0)"/>
+			</image>
+		</sprite_renderer>
+	
+	</gameobject>
+		
+		<reaction class="ReactionAttributed" name="ExitStartMenu">
+			<string name="subtype" value="Start"/>
+			
+			<!-- Load Game Sector -->
+			<action class="ActionLoadSector" name="loadGame">
+				<string name="sectorName" value="InGameSector" />
+			</action>
+			
+		</reaction>
+</sector>

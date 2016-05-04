@@ -21,7 +21,7 @@ namespace Library
 	World::World(const GameTime& gameTime, XmlParseMaster& parseMaster) :
 		mName(), mWorldState(gameTime), mEventQueue(), mParseMaster(&parseMaster),
 		mWidth(0), mHeight(0), ClassDefinitionContainer(), mActiveSector(nullptr), mLastActiveSector(nullptr),
-		SectorDefinitionContainer(nullptr)
+		SectorDefinitionContainer(nullptr), mSectorToLoad(nullptr)
 	{
 		mWorldState.world = this;
 
@@ -110,6 +110,7 @@ namespace Library
 		{
 			mActiveSector = Sectors().Get<Scope>().AssertiveAs<Sector>();
 			mLastActiveSector = mActiveSector;
+			mSectorToLoad = nullptr;
 		}
 
 		SectorsBeginPlay();
@@ -125,18 +126,18 @@ namespace Library
 
 		(*this)[ATTRIBUTE_DELTA_TIME] = static_cast<std::int32_t>(mWorldState.mGameTime->ElapsedGameTime().count());
 
-		if (mLastActiveSector != mActiveSector)
+		if (mSectorToLoad != nullptr)
 		{
-			if (mLastActiveSector != nullptr)
+			if (mActiveSector != nullptr)
 			{
-				mWorldState.sector = mLastActiveSector;
-				mLastActiveSector->OnDestroy(mWorldState);
+				mWorldState.sector = mActiveSector;
+				mActiveSector->OnDestroy(mWorldState);
 
-				if (FindSector(mLastActiveSector->Name()) == nullptr)
-					delete mLastActiveSector;
+				if (FindSector(mActiveSector->Name()) == nullptr)
+					delete mActiveSector;
 			}
-			mLastActiveSector = mActiveSector;
-
+			mActiveSector = mSectorToLoad;
+			mSectorToLoad = nullptr;
 			mWorldState.sector = mActiveSector;
 			mWorldState.entity = nullptr;
 			mWorldState.action = nullptr;
@@ -175,7 +176,8 @@ namespace Library
 		if (sector != nullptr)
 		{
 			mLastActiveSector = mActiveSector;
-			mActiveSector = mActiveSector->Clone(*sector)->AssertiveAs<Sector>();
+			mSectorToLoad = mActiveSector->Clone(*sector)->AssertiveAs<Sector>();
+			mSectorToLoad->SetWorld(*this);
 			return true;
 		}
 		return false;
@@ -330,6 +332,7 @@ namespace Library
 	{
 		if (mActiveSector != nullptr)
 		{
+			mLastActiveSector = mActiveSector;
 			Sector* sector = mActiveSector;
 			mWorldState.sector = sector;
 			sector->BeginPlay(mWorldState);

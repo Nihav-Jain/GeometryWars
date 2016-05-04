@@ -167,6 +167,7 @@ namespace Library
 
 		Sector* mActiveSector;
 		Sector* mLastActiveSector;
+		Sector* mSectorToLoad;
 
 		std::int32_t mWidth;
 		std::int32_t mHeight;

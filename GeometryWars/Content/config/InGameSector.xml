@@ -1,0 +1,32 @@
+<sector name="InGameSector">
+
+	<action class="ActionDebug" name="TimeDebug">
+		<expression name="asc">
+			<string name="expression">message = {"Time = "} + ownerWorld.deltaTime</string>
+		</expression>
+	</action>
+	
+	<include file="Content\config\player1.xml" />
+	<expression name="playerRefSetter">
+		<string name="expression">Player1.Input = XBoxControllerManager.PlayerOneState</string>
+	</expression>
+
+	<!-- TODO: Spawn enemies randomly on escalating intervals -->
+	<include file="Content\config\enemy_pinwheel.xml" />	
+	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_pinwheel.xml" />
+	
+	<include file="Content\config\enemy_diamond.xml" />
+	
+	
+	<include file="Content\config\enemy_square.xml" />
+	
+	
+	<include file="Content\config\enemy_arrow.xml" />
+	
+</sector>
