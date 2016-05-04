@@ -1,22 +1,26 @@
 <gameobject class="Player" name="Player1">
 	<!-- Player Class Attributes -->
 	<integer name="player" value="0"/>
+	<ref name="Input" value="player" />
+	
 	<integer name="lives" value="3" />
 	<bool name="isdead" value="false" />
-	<vector name="direction" value="vec4(0, 0, 0, 0)"/>
+
 	<vector name="heading" value="vec4(0, 0, 0, 0)" />
 	<integer name="attackspeed" value="75" />
 	<bool name="canattack" value="true" />    
 	<bool name="shoot" value="false" />
+	
 	<integer name="bombs" value="3" />
 	<bool name="useBomb" value="false" />
+	
 	<integer name="scorebase" value="10" />
-	<ref name="Input" value="player" />
 
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 	<vector name="scale" value="vec4(12.5, 12.5, 1, 0)"/>
+	<vector name="direction" value="vec4(0, 0, 0, 0)"/>
 	<float name="speed" value="0.5" />
   
 	<!-- Polygon Renderer Component -->
@@ -55,15 +59,14 @@
 		<bool name="enabled" value="true" />
 	</component>
 	
-	<!-- Input Manager Reactions -->
+	<!-- Input Actions -->
 	<action class="ActionList" name="InputReactions">
 	
 		<!-- Analog Movement & Firing -->
-		<action class="ActionList" name="Polling Inputs">
+		<action class="ActionList" name="PollingInputs">
 			<if name="CheckPlayerConnected">
 				<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, player)</string></condition>
 				<then>
-					<!-- TODO : Add switch on player type to support multiplayer -->
 					<if name="CheckLeftAnalog">
 						<condition><string name="expression">Input.LeftStick.IsKeyDown</string></condition>
 						<then>
@@ -80,6 +83,7 @@
 							</expression>
 						</else>
 					</if>
+					
 					<if name="CheckRightAnalog">
 						<condition><string name="expression">Input.RightStick.IsKeyDown &amp;&amp; canattack</string></condition>
 						<then>						
@@ -131,13 +135,11 @@
 	</action>
 		
 	<!-- Update Loop -->
-	<action class="ActionList" name="Update">
-	
+	<action class="ActionList" name="Update">	
 		<!-- Update position -->
 		<expression name="movement">
 			<string name="expression">position = position + direction * ownerWorld.deltaTime</string>
 		</expression>
-		
 		
 		<!-- Check for Game Over -->
 		<if name="CheckGameOver">
@@ -148,7 +150,5 @@
 				</action>
 			</then>
 		</if>
-  
-	</action>		
-		
+	</action>				
 </gameobject>

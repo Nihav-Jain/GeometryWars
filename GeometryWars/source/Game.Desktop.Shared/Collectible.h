@@ -14,6 +14,8 @@ namespace Library
 
 		Collectible(const Collectible& rhs);
 
+		void SetIsCollected(bool isCollected);
+
 		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;

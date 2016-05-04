@@ -32,6 +32,11 @@ namespace Library
 		return new Collectible(entity);
 	}
 
+	void Collectible::SetIsCollected(bool isCollected)
+	{
+		mIsCollected = isCollected;
+	}
+
 	void Collectible::BeginPlay(WorldState & worldState)
 	{
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Player::TypeIdClass());
@@ -64,7 +69,7 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(worldState);
 
-		if (channel == mCollisionChannel)
+		if (channel == mCollisionChannel && !mIsCollected)
 		{
 			Player* player = other.AssertiveAs<Player>();
 			player->IncrementMultiplier();

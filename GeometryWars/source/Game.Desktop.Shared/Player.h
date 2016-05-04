@@ -3,31 +3,43 @@
 
 namespace Library
 {
+	/**
+	*	Class for GeometryWars player
+	*	@attribute number
+	*	@attribute Input
+	*	@attribute lives
+	*	@attribute isdead
+	*	@attribute heading
+	*	@attribute canattack
+	*	@attribute attackspeed
+	*	@attribute shoot
+	*	@attribute bombs
+	*	@attribute useBomb
+	*	@attribute scorebase
+	*	@inherits Entity
+	*/
 	class Player : public GameObject
 	{
 		RTTI_DECLARATIONS(Player, GameObject);
 
 	public:
 		
+		/**
+		*	Constructor - initializes member variables and declares prescribed attributes
+		*/
 		Player();
+
+		/**
+		*	Destructor - default
+		*/
 		virtual ~Player();
 
+		/**
+		*	Copy Constructor
+		*/
 		Player(const Player& rhs);
 
-		static const std::string ATTRIBUTE_PLAYERNUMBER;
-		static const std::string ATTRIBUTE_ATTACKSPEED;
-		static const std::string ATTRIBUTE_CANATTACK;
-		static const std::string ATTRIBUTE_LIVES;
-		static const std::string ATTRIBUTE_DEAD;
-		static const std::string ATTRIBUTE_MULTIPLIER;
-		static const std::string ATTRIBUTE_SHOOT;
-		static const std::string ATTRIBUTE_USEBOMB;
-		static const std::string ATTRIBUTE_BOMBS;
-		static const std::string ATTRIBUTE_HEADING;
-		static const std::string ATTRIBUTE_CHANNEL;
-		static const std::string ATTRIBUTE_SCOREBASE;
-
-		void CheckScreenBounds();
+		
 
 		std::int32_t PlayerNumber() const;
 		void SetPlayerNumber(std::int32_t playerNumber);
@@ -60,6 +72,19 @@ namespace Library
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
 
+		static const std::string ATTRIBUTE_PLAYERNUMBER;
+		static const std::string ATTRIBUTE_ATTACKSPEED;
+		static const std::string ATTRIBUTE_CANATTACK;
+		static const std::string ATTRIBUTE_LIVES;
+		static const std::string ATTRIBUTE_DEAD;
+		static const std::string ATTRIBUTE_MULTIPLIER;
+		static const std::string ATTRIBUTE_SHOOT;
+		static const std::string ATTRIBUTE_USEBOMB;
+		static const std::string ATTRIBUTE_BOMBS;
+		static const std::string ATTRIBUTE_HEADING;
+		static const std::string ATTRIBUTE_CHANNEL;
+		static const std::string ATTRIBUTE_SCOREBASE;
+
 	protected:
 
 		static bool sInitializedManagers;
@@ -85,8 +110,9 @@ namespace Library
 	private:
 		std::chrono::milliseconds mShootTimer;
 
+		void CheckScreenBounds();
 		void ResetAttributePointers();
-		void DestroyAllEnemies(WorldState& worldState);
+		void DestroyAllEnemies(WorldState& worldState, bool destroyCollectibles);
 
 	};
 
