@@ -1,6 +1,6 @@
-//Texture2D ColorTexture;
+Texture2D ColorTexture;
 
-//SamplerState ColorSampler;
+SamplerState ColorSampler;
 
 struct VS_OUTPUT
 {
@@ -10,5 +10,5 @@ struct VS_OUTPUT
 
 float4 main(VS_OUTPUT IN) : SV_TARGET
 {
-	return float4(0,0.5,1,1);//ColorTexture.Sample(ColorSampler, IN.TextureCoordinate);
+	return ColorTexture.Sample(ColorSampler, IN.TextureCoordinate);
 }
