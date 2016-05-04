@@ -1,20 +1,5 @@
 <sector name="start_menu">
 
-		<beginplay>
-			<!-- Load music  -->
-			<action class="ActionLoadMusic" name="loadMusic">
-				<string name="musicName" value="GeometryWarsStart.mp3"/>
-				<string name="musicName" value="UI_Confirm.mp3"/>
-			</action>
-			
-			<!-- Play background music -->
-			<action class="ActionPlayMusic" name="playMusic1">
-				<string name="musicName" value="GeometryWarsStart.mp3"/>
-				<integer name="loop" value="0"  index="0"/>
-				<float name="volume" value="1.0" index="0"/>
-			</action>
-		</beginplay>
-
 	<gameobject class="GameObject" name="TitleScreen">
 	
 		<vector name="position" value="vec4(0, 0, 0, 0)"/>
@@ -34,19 +19,6 @@
 		
 	<reaction class="ReactionAttributed" name="ExitStartMenu">
 		<string name="subtype" value="Start"/>
-		
-		<!-- Stop background music -->
-		<action class="ActionPlayMusic" name="playMusic1">
-			<string name="musicName" value="UI_Confirm.mp3"/>
-			<integer name="loop" value="1"  index="0"/>
-			<float name="volume" value="1.0" index="0"/>
-		</action>
-		<!-- Play GameStart music -->
-		<action class="ActionStopMusic" name="playMusic1">
-			<string name="musicName" value="GeometryWarsStart.mp3"/>
-			<integer name="loop" value="1"  index="0"/>
-			<float name="volume" value="1.0" index="0"/>
-		</action>
 		
 		<!-- Load Game Sector -->
 		<action class="ActionLoadSector" name="loadGame">

@@ -119,7 +119,7 @@ namespace Library
 		ResetMultiplier();
 		OutputDebugStringA("Player Hit!");
 		
-		// Kill all enemies on screen
+		// TODO: Kill all enemies on screen
 		//++mBombCount;
 		//UseBomb(worldState);
 
@@ -310,7 +310,8 @@ namespace Library
 		(*this)[ATTRIBUTE_CANATTACK].SetStorage(&mCanAttack, 1);
 		(*this)[ATTRIBUTE_SHOOT].SetStorage(&mShoot, 1);
 		(*this)[ATTRIBUTE_LIVES].SetStorage(&mLives, 1);
-		(*this)[ATTRIBUTE_LIVES].SetStorage(&mMultiplier, 1);
+		(*this)[ATTRIBUTE_DEAD].SetStorage(&mOutOfLives, 1);
+		(*this)[ATTRIBUTE_MULTIPLIER].SetStorage(&mMultiplier, 1);
 		(*this)[ATTRIBUTE_BOMBS].SetStorage(&mBombCount, 1);
 		(*this)[ATTRIBUTE_USEBOMB].SetStorage(&mUseBomb, 1);
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);

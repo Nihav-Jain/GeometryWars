@@ -10,7 +10,7 @@
 		<sprite_renderer name="gameoverSprite">
 			<image name="image">
 				<string name="path" value="Content/resource/gameover.png"/>
-				<vector name="size" value="vec4(200, 720, 0, 0)"/>
+				<vector name="size" value="vec4(1280, 720, 0, 0)"/>
 			</image>
 			<integer name="layer" value="101" />
 		</sprite_renderer>
