@@ -140,7 +140,7 @@
 		</expression>
 		
 		
-		<!-- Check for Game Over, NOT NEEDED ON OTHER PLAYERS! -->
+		<!-- Check for Game Over -->
 		<if name="CheckGameOver">
 			<condition><string name="expression">isdead</string></condition>
 			<then>
