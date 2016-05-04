@@ -8,8 +8,7 @@ namespace Library
 		RTTI_DECLARATIONS(Enemy, GameObject);
 
 	public:
-		static std::int32_t sEnemyCount;
-
+		
 		Enemy();
 		virtual ~Enemy() = default;
 
