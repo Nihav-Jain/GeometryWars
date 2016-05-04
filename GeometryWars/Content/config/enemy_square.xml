@@ -89,10 +89,11 @@
 			</else>
 		</if>
 		
-		<!-- Update rotation -->
+		<!-- Update rotation
 		<expression name="movement">
 			<string name="expression">rotation = rotateZ(velocity)</string>
 		</expression>
+		-->
 		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">

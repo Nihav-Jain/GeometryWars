@@ -109,10 +109,12 @@ namespace Library
 
 	void Enemy::OnDestroy(WorldState & worldState)
 	{
-
-		ParticleSystem<LineParticle> * p =ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
-			mPosition, mScale * 0.25f, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
-		p->SetEnalbe(true);
+		if (HasComponent(PolygonRenderer::TypeName()))
+		{
+			ParticleSystem<LineParticle> *p = ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
+				mPosition, mScale * 0.25f, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
+			p->SetEnalbe(true);
+		}
 
 		GameObject::OnDestroy(worldState);
 
