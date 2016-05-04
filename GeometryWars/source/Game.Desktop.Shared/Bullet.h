@@ -9,8 +9,6 @@ namespace Library
 
 	public:
 
-		static std::int32_t sBulletCount;
-
 		Bullet();
 		virtual ~Bullet();
 

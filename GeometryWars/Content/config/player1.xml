@@ -98,7 +98,7 @@
 								<string name="expression">heading = Input.RightStick.Direction</string>
 							</expression>
 							<action class="ActionCreateEntityFromFile" name="SpawnBullet">
-							  <string name="filePath" value="Content/config/bullet.xml" index="0" />
+								<string name="filePath" value="Content/config/bullet.xml" index="0" />
 								<string name="className" value="Bullet" index="0" />
 								<string name="instanceName" value="Bullet" index="0" />
 							</action>
@@ -106,7 +106,7 @@
 							<action class="ActionPlayMusic" name="playMusic1">
 								<string name="musicName" value="Fire_normal.mp3"/>
 									<integer name="loop" value="1"  index="0"/>
-								<float name="volume" value="0.9" index="0"/>
+								<float name="volume" value="0.5" index="0"/>
 							</action>
 						</then>
 					</if>
@@ -140,15 +140,15 @@
 		</expression>
 		
 		
-		<!-- Update attack delay -->
-		<!--
-		<reaction class="ReactionAttributed" name="CanAttack">
-			<string name="subtype" value="AttackDelay" />
-			<expression name="enableattack">
-				<string name="expression">canattack = {true}</string>
-			</expression>
-		</reaction> 
-		-->
+		<!-- Check for Game Over, NOT NEEDED ON OTHER PLAYERS! -->
+		<if name="CheckPlayerConnected">
+			<condition><string name="expression">lives &lt;= {0}</string></condition>
+			<then>
+				<action class="ActionLoadSector" name="loadGameOver">
+					<string name="sectorName" value="gameover_menu" />
+				</action>
+			</then>
+		</if>
   
 	</action>		
 		

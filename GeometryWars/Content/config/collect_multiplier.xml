@@ -6,7 +6,7 @@
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
-	<vector name="scale" value="vec4(10, 10, 1, 0)"/>
+	<vector name="scale" value="vec4(5, 5, 1, 0)"/>
 	<float name="speed" value="0" />
   
 	<!-- Polygon Renderer Component -->
@@ -42,11 +42,20 @@
 				<string name="expression">iscollected</string>
 			</condition>
 			<then>
-				<action class="ActionDestroyEntity" name="destroySelf">
-					<expression name="exp1">
-						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
-					</expression>
-				</action>
+				
+			<!-- Play Multiplier music -->
+			<action class="ActionPlayMusic" name="playMusic">
+				<string name="musicName" value="Multiplier.mp3"/>
+				<integer name="loop" value="1"  index="0"/>
+				<float name="volume" value="1.0" index="0"/>
+			</action>
+
+			<action class="ActionDestroyEntity" name="destroySelf">
+				<expression name="exp1">
+					<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+				</expression>
+			</action>
+
 			</then>
 		</if>
 	</action>

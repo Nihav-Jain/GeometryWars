@@ -10,8 +10,6 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Bullet, GameObject);
 
-	std::int32_t Bullet::sBulletCount = 0;
-
 	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Bullet::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Bullet::ATTRIBUTE_CHANNEL = "bulletchannel";
@@ -25,19 +23,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_PLAYEROWNER, 1, &mPlayerOwner);
-
-		ActionExpression::AddFunction("GetBullets", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
-		{
-			assert(params.Size() >= 0);
-			Datum result;
-			result = std::to_string(Bullet::sBulletCount++);
-			if (Bullet::sBulletCount < 0)
-				Bullet::sBulletCount = 0;
-			return result;
-		}
-		));
 	}
-	
 	Bullet::~Bullet()
 	{
 		delete mPlayerOwner;
@@ -94,8 +80,6 @@ namespace Library
 	void Bullet::Update(WorldState & worldState)
 	{
 		GameObject::Update(worldState);
-
-		//mPosition += mVelocity;
 
 		// Destroy if out of bounds
 		if ((mPosition.x > mWorldWidth / 2.0f) ||
