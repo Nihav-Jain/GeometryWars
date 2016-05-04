@@ -19,24 +19,27 @@
 		<sprite_renderer name="gameoverSprite">
 			<image name="image">
 				<string name="path" value="Content/resource/gameover.png"/>
-				<vector name="size" value="vec4(200, 720, 0, 0)"/>
+				<vector name="size" value="vec4(1280, 720, 0, 0)"/>
 			</image>
+			<integer name="layer" value="101" />
 		</sprite_renderer>
 	
 	</gameobject>
 		
-		<reaction class="ReactionAttributed" name="ExitGameOverMenu">
-			<string name="subtype" value="Start"/>
-			
-			<!-- Load Game Sector -->
-			<action class="ActionLoadSector" name="loadGame">
-				<string name="sectorName" value="start_menu" />
-			</action>
+
+	<reaction class="ReactionAttributed" name="ExitGameOverMenu">
+		<string name="subtype" value="Start"/>
+		
+		<!-- Load Game Sector -->
+		<action class="ActionLoadSector" name="loadGame">
+			<string name="sectorName" value="start_menu" />
+		</action>
 			<!-- Stop background music -->
 			<action class="ActionStopMusic" name="playMusic1">
 				<string name="musicName" value="Game_over.mp3"/>
 				<integer name="loop" value="1"  index="0"/>
 				<float name="volume" value="1.0" index="0"/>
 			</action>
-		</reaction>
+	</reaction>
+
 </sector>
