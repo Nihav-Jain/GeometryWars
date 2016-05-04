@@ -46,7 +46,6 @@ namespace Library
 	{
 		GameObject::OnDestroy(worldState);
 
-		// TODO: find a better way to do this
 		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}

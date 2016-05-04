@@ -6,7 +6,7 @@
 	<bool name="isdead" value="false" />
 	<bool name="canspawncollectible" value="true" />
 	<string name="enemychannel" value="collideplayers" />
-	<integer name="score" value="1" />
+	<integer name="score" value="150" />
 	  
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(500, -250, 0, 0)"/>
@@ -125,7 +125,10 @@
 							<string name="expression">BabyCube1.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube1.newEntity.position = perpindicular(velocity, {true}) * {10.0f}</string>
+							<string name="expression">BabyCube1.newEntity.position = perpindicular(velocity, {true}) * {5.0f}</string>
+						</expression>
+						<expression name="SetScore">
+							<string name="expression">BabyCube1.newEntity.score = score / {2}</string>
 						</expression>
 						
 						<action class="ActionCreateEntityFromFile" name="BabyCube2">
@@ -140,7 +143,10 @@
 							<string name="expression">BabyCube2.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube2.newEntity.position = perpindicular(velocity, {false}) * {10.0f}</string>
+							<string name="expression">BabyCube2.newEntity.position = perpindicular(velocity, {false}) * {5.0f}</string>
+						</expression>
+						<expression name="SetScore">
+							<string name="expression">BabyCube1.newEntity.score = score / {2}</string>
 						</expression>
 					</then>
 				</if>
