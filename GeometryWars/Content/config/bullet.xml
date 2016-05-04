@@ -14,12 +14,6 @@
 			<string name="expression">position = Player1.position</string>
 		</expression>
 		
-		<!-- playMusic -->
-		<action class="ActionPlayMusic" name="playMusic1">
-			<string name="musicName" value="Fire_normal.mp3"/>
-				<integer name="loop" value="1"  index="0"/>
-			<float name="volume" value="1.0" index="0"/>
-		</action>
 	</beginplay>
 	
 	<!-- Polygon Render Component -->
