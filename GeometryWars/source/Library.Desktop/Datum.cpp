@@ -5,7 +5,7 @@
 
 namespace Library
 {
-	Hashmap<Datum::DatumType, Datum::AddDatums> Datum::mAddDatums = {
+	Hashmap<Datum::DatumType, Datum::AddDatums, Datum::DatumTypeHash> Datum::mAddDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Add<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Add<DatumType::FLOAT> },
 		{ Datum::DatumType::STRING, &Datum::Add<DatumType::STRING> },
@@ -13,28 +13,28 @@ namespace Library
 		{ Datum::DatumType::MATRIX4x4, &Datum::Add<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::SubtractDatums> Datum::mSubtractDatums = {
+	Hashmap<Datum::DatumType, Datum::SubtractDatums, Datum::DatumTypeHash> Datum::mSubtractDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Subtract<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Subtract<DatumType::FLOAT> },
 		{ Datum::DatumType::VECTOR4, &Datum::Subtract<DatumType::VECTOR4> },
 		{ Datum::DatumType::MATRIX4x4, &Datum::Subtract<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::MultiplyDatums> Datum::mMultiplyDatums = {
+	Hashmap<Datum::DatumType, Datum::MultiplyDatums, Datum::DatumTypeHash> Datum::mMultiplyDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Multiply<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Multiply<DatumType::FLOAT> },
 		{ Datum::DatumType::VECTOR4, &Datum::Multiply<DatumType::VECTOR4> },
 		{ Datum::DatumType::MATRIX4x4, &Datum::Multiply<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::DivideDatums> Datum::mDivideDatums = {
+	Hashmap<Datum::DatumType, Datum::DivideDatums, Datum::DatumTypeHash> Datum::mDivideDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::Divide<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::Divide<DatumType::FLOAT> },
 		{ Datum::DatumType::VECTOR4, &Datum::Divide<DatumType::VECTOR4> },
 		{ Datum::DatumType::MATRIX4x4, &Datum::Divide<DatumType::MATRIX4x4> }
 	};
 
-	Hashmap<Datum::DatumType, Datum::LessThanDatums> Datum::mLessThanDatums = {
+	Hashmap<Datum::DatumType, Datum::LessThanDatums, Datum::DatumTypeHash> Datum::mLessThanDatums = {
 		{ Datum::DatumType::INTEGER, &Datum::LessThan<DatumType::INTEGER> },
 		{ Datum::DatumType::FLOAT, &Datum::LessThan<DatumType::FLOAT> },
 		{ Datum::DatumType::STRING, &Datum::LessThan<DatumType::STRING> }
@@ -1698,4 +1698,9 @@ namespace Library
 		return result;
 	}
 #pragma endregion
+
+	std::uint32_t Datum::DatumTypeHash::operator()(const DatumType& key) const
+	{
+		return static_cast<std::uint32_t>(key);
+	}
 }
