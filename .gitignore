@@ -262,6 +262,14 @@ _Pvt_Extensions
 !GeometryWars/external/FMOD/lib/x64/Debug/*
 !GeometryWars/external/FMOD/lib/x64/Release/*
 
+!GeometryWars/external/DirectXTK/*
+!GeometryWars/external/DirectXTK/lib/*
+!GeometryWars/external/DirectXTK/lib/Win32/*
+!GeometryWars/external/DirectXTK/lib/Win32/Debug/*
+!GeometryWars/external/DirectXTK/lib/Win32/Release/*
+!GeometryWars/external/DirectXTK/lib/x64/*
+!GeometryWars/external/DirectXTK/lib/x64/Debug/*
+!GeometryWars/external/DirectXTK/lib/x64/Release/*
 
 GeometryWars/build/GeometryWars.VC.db
 

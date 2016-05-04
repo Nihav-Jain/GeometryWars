@@ -20,6 +20,7 @@ namespace Library {
 
 	public:
 		static const std::string ATTRIBUTE_TEXTURE2D;
+		static const std::string ATTRIBUTE_LAYER;
 
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
@@ -58,6 +59,8 @@ namespace Library {
 		glm::vec4 mStaticPosition;
 		glm::vec4 mStaticRotation;
 		glm::vec4 mStaticScale;
+
+		std::int32_t mLayerNumber;
 	};
 
 	CONCRETE_ACTION_FACTORY(SpriteRenderer);

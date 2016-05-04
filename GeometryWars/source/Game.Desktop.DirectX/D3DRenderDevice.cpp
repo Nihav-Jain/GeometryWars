@@ -49,7 +49,7 @@ namespace Library
 
 	Texture * D3DRenderDevice::CreateTexture(const std::string & imagePath)
 	{
-		D3DTexture * texture = new D3DTexture();
+		D3DTexture * texture = new D3DTexture(*mDirect3DDevice, *mDirect3DDeviceContext);
 		texture->Init(imagePath);
 		mTextures.push_back(texture);
 		return texture;
