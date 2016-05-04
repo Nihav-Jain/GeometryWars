@@ -92,8 +92,6 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
-		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
 	void Bullet::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)

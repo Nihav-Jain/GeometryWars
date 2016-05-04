@@ -148,6 +148,14 @@ namespace Library
 			return result;
 		}));
 
+		ActionExpression::AddFunction("RandomInt", ActionExpression::FunctionDefinition(1, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() >= 1);
+			Datum result;
+			result = rand() % params[0]->Get<std::int32_t>();
+			return result;
+		}));
+
 		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;

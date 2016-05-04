@@ -100,7 +100,7 @@ namespace Library
 
 	void ActionListSwitch::BeginPlay(WorldState& worldState)
 	{
-		Action::BeginPlay(worldState);
+		ActionList::BeginPlay(worldState);
 		GenerateCaseMap();
 	}
 

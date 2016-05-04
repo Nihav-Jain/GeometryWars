@@ -290,6 +290,7 @@ namespace Library
 
 	void Sector::EntitiesOnDestroy(WorldState& worldState)
 	{
+		DeletePendingDestroyEntities(worldState);
 		std::uint32_t i;
 		Datum& entities = Entities();
 		for (i = 0; i < entities.Size(); i++)
