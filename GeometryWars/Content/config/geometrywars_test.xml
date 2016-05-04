@@ -4,10 +4,11 @@
 		<include file="Content\config\player1.xml" />
 		<include file="Content\config\bullet.xml" />
 		<include file="Content\config\enemy_pinwheel.xml" />	
-		<include file="Content\config\enemy_diamond.xml" />
-		<include file="Content\config\enemy_square.xml" />
+		<include file="Content\config\enemy_diamond.xml" />		
 		<include file="Content\config\enemy_arrow.xml" />
-		<include file="Content\config\collect_multiplier.xml" /> <!--  -->
+		<include file="Content\config\enemy_square.xml" />
+		<include file="Content\config\enemy_cube.xml" />
+		<include file="Content\config\collect_multiplier.xml" />
 	</define>
 	
 	<define-sectors>
@@ -95,6 +96,10 @@
 				<string name="musicName" value="GeometryWarsStart.mp3"/>
 				<string name="musicName" value="UI_Confirm.mp3"/>
 				<string name="musicName" value="Game_over.mp3"/>
+				<string name="musicName" value="Wanderer_spawn.mp3"/>
+				<string name="musicName" value="Enemy_spawn_orange.mp3"/>
+				<string name="musicName" value="Enemy_spawn_blue.mp3"/>
+				<string name="musicName" value="Enemy_spawn_red.mp3"/>
 			</action>
 			
 			

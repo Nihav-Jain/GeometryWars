@@ -137,10 +137,8 @@
 	
 	
 	<include file="Content\config\enemy_diamond.xml" />
-	
-	
-	<include file="Content\config\enemy_square.xml" />
-	
+	<include file="Content\config\enemy_cube.xml" />	
+	<include file="Content\config\enemy_square.xml" />	
 	
 	<include file="Content\config\enemy_arrow.xml" />
 
