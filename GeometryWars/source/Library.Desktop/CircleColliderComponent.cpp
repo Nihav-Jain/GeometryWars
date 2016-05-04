@@ -102,11 +102,6 @@ namespace Library
 		}
 	}
 
-	void CircleColliderComponent::PostParsingProcess()
-	{
-		
-	}
-
 	bool CircleColliderComponent::IsColliding(const GameObject& other) const
 	{
 		bool isColliding = false;

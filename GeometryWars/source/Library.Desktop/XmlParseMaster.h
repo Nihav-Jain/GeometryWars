@@ -89,6 +89,7 @@ namespace Library
 			 *	@param pointer to the parse master of this SharedData
 			 */
 			void SetXmlParseMaster(XmlParseMaster* parseMaster);
+
 			XmlParseMaster* mParseMaster;
 			std::uint32_t mDepth;
 		};
@@ -199,6 +200,9 @@ namespace Library
 		 */
 		static void CharDataHandler(void* userData, const char* characterStream, int length);
 
+		/**
+		 *	Resets the xml parser, sets the element handler callbacks
+		 */
 		void InitializeXmlParser();
 
 		/**
