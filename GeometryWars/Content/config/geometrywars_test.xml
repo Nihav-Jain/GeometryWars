@@ -27,23 +27,19 @@
 			
 			<!-- Debug message to represent Event will fire -->
 			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Player Connected!"/>
+				<expression name="GetMessage">
+					<string name="expression">message = {"Player "} + PlayerNumber + {" Connected!"}</string>
+				</expression>
 			</action>
 			
 			<event name="RumbleEvent" subtype="rumble">
 				<integer name="player" value="0" />
 				<float name="rumble" value="1.0" />
 				<integer name="duration" value="500" />
+				<expression name="SetPlayer">
+					<string name="expression">player = PlayerNumber</string>
+				</expression>
 			</event>
-		</reaction>
-		
-		<!-- Test -->
-		<reaction name="testRumbleReaction" class="ReactionAttributed">
-			<string name="subtype" value="rumble" />
-			
-			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Rumble Called!"/>
-			</action>
 		</reaction>
 		
 		<!-- Player Disconnected Reaction -->
@@ -52,7 +48,9 @@
 			
 			<!-- Debug message to represent Event will fire -->
 			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Player Disconnected!"/>
+				<expression name="GetMessage">
+					<string name="expression">message = {"Player "} + PlayerNumber + {" Disconnected!"}</string>
+				</expression>
 			</action>
 		</reaction>
 		

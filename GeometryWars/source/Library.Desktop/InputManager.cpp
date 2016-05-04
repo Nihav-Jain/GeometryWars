@@ -15,24 +15,24 @@ namespace Library
 	/*************************
 	**	Input Handler CPP	**
 	**************************/
-	RTTI_DEFINITIONS(InputHandler, Action)
+	RTTI_DEFINITIONS(IInputHandler, Action)
 
-	const std::string				InputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
-	const std::string				InputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
+	const std::string	IInputHandler::ATTR_BUTTON_MAP			= "ButtonMapping";
+	const std::string	IInputHandler::sIOEventTypeToString[]	= { "PlayerConnected", "PlayerDisconnected" };
 
-	std::string InputHandler::GetIOEventType(const EIOEventType& type) 
+	std::string IInputHandler::GetIOEventType(const EIOEventType& type) 
 	{
 		return sIOEventTypeToString[static_cast<std::int32_t>(type)];
 	}
 
 
-	InputHandler::InputHandler()
+	IInputHandler::IInputHandler()
 	{
 		// XML-Define Button Mapping which maps the Event's Subtype with the Buttons
 		AddNestedScope(ATTR_BUTTON_MAP);
 	}
 
-	void InputHandler::BeginPlay(WorldState & state)
+	void IInputHandler::BeginPlay(WorldState & state)
 	{
 		Event<EventMessageAttributed>::Subscribe(*this);
 
@@ -40,7 +40,7 @@ namespace Library
 		Action::BeginPlay(state);
 	}
 
-	Scope& InputHandler::GetButtonMapping()
+	Scope& IInputHandler::GetButtonMapping()
 	{
 		Datum* buttonMappingDatum = Find(ATTR_BUTTON_MAP);
 		assert(buttonMappingDatum != nullptr && buttonMappingDatum->Type() == Datum::DatumType::TABLE);
@@ -48,7 +48,7 @@ namespace Library
 	}
 
 	//void InputHandler::SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* buttonMap)
-	void InputHandler::SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, const Datum& eventNames)
+	void IInputHandler::SendButtonEvent(const Datum& eventNames, WorldState& state, EventMessageAttributed & message)
 	{
 		// Set Message's WorldState
 		message.SetWorldState(state);
@@ -64,7 +64,7 @@ namespace Library
 		}
 	}
 
-	void InputHandler::SendIOEvent(const EIOEventType & eventType, WorldState& state, EventMessageAttributed & message)
+	void IInputHandler::SendIOEvent(const EIOEventType & eventType, WorldState& state, EventMessageAttributed & message)
 	{
 		// Set Subtype based on IOEventType
 		message.SetSubtype(GetIOEventType(eventType));
@@ -78,7 +78,7 @@ namespace Library
 	/*************************
 	**	XBox Controller CPP	**
 	**************************/
-	RTTI_DEFINITIONS(XBoxControllerHandler, InputHandler)
+	RTTI_DEFINITIONS(XBoxControllerHandler, IInputHandler)
 	RTTI_DEFINITIONS(Button, Attributed)
 	RTTI_DEFINITIONS(Trigger, Attributed)
 	RTTI_DEFINITIONS(AnalogStick, Attributed)
@@ -431,7 +431,7 @@ namespace Library
 						message.AppendAuxiliaryAttribute("PlayerNumber") = player;	// Store Player Number
 						message.AppendAuxiliaryAttribute("IsButtonPressed") = isButtonPressed;
 
-						SendButtonEvent(buttonName, state, message, eventNames);
+						SendButtonEvent(eventNames, state, message);
 					}
 				}
 			}

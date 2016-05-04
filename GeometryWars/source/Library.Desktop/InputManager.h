@@ -10,9 +10,9 @@ namespace Library
 	class EventMessageAttributed;
 
 	// Generic Input Handler
-	class InputHandler : public Action, IEventSubscriber
+	class IInputHandler : public Action, IEventSubscriber
 	{
-		RTTI_DECLARATIONS(InputHandler, Action)
+		RTTI_DECLARATIONS(IInputHandler, Action)
 	protected:
 		// IOEventTypes - Represents common events among all input devices
 		enum class EIOEventType
@@ -28,7 +28,7 @@ namespace Library
 		Scope& GetButtonMapping();
 		// Easy Method Call to Send Button Pressed Events
 		//void SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, Scope* ButtonMapping = nullptr);
-		void SendButtonEvent(std::string buttonEventName, WorldState& state, EventMessageAttributed & message, const Datum& eventNames);
+		void SendButtonEvent(const Datum& eventNames, WorldState& state, EventMessageAttributed & message);
 		// Easy Method Call to Send Common Input Events
 		void SendIOEvent(const EIOEventType & eventType, WorldState& state, EventMessageAttributed & message);
 		
@@ -38,13 +38,15 @@ namespace Library
 		// Array used to map enumerated EIOEventType to string
 		static const std::string sIOEventTypeToString[static_cast<std::int32_t>(EIOEventType::NUMBER_OF_IO_EVENT_TYPES)];
 	public:
-		InputHandler();
-		InputHandler(const InputHandler& other) = default;
-		InputHandler(InputHandler&& other) = default;
-		InputHandler& operator=(const InputHandler& rhs) = default;
-		InputHandler& operator=(InputHandler&& rhs) = default;
-		virtual ~InputHandler() = default;
+		IInputHandler();
+		IInputHandler(const IInputHandler& other) = default;
+		IInputHandler(IInputHandler&& other) = default;
+		IInputHandler& operator=(const IInputHandler& rhs) = default;
+		IInputHandler& operator=(IInputHandler&& rhs) = default;
+		virtual ~IInputHandler() = default;
 		void BeginPlay(WorldState& state) override;
+		void Update(WorldState& state) override = 0;
+		void Notify(const EventPublisher&) override {}
 	};
 
 
@@ -141,9 +143,9 @@ namespace Library
 	};
 
 	// XBox Controller Input Event Handler
-	class XBoxControllerHandler final : public InputHandler
+	class XBoxControllerHandler final : public IInputHandler
 	{
-		RTTI_DECLARATIONS(XBoxControllerHandler, InputHandler)
+		RTTI_DECLARATIONS(XBoxControllerHandler, IInputHandler)
 	private:
 		static const Hashmap<std::string, std::int32_t> XBoxButtonMapping;	// Button Support
 		static const std::uint32_t MAX_PLAYERS = 4;							// Maximum Players this handler can support
