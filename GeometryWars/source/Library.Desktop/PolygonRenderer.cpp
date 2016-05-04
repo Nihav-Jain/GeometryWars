@@ -36,10 +36,14 @@ namespace Library {
 
 	PolygonRenderer::~PolygonRenderer()
 	{
-		if (mShader != nullptr)
+		if (mShader != nullptr) {
 			delete mShader;
-		if (mBuffer != nullptr)
+			mShader = nullptr;
+		}
+		if (mBuffer != nullptr) {
 			delete mBuffer;
+			mBuffer = nullptr;
+		}
 	}
 
 	PolygonRenderer::PolygonRenderer(const PolygonRenderer & rhs) :
@@ -93,6 +97,14 @@ namespace Library {
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		Renderer::GetInstance()->RemoveRenderable(this);
+		if (mShader != nullptr) {
+			delete mShader;
+			mShader = nullptr;
+		}
+		if (mBuffer != nullptr) {
+			delete mBuffer;
+			mBuffer = nullptr;
+		}
 	}
 
 	Scope * PolygonRenderer::Clone(const Scope & rhs) const

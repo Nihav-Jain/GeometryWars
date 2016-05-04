@@ -26,10 +26,14 @@ namespace Library {
 	ParticleSystem<ParticlePattern>::~ParticleSystem()
 	{
 		Renderer::GetInstance()->RemoveRenderable(this);
-		if (mShader != nullptr)
+		if (mShader != nullptr) {
 			delete mShader;
-		if (mBuffer != nullptr)
+			mShader = nullptr;
+		}
+		if (mBuffer != nullptr) {
 			delete mBuffer;
+			mBuffer = nullptr;
+		}
 	}
 
 	template<typename ParticlePattern>
@@ -101,6 +105,14 @@ namespace Library {
 	{
 		(worldState);
 		Renderer::GetInstance()->RemoveRenderable(this);
+		if (mShader != nullptr) {
+			delete mShader;
+			mShader = nullptr;
+		}
+		if (mBuffer != nullptr) {
+			delete mBuffer;
+			mBuffer = nullptr;
+		}
 	}
 
 	template<typename ParticlePattern>
