@@ -9,6 +9,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ScoreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpriteManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BombManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScoreHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bullet.h" />
@@ -20,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ScoreManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BombManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScoreHolder.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="XML">

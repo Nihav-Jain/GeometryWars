@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "ScoreHolder.h"
 #include "BloomPostProcessing.h"
 
 using namespace Library;
@@ -29,6 +30,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	PlayerFactory mPlayerFactory;
 	EnemyFactory mEnemyFactory;
 	BulletFactory mBulletFactory;
+	ScoreHolderFactory shf;
 
 	BloomPostProcessing bloom;
 

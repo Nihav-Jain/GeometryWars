@@ -7,7 +7,7 @@
 		<include file="Content\config\enemy_diamond.xml" />
 		<include file="Content\config\enemy_square.xml" />
 		<include file="Content\config\enemy_arrow.xml" />
-		<include file="Content\config\collect_multiplier.xml" />
+		 <!-- <include file="Content\config\collect_multiplier.xml" /> -->
 	</define>
 	
 	<define-sectors>
@@ -19,6 +19,8 @@
 	<world name="GeometryWarsWorld">
 		<integer name="width" value="1280"/>
 		<integer name="height" value="720" />
+		<integer name="score" value="0" />
+		<integer name="scorebase" value="10" />
 
 		<!-- ==================== Event-Driven Player Connection =============== -->
 		<!-- Player Connected Reaction -->

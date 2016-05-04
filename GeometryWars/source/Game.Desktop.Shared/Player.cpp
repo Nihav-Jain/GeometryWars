@@ -36,10 +36,11 @@ namespace Library
 	const std::string Player::ATTRIBUTE_HEADING = "heading";
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
+	const std::string Player::ATTRIBUTE_SCORE = "score";
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(), mOutOfLives(false),
-		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		  mScore(0), mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -47,6 +48,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_SHOOT, 1, &mShoot);
 		AddExternalAttribute(ATTRIBUTE_LIVES, 1, &mLives);
 		AddExternalAttribute(ATTRIBUTE_DEAD, 1, &mOutOfLives);
+		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
 		AddExternalAttribute(ATTRIBUTE_MULTIPLIER, 1, &mMultiplier);
 		AddExternalAttribute(ATTRIBUTE_BOMBS, 1, &mBombCount);
 		AddExternalAttribute(ATTRIBUTE_USEBOMB, 1, &mUseBomb);
@@ -62,6 +64,8 @@ namespace Library
 	Player::~Player()
 	{
 		ScoreManager::DeleteInstance();
+		LivesManager::DeleteInstance();
+		BombManager::DeleteInstance();
 	}
 
 	Player::Player(const Player & rhs)
@@ -132,17 +136,19 @@ namespace Library
 
 	const std::int32_t Player::Score() const
 	{
-		return ScoreManager::GetInstance()->GetValue();
+		return mScore;
 	}
 
 	void Player::AddScore(const std::int32_t & score)
 	{
 		std::int32_t scoreWMultiplier = score * mMultiplier;
+		mScore += scoreWMultiplier;
 		ScoreManager::GetInstance()->AddValue(scoreWMultiplier);
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
+		mScore = score;
 		ScoreManager::GetInstance()->SetValue(score);
 	}
 

@@ -27,6 +27,7 @@ namespace Library
 		static const std::string ATTRIBUTE_HEADING;
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCOREBASE;
+		static const std::string ATTRIBUTE_SCORE;
 
 		void CheckScreenBounds();
 
@@ -79,6 +80,7 @@ namespace Library
 		bool mOutOfLives;
 		std::string mCollisionChannel;
 
+		std::int32_t mScore;
 		std::int32_t mMultiplier;
 
 		bool mUseBomb;

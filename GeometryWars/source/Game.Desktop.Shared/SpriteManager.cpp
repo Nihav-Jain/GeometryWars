@@ -15,7 +15,7 @@ namespace Library
 		RefreshSprites();
 	}
 
-	std::int32_t SpriteManager::GetValue() const
+	const std::int32_t & SpriteManager::GetValue() const
 	{
 		return mValue;
 	}

@@ -118,16 +118,15 @@
 		<reaction class="ReactionAttributed" name="OnUseBomb">
 			<string name="subtype" value="Bomb"/>
 			
-			<!--
-			<if name="CheckPlayer">
-				<condition><string name="expression">PlayerNumber == player</string></condition>
-				<then> -->
+			<if name="CheckButtonPressed">
+				<condition><string name="expression">IsButtonPressed</string></condition>
+				<then>
 					<expression name="enablebomb">
 						<string name="expression">useBomb = {true}</string>
-					</expression> <!--
+					</expression>
 				</then>
 			</if>
-			-->
+			
 		</reaction>
 	</action>
 		
@@ -144,6 +143,15 @@
 		<if name="CheckGameOver">
 			<condition><string name="expression">isdead</string></condition>
 			<then>
+			
+				<!-- Update Score in World -->
+				<expression name="finalScore">
+					<string name="expression">ownerWorld.score = score</string>
+				</expression>
+				<expression name="finalScoreBase">
+					<string name="expression">ownerWorld.scorebase = scorebase</string>
+				</expression>
+			
 				<action class="ActionLoadSector" name="loadGameOver">
 					<string name="sectorName" value="gameover_menu" />
 				</action>

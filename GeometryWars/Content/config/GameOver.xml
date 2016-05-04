@@ -1,5 +1,11 @@
 <sector name="gameover_menu">
 
+	<gameobject class="ScoreHolder" name="myScoreHolder">
+		<integer name="score" value="0" />
+		<integer name="scorebase" value="10" />
+	</gameobject>
+
+
 	<gameobject class="GameObject" name="GameoverScreen">
 	
 		<vector name="position" value="vec4(0, 0, 0, 0)"/>
@@ -16,14 +22,30 @@
 		</sprite_renderer>
 	
 	</gameobject>
+	
+	<beginplay>
+		<expression name="GetFinalScore">
+			<string name="expression">myScoreHolder.score = ownerWorld.score</string>
+		</expression>
+		<expression name="GetFinalScoreBase">
+			<string name="expression">myScoreHolder.scorebase = ownerWorld.scorebase</string>
+		</expression>
+	</beginplay>
 		
 	<reaction class="ReactionAttributed" name="ExitGameOverMenu">
 		<string name="subtype" value="Start"/>
 		
-		<!-- Load Game Sector -->
-		<action class="ActionLoadSector" name="loadGame">
-			<string name="sectorName" value="start_menu" />
-		</action>
+		<if name="CheckButtonPressed">
+			<condition><string name="expression">IsButtonPressed</string></condition>
+			<then>
+			
+				<!-- Load Start Menu Sector -->
+				<action class="ActionLoadSector" name="loadStartMenu">
+					<string name="sectorName" value="start_menu" />
+				</action>
+		
+			</then>
+		</if>
 		
 	</reaction>
 	
