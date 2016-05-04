@@ -8,25 +8,46 @@
 		<include file="Content\config\enemy_arrow.xml" />
 		<include file="Content\config\collect_multiplier.xml" />
 	</define>
+	
+	<define-sectors>
+		<include file="Content\config\StartMenu.xml" />
+		<include file="Content\config\InGameSector.xml" />
+		<include file="Content\config\GameOver.xml" />
+	</define-sectors>
 
 	<world name="GeometryWarsWorld">
 		<integer name="width" value="1280"/>
 		<integer name="height" value="720" />
 
+		<action name="XBoxControllerManager" class="XBoxControllerHandler">
+			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
+				<string name="B"				value="Bomb"/>
+				<string name="START"			value="Start"/>
+				<string name="SELECT"			value="Select"/>
+				<!--
+				<string name="X"				value="Shoot"/>
+				<string name="Y"				value="Shoot"/>
+				<string name="A"				value="Shoot"/>
+				<string name="DPAD_UP"			value="MoveUp"/>
+				<string name="DPAD_DOWN"		value="MoveDown"/>
+				<string name="DPAD_LEFT"		value="MoveLeft"/>
+				<string name="DPAD_RIGHT"		value="MoveRight"/>
+				<string name="LEFT_THUMB"		value="MoveLeft"/>
+				<string name="RIGHT_THUMB"		value="MoveRight"/>
+				<string name="LEFT_SHOULDER"	value="MoveLeft"/>
+				<string name="RIGHT_SHOULDER"	value="MoveRight"/>
+				-->
+			</scope>
+		</action>
 		<beginplay>
-			<!-- Load music  -->
-			<action class="ActionLoadMusic" name="loadMusic">
-				<string name="musicName" value="Enemy_explode.mp3"/>
-				<string name="musicName" value="GW3Dimensions.mp3"/>
-				<string name="musicName" value="Fire_normal.mp3"/>
+		
+			<!-- Load Start Menu Sector -->
+			<action class="ActionLoadSector" name="loadStart">
+				<string name="sectorName" value="start_menu" />
 			</action>
 			
-			<!-- Play background music -->
-			<action class="ActionPlayMusic" name="playMusic1">
-				<string name="musicName" value="GW3Dimensions.mp3"/>
-				<integer name="loop" value="0"  index="0"/>
-				<float name="volume" value="1.0" index="0"/>
-			</action>
+			
+			
 		</beginplay>
 
 		<!-- ==================== Event-Driven Player Connection =============== -->
@@ -55,58 +76,8 @@
 		<!--	ButtonMapping:	HashMap (hence Scope) mapping the Event's Subtype with the button events	-->
 		
 		<!-- XBoxControllerHandler: Handles XBox Controller Events -->
-		<action name="XBoxControllerManager" class="XBoxControllerHandler">
-			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
-				<string name="B"				value="Bomb"/>
-				<string name="START"			value="Start"/>
-				<string name="SELECT"			value="Select"/>
-				<!--
-				<string name="X"				value="Shoot"/>
-				<string name="Y"				value="Shoot"/>
-				<string name="A"				value="Shoot"/>
-				<string name="DPAD_UP"			value="MoveUp"/>
-				<string name="DPAD_DOWN"		value="MoveDown"/>
-				<string name="DPAD_LEFT"		value="MoveLeft"/>
-				<string name="DPAD_RIGHT"		value="MoveRight"/>
-				<string name="LEFT_THUMB"		value="MoveLeft"/>
-				<string name="RIGHT_THUMB"		value="MoveRight"/>
-				<string name="LEFT_SHOULDER"	value="MoveLeft"/>
-				<string name="RIGHT_SHOULDER"	value="MoveRight"/>
-				-->
-			</scope>
-		</action>
+
 		
-		<sector name="InGameSector">
-
-			<action class="ActionDebug" name="TimeDebug">
-				<expression name="asc">
-					<string name="expression">message = {"Time = "} + ownerWorld.deltaTime</string>
-				</expression>
-			</action>
 			
-			<include file="Content\config\player1.xml" />
-			<expression name="playerRefSetter">
-				<string name="expression">Player1.Input = XBoxControllerManager.PlayerOneState</string>
-			</expression>
-
-			<!-- TODO: Spawn enemies randomly on escalating intervals -->
-			<include file="Content\config\enemy_pinwheel.xml" />	
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			
-			<include file="Content\config\enemy_diamond.xml" />
-			
-			
-			<include file="Content\config\enemy_square.xml" />
-			
-			
-			<include file="Content\config\enemy_arrow.xml" />
-			
-		</sector>	
 	</world>
 </root>

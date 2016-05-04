@@ -45,6 +45,7 @@ namespace Library
 		Attributed* parent = sharedDataPtr->CurrentScopePtr->AssertiveAs<Attributed>();
 		Reaction* reaction = Factory<Reaction>::Create(attributes[ATTRIBUTE_CLASS]);
 		assert(reaction != nullptr);
+		reaction->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(World::ATTRIBUTE_REACTIONS, *reaction);
 
 		sharedDataPtr->CurrentScopePtr = reaction;
