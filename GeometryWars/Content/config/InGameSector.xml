@@ -23,4 +23,6 @@
 	
 	<include file="Content\config\enemy_arrow.xml" />
 	
+	<include file="Content\config\bullet.xml" />
+	
 </sector>
