@@ -18,8 +18,9 @@ namespace Library
 		*	Calls the update method on all of its child Actions, called by the parent Action / Entity / Sector / World's Update method
 		*	@param reference to the WorldState
 		*/
-		Scope * Clone(const Scope & rhs) const;
 		virtual void Update(WorldState& worldState) override;
+
+		Scope * Clone(const Scope & rhs) const;
 
 		static const std::string ATTRIBUTE_NAME;
 		static const std::string ATTRIBUTE_VOLUME;
