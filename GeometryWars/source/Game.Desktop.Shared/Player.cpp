@@ -302,7 +302,7 @@ namespace Library
 		lives->RefreshSprites();
 
 		BombManager* bomb = BombManager::GetInstance();
-		bomb->SetData(mBombCount, mBombCount, 30, 30, 315, 5, true, "Content//resource//", "", ".png");
+		bomb->SetData(mBombCount, mBombCount, 30, 30, 315, -5, true, "Content//resource//", "", ".png");
 		bomb->Init();
 		bomb->RefreshSprites();
 	}
