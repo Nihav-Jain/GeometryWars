@@ -17,15 +17,16 @@
 			<!-- Load music  -->
 			<action class="ActionLoadMusic" name="loadMusic">
 				<string name="musicName" value="Enemy_explode.mp3"/>
-				<string name="musicName" value="GW3Dimensions.mp3"/>
+				<string name="musicName" value="GeometryWars_RE2.mp3"/>
 				<string name="musicName" value="Fire_normal.mp3"/>
+				<string name="musicName" value="Multiplier.mp3"/>
 			</action>
 			
 			<!-- Play background music -->
 			<action class="ActionPlayMusic" name="playMusic1">
-				<string name="musicName" value="GW3Dimensions.mp3"/>
+				<string name="musicName" value="GeometryWars_RE2.mp3"/>
 				<integer name="loop" value="0"  index="0"/>
-				<float name="volume" value="1.0" index="0"/>
+				<float name="volume" value="0.8" index="0"/>
 			</action>
 		</beginplay>
 

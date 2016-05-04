@@ -13,9 +13,10 @@ namespace Library
 		ActionStopMusic();
 		virtual ~ActionStopMusic() = default;
 
-		ActionStopMusic(const ActionStopMusic& rhs) = delete;
 		ActionStopMusic& operator=(const ActionStopMusic& rhs) = delete;
 
+
+		Scope * Clone(const Scope & rhs) const;
 
 		/**
 		*	Calls the update method on all of its child Actions, called by the parent Action / Entity / Sector / World's Update method

@@ -14,7 +14,6 @@ namespace Library
 
 		virtual ~ActionTogglePauseMusic() = default;
 
-		ActionTogglePauseMusic(const ActionTogglePauseMusic& rhs) = delete;
 		ActionTogglePauseMusic& operator=(const ActionTogglePauseMusic& rhs) = delete;
 
 
@@ -22,6 +21,7 @@ namespace Library
 		*	Calls the update method on all of its child Actions, called by the parent Action / Entity / Sector / World's Update method
 		*	@param reference to the WorldState
 		*/
+		Scope * Clone(const Scope & rhs) const;
 		virtual void Update(WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_NAME;

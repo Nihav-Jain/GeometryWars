@@ -102,12 +102,6 @@
 								<string name="className" value="Bullet" index="0" />
 								<string name="instanceName" value="Bullet" index="0" />
 							</action>
-							<!-- playMusic -->
-							<action class="ActionPlayMusic" name="playMusic1">
-								<string name="musicName" value="Fire_normal.mp3"/>
-									<integer name="loop" value="1"  index="0"/>
-								<float name="volume" value="0.9" index="0"/>
-							</action>
 						</then>
 					</if>
 				</then>
