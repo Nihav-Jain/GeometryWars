@@ -186,7 +186,10 @@ namespace Library
 			for (std::int32_t i = 0; i < numEnemies; ++i)
 			{
 				Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
-				enemy->EnemyDeath(worldState, true);
+				if (enemy->Name() != "EnemySpawner")
+				{
+					enemy->EnemyDeath(worldState, true);
+				}
 			}
 
 			--mBombCount;

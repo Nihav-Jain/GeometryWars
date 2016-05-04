@@ -12,7 +12,7 @@
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
 	<float name="speed" value="20" />
-	<integer name="frequency" value="2000"/>
+	<float name="frequency" value="2000"/>
 	<float name="time" value="0" />
 	<integer name="currentEnemy" value="0" />
 	<integer name="enemyTier" value="1" />
@@ -77,9 +77,14 @@
 							<string name="expression">enemyTier = NumberOfEnemyTypes</string>
 						</expression>
 					</then>
+					<else>
+						<expression name="resetFrequency">
+							<string name="expression">frequency = {1000}</string>
+						</expression>
+					</else>
 				</if>
 				<expression name="incrementMultiplier">
-					<string name="expression">currentTier = currentTier + {10}</string>
+					<string name="expression">currentTier = currentTier + {15}</string>
 				</expression>
 			</then>	
 		</if>
@@ -90,10 +95,10 @@
 			</condition>
 			<then>
 				<expression name="increaseFrequency">
-					<string name="expression">frequency = frequency / {2}</string>
+					<string name="expression">frequency = frequency * {0.75f}</string>
 				</expression>
 				<expression name="incrementFrequency">
-					<string name="expression">currentFrequency = currentFrequency + {1.25f}</string>
+					<string name="expression">currentFrequency = currentFrequency + {5}</string>
 				</expression>
 			</then>	
 		</if>
@@ -162,6 +167,20 @@
 						<expression name="SetPosition">
 							<string name="expression">SpawnArrow.newEntity.position = position</string>
 						</expression>
+						<integer name="flip" value="0" />
+						<expression name="RandomFlip">
+							<string name="expression">flip = RandomInt({2})</string>
+						</expression>
+						<if name="CheckIfDead">
+							<condition>
+								<string name="expression">flip == {0}</string>
+							</condition>
+							<then>
+								<expression name="SetVelocity">
+									<string name="expression">SpawnArrow.newEntity.velocity = perpindicular(SpawnArrow.newEntity.velocity, {true})</string>
+								</expression>
+							</then>
+						</if>
 					</case>
 					<case name="case1" caseValue="0" break="true">
 						<action class="ActionCreateEntityFromFile" name="SpawnPinwheel">
