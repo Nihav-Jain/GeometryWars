@@ -31,6 +31,7 @@ namespace Library
 		static const std::string ATTRIBUTE_CANSPAWNCOLLECTIBLE;
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCORE;
+		static const std::string ATTRIBUTE_NUMBEROFENEMIES;
 
 	protected:
 
@@ -43,6 +44,7 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
+		static std::int32_t NumberOfEnemies;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Enemy);

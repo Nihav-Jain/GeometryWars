@@ -21,7 +21,6 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
-
 	}
 
 	Bullet::Bullet(const Bullet & rhs)
@@ -92,8 +91,6 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
-		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
 	void Bullet::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)

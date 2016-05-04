@@ -57,17 +57,17 @@ namespace Library
 	};
 
 	template <>
-	class DefaultHash<int>
+	class DefaultHash<std::int32_t>
 	{
 	public:
-		std::uint32_t operator()(const int& key) const;
+		std::uint32_t operator()(const std::int32_t& key) const;
 	};
 
 	template <>
-	class DefaultHash<int*>
+	class DefaultHash<std::int32_t*>
 	{
 	public:
-		std::uint32_t operator()(int* key) const;
+		std::uint32_t operator()(std::int32_t* key) const;
 	};
 
 	template <>
