@@ -65,25 +65,29 @@ namespace Library
 		if (mDodgeChannel == channel)
 		{
 			Bullet *bullet = other.AssertiveAs<Bullet>();
+			glm::vec4 bulletDir = bullet->Direction();
 
+			// Calculate angle between me and bullet direction
 			glm::vec4 dir = glm::normalize(mPosition - other.Position());
 			std::float_t dot = glm::dot(dir, bullet->Direction());
 			std::float_t angle = acos(dot);
 			if (angle < mDodgeAngle)
 			{
+				// Within dodging angle threshold, so move perpindicularly to bullet
 				mIsDodging = true;
 
 				glm::vec4 perpA, perpB;
 
-				perpA.x = -bullet->Direction().y;
-				perpA.y = bullet->Direction().x;
+				perpA.x = -bulletDir.y;
+				perpA.y = bulletDir.x;
 
-				perpA.x = bullet->Direction().y;
-				perpA.y = -bullet->Direction().x;
+				perpB.x = bulletDir.y;
+				perpB.y = -bulletDir.x;
 
 				glm::vec4 newA = mPosition + perpA * MoveSpeed();
 				glm::vec4 newB = mPosition + perpB * MoveSpeed();
 
+				// Set direction along path that is closest
 				if (glm::distance(newA, other.Position()) > glm::distance(newB, other.Position()))
 				{
 					SetDirection(perpA);
