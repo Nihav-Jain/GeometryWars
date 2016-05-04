@@ -36,6 +36,8 @@ namespace Library {
 
 	PolygonRenderer::~PolygonRenderer()
 	{
+		Renderer::GetInstance()->RemoveRenderable(this);
+
 		if (mShader != nullptr)
 			delete mShader;
 		if (mBuffer != nullptr)

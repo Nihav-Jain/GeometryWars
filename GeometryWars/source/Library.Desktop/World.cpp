@@ -113,9 +113,9 @@ namespace Library
 			mSectorToLoad = nullptr;
 		}
 
-		SectorsBeginPlay();
 		ActionsBeginPlay();
 		ReactionsBeginPlay();
+		SectorsBeginPlay();
 	}
 
 	void World::Update()
