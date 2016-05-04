@@ -34,6 +34,8 @@ namespace Library
 
 	void InputHandler::BeginPlay(WorldState & state)
 	{
+		Event<EventMessageAttributed>::Subscribe(*this);
+
 		Update(state);
 		Action::BeginPlay(state);
 	}
@@ -531,8 +533,8 @@ namespace Library
 				if (successfulEvent)
 				{
 					// Set Rumble if player is connected
-					Rumble(player, leftRumble, rightRumble);
 					mRumbleDelay[player] = duration;
+					Rumble(player, leftRumble, rightRumble);
 				}
 			}
 		}

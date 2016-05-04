@@ -65,16 +65,13 @@ namespace Library
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Enemy::TypeIdClass());
 
 		Entity* worldStateEntityCache = worldState.entity;
+		*mPlayerOwner = *worldState.entity;
 		worldState.entity = this;
 
-		worldState.entity = worldStateEntityCache;
-
-		//mPlayerOwner = worldState.entity->AssertiveAs<Scope>();
-		*mPlayerOwner = *worldState.entity;
+		GameObject::BeginPlay(worldState);
 
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
-
-		GameObject::BeginPlay(worldState);
+		worldState.entity = worldStateEntityCache;
 	}
 
 	void Bullet::Update(WorldState & worldState)

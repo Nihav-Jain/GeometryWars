@@ -29,6 +29,21 @@
 			<action class="ActionDebug" name="Debug">
 				<string name="message" value="Player Connected!"/>
 			</action>
+			
+			<event name="RumbleEvent" subtype="rumble">
+				<integer name="player" value="0" />
+				<float name="rumble" value="1.0" />
+				<integer name="duration" value="500" />
+			</event>
+		</reaction>
+		
+		<!-- Test -->
+		<reaction name="testRumbleReaction" class="ReactionAttributed">
+			<string name="subtype" value="rumble" />
+			
+			<action class="ActionDebug" name="Debug">
+				<string name="message" value="Rumble Called!"/>
+			</action>
 		</reaction>
 		
 		<!-- Player Disconnected Reaction -->
@@ -46,7 +61,7 @@
 			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
 				<string name="B"				value="Bomb"/>
 				<string name="START"			value="Start"/>
-				<string name="SELECT"			value="Select"/>
+				<string name="BACK"				value="Select"/>
 				<!--
 				<string name="X"				value="Shoot"/>
 				<string name="Y"				value="Shoot"/>
