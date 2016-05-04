@@ -23,7 +23,7 @@ namespace Library
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
-		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
+		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;

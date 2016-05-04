@@ -6,6 +6,8 @@
 #include "OpenGLRenderDevice.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemySquare.h"
+#include "Collectible.h"
 #include "Bullet.h"
 #include "BloomPostProcessing.h"
 
@@ -28,7 +30,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	ActionDebugFactory adf;
 	PlayerFactory mPlayerFactory;
 	EnemyFactory mEnemyFactory;
+	EnemySquareFactory mEnemySquareFactory;
 	BulletFactory mBulletFactory;
+	CollectibleFactory mCollectibleFactory;
 
 	BloomPostProcessing bloom;
 
@@ -36,53 +40,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	Renderer * renderer = Renderer::GetInstance(&renderDevice);
 
 	renderer->AddPostPostProcessing(&bloom);
-
-//
-//	/// Start Screen ///
-//	Game startMenu;
-//	startMenu.SetRenderer(renderer);
-//	startMenu.Start("Content/config/start_menu.xml");
-//	renderDevice.InitOpenGl("Geometry Wars", startMenu.GetWorld().GetWidth(), startMenu.GetWorld().GetHeight());
-//
-//	bool & wait = startMenu.GetWorld().Find("wait")->Get<bool>();
-//	SpriteRenderer* title = startMenu.GetWorld().FindSector("ImageSector")->FindEntity("TitleScreen")->FindAction("titleSprite")->AssertiveAs<SpriteRenderer>();
-//	renderer->RemoveRenderable(title);
-//	renderer->RemoveRenderable(title);
-//	renderer->AddRenderable(title, 101);
-//	while (wait)
-//	{
-//		startMenu.Update();
-//	}
-//	renderer->RemoveRenderable(title, 101);
-//	startMenu.Update();
-//
-//
-//
-//	/// Game ///
-//	Game game;
-//	game.SetRenderer(renderer);
-//	game.Start("Content/config/geometrywars_test.xml");
-//
-//	const std::int32_t & playerLivesLeft = game.GetWorld().FindSector("InGameSector")->FindEntity("Player1")->AssertiveAs<Player>()->Lives();
-//	while (playerLivesLeft > 0)
-//	{
-//
-//		game.Update();
-//	}
-//
-//
-//	/// Gameover Screen ///
-//	Game gameoverMenu;
-//	gameoverMenu.SetRenderer(renderer);
-//	gameoverMenu.Start("Content/config/gameover_menu.xml");
-//
-//#pragma warning(push)
-//#pragma warning(disable : 4127)
-//	while (true)
-//	{
-//		gameoverMenu.Update();
-//#pragma warning(pop) 
-//	}
 
 	/// Game ///
 	Game game;

@@ -2,7 +2,7 @@
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0.1, 0, 0)"/>
 	<bool name="isdead" value="false" />
-	<bool name="canspawncollectible" value="false" />
+	<bool name="canspawncollectible" value="true" />
 	<string name="enemychannel" value="collideplayers" />
 	<integer name="score" value="1" />
   
@@ -98,6 +98,9 @@
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
+				<expression name="SetPosition">
+					<string name="expression">numberOfEnemies = numberOfEnemies - {1}</string>
+				</expression>
 				
 				<!-- Collectible Spawning -->
 				<if name="CheckIfCanSpawnCollectible">

@@ -34,7 +34,7 @@ namespace Library
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
-		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState);
+		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState);
 
 		static const std::string ATTRIBUTE_POSITION;
 		static const std::string ATTRIBUTE_ROTATION;
