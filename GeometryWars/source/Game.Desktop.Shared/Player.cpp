@@ -40,7 +40,7 @@ namespace Library
 
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(), mOutOfLives(false),
-		  mScore(0), mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
+		  mScore(0), mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel(), mInitSprites(false)
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
 		AddExternalAttribute(ATTRIBUTE_ATTACKSPEED, 1, &mAttackSpeed);
@@ -294,23 +294,28 @@ namespace Library
 		BombManager::CreateInstance();
 	}
 
-	void Player::InitSpriteManagers() const
+	void Player::InitSpriteManagers()
 	{
-		ScoreManager* score = ScoreManager::GetInstance();
-		score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
-		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
-		score->Init();
-		score->RefreshSprites();
+		if (!mInitSprites)
+		{
+			mInitSprites = true;
 
-		LivesManager* lives = LivesManager::GetInstance();
-		lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
-		lives->Init();
-		lives->RefreshSprites();
+			ScoreManager* score = ScoreManager::GetInstance();
+			score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
+			score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
+			score->Init();
+			score->RefreshSprites();
 
-		BombManager* bomb = BombManager::GetInstance();
-		bomb->SetData(mBombCount, mBombCount, 30, 30, 315, 5, true, "Content//resource//", "", ".png");
-		bomb->Init();
-		bomb->RefreshSprites();
+			LivesManager* lives = LivesManager::GetInstance();
+			lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
+			lives->Init();
+			lives->RefreshSprites();
+
+			BombManager* bomb = BombManager::GetInstance();
+			bomb->SetData(mBombCount, mBombCount, 30, 30, 315, 5, true, "Content//resource//", "", ".png");
+			bomb->Init();
+			bomb->RefreshSprites();
+		}
 	}
 
 	void Player::ResetAttributePointers()

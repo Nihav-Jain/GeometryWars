@@ -68,7 +68,7 @@ namespace Library
 	protected:
 
 		void CreateSpriteManagers() const;
-		void InitSpriteManagers() const;
+		void InitSpriteManagers();
 
 		std::int32_t mPlayerNumber;
 
@@ -88,6 +88,8 @@ namespace Library
 
 		glm::vec4 mVelocity;
 		glm::vec4 mHeading;
+
+		bool mInitSprites;
 
 	private:
 		std::chrono::milliseconds mShootTimer;
