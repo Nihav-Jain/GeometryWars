@@ -13,19 +13,24 @@ namespace Library
 	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Bullet::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Bullet::ATTRIBUTE_CHANNEL = "bulletchannel";
+	const std::string Bullet::ATTRIBUTE_PLAYEROWNER = "playerOwner";
 
 
 	Bullet::Bullet()
-		: mVelocity(), mIsDead(false), mCollisionChannel(), mPlayerOwner(nullptr)
+		: mVelocity(), mIsDead(false), mCollisionChannel(), mPlayerOwner(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
-
+		AddExternalAttribute(ATTRIBUTE_PLAYEROWNER, 1, &mPlayerOwner);
+	}
+	Bullet::~Bullet()
+	{
+		delete mPlayerOwner;
 	}
 
-	Bullet::Bullet(const Bullet & rhs)
-		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel)
+	Bullet::Bullet(const Bullet & rhs) : GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), 
+		mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel), mPlayerOwner(new Datum(*rhs.mPlayerOwner))
 	{
 		ResetAttributePointers();
 	}
@@ -60,14 +65,13 @@ namespace Library
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Enemy::TypeIdClass());
 
 		Entity* worldStateEntityCache = worldState.entity;
+		*mPlayerOwner = *worldState.entity;
 		worldState.entity = this;
 
 		GameObject::BeginPlay(worldState);
 
-		worldState.entity = worldStateEntityCache;
-
-		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
+		worldState.entity = worldStateEntityCache;
 	}
 
 	void Bullet::Update(WorldState & worldState)
@@ -97,9 +101,7 @@ namespace Library
 
 		enemy->EnemyDeath(worldState, true);
 
-		mPlayerOwner->AddScore( enemy->Score() );
-
-		(worldState);
+		mPlayerOwner->Get<Scope>().AssertiveAs<Player>()->AddScore( enemy->Score() );
 	}
 
 	void Bullet::ResetAttributePointers()
@@ -107,6 +109,7 @@ namespace Library
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
+		(*this)[ATTRIBUTE_PLAYEROWNER].SetStorage(&mPlayerOwner, 1);
 	}
 
 }
