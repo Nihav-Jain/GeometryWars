@@ -27,6 +27,7 @@ namespace Library
 		static const std::string ATTRIBUTE_HEADING;
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCOREBASE;
+		static const std::string ATTRIBUTE_SCORE;
 
 		void CheckScreenBounds();
 
@@ -67,7 +68,7 @@ namespace Library
 	protected:
 
 		void CreateSpriteManagers() const;
-		void InitSpriteManagers() const;
+		void InitSpriteManagers();
 
 		std::int32_t mPlayerNumber;
 
@@ -79,6 +80,7 @@ namespace Library
 		bool mOutOfLives;
 		std::string mCollisionChannel;
 
+		std::int32_t mScore;
 		std::int32_t mMultiplier;
 
 		bool mUseBomb;
@@ -86,6 +88,8 @@ namespace Library
 
 		glm::vec4 mVelocity;
 		glm::vec4 mHeading;
+
+		bool mInitSprites;
 
 	private:
 		std::chrono::milliseconds mShootTimer;

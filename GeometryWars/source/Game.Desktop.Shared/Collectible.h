@@ -17,7 +17,7 @@ namespace Library
 		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
-		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
+		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_ISCOLLECTED;
 		static const std::string ATTRIBUTE_CHANNEL;
@@ -30,7 +30,6 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
-		static const class CollectibleFactory cf;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Collectible);

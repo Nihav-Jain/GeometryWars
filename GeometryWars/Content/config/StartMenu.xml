@@ -20,10 +20,17 @@
 	<reaction class="ReactionAttributed" name="ExitStartMenu">
 		<string name="subtype" value="Start"/>
 		
-		<!-- Load Game Sector -->
-		<action class="ActionLoadSector" name="loadGame">
-			<string name="sectorName" value="InGameSector" />
-		</action>
+		<if name="CheckButtonPressed">
+			<condition><string name="expression">IsButtonPressed</string></condition>
+			<then>
+			
+				<!-- Load Game Sector -->
+				<action class="ActionLoadSector" name="loadGame">
+					<string name="sectorName" value="InGameSector" />
+				</action>
+		
+			</then>
+		</if>
 		
 	</reaction>
 	

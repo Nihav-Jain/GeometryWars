@@ -18,10 +18,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Bullet.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Collectible.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnemySquare.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LivesManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionDebug.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScoreHolder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ScoreManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteManager.h" />
   </ItemGroup>
@@ -30,55 +32,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Bullet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Collectible.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EnemySquare.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LivesManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionDebug.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScoreHolder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ScoreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpriteManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds_small.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds_small_include.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\bullet.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_arrow.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_diamond.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_pinwheel.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_square.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\geometrywars_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\input.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\input_v2.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\player1.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\player_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\polygon.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sample_entity_xml_class.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sprite.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xmltabletest.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_switch_case.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_beginplay_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_beginplay_test_music.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_canevertick_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_create_entity_from_file_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_create_entity_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_destroy_entity_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_entitylist_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_entity_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_expression_ref_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_function_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_if_else_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_invalid_table.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_invalid_table_state.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_literal_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_multi_entity_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test_arguments.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test_notnotified.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test_subtype.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_while_test.xml" />
   </ItemGroup>
 </Project>
