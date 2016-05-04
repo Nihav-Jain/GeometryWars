@@ -15,7 +15,7 @@
 			
 		<sprite_renderer name="backgroundSprite">
 			<image name="image">
-				<string name="path" value="Content/resource/background.png"/>
+				<string name="path" value="Content/resource/background2.png"/>
 				<vector name="size" value="vec4(1280, 720, 0, 0)"/>
 			</image>
 			<integer name="layer" value="99" />

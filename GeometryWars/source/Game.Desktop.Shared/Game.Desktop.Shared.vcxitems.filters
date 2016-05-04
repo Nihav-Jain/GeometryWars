@@ -9,7 +9,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SpriteManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BombManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Collectible.cpp" />
-	
+    <ClCompile Include="$(MSBuildThisFileDirectory)EnemySquare.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LivesManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bullet.h" />
@@ -21,6 +22,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BombManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Collectible.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnemySquare.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LivesManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds.xml" />
