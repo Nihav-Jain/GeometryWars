@@ -1,0 +1,64 @@
+﻿  pch.cpp
+  WICTextureLoader.cpp
+  VertexTypes.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(268): warning C4458: declaration of 'color' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(228): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTexture::color'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(320): warning C4458: declaration of 'weights' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(284): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::weights'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\vertextypes.cpp(103): warning C4458: declaration of 'color' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(228): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTexture::color'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\vertextypes.cpp(127): warning C4458: declaration of 'indices' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(283): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::indices'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\vertextypes.cpp(132): warning C4458: declaration of 'weights' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(284): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::weights'
+  SpriteFont.cpp
+  PrimitiveBatch.cpp
+  SpriteBatch.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(268): warning C4458: declaration of 'color' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(228): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTexture::color'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(320): warning C4458: declaration of 'weights' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(284): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::weights'
+  SkinnedEffect.cpp
+  ScreenGrab.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\screengrab.cpp(847): warning C4838: conversion from 'UINT' to 'INT' requires a narrowing conversion
+  ModelLoadSDKMESH.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(268): warning C4458: declaration of 'color' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(228): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTexture::color'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(320): warning C4458: declaration of 'weights' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(284): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::weights'
+  ModelLoadCMO.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(268): warning C4458: declaration of 'color' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(228): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTexture::color'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(320): warning C4458: declaration of 'weights' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(284): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::weights'
+  Model.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\model.cpp(44): warning C4458: declaration of 'effect' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\model.h(62): note: see declaration of 'DirectX::ModelMeshPart::effect'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\model.cpp(44): warning C4458: declaration of 'inputLayout' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\model.h(59): note: see declaration of 'DirectX::ModelMeshPart::inputLayout'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\model.cpp(73): warning C4458: declaration of 'effect' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\model.h(62): note: see declaration of 'DirectX::ModelMeshPart::effect'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\model.cpp(73): warning C4458: declaration of 'inputLayout' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\model.h(59): note: see declaration of 'DirectX::ModelMeshPart::inputLayout'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\src\model.cpp(96): warning C4458: declaration of 'effect' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\model.h(62): note: see declaration of 'DirectX::ModelMeshPart::effect'
+  GeometricPrimitive.cpp
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(268): warning C4458: declaration of 'color' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(228): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTexture::color'
+c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(320): warning C4458: declaration of 'weights' hides class member
+  c:\users\jmbell\documents\geometrywars\geometrywars\external\directxtk\source\inc\vertextypes.h(284): note: see declaration of 'DirectX::VertexPositionNormalTangentColorTextureSkinning::weights'
+  EnvironmentMapEffect.cpp
+  EffectFactory.cpp
+  EffectCommon.cpp
+  BinaryReader.cpp
+  DualTextureEffect.cpp
+  DGSLEffectFactory.cpp
+  DGSLEffect.cpp
+  DDSTextureLoader.cpp
+  CommonStates.cpp
+  Generating Code...
+  Compiling...
+  BasicEffect.cpp
+  AlphaTestEffect.cpp
+  Generating Code...
+  DirectXTK_Desktop_2013.vcxproj -> C:\Users\jmbell\Documents\GeometryWars\GeometryWars\external\DirectXTK\source\Bin\Desktop_2013\x64\Debug\DirectXTK.lib
