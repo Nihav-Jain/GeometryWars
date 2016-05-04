@@ -24,13 +24,14 @@ namespace Library
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;
 		virtual void OnDestroy(WorldState& worldState) override;
-		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
+		virtual void OnOverlapBegin(const GameObject& other, const std::string& channel, WorldState& worldState) override;
 
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
 		static const std::string ATTRIBUTE_CANSPAWNCOLLECTIBLE;
 		static const std::string ATTRIBUTE_CHANNEL;
 		static const std::string ATTRIBUTE_SCORE;
+		static const std::string ATTRIBUTE_NUMBEROFENEMIES;
 
 	protected:
 
@@ -43,6 +44,7 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
+		static std::int32_t NumberOfEnemies;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Enemy);

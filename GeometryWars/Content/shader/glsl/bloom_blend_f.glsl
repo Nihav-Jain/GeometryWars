@@ -8,11 +8,11 @@ uniform float exposure;
 
 void main()
 {
-    vec3 hdrColor = texture(scene, TexCoords).rgb;
-    vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
+    vec4 hdrColor = texture(scene, TexCoords);
+    vec4 bloomColor = texture(bloomBlur, TexCoords);
     hdrColor += bloomColor; // additive blending
     // tone mapping
-    vec3 result = vec3(1.0) - exp(-hdrColor * exposure);
+    vec4 result = vec4(1.0) - exp(-hdrColor * exposure);
 
-    FragColor = vec4(result, 1.0f);
+    FragColor = result;
 }

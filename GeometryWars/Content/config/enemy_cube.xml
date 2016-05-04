@@ -1,4 +1,6 @@
-<gameobject class="Enemy" name="DiamondEnemy">
+<gameobject class="Enemy" name="CubeEnemy">
+	<bool name="isparent" value="true" />
+
 	<!-- Enemy Class Attributes -->
 	<vector name="velocity" value="vec4(0, 0, 0, 0)"/>
 	<bool name="isdead" value="false" />
@@ -7,15 +9,15 @@
 	<integer name="score" value="1" />
 	  
 	<!-- GameObject Class Attributes -->
-	<vector name="position" value="vec4(500, 250, 0, 0)"/>
+	<vector name="position" value="vec4(500, -250, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 3.14, 0)"/>
 	<vector name="scale" value="vec4(20, 20, 1, 0)"/>
 	<float name="speed" value="0.2" />
 	  
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
-		<float name="width" value="7" />
-		<vector name="color" value="vec4(0, 0.5, 1, 1)" />
+		<float name="width" value="5" />
+		<vector name="color" value="vec4(1, 0.1412633, 0.456411, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
@@ -24,15 +26,19 @@
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(0, 0.8, 0, 0)" />
-		<vector name="points" value="vec4(-0.81, 0, 0, 0)" />
-		<vector name="points" value="vec4(0, -0.81, 0, 0)" />
-		<vector name="points" value="vec4(0.8, -0.01, 0, 0)" />
+		<integer name="indices" value="0" />
+		<integer name="indices" value="2" />
+		<integer name="indices" value="1" />
+		<integer name="indices" value="3" />
+		<vector name="points" value="vec4(-1, 1, 0, 0)" />
+		<vector name="points" value="vec4(1, 0.99, 0, 0)" />
+		<vector name="points" value="vec4(1, -1, 0, 0)" />
+		<vector name="points" value="vec4(-1, -1, 0, 0)" />
 	</polygon_renderer>
 	  
 	<!-- CircleCollider Component -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="3.5" />
+		<float name="radius" value="3.0" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
@@ -70,9 +76,7 @@
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
-				<expression name="SetPosition">
-					<string name="expression">numberOfEnemies = numberOfEnemies - {1}</string>
-				</expression>
+				
 				<!-- Collectible Spawning -->
 				<if name="CheckIfCanSpawnCollectible">
 					<condition>
@@ -90,12 +94,56 @@
 						</expression>
 					</then>
 				</if>
+				
 				<!-- playMusic -->
 				<action class="ActionPlayMusic" name="playMusic1">
 					<string name="musicName" value="Enemy_explode.mp3"/>
 					<integer name="loop" value="1"  index="0"/>
 					<float name="volume" value="1.0" index="0"/>
-				</action>			
+				</action>
+				
+				<!-- Spawn Children if Parent -->
+				<if name="CheckIfParent">
+					<condition>
+						<string name="expression">isparent</string>
+					</condition>
+					<then>
+						<expression name="SetPosition">
+							<string name="expression">numberOfEnemies = numberOfEnemies - {1}</string>
+						</expression>
+				
+						<!-- Spawn Children -->
+						<action class="ActionCreateEntityFromFile" name="BabyCube1">
+							<string name="filePath" value="Content/config/enemy_cube.xml" index="0" />
+							<string name="className" value="CubeEnemy" index="0" />
+							<string name="instanceName" value="BabyCube1" index="0" />
+						</action>
+						<expression name="DisableParent">
+							<string name="expression">BabyCube1.newEntity.isparent = {false}</string>
+						</expression>
+						<expression name="SetScale">
+							<string name="expression">BabyCube1.newEntity.scale = scale * {0.5f}</string>
+						</expression>
+						<expression name="SetPosition">
+							<string name="expression">BabyCube1.newEntity.position = perpindicular(velocity, {true}) * {10.0f}</string>
+						</expression>
+						
+						<action class="ActionCreateEntityFromFile" name="BabyCube2">
+							<string name="filePath" value="Content/config/enemy_cube.xml" index="0" />
+							<string name="className" value="CubeEnemy" index="0" />
+							<string name="instanceName" value="BabyCube2" index="0" />
+						</action>
+						<expression name="DisableParent">
+							<string name="expression">BabyCube2.newEntity.isparent = {false}</string>
+						</expression>
+						<expression name="SetScale">
+							<string name="expression">BabyCube2.newEntity.scale = scale * {0.5f}</string>
+						</expression>
+						<expression name="SetPosition">
+							<string name="expression">BabyCube2.newEntity.position = perpindicular(velocity, {false}) * {10.0f}</string>
+						</expression>
+					</then>
+				</if>
 			</then>
 		</if>
 	</action>

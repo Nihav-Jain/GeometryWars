@@ -142,9 +142,53 @@ namespace Library
 		srand(static_cast<int>(time(nullptr)));
 		ActionExpression::AddFunction("RandomVector", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
 		{
+			UNREFERENCED_PARAMETER(params);
 			assert(params.Size() >= 0);
 			Datum result;
 			result = glm::vec4(rand(), rand(), 0, 0);
+			return result;
+		}));
+
+		ActionExpression::AddFunction("RandomInt", ActionExpression::FunctionDefinition(1, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() >= 1);
+			Datum result;
+			result = rand() % params[0]->Get<std::int32_t>();
+			return result;
+		}));
+
+		ActionExpression::AddFunction("perpindicular", ActionExpression::FunctionDefinition(2, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 2);
+			Datum result;
+
+			glm::vec4 perp;
+			glm::vec4 vec = (*params[0]).Get<glm::vec4>();
+
+			if ((*params[1]).Get<bool>())
+			{
+				perp.x = -vec.y;
+				perp.y = vec.x;
+			}
+			else
+			{
+				perp.x = vec.y;
+				perp.y = -vec.x;
+			}
+
+			result = perp;
+			return result;
+		}));
+
+		ActionExpression::AddFunction("rotateZ", ActionExpression::FunctionDefinition(1, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 1);
+			Datum result;
+
+			glm::vec4 rotated;
+			rotated.z = atan2((*params[0]).Get<glm::vec4>().y, (*params[0]).Get<glm::vec4>().x) - 1.571f;
+
+			result = rotated;
 			return result;
 		}));
 

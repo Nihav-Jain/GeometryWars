@@ -106,7 +106,7 @@
 							<action class="ActionPlayMusic" name="playMusic1">
 								<string name="musicName" value="Fire_normal.mp3"/>
 									<integer name="loop" value="1"  index="0"/>
-								<float name="volume" value="0.5" index="0"/>
+								<float name="volume" value="0.05" index="0"/>
 							</action>
 						</then>
 					</if>
@@ -118,16 +118,15 @@
 		<reaction class="ReactionAttributed" name="OnUseBomb">
 			<string name="subtype" value="Bomb"/>
 			
-			<!--
-			<if name="CheckPlayer">
-				<condition><string name="expression">PlayerNumber == player</string></condition>
-				<then> -->
+			<if name="CheckIsButtonPressed">
+				<condition><string name="expression">IsButtonPressed</string></condition>
+				<then>
 					<expression name="enablebomb">
 						<string name="expression">useBomb = {true}</string>
-					</expression> <!--
+					</expression>
 				</then>
 			</if>
-			-->
+			
 		</reaction>
 	</action>
 		

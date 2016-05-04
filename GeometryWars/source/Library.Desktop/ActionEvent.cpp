@@ -6,7 +6,7 @@
 
 namespace Library
 {
-	RTTI_DEFINITIONS(ActionEvent, Action);
+	RTTI_DEFINITIONS(ActionEvent, ActionList);
 
 	const std::string ActionEvent::ATTRIBUTE_SUBTYPE = "subtype";
 	const std::string ActionEvent::ATTRIBUTE_DELAY = "delay";
@@ -19,27 +19,29 @@ namespace Library
 	}
 
 	ActionEvent::ActionEvent(const ActionEvent& rhs) :
-		Action::Action(rhs)
+		ActionList::ActionList(rhs)
 	{}
 
 	ActionEvent::ActionEvent(ActionEvent&& rhs) :
-		Action::Action(std::move(rhs))
+		ActionList::ActionList(std::move(rhs))
 	{}
 
 	ActionEvent& ActionEvent::operator=(const ActionEvent& rhs)
 	{
-		Action::operator=(rhs);
+		ActionList::operator=(rhs);
 		return *this;
 	}
 
 	ActionEvent& ActionEvent::operator=(ActionEvent&& rhs)
 	{
-		Action::operator=(std::move(rhs));
+		ActionList::operator=(std::move(rhs));
 		return *this;
 	}
 
 	void ActionEvent::Update(WorldState& worldState)
 	{
+		ActionList::Update(worldState);
+
 		EventMessageAttributed message;
 		message.SetSubtype((*this)[ATTRIBUTE_SUBTYPE].Get<std::string>());
 		message.SetWorldState(worldState);

@@ -21,7 +21,6 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
-
 	}
 
 	Bullet::Bullet(const Bullet & rhs)
@@ -66,8 +65,11 @@ namespace Library
 
 		worldState.entity = worldStateEntityCache;
 
-		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
-		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
+		Player* player = worldState.entity->As<Player>();
+		if (player != nullptr)
+		{
+			mPlayerOwner = player;
+		}
 	}
 
 	void Bullet::Update(WorldState & worldState)
@@ -87,19 +89,20 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
-		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
-	void Bullet::OnOverlapBegin(const GameObject & other, WorldState & worldState)
+	void Bullet::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)
 	{
-		Enemy* enemy = other.AssertiveAs<Enemy>();
+		if (channel == mCollisionChannel)
+		{
+			Enemy* enemy = other.AssertiveAs<Enemy>();
+			enemy->EnemyDeath(worldState, true);
 
-		enemy->EnemyDeath(worldState, true);
-
-		mPlayerOwner->AddScore( enemy->Score() );
-
-		(worldState);
+			if (mPlayerOwner != nullptr)
+			{
+				mPlayerOwner->AddScore(enemy->Score());
+			}
+		}	
 	}
 
 	void Bullet::ResetAttributePointers()

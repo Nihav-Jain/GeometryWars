@@ -6,27 +6,38 @@
 		</expression>
 	</action>
 	
+	<gameobject class="GameObject" name="Background">
+	
+		<vector name="position" value="vec4(0, 0, 0, 0)"/>
+		<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
+		<vector name="scale" value="vec4(1, 1, 1, 0)"/>
+		<float name="speed" value="0.0" />
+			
+		<sprite_renderer name="backgroundSprite">
+			<image name="image">
+				<string name="path" value="Content/resource/background2.png"/>
+				<vector name="size" value="vec4(1280, 720, 0, 0)"/>
+			</image>
+			<integer name="layer" value="99" />
+		</sprite_renderer>
+	
+	</gameobject>
+	
 	<include file="Content\config\player1.xml" />
 	<expression name="playerRefSetter">
 		<string name="expression">Player1.Input = XBoxControllerManager.PlayerOneState</string>
 	</expression>
 
 	<!-- TODO: Spawn enemies randomly on escalating intervals -->
-	<include file="Content\config\enemy_pinwheel.xml" />	
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
-	<include file="Content\config\enemy_pinwheel.xml" />
+	<include file="Content\config\enemy_spawner.xml" />
+	
 	
 	<include file="Content\config\enemy_diamond.xml" />
-	
-	
-	<include file="Content\config\enemy_square.xml" />
-	
+	<include file="Content\config\enemy_cube.xml" />	
+	<include file="Content\config\enemy_square.xml" />	
 	
 	<include file="Content\config\enemy_arrow.xml" />
+	
+	<include file="Content\config\bullet.xml" />
 	
 </sector>

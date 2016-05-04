@@ -270,7 +270,7 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(actionEvent.ToString() == "Scope");
 			Assert::IsTrue(actionEvent.Equals(&actionEvent));
 			Assert::IsNotNull(actionEvent.QueryInterface(ActionEvent::TypeIdClass()));
-			Assert::IsNull(actionEvent.QueryInterface(ActionList::TypeIdClass()));
+			Assert::IsNotNull(actionEvent.QueryInterface(ActionList::TypeIdClass()));
 		}
 
 		TEST_METHOD(ReactionTestReactionAttrinbuteRTTI)
