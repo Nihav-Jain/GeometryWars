@@ -5,7 +5,7 @@ in vec2 TexCoords;
 uniform sampler2D image;
 
 uniform bool horizontal;
-
+uniform float colorThreshold;
 uniform float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
 
 void main()
@@ -32,10 +32,14 @@ void main()
             vec4 color2 = texture(image, TexCoords - vec2(0.0, tex_offset.y * i));
             result.rgb += color1.rgb * weight[i];
             result.a = color1.a * weight[i] * 2;
-            result.rgb += color1.rgb * weight[i];
+            result.rgb += color2.rgb * weight[i];
             result.a = color2.a * weight[i] * 2;
         }
     }
 
-    FragColor = result;
+    if (length(result.rgb) > colorThreshold) {
+        FragColor = vec4(result.rgb, 1.0);
+    } else {
+        FragColor = result;
+    }
 }

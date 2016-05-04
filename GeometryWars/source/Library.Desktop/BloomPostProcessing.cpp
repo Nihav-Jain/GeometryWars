@@ -74,7 +74,7 @@ namespace Library {
 			mBuffer->Use();
 
 			mFrameBufferForBlur[horizontal]->Use();
-
+			mShaderBlur->SetFloat("colorThreshold", 0.04f);
 			mShaderBlur->SetBool("horizontal", horizontal);
 
 			if (i == 0) {

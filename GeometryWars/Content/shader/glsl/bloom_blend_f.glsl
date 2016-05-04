@@ -14,5 +14,5 @@ void main()
     // tone mapping
     vec4 result = vec4(1.0) - exp(-hdrColor * exposure);
 
-    FragColor = vec4(bloomColor);
+    FragColor = result;
 }
