@@ -936,42 +936,81 @@ namespace Library
 
 		if (index < mSize)
 		{
-			uint32_t sizeOfType = 0;
+			std::uint32_t sizeOfType = 0;
+			std::uint32_t i = index;
 			switch (mType)
 			{
 			case DatumType::INTEGER:
 				sizeOfType = sizeof(std::int32_t);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mInt[i] = mData.mInt[i + 1];
+				}
 				break;
 			case DatumType::FLOAT:
 				sizeOfType = sizeof(std::float_t);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mFloat[i] = mData.mFloat[i + 1];
+				}
 				break;
 			case DatumType::VECTOR4:
 				mData.mVec4[index].glm::vec4::~vec4();
 				sizeOfType = sizeof(glm::vec4);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mVec4[i] = mData.mVec4[i + 1];
+				}
 				break;
 			case DatumType::MATRIX4x4:
 				mData.mMat4x4[index].glm::mat4::~mat4();
 				sizeOfType = sizeof(glm::mat4);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mMat4x4[i] = mData.mMat4x4[i + 1];
+				}
 				break;
 			case DatumType::STRING:
 				mData.mString[index].std::string::~string();
 				sizeOfType = sizeof(std::string);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mString[i] = mData.mString[i + 1];
+				}
 				break;
 			case DatumType::BOOLEAN:
 				sizeOfType = sizeof(bool);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mBool[i] = mData.mBool[i + 1];
+				}
 				break;
 			case DatumType::POINTER:
 				sizeOfType = sizeof(RTTI*);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mRttiPtr[i] = mData.mRttiPtr[i + 1];
+				}
 				break;
 			case DatumType::TABLE:
 				sizeOfType = sizeof(Scope*);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mScopePtr[i] = mData.mScopePtr[i + 1];
+				}
+				break;
 			case DatumType::REFERENCE:
 				sizeOfType = sizeof(Datum*);
+				for (; i < mSize - 1; i++)
+				{
+					mData.mDatumPtr[i] = mData.mDatumPtr[i + 1];
+				}
+				break;
 			default:
 				break;
 			}
 
-			std::memmove(mData.mInt + index, mData.mInt + index + 1, sizeOfType * (mSize - index - 1));
+			//memmove_s(mData.mInt + index, (mSize - index - 1), mData.mInt + index + 1, sizeOfType * (mSize - index - 1));
 			mSize--;
 		}
 	}
