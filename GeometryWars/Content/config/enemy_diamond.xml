@@ -45,7 +45,7 @@
 		<expression name="update_dir">
 			<string name="expression">newdirection = Player1.position - position</string>
 		</expression>
-		<expression name="change_vel">
+		<expression name="change_dir">
 			<string name="expression">direction = normalize(newdirection)</string>
 		</expression>	 	
 		
