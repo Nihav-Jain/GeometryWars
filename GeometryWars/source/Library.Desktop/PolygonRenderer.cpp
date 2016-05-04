@@ -80,7 +80,7 @@ namespace Library {
 		mShader->SetFloat("width", mWidth);
 
 		mBuffer->Use();
-		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size());
+		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size(), true);
 	}
 
 	void PolygonRenderer::BeginPlay(WorldState & worldState)

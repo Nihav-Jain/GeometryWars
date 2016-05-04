@@ -26,18 +26,18 @@ namespace Library
 		if (!attributes.ContainsKey(ATTRIBUTE_CLASS))
 		{
 			std::stringstream str;
-			str << "Invalid syntax for <" << ELEMENT_NAME << ">. Missing attribute: " << ATTRIBUTE_CLASS;
+			str << "ClearScreen syntax for <" << ELEMENT_NAME << ">. Missing attribute: " << ATTRIBUTE_CLASS;
 			throw std::exception(str.str().c_str());
 		}
 		if (!attributes.ContainsKey(ATTRIBUTE_NAME))
 		{
 			std::stringstream str;
-			str << "Invalid syntax for <" << ELEMENT_NAME << ">. Missing attribute: " << ATTRIBUTE_NAME;
+			str << "ClearScreen syntax for <" << ELEMENT_NAME << ">. Missing attribute: " << ATTRIBUTE_NAME;
 			throw std::exception(str.str().c_str());
 		}
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);

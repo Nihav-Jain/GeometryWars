@@ -34,7 +34,7 @@ namespace Library
 			return false;
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::PRIMITIVE_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 
 		if (attributes.ContainsKey("index"))
 		{
@@ -50,9 +50,9 @@ namespace Library
 		if (attributes.ContainsKey("name"))
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_START))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_END))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 
 			mCurrentDataName = attributes["name"];
 			Datum& primitiveDatum = sharedDataPtr->CurrentScopePtr->Append(mCurrentDataName);
@@ -62,9 +62,9 @@ namespace Library
 			if (attributes.ContainsKey("value"))
 			{
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
-					throw std::exception("Invalid script syntax");
+					throw std::exception("ClearScreen script syntax");
 				if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
-					throw std::exception("Invalid script syntax");
+					throw std::exception("ClearScreen script syntax");
 				
 				std::uint32_t index = mIndex;
 				if (!mIndexAttributeSpecified)
@@ -104,7 +104,7 @@ namespace Library
 		if (!mCharData.empty())
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 			Datum& datum = sharedDataPtr->CurrentScopePtr->operator[](mCurrentDataName);
 
 			std::uint32_t index = mIndex;
@@ -155,9 +155,9 @@ namespace Library
 		}
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::PRIMITIVE_END))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 
 		sharedDataPtr->NameValueElementDataParsed = false;
 		mCurrentDataName = "";

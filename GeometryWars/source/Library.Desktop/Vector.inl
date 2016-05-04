@@ -107,7 +107,7 @@ namespace Library
 	{
 		if (IsEmpty())
 		{
-			throw std::exception("Invalid operation. Vector is empty.");
+			throw std::exception("ClearScreen operation. Vector is empty.");
 		}
 
 		mDataArray[mSize - 1].~T();
@@ -119,7 +119,7 @@ namespace Library
 	{
 		if (IsEmpty())
 		{
-			throw std::exception("Invalid operation. Vector is empty.");
+			throw std::exception("ClearScreen operation. Vector is empty.");
 		}
 		return mDataArray[0];
 	}
@@ -129,7 +129,7 @@ namespace Library
 	{
 		if (IsEmpty())
 		{
-			throw std::exception("Invalid operation. Vector is empty.");
+			throw std::exception("ClearScreen operation. Vector is empty.");
 		}
 		return mDataArray[0];
 	}
@@ -139,7 +139,7 @@ namespace Library
 	{
 		if (IsEmpty())
 		{
-			throw std::exception("Invalid operation. Vector is empty.");
+			throw std::exception("ClearScreen operation. Vector is empty.");
 		}
 		return mDataArray[mSize-1];
 	}
@@ -149,7 +149,7 @@ namespace Library
 	{
 		if (IsEmpty())
 		{
-			throw std::exception("Invalid operation. Vector is empty.");
+			throw std::exception("ClearScreen operation. Vector is empty.");
 		}
 		return mDataArray[mSize - 1];
 	}
@@ -265,7 +265,7 @@ namespace Library
 		}
 		if (itrBegin.mCurrentIndex > itrEnd.mCurrentIndex)
 		{
-			throw new std::exception("Invalid range. Param 1 should be be less than Param 2");
+			throw new std::exception("ClearScreen range. Param 1 should be be less than Param 2");
 		}
 
 		Iterator itr = itrBegin;
