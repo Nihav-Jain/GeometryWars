@@ -108,7 +108,7 @@ namespace Library
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 
 		ParticleSystem<LineParticle> * p =ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
-			mPosition, mScale, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
+			mPosition, mScale * 0.25f, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
 		p->SetEnalbe(true);
 	}
 

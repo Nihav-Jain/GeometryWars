@@ -22,6 +22,29 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_DODGE_CHANNEL, 1, &mDodgeChannel);
 		AddExternalAttribute(ATTRIBUTE_DODGE_ANGLE, 1, &mDodgeAngle);
 		AddExternalAttribute(ATTRIBUTE_DODGING, 1, &mIsDodging);
+
+		ActionExpression::AddFunction("perpindicular", ActionExpression::FunctionDefinition(2, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 2);
+			Datum result;
+
+			glm::vec4 perp;
+			glm::vec4 vec = (*params[0]).Get<glm::vec4>();
+
+			if ((*params[1]).Get<bool>())
+			{
+				perp.x = -vec.y;
+				perp.y = vec.x;
+			}
+			else
+			{
+				perp.x = vec.y;
+				perp.y = -vec.x;
+			}
+
+			result = perp;
+			return result;
+		}));
 	}
 
 	EnemySquare::EnemySquare(const EnemySquare & rhs)
@@ -92,15 +115,6 @@ namespace Library
 				{
 					mVelocity = perpB;
 				}
-
-				//if (glm::distance(newA, mPosition) > glm::distance(newB, mPosition))
-				//{
-				//	mVelocity = perpB;
-				//}
-				//else
-				//{
-				//	mVelocity = perpA;
-				//}
 			}	
 		}
 	}
