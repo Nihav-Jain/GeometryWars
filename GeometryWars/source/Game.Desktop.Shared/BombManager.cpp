@@ -23,6 +23,10 @@ namespace Library
 
 	BombManager* BombManager::GetInstance()
 	{
+		if (sInstance == nullptr)
+		{
+			sInstance = new BombManager();
+		}
 		return sInstance;
 	}
 

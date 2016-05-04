@@ -177,7 +177,8 @@ namespace Library
 		{
 			mLastActiveSector = mActiveSector;
 			mSectorToLoad = mActiveSector->Clone(*sector)->AssertiveAs<Sector>();
-			mSectorToLoad->SetWorld(*this);
+			//mSectorToLoad->SetWorld(*this);
+			Adopt(mSectorToLoad->Name(), *mSectorToLoad);
 			return true;
 		}
 		return false;
