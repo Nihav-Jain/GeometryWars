@@ -3,6 +3,10 @@
 
 namespace Library
 {
+	/**
+	 *	Destriys an entity by reference
+	 *	@inherits ActionList
+	 */
 	class ActionDestroyEntity : public ActionList
 	{
 		RTTI_DECLARATIONS(ActionDestroyEntity, ActionList);

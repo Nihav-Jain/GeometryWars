@@ -79,12 +79,28 @@ namespace Library
 		 */
 		Sector* FindSector(const std::string& sectorName) const;
 
+		/**
+		 *	Getter for the Datum which contains the array of Actions of this World
+		 *	@return reference to the Datum
+		 */
 		Datum& Actions();
 
+		/**
+		 *	const override for the Getter for the Datum which contains the array of Actions of this World
+		 *	@return constant reference to the Datum
+		 */
 		const Datum& Actions() const;
 
+		/**
+		 *	Searches for the Action of the given name in this World
+		 *	@param name of the Action to be searched
+		 *	@return pointer to the Action if found, nullptr if there is no action of this name
+		 */
 		Action* FindAction(const std::string& actionName) const;
 
+		/**
+		 *	Calls the scripted begin play of the world and the begin play of all its actions, reactions and sectors
+		 */
 		void BeginPlay();
 
 		/**
@@ -93,6 +109,9 @@ namespace Library
 		 */
 		void Update();
 
+		/**
+		 *	Calls the scripted on-destroy of the world and the on-destroy of all its actions, reactions and sectors
+		 */
 		void OnDestroy();
 
 		/**
@@ -107,32 +126,74 @@ namespace Library
 		 */
 		EventQueue& GetEventQueue();
 
+		/**
+		 *	Creates a copy of the sector to be loaded, if found in memory, and prepares for loading that sector in the next frame update
+		 *	@param name of sector to be loaded
+		 *	@return true if sector was succesfully copied, false if no sector of given name exists
+		 */
 		bool LoadSector(const std::string& sectorName);
 
 		/**
-		*	SetAudioManager - Set the address of contained variableof audio manager
-		*/
+		 *	SetAudioManager - Set the address of contained variableof audio manager
+		 */
 		void SetAudioManager(AudioManager &audioManager);
 
 		/**
-		*	GetAudioManager - Get the reference to contained variableof audio manager
-		*	@return reference to the contained variable of audio manager
-		*/
+		 *	GetAudioManager - Get the reference to contained variableof audio manager
+		 *	@return reference to the contained variable of audio manager
+		 */
 		AudioManager& GetAudioManager();
 		
-		
+		/**
+		 *	Used to search for dot referenced attribtues though World, Sector, Entities and Actions 
+		 *	@param dot referenced name of attribute to be searched, initial scope which invoked the search
+		 *	@return pointer to the Datum, if found.. nullptr if not found
+		 */
 		static Datum* ComplexSearch(const std::string& name, const Scope& caller);
 
+		/**
+		 *	getter for the World's parse master
+		 *	@return reference to the parse master
+		 */
 		XmlParseMaster& ParseMaster();
 
+		/**
+		 *	sets the viewport width of the World
+		 *	@param width
+		 */
 		void SetWidth(std::int32_t width);
+
+		/**
+		 *	sets the viewport height of the World
+		 *	@param height
+		 */
 		void SetHeight(std::int32_t height);
+
+		/**
+		 *	getter for the viewport width of the World
+		 *	@param width
+		 */
 		std::int32_t GetWidth();
+
+		/**
+		 *	getter for the viewport height of the World
+		 *	@param height
+		 */
 		std::int32_t GetHeight();
 
+		/**
+		 *	container for the constructed copies of all XML defined entitites
+		 */
 		Sector ClassDefinitionContainer;
+
+		/**
+		 *	container for the constructed copies of all XML defined sectors
+		 */
 		World* SectorDefinitionContainer;
 
+		/**
+		 *	getter for the active sector
+		 */
 		Sector* ActiveSector();
 
 		static const std::string ATTRIBUTE_NAME_SECTOR;

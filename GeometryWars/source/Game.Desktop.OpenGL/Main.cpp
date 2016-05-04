@@ -49,7 +49,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
-	while (true)
+	while (renderDevice.IsValid())
 	{
 #pragma warning(pop) 
 		game.Update();

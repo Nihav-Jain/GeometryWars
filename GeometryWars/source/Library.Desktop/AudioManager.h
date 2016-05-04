@@ -1,19 +1,18 @@
 #pragma once
 
 #include "Hashmap.h"
-
-#pragma region SoundFMOD
-
 #include <fstream>
 #pragma warning(disable: 4505)
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
-#pragma endregion
 namespace Library
 {
 	const std::int32_t MAX_CHANNELS = 256;
-	
+
+	/**
+	 *	Class AudioManager
+	 */
 	class AudioManager
 	{
 
@@ -23,8 +22,8 @@ namespace Library
 		~AudioManager();
 
 		/**
-		*	AudioData - each audio will run in its own channel and will be loading on a seperate address
-		*/
+		 *	AudioData - each audio will run in its own channel and will be loading on a seperate address
+		 */
 		struct AudioData
 		{
 			FMOD::Sound *mAudio;

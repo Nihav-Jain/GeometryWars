@@ -17,34 +17,55 @@ namespace Library
 		class Edge
 		{
 		public:
+
 			/**
-			 *	Constructor for SList, initializes an empty list
+			 *	Constructor
+			 *	@param reference to head vertex
+			 *	@param reference to tail vertex
 			 */
 			Edge(Vertex& headVertex, Vertex& tailVertex);
 
 			/**
-			 *	Copy constructor for SList
+			 *	Copy constructor
 			 *	@param reference to the right hand side variable
 			 */
 			Edge(const Edge& rhs);
 
+			/**
+			 *	Move constructor
+			 *	@param R value reference to be moved
+			 */
 			Edge(Edge&& rhs);
 
 			/**
-			 *	Assignment operator overload for SList
+			 *	Copy Assignment operator
 			 *	@param reference to the right hand side variable
-			 *	@return reference to the resultant SList
+			 *	@return reference to the copied Edge
 			 */
 			Edge& operator=(const Edge& rhs);
 
+			/**
+			 *	Move Assignment operator
+			 *	@param R value reference to the right hand side variable
+			 *	@return reference to the moved Edge
+			 */
 			Edge& operator=(Edge&& rhs);
 
 			/**
-			 *	Destructor for SList
+			 *	default Destructor
 			 */
 			~Edge() = default;
 
+			/**
+			 *	Getter for the head vertex of the edge
+			 *	@return pointer to head vertex
+			 */
 			Vertex* GetHead() const;
+
+			/**
+			 *	Getter for the tail vertex of the edge
+			 *	@return pointer to tail vertex
+			 */
 			Vertex* GetTail() const;
 
 		private:
@@ -56,25 +77,35 @@ namespace Library
 		{
 		public:
 			/**
-			 *	Constructor for SList, initializes an empty list
+			 *	Constructor
+			 *	@param data to be saved in the vertex
 			 */
 			Vertex(const T& vertexData);
 
 			/**
-			 *	Copy constructor for SList
+			 *	Copy constructor
 			 *	@param reference to the right hand side variable
 			 */
 			Vertex(const Vertex& rhs);
 
+			/**
+			 *	Move constructor
+			 *	@param R value reference to be moved
+			 */
 			Vertex(Vertex&& rhs);
 
 			/**
-			 *	Assignment operator overload for SList
+			 *	Copy Assignment operator
 			 *	@param reference to the right hand side variable
-			 *	@return reference to the resultant SList
+			 *	@return reference to the copied Vertex
 			 */
 			Vertex& operator=(const Vertex& rhs);
 
+			/**
+			 *	Move Assignment operator
+			 *	@param R value reference to the right hand side variable
+			 *	@return reference to the moved Vertex
+			 */
 			Vertex& operator=(Vertex&& rhs);
 
 			/**
@@ -184,33 +215,77 @@ namespace Library
 		Graph();
 
 		/**
-		 *	Copy constructor for SList
-		 *	@param reference to the right hand side variable
+		 *	disallowed copy constructor
 		 */
 		Graph(const Graph& rhs) = delete;
 
 		/**
-		 *	Assignment operator overload for SList
-		 *	@param reference to the right hand side variable
-		 *	@return reference to the resultant SList
+		 *	disallowed copy assignment operator
 		 */
 		Graph<T>& operator=(const Graph& rhs) = delete;
 
 		/**
-		 *	Destructor for SList
+		 *	Destructor
 		 */
 		~Graph();
 
+		/**
+		 *	adds an isolated vertex with the given data to the graph
+		 *	@param data for the vertex
+		 *	@return Traversor pointing to the vertex
+		 */
 		Traversor AddVertex(const T& vertexData);
+
+		/**
+		 *	adds a vertex with the given data as a child of the provided parent vertex
+		 *	@param data for the vertex
+		 *	@param parent vertex traversor
+		 *	@return Traversor pointing to the vertex
+		 */
 		Traversor AddVertex(const T& vertexData, Traversor& parentVertex);
+
+		/**
+		 *	adds a vertex with the given data as a parent of the provided vertex
+		 *	@param data for the vertex
+		 *	@param child vertex traversor
+		 *	@return Traversor pointing to the vertex
+		 */
 		Traversor AddParentVertex(const T& vertexData, Traversor& childVertex);
+
+		/**
+		 *	creates an edge between the two vertices
+		 *	@param traversor to tail vertex
+		 *	@param traversor to head vertex
+		 */
 		void CreateEdge(Traversor& tailVertex, Traversor& headVertex);
 
+		/**
+		 *	Traversor to root node of the graph
+		 *	@return traversor
+		 */
 		Traversor Begin() const;
+
+		/**
+		 *	BreadthFirstTraversor to root node of the graph
+		 *	@return BreadthFirstTraversor
+		 */
 		BreadthFirstTraversor BeginBreadthFirstTraversal() const;
+
+		/**
+		 *	DepthFirstTraversor to root node of the graph
+		 *	@return DepthFirstTraversor
+		 */
 		DepthFirstTraversor BeginDepthFirstTraversal() const;
 
+		/**
+		 *	Is the graph empty?
+		 *	@return true if there is no vertex in the graph, false otherwise
+		 */
 		bool IsEmpty() const;
+
+		/**
+		 *	Deletes all the vertices and edges of the graph
+		 */
 		void Clear();
 
 	private:

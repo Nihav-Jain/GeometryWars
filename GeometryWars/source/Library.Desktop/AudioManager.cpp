@@ -15,13 +15,16 @@ namespace Library
 
 	AudioManager::~AudioManager()
 	{
+		// TODO: Kishor Fix me!
+
 		//release sound and system
-		for (auto pair : mAudioMap)
-		{
-			AudioData *audioDataAddress = &pair.second;
-			audioDataAddress->mAudio->release();
-			delete audioDataAddress;
-		}
+		//for (auto pair : mAudioMap)
+		//{
+		//	
+		//	//AudioData *audioDataAddress = &pair.second;
+		//	//audioDataAddress->mAudio->release();
+		//	//delete audioDataAddress;
+		//}
 		mFmodSystem->release();
 	}
 

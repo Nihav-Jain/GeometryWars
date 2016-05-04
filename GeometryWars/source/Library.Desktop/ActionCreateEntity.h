@@ -3,12 +3,24 @@
 
 namespace Library
 {
+	/**
+	 *	Creates an entity of the given class name
+	 *	@inherits Action
+	 */
 	class ActionCreateEntity : public Action
 	{
 		RTTI_DECLARATIONS(ActionCreateEntity, Action);
 
 	public:
+		
+		/**
+		 *	Constructor - initializes member variables and declares prescribed attributes
+		 */
 		ActionCreateEntity();
+
+		/**
+		 *	Default destructor
+		 */
 		virtual ~ActionCreateEntity() = default;
 
 		ActionCreateEntity(const ActionCreateEntity& rhs);

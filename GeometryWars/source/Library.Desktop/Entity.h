@@ -31,10 +31,24 @@ namespace Library
 		 */
 		virtual ~Entity();
 
+		/**
+		 *	copy Constructor
+		 */
 		Entity(const Entity& rhs);
+
+		/**
+		 *	move Constructor
+		 */
 		Entity(Entity&& rhs);
 
+		/**
+		 *	copy assignemnt operator
+		 */
 		Entity& operator=(const Entity& rhs);
+
+		/**
+		 *	move assignemnt operator
+		 */
 		Entity& operator=(Entity&& rhs);
 
 		/**
@@ -80,6 +94,9 @@ namespace Library
 		 */
 		void SetSector(Sector& parent);
 
+		/**
+		 *	Calls the scripted begin play of the entity and the begin play of all its actions, reactions
+		 */
 		virtual void BeginPlay(WorldState& worldState);
 
 		/**
@@ -88,11 +105,28 @@ namespace Library
 		 *	@param reference to the WorldState
 		 */
 		virtual void Update(WorldState& worldState);
+
+		/**
+		 *	Virtual copy constructor
+		 *	@return pointer to newly copy constructed Entity
+		 */
 		virtual Scope* Clone(const Scope& rhs) const override;
 
+		/**
+		 *	Calls the scripted on-destroy of the entity and the on-destroy of all its actions, reactions
+		 */
 		virtual void OnDestroy(WorldState& worldState);
 
+		/**
+		 *	checks if the Entity has been marked for destroy
+		 *	@return true if entity has been marked for destruction
+		 */
 		bool IsPendingDestroy() const;
+
+		/**
+		 *	Mark this entity to be destroyed in the next frame update
+		 *	@param world state
+		 */
 		void MarkForDestroy(WorldState& worldState);
 
 		static const std::uint32_t NUM_RESERVED_PRESCRIBED_ATTRIBUTES;

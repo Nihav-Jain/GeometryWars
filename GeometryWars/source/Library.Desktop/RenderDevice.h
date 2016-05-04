@@ -30,6 +30,8 @@ namespace Library {
 		virtual FrameBuffer * CreateFrameBuffer(std::uint32_t textureCnt) = 0;
 		virtual FrameBuffer * GetDefaultFrameBuffer() = 0;
 
+		virtual bool IsValid() { return true; }
+
 		virtual void Draw(DrawMode mode = DrawMode::TRIANGLES, std::uint32_t counts = 6, bool useIndices = false) = 0;
 
 		virtual void ClearScreen() = 0;
