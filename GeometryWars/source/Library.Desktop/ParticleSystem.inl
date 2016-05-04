@@ -97,6 +97,13 @@ namespace Library {
 	}
 
 	template<typename ParticlePattern>
+	void ParticleSystem<ParticlePattern>::OnDestroy(WorldState& worldState)
+	{
+		(worldState);
+		Renderer::GetInstance()->RemoveRenderable(this);
+	}
+
+	template<typename ParticlePattern>
 	void ParticleSystem<ParticlePattern>::Render(RenderDevice * device)
 	{
 		if (!mEnabled || mExpired) {
