@@ -32,7 +32,6 @@
 		<if name="CheckIsButtonPressed">
 			<condition><string name="expression">IsButtonPressed</string></condition>
 			<then>
-								
 				<!-- Load Game Sector -->
 				<action class="ActionLoadSector" name="loadGame">
 					<string name="sectorName" value="InGameSector" />

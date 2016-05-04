@@ -1,4 +1,4 @@
-<gameobject class="Player" name="Player1">
+<gameobject class="Player" name="Player">
 	<!-- Player Class Attributes -->
 	<integer name="player" value="0"/>
 	<integer name="lives" value="3" />
@@ -143,6 +143,15 @@
 		<if name="CheckGameOver">
 			<condition><string name="expression">isdead</string></condition>
 			<then>
+			
+				<!-- Update Score in World -->
+				<expression name="finalScore">
+					<string name="expression">ownerWorld.score = score</string>
+				</expression>
+				<expression name="finalScoreBase">
+					<string name="expression">ownerWorld.scorebase = scorebase</string>
+				</expression>
+			
 				<action class="ActionLoadSector" name="loadGameOver">
 					<string name="sectorName" value="gameover_menu" />
 				</action>

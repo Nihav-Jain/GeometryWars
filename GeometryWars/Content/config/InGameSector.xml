@@ -1,5 +1,113 @@
 <sector name="InGameSector">
-
+	<beginplay>
+		<!-- Debug message to represent Event will fire -->
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Detecting Players:"/>
+		</action>
+		<!-- Set-Up Player One -->
+		<if name="CheckPlayerOneConnected">
+			<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, {0})</string></condition>
+			<then>
+				<!-- Debug message to represent Event will fire -->
+				<action class="ActionDebug" name="Debug">
+					<string name="message" value="Player ONE Connected!"/>
+				</action>
+				<!-- Spawn Player One -->
+				<action class="ActionCreateEntityFromFile" name="SpawnPlayerOne">
+					<string name="filePath" value="Content/config/player1.xml" index="0" />
+					<string name="className" value="Player" index="0" />
+					<string name="instanceName" value="Player1" index="0" />
+				</action>
+				<expression name="SetPosition">
+					<string name="expression">Player1.player = {0}</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player1.Input = XBoxControllerManager.PlayerOneState</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player1.PolygonRenderer.color = {vec4(1, 1, 1, 1)}</string>
+				</expression>
+			</then>
+		</if>
+		<!-- Set-Up Player Two -->
+		<if name="CheckPlayerTwoConnected">
+			<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, {1})</string></condition>
+			<then>
+				<!-- Debug message to represent Event will fire -->
+				<action class="ActionDebug" name="Debug">
+					<string name="message" value="Player TWO Connected!"/>
+				</action>
+				<!-- Spawn Player Two -->
+				<action class="ActionCreateEntityFromFile" name="SpawnPlayerTwo">
+					<string name="filePath" value="Content/config/player1.xml" index="0" />
+					<string name="className" value="Player" index="0" />
+					<string name="instanceName" value="Player2" index="0" />
+				</action>
+				<expression name="SetPosition">
+					<string name="expression">Player2.player = {1}</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player2.Input = XBoxControllerManager.PlayerTwoState</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player2.PolygonRenderer.color = {vec4(0, 1, 1, 1)}</string>
+				</expression>
+			</then>
+		</if>
+		<!-- Set-Up Player Three -->
+		<if name="CheckPlayerThreeConnected">
+			<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, {2})</string></condition>
+			<then>
+				<!-- Debug message to represent Event will fire -->
+				<action class="ActionDebug" name="Debug">
+					<string name="message" value="Player THREE Connected!"/>
+				</action>
+				<!-- Spawn Player Three -->
+				<action class="ActionCreateEntityFromFile" name="SpawnPlayerThree">
+					<string name="filePath" value="Content/config/player1.xml" index="0" />
+					<string name="className" value="Player" index="0" />
+					<string name="instanceName" value="Player3" index="0" />
+				</action>
+				<expression name="SetPosition">
+					<string name="expression">Player3.player = {2}</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player3.Input = XBoxControllerManager.PlayerThreeState</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player3.PolygonRenderer.color = {vec4(1, 0, 1, 1)}</string>
+				</expression>
+			</then>
+		</if>
+		<!-- Set-Up Player Four -->
+		<if name="CheckPlayerFourConnected">
+			<condition><string name="expression">array(XBoxControllerManager.IsPlayerConnected, {3})</string></condition>
+			<then>
+				<!-- Debug message to represent Event will fire -->
+				<action class="ActionDebug" name="Debug">
+					<string name="message" value="Player FOUR Connected!"/>
+				</action>
+				<!-- Spawn Player Four -->
+				<action class="ActionCreateEntityFromFile" name="SpawnPlayerFour">
+					<string name="filePath" value="Content/config/player1.xml" index="0" />
+					<string name="className" value="Player" index="0" />
+					<string name="instanceName" value="Player4" index="0" />
+				</action>
+				<expression name="SetPosition">
+					<string name="expression">Player4.player = {3}</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player4.Input = XBoxControllerManager.PlayerFourState</string>
+				</expression>
+				<expression name="playerRefSetter">
+					<string name="expression">Player4.PolygonRenderer.color = {vec4(1, 1, 0, 1)}</string>
+				</expression>
+			</then>
+		</if>
+		<action class="ActionDebug" name="Debug">
+			<string name="message" value="Detection Complete."/>
+		</action>
+	</beginplay>
 	<action class="ActionDebug" name="TimeDebug">
 		<expression name="asc">
 			<string name="expression">message = {"Time = "} + ownerWorld.deltaTime</string>
@@ -40,6 +148,6 @@
 	
 	<include file="Content\config\enemy_arrow.xml" />
 	
-	<include file="Content\config\bullet.xml" />
+	<!--<include file="Content\config\bullet.xml" />-->
 	
 </sector>

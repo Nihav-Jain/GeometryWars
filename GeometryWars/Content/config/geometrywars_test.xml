@@ -7,7 +7,7 @@
 		<include file="Content\config\enemy_diamond.xml" />
 		<include file="Content\config\enemy_square.xml" />
 		<include file="Content\config\enemy_arrow.xml" />
-		<include file="Content\config\collect_multiplier.xml" />
+		<include file="Content\config\collect_multiplier.xml" /> <!--  -->
 	</define>
 	
 	<define-sectors>
@@ -19,6 +19,8 @@
 	<world name="GeometryWarsWorld">
 		<integer name="width" value="1280"/>
 		<integer name="height" value="720" />
+		<integer name="score" value="0" />
+		<integer name="scorebase" value="10" />
 
 		<!-- ==================== Event-Driven Player Connection =============== -->
 		<!-- Player Connected Reaction -->
@@ -27,8 +29,19 @@
 			
 			<!-- Debug message to represent Event will fire -->
 			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Player Connected!"/>
+				<expression name="GetMessage">
+					<string name="expression">message = {"Player "} + PlayerNumber + {" Connected!"}</string>
+				</expression>
 			</action>
+			
+			<event name="RumbleEvent" subtype="rumble">
+				<integer name="player" value="0" />
+				<float name="rumble" value="1.0" />
+				<integer name="duration" value="500" />
+				<expression name="SetPlayer">
+					<string name="expression">player = PlayerNumber</string>
+				</expression>
+			</event>
 		</reaction>
 		
 		<!-- Player Disconnected Reaction -->
@@ -37,15 +50,18 @@
 			
 			<!-- Debug message to represent Event will fire -->
 			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Player Disconnected!"/>
+				<expression name="GetMessage">
+					<string name="expression">message = {"Player "} + PlayerNumber + {" Disconnected!"}</string>
+				</expression>
 			</action>
 		</reaction>
-
+		
+		<!-- XBoxControllerHandler: Handles XBox Controller Events -->
 		<action name="XBoxControllerManager" class="XBoxControllerHandler">
 			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
 				<string name="B"				value="Bomb"/>
 				<string name="START"			value="Start"/>
-				<string name="SELECT"			value="Select"/>
+				<string name="BACK"				value="Select"/>
 				<!--
 				<string name="X"				value="Shoot"/>
 				<string name="Y"				value="Shoot"/>

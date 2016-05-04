@@ -8,11 +8,11 @@
 	<beginplay>
 		
 		<expression name="spawn_velocity">
-			<string name="expression">velocity = Player1.heading</string>
+			<string name="expression">velocity = playerOwner.heading</string>
 		</expression>
 		<expression name="spawn_position">
-			<string name="expression">position = Player1.position</string>
-		</expression>
+			<string name="expression">position = playerOwner.position</string>
+		</expression><!---->
 		
 		<!-- playMusic -->
 		<action class="ActionPlayMusic" name="playMusic1">

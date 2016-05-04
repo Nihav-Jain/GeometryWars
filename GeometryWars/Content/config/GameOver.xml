@@ -1,17 +1,17 @@
 <sector name="gameover_menu">
 
-		<beginplay>
-			<!-- Play background music -->
-			<action class="ActionPlayMusic" name="playMusic1">
-				<string name="musicName" value="Game_over.mp3"/>
-				<integer name="loop" value="0"  index="0"/>
-				<float name="volume" value="1.0" index="0"/>
-			</action>
-				<!-- Stop background music -->
-			<action class="ActionStopMusic" name="playMusic1">
-				<string name="musicName" value="GeometryWars_RE2.mp3"/>
-			</action>
-		</beginplay>
+	<beginplay>
+		<!-- Play background music -->
+		<action class="ActionPlayMusic" name="playMusic1">
+			<string name="musicName" value="Game_over.mp3"/>
+			<integer name="loop" value="0"  index="0"/>
+			<float name="volume" value="1.0" index="0"/>
+		</action>
+			<!-- Stop background music -->
+		<action class="ActionStopMusic" name="playMusic1">
+			<string name="musicName" value="GeometryWars_RE2.mp3"/>
+		</action>
+	</beginplay>
 		
 	<gameobject class="GameObject" name="GameoverScreen">
 	
@@ -29,6 +29,15 @@
 		</sprite_renderer>
 	
 	</gameobject>
+	
+	<beginplay>
+		<expression name="GetFinalScore">
+			<string name="expression">myScoreHolder.score = ownerWorld.score</string>
+		</expression>
+		<expression name="GetFinalScoreBase">
+			<string name="expression">myScoreHolder.scorebase = ownerWorld.scorebase</string>
+		</expression>
+	</beginplay>
 		
 
 	<reaction class="ReactionAttributed" name="ExitGameOverMenu">

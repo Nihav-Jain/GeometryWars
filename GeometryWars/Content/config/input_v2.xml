@@ -2,13 +2,11 @@
 	<integer name="width" value="1024"/>
 	<integer name="height" value="768" />
 	
-	<!-- "InputHandlers" ActionList removed for accessibility Purposes 									-->
-	<!-- Every InputHandler will have the following characteristics:									-->
-	<!--	ButtonMapping:	HashMap (hence Scope) mapping the Event's Subtype with the button events	-->
-	
-	<!-- XBoxControllerHandler: Handles XBox Controller Events -->
+	<!-- 	XBoxControllerHandler: Handles XBox Controller Events	-->
 	<action name="XBoxControllerManager" class="XBoxControllerHandler">
-		<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
+		<scope name="ButtonMapping">
+		<!-- Done using the enumerated name (as given by XInput)	-->
+		<!-- for the XBox Controller buttons						-->
 			<string name="X"				value="MoveLeft"/>
 			<string name="Y"				value="MoveUp"/>
 			<string name="A"				value="MoveDown"/>
