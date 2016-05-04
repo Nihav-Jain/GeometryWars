@@ -91,14 +91,6 @@
 			</expression>
 
 			<!-- TODO: Spawn enemies randomly on escalating intervals -->
-			<include file="Content\config\enemy_pinwheel.xml" />	
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
-			<include file="Content\config\enemy_pinwheel.xml" />
 			
 			<include file="Content\config\enemy_spawner.xml" />
 			

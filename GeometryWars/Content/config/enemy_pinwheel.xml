@@ -26,9 +26,9 @@
 			<string name="expression">velocity = normalize(direction)</string>
 		</expression>
 		
-		<expression name="GetEnemyCount">
+		<!--<expression name="GetEnemyCount">
 			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>
+		</expression>-->
 		
 	</beginplay>
   
