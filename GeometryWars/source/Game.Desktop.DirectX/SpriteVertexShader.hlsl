@@ -22,7 +22,7 @@ VS_OUTPUT main(VS_INPUT IN)
 	OUT.Position = mul(float4(IN.ObjectPosition.xy, 0, 1), ModelViewProjection);
 	OUT.Position.z = 0;
 	OUT.TextureCoordinate = IN.TextureCoordinate;
-	OUT.TextureCoordinate.y = 1 - OUT.TextureCoordinate.y;
+	OUT.TextureCoordinate.y *= -1;
 
 	return OUT;
 }
