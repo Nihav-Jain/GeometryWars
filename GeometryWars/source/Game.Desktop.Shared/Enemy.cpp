@@ -10,11 +10,14 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Enemy, GameObject);
 
+	std::int32_t Enemy::NumberOfEnemies = 0;
+
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Enemy::ATTRIBUTE_CANSPAWNCOLLECTIBLE = "canspawncollectible";
 	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
 	const std::string Enemy::ATTRIBUTE_SCORE = "score";
+	const std::string Enemy::ATTRIBUTE_NUMBEROFENEMIES = "numberOfEnemies";
 
 	Enemy::Enemy()
 		: mVelocity(), mIsDead(false), mCanSpawnCollectible(false), mCollisionChannel(), mScore(0)
@@ -24,6 +27,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_CANSPAWNCOLLECTIBLE, 1, &mCanSpawnCollectible);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
+		AddExternalAttribute(ATTRIBUTE_NUMBEROFENEMIES, 1, &NumberOfEnemies);
 	}
 
 	Enemy::Enemy(const Enemy & rhs)
@@ -66,9 +70,13 @@ namespace Library
 
 	void Enemy::BeginPlay(WorldState & worldState)
 	{
+		Entity* worldStateEntityCache = worldState.entity;
+		worldState.entity = this;
+
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Player::TypeIdClass());
 
 		GameObject::BeginPlay(worldState);
+		worldState.entity = worldStateEntityCache;
 	}
 
 	void Enemy::Update(WorldState & worldState)
