@@ -111,7 +111,7 @@ namespace Library
 
 		void OnDestroy(WorldState& worldState);
 
-		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
+		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId);
 
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;

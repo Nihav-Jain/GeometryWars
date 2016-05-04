@@ -19,13 +19,13 @@
 					<string name="instanceName" value="Player1" index="0" />
 				</action>
 				<expression name="SetPosition">
-					<string name="expression">Player1.player = {0}</string>
+					<string name="expression">SpawnPlayerOne.newEntity.player = {0}</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player1.Input = XBoxControllerManager.PlayerOneState</string>
+					<string name="expression">SpawnPlayerOne.newEntity.Input = XBoxControllerManager.PlayerOneState</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player1.PolygonRenderer.color = {vec4(1, 1, 1, 1)}</string>
+					<string name="expression">SpawnPlayerOne.newEntity.PolygonRenderer.color = {vec4(1, 1, 1, 1)}</string>
 				</expression>
 			</then>
 		</if>
@@ -44,13 +44,13 @@
 					<string name="instanceName" value="Player2" index="0" />
 				</action>
 				<expression name="SetPosition">
-					<string name="expression">Player2.player = {1}</string>
+					<string name="expression">SpawnPlayerTwo.newEntity.player = {1}</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player2.Input = XBoxControllerManager.PlayerTwoState</string>
+					<string name="expression">SpawnPlayerTwo.newEntity.Input = XBoxControllerManager.PlayerTwoState</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player2.PolygonRenderer.color = {vec4(0, 1, 1, 1)}</string>
+					<string name="expression">SpawnPlayerTwo.newEntity.PolygonRenderer.color = {vec4(0, 1, 1, 1)}</string>
 				</expression>
 			</then>
 		</if>
@@ -69,13 +69,13 @@
 					<string name="instanceName" value="Player3" index="0" />
 				</action>
 				<expression name="SetPosition">
-					<string name="expression">Player3.player = {2}</string>
+					<string name="expression">SpawnPlayerThree.newEntity.player = {2}</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player3.Input = XBoxControllerManager.PlayerThreeState</string>
+					<string name="expression">SpawnPlayerThree.newEntity.Input = XBoxControllerManager.PlayerThreeState</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player3.PolygonRenderer.color = {vec4(1, 0, 1, 1)}</string>
+					<string name="expression">SpawnPlayerThree.newEntity.PolygonRenderer.color = {vec4(1, 0, 1, 1)}</string>
 				</expression>
 			</then>
 		</if>
@@ -94,19 +94,20 @@
 					<string name="instanceName" value="Player4" index="0" />
 				</action>
 				<expression name="SetPosition">
-					<string name="expression">Player4.player = {3}</string>
+					<string name="expression">SpawnPlayerFour.newEntity.player = {3}</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player4.Input = XBoxControllerManager.PlayerFourState</string>
+					<string name="expression">SpawnPlayerFour.newEntity.Input = XBoxControllerManager.PlayerFourState</string>
 				</expression>
 				<expression name="playerRefSetter">
-					<string name="expression">Player4.PolygonRenderer.color = {vec4(1, 1, 0, 1)}</string>
+					<string name="expression">SpawnPlayerFour.newEntity.PolygonRenderer.color = {vec4(1, 1, 0, 1)}</string>
 				</expression>
 			</then>
 		</if>
 		<action class="ActionDebug" name="Debug">
 			<string name="message" value="Detection Complete."/>
 		</action>
+	
 	</beginplay>
 	<action class="ActionDebug" name="TimeDebug">
 		<expression name="asc">
@@ -130,11 +131,6 @@
 		</sprite_renderer>
 	
 	</gameobject>
-	
-	<include file="Content\config\player1.xml" />
-	<expression name="playerRefSetter">
-		<string name="expression">Player1.Input = XBoxControllerManager.PlayerOneState</string>
-	</expression>
 
 	<!-- TODO: Spawn enemies randomly on escalating intervals -->
 	<include file="Content\config\enemy_spawner.xml" />
@@ -147,7 +143,6 @@
 	
 	
 	<include file="Content\config\enemy_arrow.xml" />
-	
-	<!--<include file="Content\config\bullet.xml" />-->
+
 	
 </sector>

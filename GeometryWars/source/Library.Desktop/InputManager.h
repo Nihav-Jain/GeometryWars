@@ -151,7 +151,6 @@ namespace Library
 		static const std::uint32_t MAX_PLAYERS = 4;							// Maximum Players this handler can support
 
 		// GamePad States
-		//XINPUT_STATE mState[MAX_PLAYERS];				// GamePad State for each player (max. 4)
 		bool bIsPlayerConnected[MAX_PLAYERS];			// Checks which players are connected
 		XBoxControllerState mPlayerState[MAX_PLAYERS];			// XBox Controller state for each player
 		WORD mButtonState[MAX_PLAYERS];					// Boolean Array of the Button states
@@ -175,6 +174,7 @@ namespace Library
 		const XBoxControllerState& GetPlayerState(std::uint32_t player);
 		// Update XBox Controller state
 		void Update(WorldState& state) override;
+		// Notify to receive Rumble Events
 		void Notify(const EventPublisher& publisher) override;
 	};
 	CONCRETE_ACTION_FACTORY(XBoxControllerHandler)
