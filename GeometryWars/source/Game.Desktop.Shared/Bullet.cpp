@@ -15,14 +15,16 @@ namespace Library
 	const std::string Bullet::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Bullet::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Bullet::ATTRIBUTE_CHANNEL = "bulletchannel";
+	const std::string Bullet::ATTRIBUTE_PLAYEROWNER = "playerOwner";
 
 
 	Bullet::Bullet()
-		: mVelocity(), mIsDead(false), mCollisionChannel(), mPlayerOwner(nullptr)
+		: mVelocity(), mIsDead(false), mCollisionChannel(), mPlayerOwner(new Datum())
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
+		AddExternalAttribute(ATTRIBUTE_PLAYEROWNER, 1, &mPlayerOwner);
 
 		ActionExpression::AddFunction("GetBullets", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
 		{
@@ -32,11 +34,17 @@ namespace Library
 			if (Bullet::sBulletCount < 0)
 				Bullet::sBulletCount = 0;
 			return result;
-		}));
+		}
+		));
+	}
+	
+	Bullet::~Bullet()
+	{
+		delete mPlayerOwner;
 	}
 
-	Bullet::Bullet(const Bullet & rhs)
-		: GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel)
+	Bullet::Bullet(const Bullet & rhs) : GameObject::GameObject(rhs), mVelocity(rhs.mVelocity), 
+		mIsDead(rhs.mIsDead), mCollisionChannel(rhs.mCollisionChannel), mPlayerOwner(new Datum(*rhs.mPlayerOwner))
 	{
 		ResetAttributePointers();
 	}
@@ -73,12 +81,14 @@ namespace Library
 		Entity* worldStateEntityCache = worldState.entity;
 		worldState.entity = this;
 
-		GameObject::BeginPlay(worldState);
-
 		worldState.entity = worldStateEntityCache;
 
-		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		//mPlayerOwner = worldState.entity->AssertiveAs<Scope>();
+		*mPlayerOwner = *worldState.entity;
+
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
+
+		GameObject::BeginPlay(worldState);
 	}
 
 	void Bullet::Update(WorldState & worldState)
@@ -110,10 +120,7 @@ namespace Library
 
 		enemy->EnemyDeath(worldState, true);
 
-		mPlayerOwner->AddScore( enemy->Score() );
-
-		
-		(worldState);
+		mPlayerOwner->Get<Scope>().AssertiveAs<Player>()->AddScore( enemy->Score() );
 	}
 
 	void Bullet::ResetAttributePointers()
@@ -121,6 +128,7 @@ namespace Library
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_ISDEAD].SetStorage(&mIsDead, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
+		(*this)[ATTRIBUTE_PLAYEROWNER].SetStorage(&mPlayerOwner, 1);
 	}
 
 }

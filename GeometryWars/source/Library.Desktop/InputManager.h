@@ -1,6 +1,7 @@
 #pragma once
 #include "Action.h"
 #include "Entity.h"
+#include "IEventSubscriber.h"
 #include <Windows.h>
 #include <Xinput.h>
 
@@ -9,7 +10,7 @@ namespace Library
 	class EventMessageAttributed;
 
 	// Generic Input Handler
-	class InputHandler : public Action
+	class InputHandler : public Action, IEventSubscriber
 	{
 		RTTI_DECLARATIONS(InputHandler, Action)
 	protected:
@@ -43,6 +44,7 @@ namespace Library
 		InputHandler& operator=(const InputHandler& rhs) = default;
 		InputHandler& operator=(InputHandler&& rhs) = default;
 		virtual ~InputHandler() = default;
+		void BeginPlay(WorldState& state) override;
 	};
 
 
@@ -129,7 +131,6 @@ namespace Library
 		Trigger LeftTrigger, RightTrigger;
 		// Analog
 		AnalogStick LeftStick, RightStick;
-
 	public:
 		XBoxControllerState();
 		XBoxControllerState(const XBoxControllerState& other) = default;
@@ -144,14 +145,15 @@ namespace Library
 	{
 		RTTI_DECLARATIONS(XBoxControllerHandler, InputHandler)
 	private:
-		static Hashmap<std::string, std::int32_t> XBoxButtonMapping;	// Button Support
-		static const std::uint32_t MAX_PLAYERS = 4;						// Maximum Players this handler can support
+		static const Hashmap<std::string, std::int32_t> XBoxButtonMapping;	// Button Support
+		static const std::uint32_t MAX_PLAYERS = 4;							// Maximum Players this handler can support
 
 		// GamePad States
 		//XINPUT_STATE mState[MAX_PLAYERS];				// GamePad State for each player (max. 4)
 		bool bIsPlayerConnected[MAX_PLAYERS];			// Checks which players are connected
 		XBoxControllerState mPlayerState[MAX_PLAYERS];			// XBox Controller state for each player
 		WORD mButtonState[MAX_PLAYERS];					// Boolean Array of the Button states
+		std::int32_t mRumbleDelay[MAX_PLAYERS];
 
 	private:
 		// Vibrate the gamepad (0.0f cancel, 1.0f max speed)
@@ -171,6 +173,7 @@ namespace Library
 		const XBoxControllerState& GetPlayerState(std::uint32_t player);
 		// Update XBox Controller state
 		void Update(WorldState& state) override;
+		void Notify(const EventPublisher& publisher) override;
 	};
 	CONCRETE_ACTION_FACTORY(XBoxControllerHandler)
 }

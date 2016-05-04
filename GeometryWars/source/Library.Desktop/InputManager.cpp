@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "Datum.h"
 #include "EventMessageAttributed.h"
+#include "EventPublisher.h"
 #include <winerror.h>
 
 #pragma once
@@ -29,6 +30,12 @@ namespace Library
 	{
 		// XML-Define Button Mapping which maps the Event's Subtype with the Buttons
 		AddNestedScope(ATTR_BUTTON_MAP);
+	}
+
+	void InputHandler::BeginPlay(WorldState & state)
+	{
+		Update(state);
+		Action::BeginPlay(state);
 	}
 
 	Scope& InputHandler::GetButtonMapping()
@@ -76,20 +83,22 @@ namespace Library
 	RTTI_DEFINITIONS(XBoxControllerState, Attributed)
 
 #define X_ADDDATA(Data)			AddExternalAttribute(#Data, 1, &Data)
-	Button::Button()
+	Button::Button() : mDuration(0), IsKeyDown(false), IsOnPress(false), IsOnRelease(false)
 	{
 		X_ADDDATA(IsKeyDown);
 		X_ADDDATA(IsOnPress);
 		X_ADDDATA(IsOnRelease);
 	}
-	Trigger::Trigger()
+	Trigger::Trigger() : mDuration(0), mRaw(0), Magnitude(0.0f),
+		IsKeyDown(false), IsOnPress(false), IsOnRelease(false)
 	{
 		X_ADDDATA(Magnitude);
 		X_ADDDATA(IsKeyDown);
 		X_ADDDATA(IsOnPress);
 		X_ADDDATA(IsOnRelease);
 	}
-	AnalogStick::AnalogStick()
+	AnalogStick::AnalogStick() : mDuration(0), mRawX(0), mRawY(0), Rotation(0.0f), Magnitude(0.0f),
+		MagnitudeX(0.0f), MagnitudeY(0.0f),	IsKeyDown(false), IsOnPress(false), IsOnRelease(false)
 	{
 		X_ADDDATA(MagnitudeVector);
 		X_ADDDATA(RotationVector);
@@ -277,7 +286,7 @@ namespace Library
 	}
 #undef X_CHECK
 
-	Hashmap<std::string, std::int32_t> XBoxControllerHandler::XBoxButtonMapping({
+	const Hashmap<std::string, std::int32_t> XBoxControllerHandler::XBoxButtonMapping({
 		std::pair<std::string, std::int32_t>("A",				XINPUT_GAMEPAD_A),
 		std::pair<std::string, std::int32_t>("B",				XINPUT_GAMEPAD_B),
 		std::pair<std::string, std::int32_t>("X",				XINPUT_GAMEPAD_X),
@@ -332,24 +341,20 @@ namespace Library
 		return mPlayerState[player];
 	}
 
-	void XBoxControllerHandler::Rumble(std::int32_t player, float a_fLeftMotor, float a_fRightMotor)
+	void XBoxControllerHandler::Rumble(std::int32_t player, float leftMotor, float rightMotor)
 	{
-		// Vibration state
-		XINPUT_VIBRATION VibrationState;
+		// Convert Ranged Floats to Integer (Set to 0 if not within [0.0,1.0] range)
+		int LeftMotorState = (leftMotor > 0.0f || leftMotor <= 1.0f) ? int(leftMotor * 65535.0f) : 0;
+		int RightMotorState = (rightMotor > 0.0f || rightMotor <= 1.0f) ? int(rightMotor * 65535.0f) : 0;
 
-		// Zero memory
-		RtlSecureZeroMemory(&VibrationState, sizeof(XINPUT_VIBRATION));
-
-		// Calculate vibration values
-		int iLeftMotor = int(a_fLeftMotor * 65535.0f);
-		int iRightMotor = int(a_fRightMotor * 65535.0f);
-
-		// Set vibration values
-		VibrationState.wLeftMotorSpeed = (WORD)iLeftMotor;
-		VibrationState.wRightMotorSpeed = (WORD)iRightMotor;
+		// Set vibration state
+		XINPUT_VIBRATION vibrationState;
+		RtlSecureZeroMemory(&vibrationState, sizeof(XINPUT_VIBRATION));
+		vibrationState.wLeftMotorSpeed = static_cast<WORD>(LeftMotorState);
+		vibrationState.wRightMotorSpeed = static_cast<WORD>(RightMotorState);
 
 		// Set the vibration state for that player
-		XInputSetState(player, &VibrationState);
+		XInputSetState(player, &vibrationState);
 	}
 
 	void XBoxControllerHandler::Update(WorldState& state)
@@ -429,9 +434,107 @@ namespace Library
 				}
 			}
 
+			// Get Delta Time
+			std::chrono::milliseconds deltaTime = state.mGameTime->ElapsedGameTime();
+
 			// Update Current Player State Results
 			mButtonState[player] = playersCurrentButtonState;
-			mPlayerState[player].UpdateState(currentState[player], state.mGameTime->ElapsedGameTime());
+			mPlayerState[player].UpdateState(currentState[player], deltaTime);
+
+			// Check if Rumbling Should Stop
+			if (mRumbleDelay[player] > 0)
+			{
+				mRumbleDelay[player] -= static_cast<std::int32_t>(deltaTime.count());
+
+				// Stop Rumbling if time is up
+				if (mRumbleDelay[player] <= 0)
+				{
+					Rumble(player, 0.0f, 0.0f);
+				}
+			}
+		}
+	}
+
+	void XBoxControllerHandler::Notify(const EventPublisher & publisher)
+	{
+		if (Event<EventMessageAttributed>* event = publisher.As<Event<EventMessageAttributed>>())
+		{
+			std::int32_t player = 0;
+			const EventMessageAttributed& message = event->Message();
+
+			// Stop Rumble
+			if (message.GetSubtype() == "stoprumble")
+			{
+				// Get Player (Optional)
+				if (Datum* playerDatum = message.Find("player"))
+				{
+					// Get Player Data
+					player = playerDatum->Get<std::int32_t>();
+
+					// Stop Rumble for player
+					Rumble(player, 0.0f, 0.0f);
+					mRumbleDelay[player] = -1;
+				}
+				else
+				{
+					// Stop All Rumbles if no rumbles exist
+					for (int i = 0; i < MAX_PLAYERS; i++)
+					{
+						Rumble(i, 0.0f, 0.0f);
+						mRumbleDelay[i] = -1;
+					}
+				}
+			}
+			// Start Rumble
+			else if (message.GetSubtype() == "rumble")
+			{
+				std::float_t leftRumble = 0.0f;
+				std::float_t rightRumble = 0.0f;
+				std::int32_t duration = -1;
+				bool successfulEvent = false;
+
+				// Check that all data-types exist
+				if (Datum* playerDatum = message.Find("player"))
+				{
+					// Get Player Data
+					player = playerDatum->Get<std::int32_t>();
+
+
+					// Get Rumble Data
+					if (Datum* rumbleDatum = message.Find("rumble"))
+					{
+						std::float_t rumble = rumbleDatum->Get<std::float_t>();
+						leftRumble = rumble;
+						rightRumble = rumble;
+						successfulEvent = true;
+					}
+					else
+					{
+						if (Datum* leftRumbleDatum = message.Find("leftrumble"))
+						{
+							if (Datum* rightRumbleDatum = message.Find("rightrumble"))
+							{
+								leftRumble = leftRumbleDatum->Get<std::float_t>();
+								rightRumble = rightRumbleDatum->Get<std::float_t>();
+								successfulEvent = true;
+							}
+						}
+					}
+
+					//Get Duration (optional)
+					if (Datum* durationDatum = message.Find("duration"))
+					{
+						duration = durationDatum->Get<std::int32_t>();
+					}
+				}
+				
+				if (successfulEvent)
+				{
+					// Set Rumble if player is connected
+					Rumble(player, leftRumble, rightRumble);
+					mRumbleDelay[player] = duration;
+				}
+			}
 		}
 	}
 }

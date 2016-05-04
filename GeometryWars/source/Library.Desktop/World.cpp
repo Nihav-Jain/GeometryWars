@@ -112,9 +112,9 @@ namespace Library
 			mLastActiveSector = mActiveSector;
 		}
 
-		SectorsBeginPlay();
 		ActionsBeginPlay();
 		ReactionsBeginPlay();
+		SectorsBeginPlay();
 	}
 
 	void World::Update()

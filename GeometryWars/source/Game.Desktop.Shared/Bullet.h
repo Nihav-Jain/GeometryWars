@@ -12,7 +12,7 @@ namespace Library
 		static std::int32_t sBulletCount;
 
 		Bullet();
-		virtual ~Bullet() = default;
+		virtual ~Bullet();
 
 		Bullet(const Bullet& rhs);
 
@@ -27,6 +27,7 @@ namespace Library
 		virtual void OnDestroy(WorldState& worldState) override;
 		virtual void OnOverlapBegin(const GameObject& other, WorldState& worldState) override;
 
+		static const std::string ATTRIBUTE_PLAYEROWNER;
 		static const std::string ATTRIBUTE_VELOCITY;
 		static const std::string ATTRIBUTE_ISDEAD;
 		static const std::string ATTRIBUTE_CHANNEL;
@@ -40,7 +41,7 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
-		class Player* mPlayerOwner;
+		Datum* mPlayerOwner;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Bullet);

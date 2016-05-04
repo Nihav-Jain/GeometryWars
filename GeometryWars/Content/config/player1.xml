@@ -1,4 +1,4 @@
-<gameobject class="Player" name="Player1">
+<gameobject class="Player" name="Player">
 	<!-- Player Class Attributes -->
 	<integer name="player" value="0"/>
 	<integer name="lives" value="3" />
