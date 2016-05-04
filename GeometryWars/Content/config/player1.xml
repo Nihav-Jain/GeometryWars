@@ -141,8 +141,8 @@
 		
 		
 		<!-- Check for Game Over, NOT NEEDED ON OTHER PLAYERS! -->
-		<if name="CheckPlayerConnected">
-			<condition><string name="expression">lives &lt;= {0}</string></condition>
+		<if name="CheckGameOver">
+			<condition><string name="expression">isdead</string></condition>
 			<then>
 				<action class="ActionLoadSector" name="loadGameOver">
 					<string name="sectorName" value="gameover_menu" />

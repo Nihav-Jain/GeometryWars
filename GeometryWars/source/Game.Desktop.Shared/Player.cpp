@@ -27,6 +27,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_ATTACKSPEED = "attackspeed";
 	const std::string Player::ATTRIBUTE_CANATTACK = "canattack";
 	const std::string Player::ATTRIBUTE_LIVES = "lives";
+	const std::string Player::ATTRIBUTE_DEAD = "isdead";
 	const std::string Player::ATTRIBUTE_MULTIPLIER = "multiplier";
 	const std::string Player::ATTRIBUTE_BOMBS = "bombs";
 	const std::string Player::ATTRIBUTE_SHOOT = "shoot";
@@ -37,7 +38,7 @@ namespace Library
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
 	Player::Player()
-		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(),
+		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(), mOutOfLives(false),
 		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
 	{
 		AddExternalAttribute(ATTRIBUTE_PLAYERNUMBER, 1, &mPlayerNumber);
@@ -45,6 +46,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_CANATTACK, 1, &mCanAttack);
 		AddExternalAttribute(ATTRIBUTE_SHOOT, 1, &mShoot);
 		AddExternalAttribute(ATTRIBUTE_LIVES, 1, &mLives);
+		AddExternalAttribute(ATTRIBUTE_DEAD, 1, &mOutOfLives);
 		AddExternalAttribute(ATTRIBUTE_MULTIPLIER, 1, &mMultiplier);
 		AddExternalAttribute(ATTRIBUTE_BOMBS, 1, &mBombCount);
 		AddExternalAttribute(ATTRIBUTE_USEBOMB, 1, &mUseBomb);
@@ -104,6 +106,7 @@ namespace Library
 	void Player::SetLives(std::int32_t lives)
 	{
 		mLives = lives;
+		mOutOfLives = (mLives == 0);
 		LivesManager::GetInstance()->SetValue(mLives);
 	}
 
@@ -111,21 +114,19 @@ namespace Library
 	{
 		UNREFERENCED_PARAMETER(worldState);
 
+		// Change life counter
+		SetLives(mLives - 1);
+		ResetMultiplier();
+		OutputDebugStringA("Player Hit!");
+		
+		// Kill all enemies on screen
+		//++mBombCount;
+		//UseBomb(worldState);
+
 		// Check for gameover
 		if (mLives <= 0)
 		{
-			// TODO: gameover
-			//MarkForDestroy(worldState);
 			OutputDebugStringA("Player is Dead!");
-		}
-		else
-		{
-			--mLives;
-			ResetMultiplier();
-			LivesManager::GetInstance()->SetValue(mLives);
-			OutputDebugStringA("Player Hit!");
-
-			// TODO: Kill all enemies, kill all multipliers, reset multiplier to 1
 		}
 	}
 
