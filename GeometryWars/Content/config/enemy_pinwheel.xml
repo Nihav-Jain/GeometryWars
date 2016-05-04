@@ -25,11 +25,6 @@
 		<expression name="change_vel">
 			<string name="expression">velocity = normalize(direction)</string>
 		</expression>
-		
-		<expression name="GetEnemyCount">
-			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>
-		
 	</beginplay>
   
 	<!-- Polygon Renderer Component -->

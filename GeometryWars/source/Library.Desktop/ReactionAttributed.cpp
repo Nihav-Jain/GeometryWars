@@ -10,7 +10,6 @@ namespace Library
 	ReactionAttributed::ReactionAttributed()
 	{
 		AddInternalAttribute(EventMessageAttributed::ATTRIBUTE_SUBTYPE, "", 0);
-		Event<EventMessageAttributed>::Subscribe(*this);
 	}
 
 	ReactionAttributed::~ReactionAttributed()
@@ -36,6 +35,18 @@ namespace Library
 	{
 		Reaction::operator=(std::move(rhs));
 		return *this;
+	}
+
+	void ReactionAttributed::BeginPlay(WorldState& worldState)
+	{
+		Event<EventMessageAttributed>::Subscribe(*this);
+		Reaction::BeginPlay(worldState);
+	}
+
+	void ReactionAttributed::OnDestroy(WorldState& worldState)
+	{
+		Event<EventMessageAttributed>::Unsubscribe(*this);
+		Reaction::OnDestroy(worldState);
 	}
 
 	void ReactionAttributed::Notify(const EventPublisher& publisher)

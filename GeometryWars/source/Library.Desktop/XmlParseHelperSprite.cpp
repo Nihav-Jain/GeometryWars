@@ -34,7 +34,7 @@ namespace Library {
 		sprite->SetName(attributes[ATTRIBUTE_NAME]);
 		parent->Adopt(Entity::ATTRIBUTE_ACTIONS, *sprite);
 
-		Renderer::GetInstance()->AddRenderable(sprite);
+		//Renderer::GetInstance()->AddRenderable(sprite);
 		sharedDataPtr->CurrentScopePtr = sprite;
 
 		return true;
