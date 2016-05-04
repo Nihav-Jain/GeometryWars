@@ -164,8 +164,9 @@ namespace Library
 
 	void Entity::MarkForDestroy(WorldState& worldState)
 	{
-		if (worldState.action == nullptr || !worldState.action->Is(ActionDestroyEntity::TypeIdClass()))
-			throw std::exception("Only ActionDestroyEntity can mark an entity for destory.");
+		(worldState);
+		//if (worldState.action == nullptr || !worldState.action->Is(ActionDestroyEntity::TypeIdClass()))
+		//	throw std::exception("Only ActionDestroyEntity can mark an entity for destory.");
 		mIsPendingDestroy = true;
 	}
 

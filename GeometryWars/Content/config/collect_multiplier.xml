@@ -42,11 +42,20 @@
 				<string name="expression">iscollected</string>
 			</condition>
 			<then>
-				<action class="ActionDestroyEntity" name="destroySelf">
-					<expression name="exp1">
-						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
-					</expression>
-				</action>
+				
+			<!-- Play Multiplier music -->
+			<action class="ActionPlayMusic" name="playMusic">
+				<string name="musicName" value="Multiplier.mp3"/>
+				<integer name="loop" value="1"  index="0"/>
+				<float name="volume" value="1.0" index="0"/>
+			</action>
+
+			<action class="ActionDestroyEntity" name="destroySelf">
+				<expression name="exp1">
+					<string name="expression">entityInstanceName = ref(ownerEntity)</string>
+				</expression>
+			</action>
+
 			</then>
 		</if>
 	</action>

@@ -80,13 +80,19 @@ namespace Library {
 		mShader->SetFloat("width", mWidth);
 
 		mBuffer->Use();
-		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size());
+		device->Draw(RenderDevice::DrawMode::LINES, mIndices->Size(), true);
 	}
 
 	void PolygonRenderer::BeginPlay(WorldState & worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
 		Renderer::GetInstance()->AddRenderable(this);
+	}
+
+	void PolygonRenderer::OnDestroy(WorldState & worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+		Renderer::GetInstance()->RemoveRenderable(this);
 	}
 
 	Scope * PolygonRenderer::Clone(const Scope & rhs) const

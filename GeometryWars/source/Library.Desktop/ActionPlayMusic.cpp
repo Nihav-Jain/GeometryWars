@@ -16,6 +16,11 @@ namespace Library
 		AddInternalAttribute(ATTRIBUTE_LOOP, 1, 1);
 	}
 
+	Scope * ActionPlayMusic::Clone(const Scope & rhs) const
+	{
+		ActionPlayMusic& entity = *rhs.AssertiveAs<ActionPlayMusic>();
+		return new ActionPlayMusic(entity);
+	}
 
 	void ActionPlayMusic::Update(WorldState & worldState)
 	{

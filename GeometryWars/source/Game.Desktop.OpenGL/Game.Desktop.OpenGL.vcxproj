@@ -103,19 +103,15 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-	  
       <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
-
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-	  
       <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD.LIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <BuildLog>
@@ -126,7 +122,6 @@
 IF EXIST "$(OutDir)" xcopy /E /Y /I "$(OutDir).." "$(SolutionDir)source\$(ProjectName)\bin\$(Platform)\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-	
       <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
 IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\lib\$(Platform)\$(Configuration)\fmod.dll" "$(TargetDir)" 
 IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)" 
@@ -142,7 +137,6 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-	  
       <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -150,7 +144,6 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-	  
       <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD.LIB %(AdditionalOptions)</AdditionalOptions>
@@ -163,7 +156,6 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
 IF EXIST "$(OutDir)" xcopy /E /Y /I "$(OutDir).." "$(SolutionDir)source\$(ProjectName)\bin\$(Platform)\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-	
       <Command>IF NOT EXIST "$(TargetDir)Expat.pdb" xcopy /E /Y "$(SolutionDir)..\external\expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(TargetDir)" 
 IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\lib\$(Platform)\$(Configuration)\fmod64.dll" "$(TargetDir)" 
 IF NOT EXIST "$(TargetDir)glfw.pdb" xcopy /E /Y "$(SolutionDir)..\external\glfw\lib\$(Platform)\$(Configuration)\glfw.pdb" "$(TargetDir)" 
@@ -181,7 +173,6 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-	  
       <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -191,7 +182,6 @@ IF NOT EXIST "$(TargetDir)SOIL.pdb" xcopy /E /Y "$(SolutionDir)..\external\soil\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-	  
       <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT.lib %(AdditionalOptions)</AdditionalOptions>
@@ -218,7 +208,6 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-	  
       <AdditionalIncludeDirectories>$(SolutionDir)\..\source\Library.Desktop\;$(SolutionDir)\..\external\gl3w\include\;$(SolutionDir)\..\external\glfw\include;$(SolutionDir)\..\external\glm\;$(SolutionDir)\..\external\expat\include\;$(SolutionDir)\..\source\Game.Desktop.Shared\;$(SolutionDir)\..\external\soil\include\;$(SolutionDir)\..\external\FMOD\inc\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4055;4152;4099;4091;4239;4592;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -228,7 +217,6 @@ IF NOT EXIST "$(TargetDir)fmod.dll" xcopy /E /Y "$(SolutionDir)..\external\FMOD\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
-	  
       <AdditionalLibraryDirectories>$(SolutionDir)\..\source\Library.Desktop\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\external\soil\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\glfw\lib\$(Platform)\$(Configuration);$(SolutionDir)\..\external\expat\lib\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.Desktop.lib;glfw3.lib;opengl32.lib;Expat.lib;SOIL.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -270,6 +258,17 @@ IF NOT EXIST "$(TargetDir)fmod64.dll" xcopy /E /Y "$(SolutionDir)..\external\FMO
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Content\shader\glsl\bloom_blend_f.glsl" />
+    <None Include="..\..\Content\shader\glsl\bloom_blur_f.glsl" />
+    <None Include="..\..\Content\shader\glsl\bloom_f.glsl" />
+    <None Include="..\..\Content\shader\glsl\bloom_v.glsl" />
+    <None Include="..\..\Content\shader\glsl\polygon_f.glsl" />
+    <None Include="..\..\Content\shader\glsl\polygon_g.glsl" />
+    <None Include="..\..\Content\shader\glsl\polygon_v.glsl" />
+    <None Include="..\..\Content\shader\glsl\sprite_f.glsl" />
+    <None Include="..\..\Content\shader\glsl\sprite_v.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,4 +18,39 @@
     <ClInclude Include="OpenGLFrameBuffer.h" />
     <ClInclude Include="OpenGLBuffer.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{913f8d07-09f4-44b9-b0e7-b62636380dc2}</UniqueIdentifier>
+      <Extensions>.glsl</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Content\shader\glsl\bloom_blend_f.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\bloom_blur_f.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\bloom_f.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\bloom_v.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\polygon_f.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\polygon_g.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\polygon_v.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\sprite_f.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Content\shader\glsl\sprite_v.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
 </Project>

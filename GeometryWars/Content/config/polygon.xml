@@ -6,7 +6,7 @@
 			<vector name="position" value="vec4(0, 0, 0, 0)"/>
 			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
 			<vector name="scale" value="vec4(100, 100, 1, 0)"/>
-			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
+			<vector name="delta" value="vec4(0.01, 0.01, 0.001, 0)"/>
 			<expression name="change_rot">
 				<string name="expression">rotation = rotation + delta</string>
 			</expression>
@@ -38,78 +38,6 @@
 				<vector name="points" value="vec4(-0.666, 1, 0, 0)"/>
 				<vector name="points" value="vec4(-1.333, 0, 0, 0)"/>
 			</polygon_renderer>
-		</gameobject>		
-	</sector>
-	<sector name="playerSector2">
-		<gameobject class="GameObject" name="object1">
-			<vector name="position" value="vec4(-100, 0, 0, 0)"/>
-			<vector name="rotation" value="vec4(45, 0, 0, 0)"/>
-			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
-			<vector name="delta" value="vec4(0.01, 0.01, 0, 0)"/>
-			<vector name="delta2" value="vec4(0.001, 0.001, 0, 0)"/>
-			<expression name="change_rot">
-				<string name="expression">rotation = rotation + delta</string>
-			</expression>
-			<sprite_renderer name="sprite1">
-				<image name="image">
-					<string name="path" value="Content/resource/mushroom.png"/>
-					<vector name="size" value="vec4(100, 100, 0, 0)"/>
-				</image>
-			</sprite_renderer>
-		</gameobject>		
-	</sector>	
-	<sector name="playerSector3">
-		<gameobject class="GameObject" name="object1">
-			<vector name="position" value="vec4(300, 0, 0, 0)"/>
-			<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
-			<vector name="scale" value="vec4(1, 1, 1, 0)"/>
-			<animator name="whatever">
-				<animation_state name="idle">
-					<float name="x" value="0"/>
-					<float name="y" value="281"/>
-					<animation_frame name="1">
-						<float name="width" value="123"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-					<animation_frame name="2">
-						<float name="width" value="123"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-					<animation_frame name="3">
-						<float name="width" value="123"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-					<animation_frame name="4">
-						<float name="width" value="150"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-					<animation_frame name="5">
-						<float name="width" value="150"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-					<animation_frame name="6">
-						<float name="width" value="150"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-					<animation_frame name="7">
-						<float name="width" value="150"/>
-						<float name="height" value="119"/>
-						<integer name="duration_ms" value="200"/>
-					</animation_frame>
-				</animation_state>
-				<sprite_renderer name="spritesheet">
-					<image name="image">
-					<string name="path" value="Content/resource/ken.png"/>
-					<vector name="size" value="vec4(1024, 1024, 0, 0)"/>
-					</image>
-				</sprite_renderer>
-			</animator>
 		</gameobject>		
 	</sector>
 </world>

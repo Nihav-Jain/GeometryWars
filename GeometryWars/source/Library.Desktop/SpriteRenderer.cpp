@@ -173,4 +173,10 @@ namespace Library {
 		Renderer::GetInstance()->AddRenderable(this);
 	}
 
+	void SpriteRenderer::OnDestroy(WorldState & worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+		Renderer::GetInstance()->RemoveRenderable(this);
+	}
+
 }
