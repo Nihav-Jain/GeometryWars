@@ -25,6 +25,7 @@ namespace Library {
 	template<typename ParticlePattern>
 	ParticleSystem<ParticlePattern>::~ParticleSystem()
 	{
+		Renderer::GetInstance()->RemoveRenderable(this);
 		if (mShader != nullptr)
 			delete mShader;
 		if (mBuffer != nullptr)
@@ -90,9 +91,7 @@ namespace Library {
 		}
 
 		if (mExpired) {
-
 			MarkForDestroy(worldState);
-			Renderer::GetInstance()->RemoveRenderable(this);
 		}
 		
 	}
