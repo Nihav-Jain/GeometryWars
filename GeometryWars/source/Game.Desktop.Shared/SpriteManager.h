@@ -17,6 +17,7 @@ namespace Library
 
 		virtual void Init() = 0;
 		virtual void RefreshSprites() = 0;
+		virtual void CleanupSprites() = 0;
 
 	protected:
 

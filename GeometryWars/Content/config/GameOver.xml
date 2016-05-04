@@ -1,4 +1,5 @@
 <sector name="gameover_menu">
+
 	<gameobject class="GameObject" name="GameoverScreen">
 	
 		<vector name="position" value="vec4(0, 0, 0, 0)"/>
@@ -9,19 +10,21 @@
 		<sprite_renderer name="gameoverSprite">
 			<image name="image">
 				<string name="path" value="Content/resource/gameover.png"/>
-				<vector name="size" value="vec4(200, 720, 0, 0)"/>
+				<vector name="size" value="vec4(1280, 720, 0, 0)"/>
 			</image>
+			<integer name="layer" value="101" />
 		</sprite_renderer>
 	
 	</gameobject>
 		
-		<reaction class="ReactionAttributed" name="ExitGameOverMenu">
-			<string name="subtype" value="Start"/>
-			
-			<!-- Load Game Sector -->
-			<action class="ActionLoadSector" name="loadGame">
-				<string name="sectorName" value="start_menu" />
-			</action>
-			
-		</reaction>
+	<reaction class="ReactionAttributed" name="ExitGameOverMenu">
+		<string name="subtype" value="Start"/>
+		
+		<!-- Load Game Sector -->
+		<action class="ActionLoadSector" name="loadGame">
+			<string name="sectorName" value="start_menu" />
+		</action>
+		
+	</reaction>
+	
 </sector>

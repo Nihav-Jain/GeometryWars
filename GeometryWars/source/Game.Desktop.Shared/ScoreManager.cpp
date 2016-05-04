@@ -105,6 +105,14 @@ namespace Library
 		}
 	}
 
+	void ScoreManager::CleanupSprites()
+	{
+		for (std::int32_t i = 0; i < mNumSprites; ++i)
+		{
+			Renderer::GetInstance()->RemoveRenderable(mCurrentSprites[i], 101);
+		}
+	}
+
 	void ScoreManager::SetNumberBase(std::int32_t base)
 	{
 		mNumberBase = base;
