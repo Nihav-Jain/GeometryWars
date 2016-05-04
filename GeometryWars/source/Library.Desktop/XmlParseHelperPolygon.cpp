@@ -24,7 +24,7 @@ namespace Library {
 			return false;
 
 		if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::ACTION_START))
-			throw std::exception("Invalid script syntax");
+			throw std::exception("ClearScreen script syntax");
 		bool transitionToStateRouter = sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::STATE_ROUTER);
 		UNREFERENCED_PARAMETER(transitionToStateRouter);
 		assert(transitionToStateRouter);

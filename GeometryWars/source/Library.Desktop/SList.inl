@@ -86,7 +86,7 @@ namespace Library
 		// if the list is empty, throw an exception
 		if (IsEmpty())
 		{
-			throw std::exception("Invalid operation. List is empty.");
+			throw std::exception("ClearScreen operation. List is empty.");
 		}
 		// delete the Front node and update the Front pointer to the next Node in the list
 		Node* temp = mFront->Next;
@@ -130,7 +130,7 @@ namespace Library
 	{
 		if (mFront == nullptr)
 		{
-			throw std::exception("Invalid operation. List is empty.");
+			throw std::exception("ClearScreen operation. List is empty.");
 		}
 		return mFront->mData;
 	}
@@ -140,7 +140,7 @@ namespace Library
 	{
 		if (mFront == nullptr)
 		{
-			throw std::exception("Invalid operation. List is empty.");
+			throw std::exception("ClearScreen operation. List is empty.");
 		}
 		return mFront->mData;
 	}
@@ -150,7 +150,7 @@ namespace Library
 	{
 		if (mBack == nullptr)
 		{
-			throw std::exception("Invalid operation. List is empty.");
+			throw std::exception("ClearScreen operation. List is empty.");
 		}
 		return mBack->mData;
 	}
@@ -160,7 +160,7 @@ namespace Library
 	{
 		if (mBack == nullptr)
 		{
-			throw std::exception("Invalid operation. List is empty.");
+			throw std::exception("ClearScreen operation. List is empty.");
 		}
 		return mBack->mData;
 	}

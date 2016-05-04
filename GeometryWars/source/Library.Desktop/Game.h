@@ -34,6 +34,7 @@
 #include "ActionCreateEntity.h"
 #include "ActionDestroyEntity.h"
 #include "ActionCreateEntityFromFile.h"
+#include "ActionLoadSector.h"
 
 #include "ActionEvent.h"
 #include "Reaction.h"
@@ -53,6 +54,7 @@
 #include "SharedDataTable.h"
 #include "XmlParseMaster.h"
 #include "XmlParseHelperDefine.h"
+#include "XmlParseHelperDefineSector.h"
 #include "XmlParseHelperWorld.h"
 #include "XmlParseHelperSector.h"
 #include "XmlParseHelperEntity.h"
@@ -175,6 +177,7 @@ namespace Library
 		XmlParseMaster mParseMaster;
 
 		XmlParseHelperDefine mDefineParser;
+		XmlParseHelperDefineSector mDefineSectorParser;
 		XmlParseHelperWorld mWorldParser;
 		XmlParseHelperSector mSectorParser;
 		XmlParseHelperEntity mEntityParser;
@@ -222,6 +225,7 @@ namespace Library
 		ReactionAttributedFactory mReactionFactory;
 		ActionCreateEntityFactory mCreateEntityFactory;
 		ActionDestroyEntityFactory mDestroyEntityFactory;
+		ActionLoadSectorFactory mLoadSectorFactory;
 
 		ImageFactory mImageFactory;
 		//PolygonRendererFactory mPolygonRendererFactory;
@@ -232,5 +236,11 @@ namespace Library
 		AnimatorFactory mAnimatorFactory;
 		AnimationStateFactory mAnimationStateFactory;
 		AnimationFrameFactory mAnimationFrameFactory;
+
+		//sound 
+		ActionLoadMusicFactory actionLoadMusicFactory;
+		ActionPlayMusicFactory actionPlayMusicFactory;
+		ActionTogglePauseMusicFactory actionTogglePauseMusicFactory;
+		ActionStopMusicFactory actionStopMusicFactory;
 	};
 }

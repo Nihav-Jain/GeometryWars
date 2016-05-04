@@ -3,13 +3,13 @@
 
 namespace Library
 {
-	class ActionDestroyEntity : public Action
+	class ActionDestroyEntity : public ActionList
 	{
-		RTTI_DECLARATIONS(ActionDestroyEntity, Action);
+		RTTI_DECLARATIONS(ActionDestroyEntity, ActionList);
 
 	public:
 		ActionDestroyEntity();
-		virtual ~ActionDestroyEntity() = default;
+		virtual ~ActionDestroyEntity();
 
 		ActionDestroyEntity(const ActionDestroyEntity& rhs);
 		ActionDestroyEntity(ActionDestroyEntity&& rhs);
@@ -21,10 +21,10 @@ namespace Library
 
 		virtual Scope* Clone(const Scope& rhs) const override;
 
-		static const std::string ATTRIBUTE_ENTITY_INSTANCE_NAME;
+		static const std::string ATTRIBUTE_ENTITY_REFERENCE;
 
 	private:
-		std::string mEntityToDestroy;
+		Datum mEntityToDestroy;
 	};
 
 	CONCRETE_ACTION_FACTORY(ActionDestroyEntity);

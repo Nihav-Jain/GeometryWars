@@ -21,8 +21,11 @@ namespace Library
 	}
 
 	Image::Image(const Image & rhs) :
-		Action(rhs)
+		Action(rhs), mTexture(rhs.mTexture), mPath(rhs.mPath),
+		mSize(rhs.mSize)
 	{
+
+
 		(*this)[ATTRIBUTE_PATH].SetStorage(&mPath, 1);
 		(*this)[ATTRIBUTE_SIZE].SetStorage(&mSize, 1);
 	}

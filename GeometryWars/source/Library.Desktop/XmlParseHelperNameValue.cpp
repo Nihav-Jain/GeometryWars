@@ -23,12 +23,12 @@ namespace Library
 		if (elementName == "name")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_START))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 		}
 		else if (elementName == "value")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_START))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 		}
 		else
 		{
@@ -48,14 +48,14 @@ namespace Library
 		if (elementName == "name")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::NAME_END))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 			sharedDataPtr->DataName = mCharData;
 			sharedDataPtr->NameValueElementDataParsed = true;
 		}
 		else if (elementName == "value")
 		{
 			if (!sharedDataPtr->CheckStateTransition(SharedDataTable::ParserState::VALUE_END))
-				throw std::exception("Invalid script syntax");
+				throw std::exception("ClearScreen script syntax");
 			sharedDataPtr->DataValue = mCharData;
 		}
 		else

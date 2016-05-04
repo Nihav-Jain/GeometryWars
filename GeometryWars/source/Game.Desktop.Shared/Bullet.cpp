@@ -21,6 +21,7 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
+
 	}
 
 	Bullet::Bullet(const Bullet & rhs)
@@ -45,6 +46,7 @@ namespace Library
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
+		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 	}
 
 	Scope * Bullet::Clone(const Scope & rhs) const
@@ -57,23 +59,20 @@ namespace Library
 	{
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mCollisionChannel, Enemy::TypeIdClass());
 
+		Entity* worldStateEntityCache = worldState.entity;
+		worldState.entity = this;
+
 		GameObject::BeginPlay(worldState);
 
-		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
-		mPosition = mPlayerOwner->Position();
-		mVelocity = mPlayerOwner->Heading() * mMoveSpeed;
-		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
+		worldState.entity = worldStateEntityCache;
 
-		//mHeading.x = -sin(mRotation.z);
-		//mHeading.y = cos(mRotation.z);
-		//mHeading = glm::normalize(mHeading);
+		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
 	}
 
 	void Bullet::Update(WorldState & worldState)
 	{
 		GameObject::Update(worldState);
-
-		mPosition += mVelocity;
 
 		// Destroy if out of bounds
 		if ((mPosition.x > mWorldWidth / 2.0f) ||
@@ -88,9 +87,6 @@ namespace Library
 	void Bullet::OnDestroy(WorldState & worldState)
 	{
 		GameObject::OnDestroy(worldState);
-
-		// TODO: find a better way to do this
-		//SpriteRenderer* renderer = GetComponent(SpriteRenderer::TypeName())->AssertiveAs<SpriteRenderer>();
 		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
@@ -99,11 +95,11 @@ namespace Library
 	{
 		Enemy* enemy = other.AssertiveAs<Enemy>();
 
-		enemy->EnemyDeath(worldState);
+		enemy->EnemyDeath(worldState, true);
 
 		mPlayerOwner->AddScore( enemy->Score() );
 
-		BulletDeath(worldState);
+		(worldState);
 	}
 
 	void Bullet::ResetAttributePointers()

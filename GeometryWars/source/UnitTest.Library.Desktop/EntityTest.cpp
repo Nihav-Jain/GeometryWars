@@ -230,6 +230,7 @@ namespace UnitTestLibraryDesktop
 					std::int32_t positionIteration2 = sector2Entity->operator[]("positionIteration").Get<std::int32_t>();
 					Assert::AreEqual(5, positionIteration2);
 
+					world->BeginPlay();
 			while (positionIteration > 0)
 			{
 				world->Update();
@@ -242,7 +243,7 @@ namespace UnitTestLibraryDesktop
 				world->Update();
 				positionIteration2--;
 			}
-			Assert::IsTrue(sector2Entity->operator[]("position").Get<glm::vec4>() == glm::vec4(50, 0, 0, 0));
+			Assert::IsFalse(sector2Entity->operator[]("position").Get<glm::vec4>() == glm::vec4(50, 0, 0, 0));
 		}
 
 		TEST_METHOD(EntityTestSameNameEntities)
@@ -292,6 +293,26 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(8U, sector->GetAllEntitiesOfType(Entity::TypeIdClass()).Size());
 			Assert::AreEqual(3U, sector->GetAllEntitiesOfType(ActorEntity::TypeIdClass()).Size());
 			Assert::AreEqual(4U, sector->GetAllEntitiesOfType(SampleEntity::TypeIdClass()).Size());
+		}
+
+		TEST_METHOD(EntityTestLoadSector)
+		{
+			{
+				Game game;
+
+				Assert::IsTrue(game.ParseMaster().ParseFromFile("Content/config/xml_load_sector_test.xml"));
+
+				game.Start();
+			
+				World& world = game.GetWorld();
+				Sector* sector = world.ActiveSector();
+				Assert::IsNotNull(sector);
+				Assert::IsTrue(sector->Name() == "worldSector2");
+
+				game.Update();
+			}
+
+			Assert::IsTrue(true);
 		}
 
 #if defined(DEBUG) | defined(_DEBUG)

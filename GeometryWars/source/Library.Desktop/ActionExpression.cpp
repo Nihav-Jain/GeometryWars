@@ -39,6 +39,7 @@ namespace Library
 	};
 
 	Hashmap<std::string, ActionExpression::FunctionDefinition> ActionExpression::mDefinedFunctions;
+	Hashmap<std::string, ActionExpression::RefFunctionDefinition> ActionExpression::mDefinedRefFunctions;
 
 	ActionExpression::ActionExpression() :
 		mPostfixExpression(nullptr), mTempVariableCounter(0)
@@ -129,6 +130,24 @@ namespace Library
 			return result;
 		}));
 
+		mDefinedRefFunctions.Insert("ref", RefFunctionDefinition(1, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 1);
+			assert(params[0]->Type() == Datum::DatumType::REFERENCE);
+			assert(params[0]->Size() >= 1U);
+
+			return &params[0]->Get<Datum>();
+		}));
+
+		srand(static_cast<int>(time(nullptr)));
+		ActionExpression::AddFunction("RandomVector", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
+		{
+			assert(params.Size() >= 0);
+			Datum result;
+			result = glm::vec4(rand(), rand(), 0, 0);
+			return result;
+		}));
+
 		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;
@@ -207,6 +226,7 @@ namespace Library
 	void ActionExpression::ClearStaticMemebers()
 	{
 		mDefinedFunctions.Clear();
+		mDefinedRefFunctions.Clear();
 	}
 
 	bool ActionExpression::AddFunction(const std::string& functionName, FunctionDefinition functionDefinition)
@@ -217,9 +237,17 @@ namespace Library
 		return didNewInsert;
 	}
 
+	bool ActionExpression::AddRefFunction(const std::string& functionName, RefFunctionDefinition functionDefinition)
+	{
+		bool didNewInsert = false;
+		mDefinedRefFunctions.Insert(CallableRefFunctions::PairType(functionName, functionDefinition), didNewInsert);
+
+		return didNewInsert;
+	}
+
 	bool ActionExpression::IsFunctionDefined(const std::string& functionName)
 	{
-		return mDefinedFunctions.ContainsKey(functionName);
+		return mDefinedFunctions.ContainsKey(functionName) || mDefinedRefFunctions.ContainsKey(functionName);
 	}
 
 	// https://en.wikipedia.org/wiki/Shunting-yard_algorithm#The_algorithm_in_detail
@@ -245,7 +273,7 @@ namespace Library
 					rawOperand = TrimInplace(rawOperand);
 					if (!rawOperand.empty())
 					{
-						if (mDefinedFunctions.ContainsKey(rawOperand))
+						if (IsFunctionDefined(rawOperand))
 							operatorStack.Push(rawOperand);
 						else
 							mPostfixExpression->PushBack(rawOperand);
@@ -334,7 +362,7 @@ namespace Library
 					operatorStack.Pop();
 					if (!operatorStack.IsEmpty())
 					{
-						if (mDefinedFunctions.ContainsKey(operatorStack.Top()))
+						if (IsFunctionDefined(operatorStack.Top()))
 						{
 							mPostfixExpression->PushBack(operatorStack.Top());
 							operatorStack.Pop();
@@ -404,10 +432,20 @@ namespace Library
 				evaluationStack.Push(resultDatums.Top());
 				postfixExpression.PopFront();
 			}
-			else if (mDefinedFunctions.ContainsKey(postfixExpression.Front()))
+			else if (IsFunctionDefined(postfixExpression.Front()))
 			{
-				CallableFunctions::Iterator itr = mDefinedFunctions.Find(postfixExpression.Front());
-				std::uint32_t numParams = itr->second.NumParams;
+				CallableFunctions::Iterator funcItr = mDefinedFunctions.Find(postfixExpression.Front());
+				CallableRefFunctions::Iterator refFuncItr;
+				std::uint32_t numParams = 0;
+				
+				if(funcItr != mDefinedFunctions.end())
+					numParams = funcItr->second.NumParams;
+				else
+				{
+					refFuncItr = mDefinedRefFunctions.Find(postfixExpression.Front());
+					numParams = refFuncItr->second.NumParams;
+				}
+				
 				Vector<Datum*> functionParams(numParams);
 				Stack<Datum*> parameterStack;
 
@@ -433,8 +471,19 @@ namespace Library
 
 				if (isResultDatumAParam)
 					resultDatums.Push(new Datum());
-				*resultDatums.Top() = itr->second.FunctionBody(functionParams);
-				evaluationStack.Push(resultDatums.Top());
+				if (funcItr != mDefinedFunctions.end())
+				{
+					if (resultDatums.IsEmpty())
+						resultDatums.Push(new Datum());
+					*resultDatums.Top() = funcItr->second.FunctionBody(functionParams);
+					evaluationStack.Push(resultDatums.Top());
+				}
+				else
+				{
+					delete resultDatums.Top();
+					resultDatums.Pop();
+					evaluationStack.Push(refFuncItr->second.FunctionBody(functionParams));
+				}
 				postfixExpression.PopFront();
 			}
 			else
@@ -445,8 +494,8 @@ namespace Library
 				else
 					operand = Search(postfixExpression.Front());
 				assert(operand != nullptr);
-				if (operand->Type() == Datum::DatumType::REFERENCE)
-					operand = &operand->Get<Datum>();
+				//if (operand->Type() == Datum::DatumType::REFERENCE)
+				//	operand = &operand->Get<Datum>();
 				evaluationStack.Push(operand);
 				postfixExpression.PopFront();
 			}
@@ -506,6 +555,9 @@ namespace Library
 				break;
 			case Datum::DatumType::BOOLEAN:
 				lhs.Set(rhs.Get<bool>());
+				break;
+			case Datum::DatumType::REFERENCE:
+				lhs.Set(&rhs);
 				break;
 			default:
 				std::stringstream str;

@@ -3,6 +3,8 @@
 #include "../../source/Library.Desktop/PolygonRenderer.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "../../source/Library.Desktop/ParticleSystem.h"
+#include "../../source/Library.Desktop/LineParticle.h"
 
 namespace Library
 {
@@ -10,14 +12,16 @@ namespace Library
 
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
+	const std::string Enemy::ATTRIBUTE_CANSPAWNCOLLECTIBLE = "canspawncollectible";
 	const std::string Enemy::ATTRIBUTE_CHANNEL = "enemychannel";
 	const std::string Enemy::ATTRIBUTE_SCORE = "score";
 
 	Enemy::Enemy()
-		: mVelocity(), mIsDead(false), mCollisionChannel(), mScore(0)
+		: mVelocity(), mIsDead(false), mCanSpawnCollectible(false), mCollisionChannel(), mScore(0)
 	{
 		AddExternalAttribute(ATTRIBUTE_VELOCITY, 1, &mVelocity);
 		AddExternalAttribute(ATTRIBUTE_ISDEAD, 1, &mIsDead);
+		AddExternalAttribute(ATTRIBUTE_CANSPAWNCOLLECTIBLE, 1, &mCanSpawnCollectible);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
 	}
@@ -38,13 +42,14 @@ namespace Library
 		mVelocity = velocity;
 	}
 
-	void Enemy::EnemyDeath(WorldState & worldState)
+	void Enemy::EnemyDeath(WorldState & worldState, bool canSpawnCollectible)
 	{
 		//MarkForDestroy(worldState);
 
 		UNREFERENCED_PARAMETER(worldState);
 		mIsDead = true;
-
+		mCanSpawnCollectible = canSpawnCollectible;
+		GetComponent(CircleColliderComponent::TypeName())->AssertiveAs<CircleColliderComponent>()->SetEnabled(false);
 		// TODO: Spawn score multiplier at current location
 	}
 
@@ -68,30 +73,26 @@ namespace Library
 
 	void Enemy::Update(WorldState & worldState)
 	{
-		// Update position
-		mPosition += mVelocity * static_cast<std::float_t>(worldState.mGameTime->ElapsedGameTime().count());
-
-		// TODO: separate this out for different derived enemy types?
 		// Check if out of bounds
-		if (mPosition.x > mWorldWidth / 2.0f)
+		if (mPosition.x > (mWorldWidth / 2.0f) - mScale.x)
 		{
-			mPosition.x = mWorldWidth / 2.0f;
+			mPosition.x = (mWorldWidth / 2.0f) - mScale.x;
 			mVelocity.x *= -1.0f;
 		}
-		else if (mPosition.x < -mWorldWidth / 2.0f)
+		else if (mPosition.x < (-mWorldWidth / 2.0f) + mScale.x)
 		{
-			mPosition.x = -mWorldWidth / 2.0f;
+			mPosition.x = (-mWorldWidth / 2.0f) + mScale.x;
 			mVelocity.x *= -1.0f;
 		}
 
-		if (mPosition.y > mWorldHeight / 2.0f)
+		if (mPosition.y > (mWorldHeight / 2.0f) - mScale.y)
 		{
-			mPosition.y = mWorldHeight / 2.0f;
+			mPosition.y = (mWorldHeight / 2.0f) - mScale.y;
 			mVelocity.y *= -1.0f;
 		}
-		else if (mPosition.y < -mWorldHeight / 2.0f)
+		else if (mPosition.y < (-mWorldHeight / 2.0f) + mScale.y)
 		{
-			mPosition.y = -mWorldHeight / 2.0f;
+			mPosition.y = (-mWorldHeight / 2.0f) + mScale.y;
 			mVelocity.y *= -1.0f;
 		}
 
@@ -105,6 +106,10 @@ namespace Library
 		// TODO: find a better way to do this
 		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
+
+		ParticleSystem<LineParticle> * p =ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
+			mPosition, mScale, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
+		p->SetEnalbe(true);
 	}
 
 	void Enemy::OnOverlapBegin(const GameObject & other, WorldState & worldState)

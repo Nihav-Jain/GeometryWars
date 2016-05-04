@@ -24,22 +24,38 @@ namespace Library
 	}
 
 	ActionCreateEntityFromFile::ActionCreateEntityFromFile(const ActionCreateEntityFromFile& rhs) :
-		Action::Action(rhs)
-	{}
+		Action::Action(rhs), mNewEntity(new Datum(*rhs.mNewEntity))
+	{
+		(*this)[ATTRIBUTE_NEW_ENTITY] = mNewEntity;
+	}
 
 	ActionCreateEntityFromFile::ActionCreateEntityFromFile(ActionCreateEntityFromFile&& rhs) :
-		Action::Action(std::move(rhs))
-	{}
+		Action::Action(std::move(rhs)), mNewEntity(rhs.mNewEntity)
+	{
+		(*this)[ATTRIBUTE_NEW_ENTITY] = mNewEntity;
+		rhs.mNewEntity = nullptr;
+	}
 
 	ActionCreateEntityFromFile& ActionCreateEntityFromFile::operator=(const ActionCreateEntityFromFile& rhs)
 	{
-		Action::operator=(rhs);
+		if (this != &rhs)
+		{
+			mNewEntity = new Datum(*rhs.mNewEntity);
+			Action::operator=(rhs);
+			(*this)[ATTRIBUTE_NEW_ENTITY] = mNewEntity;
+		}
 		return *this;
 	}
 
 	ActionCreateEntityFromFile& ActionCreateEntityFromFile::operator=(ActionCreateEntityFromFile&& rhs)
 	{
-		Action::operator=(std::move(rhs));
+		if (this != &rhs)
+		{
+			mNewEntity = rhs.mNewEntity;
+			Action::operator=(std::move(rhs));
+			(*this)[ATTRIBUTE_NEW_ENTITY] = mNewEntity;
+			rhs.mNewEntity = nullptr;
+		}
 		return *this;
 	}
 
@@ -54,6 +70,7 @@ namespace Library
 		Entity* newEntity = entityCopy->Clone(*entityCopy)->AssertiveAs<Entity>();
 
 		worldState.sector->AdoptEntity(*newEntity, (*this)[ATTRIBUTE_ENTITY_INSTANCE_NAME].Get<std::string>());
+
 		newEntity->BeginPlay(worldState);
 		*mNewEntity = *newEntity;
 	}

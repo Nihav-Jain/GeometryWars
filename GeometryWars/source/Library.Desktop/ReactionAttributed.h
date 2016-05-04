@@ -31,6 +31,8 @@ namespace Library
 		ReactionAttributed& operator=(const ReactionAttributed& rhs);
 		ReactionAttributed& operator=(ReactionAttributed&& rhs);
 
+		virtual void BeginPlay(WorldState& worldState) override;
+		virtual void OnDestroy(WorldState& worldState) override;
 		/**
 		 *	@override
 		 *	checks if the given puvlisher is EventMessageAttributed and has the same subtype as itself

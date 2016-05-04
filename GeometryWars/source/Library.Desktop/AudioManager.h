@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hashmap.h"
+
 #pragma region SoundFMOD
 
 #include <fstream>
@@ -11,6 +12,8 @@
 #pragma endregion
 namespace Library
 {
+	const std::int32_t MAX_CHANNELS = 32;
+	
 	class AudioManager
 	{
 
@@ -25,7 +28,7 @@ namespace Library
 		struct AudioData
 		{
 			FMOD::Sound *mAudio;
-			FMOD::Channel *mChannel;
+			FMOD::Channel **mChannel;
 		};
 
 		/**
@@ -48,10 +51,10 @@ namespace Library
 		/**
 		*	PlayMusic - Play music of given name with extension
 		*	@param audioNameWithExtension	just name no path
-		*	@param loopsOneToN	zero and one for one loop and N for N loops
+		*	@param loopsOneToN	zero for continous looping and N for N loops
 		*	@param volumeZeroToOne	volume in float from zero to 1
 		*/
-		void PlayMusic (const std::string& audioNameWithExtension, std::int32_t loopsOneToN = 0, std::float_t volumeZeroToOne = 1.0f);
+		void PlayMusic (const std::string& audioNameWithExtension, std::int32_t loopsOneToN = 1, std::float_t volumeZeroToOne = 1.0f);
 
 		/**
 		*	TogglePauseMusic - Pause if playing and vice verca
@@ -64,21 +67,34 @@ namespace Library
 		*	@param audioNameWithExtension	just name no path
 		*/
 		void StopMusic(const std::string& audioNameWithExtension);
+
+		/**
+		*	ResumeChannel - 
+		*/
+		void ResumeChannel();
+
+		/**
+		*	PutChannel - 
+		*	@param channel	the channel whose priority is to be changed
+		*/
+		void PutChannel(FMOD::Channel & channel);
 	
 	private:
 
 		void CreateMusic(const std::string& audioNameWithExtension);
-
 	
 		const std::string PATH = "Content/Music/";
-		const std::int32_t VIRTUAL_CHANNELS = 73;
+		const std::int32_t VIRTUAL_CHANNELS = 64;
+		const std::int32_t MIN_PRIORITY = 0;
+		const std::int32_t MAX_PRIORITY = 256;
+		FMOD::Channel *mChannels[MAX_CHANNELS];
 
 		FMOD_RESULT mFmodResult;
 		int32_t mNumberOfDrivers;
 		FMOD::System *mFmodSystem;
+		int mChannelCount;
 
 		Hashmap <std::string, AudioData> mAudioMap;
-
 	};
 
 }
