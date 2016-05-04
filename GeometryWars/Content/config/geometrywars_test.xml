@@ -80,6 +80,10 @@
 				<string name="musicName" value="GeometryWarsStart.mp3"/>
 				<string name="musicName" value="UI_Confirm.mp3"/>
 				<string name="musicName" value="Game_over.mp3"/>
+				<string name="musicName" value="Wanderer_spawn.mp3"/>
+				<string name="musicName" value="Enemy_spawn_orange.mp3"/>
+				<string name="musicName" value="Enemy_spawn_blue.mp3"/>
+				<string name="musicName" value="Enemy_spawn_red.mp3"/>
 			</action>
 			
 			
