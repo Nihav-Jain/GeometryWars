@@ -66,7 +66,12 @@ namespace Library
 
 		worldState.entity = worldStateEntityCache;
 
-		mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		//mPlayerOwner = worldState.entity->AssertiveAs<Player>();
+		Player* player = worldState.entity->As<Player>();
+		if (player != nullptr)
+		{
+			mPlayerOwner = player;
+		}
 		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
 	}
 
@@ -91,15 +96,18 @@ namespace Library
 		Renderer::GetInstance()->RemoveRenderable(renderer);
 	}
 
-	void Bullet::OnOverlapBegin(const GameObject & other, WorldState & worldState)
+	void Bullet::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)
 	{
-		Enemy* enemy = other.AssertiveAs<Enemy>();
+		if (channel == mCollisionChannel)
+		{
+			Enemy* enemy = other.AssertiveAs<Enemy>();
+			enemy->EnemyDeath(worldState, true);
 
-		enemy->EnemyDeath(worldState, true);
-
-		mPlayerOwner->AddScore( enemy->Score() );
-
-		(worldState);
+			if (mPlayerOwner != nullptr)
+			{
+				mPlayerOwner->AddScore(enemy->Score());
+			}
+		}	
 	}
 
 	void Bullet::ResetAttributePointers()
