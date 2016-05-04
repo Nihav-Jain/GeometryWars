@@ -219,7 +219,7 @@ namespace Library
 		return new Sector(action);
 	}
 
-	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId) const
+	const Vector<Entity*>& Sector::GetAllEntitiesOfType(std::uint64_t typeId)
 	{
 		return mEntityListByType[typeId];
 	}

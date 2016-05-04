@@ -26,16 +26,29 @@ namespace Library
 		 */
 		Sector();
 
-
 		/**
 		 *	Default destructor
 		 */
 		virtual ~Sector();
 
+		/**
+		 *	copy Constructor
+		 */
 		Sector(const Sector& rhs);
+
+		/**
+		 *	move Constructor
+		 */
 		Sector(Sector&& rhs);
 
+		/**
+		 *	copy assignemnt operator
+		 */
 		Sector& operator=(const Sector& rhs);
+
+		/**
+		 *	move assignemnt operator
+		 */
 		Sector& operator=(Sector&& rhs);
 
 		/**
@@ -70,6 +83,11 @@ namespace Library
 		 */
 		Entity& CreateEntity(const std::string& entityClassName, const std::string& entityInstanceName);
 
+		/**
+		 *	Adopts the given Entity into itself
+		 *	@param refernce to the entity to be adopted
+		 *	@param  instance name of the Entity
+		 */
 		void AdoptEntity(Entity& entity, const std::string& name);
 		
 		/**
@@ -79,12 +97,30 @@ namespace Library
 		 */
 		Entity* FindEntity(const std::string& entityName) const;
 
+		/**
+		 *	Finds all entitites of the given name
+		 *	@param name of entity to be searched
+		 *	@return vetor of enitity poitners
+		 */
 		Vector<Entity*> FindAllEntities(const std::string& entityName) const;
 
+		/**
+		 *	Getter for the Datum which contains the array of Actions of this Sector
+		 *	@return reference to the Datum
+		 */
 		Datum& Actions();
 
+		/**
+		 *	const override for the Getter for the Datum which contains the array of Actions of this Sector
+		 *	@return constant reference to the Datum
+		 */
 		const Datum& Actions() const;
 
+		/**
+		 *	Searches for the Action of the given name in this Entity
+		 *	@param name of the Action to be searched
+		 *	@return pointer to the Action if found, nullptr if there is no sector of this name
+		 */
 		Action* FindAction(const std::string& actionName) const;
 
 		/**
@@ -99,6 +135,9 @@ namespace Library
 		 */
 		void SetWorld(World& parent);
 
+		/**
+		 *	Calls the scripted begin play of the sector and the begin play of all its actions, reactions and entities
+		 */
 		void BeginPlay(WorldState& worldState);
 
 		/**
@@ -107,11 +146,23 @@ namespace Library
 		 */
 		void Update(WorldState& worldState);
 		
+		/**
+		 *	Virtual copy constructors
+		 *	@return pointer to newly copy constructed Sector
+		 */
 		virtual Scope* Clone(const Scope& rhs) const override;
 
+		/**
+		 *	Calls the scripted on-destroy of the sector and the on-destroy of all its actions, reactions and entities
+		 */
 		void OnDestroy(WorldState& worldState);
 
-		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId) const;
+		/**
+		 *	Gets all entities which belong to the given typeid or are children of this typeid
+		 *	@param type id of parent entity
+		 *	@return const vector of entity pointers
+		 */
+		const Vector<Entity*>& GetAllEntitiesOfType(std::uint64_t typeId);
 
 		static const std::string ATTRIBUTE_ENTITIES;
 		static const std::string ATTRIBUTE_NAME;
