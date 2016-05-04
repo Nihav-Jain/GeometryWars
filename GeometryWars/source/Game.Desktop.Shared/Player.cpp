@@ -274,6 +274,10 @@ namespace Library
 
 	void Player::OnDestroy(WorldState & worldState)
 	{
+		ScoreManager::GetInstance()->CleanupSprites();
+		LivesManager::GetInstance()->CleanupSprites();
+		BombManager::GetInstance()->CleanupSprites();
+
 		GameObject::OnDestroy(worldState);
 	}
 

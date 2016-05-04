@@ -19,6 +19,7 @@ namespace Library
 
 		virtual void Init() override;
 		virtual void RefreshSprites() override;
+		virtual void CleanupSprites() override;
 
 	private:
 		static BombManager *sInstance;
