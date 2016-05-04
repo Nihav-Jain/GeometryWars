@@ -17,6 +17,7 @@ namespace Library {
 	RTTI_DEFINITIONS(SpriteRenderer, ActionList);
 
 	const std::string SpriteRenderer::ATTRIBUTE_TEXTURE2D = "texture2d";
+	const std::string SpriteRenderer::ATTRIBUTE_LAYER = "layer";
 
 	SpriteRenderer::SpriteRenderer() :
 		mInited(false),
@@ -35,8 +36,10 @@ namespace Library {
 		mIsStatic(false),
 		mStaticPosition(),
 		mStaticRotation(),
-		mStaticScale()
+		mStaticScale(),
+		mLayerNumber(100)
 	{
+		AddExternalAttribute(ATTRIBUTE_LAYER, 1, &mLayerNumber);
 	}
 
 	SpriteRenderer::~SpriteRenderer()
@@ -170,13 +173,13 @@ namespace Library {
 	void SpriteRenderer::BeginPlay(WorldState & worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
-		Renderer::GetInstance()->AddRenderable(this);
+		Renderer::GetInstance()->AddRenderable(this, mLayerNumber);
 	}
 
 	void SpriteRenderer::OnDestroy(WorldState & worldState)
 	{
 		UNREFERENCED_PARAMETER(worldState);
-		Renderer::GetInstance()->RemoveRenderable(this);
+		Renderer::GetInstance()->RemoveRenderable(this, mLayerNumber);
 	}
 
 }

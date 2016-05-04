@@ -3,6 +3,8 @@
 #include "../../source/Library.Desktop/PolygonRenderer.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "../../source/Library.Desktop/ParticleSystem.h"
+#include "../../source/Library.Desktop/LineParticle.h"
 
 namespace Library
 {
@@ -104,6 +106,10 @@ namespace Library
 		// TODO: find a better way to do this
 		PolygonRenderer* renderer = GetComponent(PolygonRenderer::TypeName())->AssertiveAs<PolygonRenderer>();
 		Renderer::GetInstance()->RemoveRenderable(renderer);
+
+		ParticleSystem<LineParticle> * p =ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
+			mPosition, mScale, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
+		p->SetEnalbe(true);
 	}
 
 	void Enemy::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)

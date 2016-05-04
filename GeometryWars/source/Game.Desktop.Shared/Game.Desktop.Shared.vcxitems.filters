@@ -26,6 +26,126 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EnemySquare.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds_small.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds_small_include.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\input.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\polygon.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sprite.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_switch_case.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_beginplay_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_canevertick_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_create_entity_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_destroy_entity_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_entity_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_entitylist_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_expression_ref_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_function_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_if_else_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_invalid_table.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_invalid_table_state.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_literal_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_multi_entity_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test_arguments.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test_notnotified.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_reaction_test_subtype.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_while_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xmltabletest.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\geometrywars_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\bullet.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_arrow.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_diamond.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_pinwheel.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_square.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\input_v2.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\player_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\player1.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sample_entity_xml_class.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_beginplay_test_music.xml">
+      <Filter>XML</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_create_entity_from_file_test.xml">
+      <Filter>XML</Filter>
+    </Xml>
+>>>>>>> master
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="XML">
       <UniqueIdentifier>{b3de3877-65aa-4bf1-a18b-c937f5261db4}</UniqueIdentifier>
       <Extensions>.xml</Extensions>

@@ -85,4 +85,12 @@ namespace Library
 			}
 		}
 	}
+
+	void BombManager::CleanupSprites()
+	{
+		for (std::int32_t i = 0; i < mNumSprites; ++i)
+		{
+			Renderer::GetInstance()->RemoveRenderable(mSprites[i], 101);
+		}
+	}
 }
