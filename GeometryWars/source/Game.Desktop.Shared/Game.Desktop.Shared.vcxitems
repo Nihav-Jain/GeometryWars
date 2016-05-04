@@ -47,7 +47,9 @@
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_diamond.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_pinwheel.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_square.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\GameOver.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\geometrywars_test.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\InGameSector.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\input.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\input_v2.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\player1.xml" />
@@ -59,6 +61,7 @@
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\sprite.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\StartMenu.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xmltabletest.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_switch_case.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xml_action_test.xml" />

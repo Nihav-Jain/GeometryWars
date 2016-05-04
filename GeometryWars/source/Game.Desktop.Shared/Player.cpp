@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "Collectible.h"
 #include "ScoreManager.h"
 #include "LivesManager.h"
 #include "BombManager.h"
@@ -121,7 +122,7 @@ namespace Library
 		OutputDebugStringA("Player Hit!");
 		
 		// Destroy all active enemies
-		DestroyAllEnemies(worldState);
+		DestroyAllEnemies(worldState, true);
 		ResetMultiplier();
 
 		// Check for gameover
@@ -187,7 +188,7 @@ namespace Library
 
 		if (mBombCount > 0)
 		{
-			DestroyAllEnemies(worldState);
+			DestroyAllEnemies(worldState, false);
 
 			--mBombCount;
 			BombManager::GetInstance()->SetValue(mBombCount);
@@ -319,7 +320,7 @@ namespace Library
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
 	}
 
-	void Player::DestroyAllEnemies(WorldState& worldState)
+	void Player::DestroyAllEnemies(WorldState& worldState, bool destroyCollectibles)
 	{
 		Sector* mySector = GetSector();
 		Vector<Entity*> enemies = mySector->GetAllEntitiesOfType(Enemy::TypeIdClass());
@@ -329,9 +330,22 @@ namespace Library
 		for (std::int32_t i = 0; i < numEnemies; ++i)
 		{
 			Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
+			enemy->SetCanSpawnCollectible(!destroyCollectibles);
+
 			if (enemy->Name() != "EnemySpawner")
 			{
 				enemy->EnemyDeath(worldState, true);
+			}
+		}
+		
+		if (destroyCollectibles)
+		{
+			Vector<Entity*> collectibles = mySector->GetAllEntitiesOfType(Collectible::TypeIdClass());
+			std::int32_t numCollectibles = collectibles.Size();
+			for (std::int32_t i = 0; i < numCollectibles; ++i)
+			{
+				Collectible* collectible = collectibles[i]->AssertiveAs<Collectible>();
+				collectible->SetIsCollected(true);
 			}
 		}
 	}

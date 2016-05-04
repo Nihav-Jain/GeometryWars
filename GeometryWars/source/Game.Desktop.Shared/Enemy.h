@@ -17,6 +17,8 @@ namespace Library
 		void EnemyDeath(WorldState& worldState, bool canSpawnCollectible = false);
 		std::int32_t Score() const;
 
+		void SetCanSpawnCollectible(bool canSpawn);
+
 		virtual Scope* Clone(const Scope& rhs) const override;
 		virtual void BeginPlay(WorldState& worldState) override;
 		virtual void Update(WorldState& worldState) override;

@@ -50,6 +50,11 @@ namespace Library
 		return mScore;
 	}
 
+	void Enemy::SetCanSpawnCollectible(bool canSpawn)
+	{
+		mCanSpawnCollectible = canSpawn;
+	}
+
 	Scope * Enemy::Clone(const Scope & rhs) const
 	{
 		Enemy& entity = *rhs.AssertiveAs<Enemy>();
