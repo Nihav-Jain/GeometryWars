@@ -74,9 +74,18 @@
 						<string name="expression">entityInstanceName = ref(ownerEntity)</string>
 					</expression>
 				</action>
+				
+				<!-- playMusic -->
+				<action class="ActionPlayMusic" name="playMusic1">
+					<string name="musicName" value="Enemy_explode.mp3"/>
+					<integer name="loop" value="1"  index="0"/>
+					<float name="volume" value="1.0" index="0"/>
+				</action>
+				
 				<expression name="SetPosition">
 					<string name="expression">numberOfEnemies = numberOfEnemies - {1}</string>
 				</expression>
+				
 				<!-- Collectible Spawning -->
 				<if name="CheckIfCanSpawnCollectible">
 					<condition>
