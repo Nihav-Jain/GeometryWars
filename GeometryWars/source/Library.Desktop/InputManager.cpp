@@ -446,7 +446,7 @@ namespace Library
 			// Check if Rumbling Should Stop
 			if (mRumbleDelay[player] > 0)
 			{
-				mRumbleDelay[player] -= static_cast<std::int32_t>(deltaTime.count());
+				mRumbleDelay[player] -= (deltaTime.count() > 0) ? static_cast<std::int32_t>(deltaTime.count()) : 1;
 
 				// Stop Rumbling if time is up
 				if (mRumbleDelay[player] <= 0)
