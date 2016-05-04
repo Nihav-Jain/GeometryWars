@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CircleColliderComponent.h"
+#include <limits>
 
 namespace Library
 {
@@ -57,13 +58,25 @@ namespace Library
 	{
 		if (mEnabled && mCollidableEntities != nullptr)
 		{
+			GameObject *closestCollidee = nullptr;
+			std::float_t closestDist = std::numeric_limits<std::float_t>::max();
 			for (Entity* entity : *mCollidableEntities)
 			{
 				GameObject *other = entity->AssertiveAs<GameObject>();
 				if (IsColliding(*other))
 				{
-					mOwner->OnOverlapBegin(*other, worldState);
+					std::float_t dist = glm::distance(mOwner->Position(), other->Position());
+					if (dist < closestDist)
+					{
+						closestCollidee = other;
+						closestDist = dist;
+					}				
 				}
+			}
+
+			if (closestCollidee != nullptr)
+			{
+				mOwner->OnOverlapBegin(*closestCollidee, mCollisionChannel, worldState);
 			}
 		}		
 	}

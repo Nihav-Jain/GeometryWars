@@ -6,13 +6,13 @@
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(0, 0, 0, 0)"/>
 	<vector name="rotation" value="vec4(0, 0, 0, 0)"/>
-	<vector name="scale" value="vec4(5, 5, 1, 0)"/>
+	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
 	<float name="speed" value="0" />
   
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
-		<float name="width" value="5" />
-		<vector name="color" value="vec4(0.2788943, 0.8549926, 0.2788943, 1)" />
+		<float name="width" value="3" />
+		<vector name="color" value="vec4(0.4178851, 1, 0.02842604, 1)" />
 		<integer name="indices" value="0" />
 		<integer name="indices" value="1" />
 		<integer name="indices" value="1" />
@@ -21,10 +21,10 @@
 		<integer name="indices" value="3" />
 		<integer name="indices" value="3" />
 		<integer name="indices" value="0" />
-		<vector name="points" value="vec4(0, 1, 0, 0)" />
-		<vector name="points" value="vec4(0.8, 0, 0, 0)" />
-		<vector name="points" value="vec4(0, -1, 0, 0)" />
-		<vector name="points" value="vec4(-0.8, 0, 0, 0)" />
+		<vector name="points" value="vec4(-0.2, 0, 0, 0)" />
+		<vector name="points" value="vec4(0, 0.4, 0, 0)" />
+		<vector name="points" value="vec4(0.2, 0, 0, 0)" />
+		<vector name="points" value="vec4(0, -0.4, 0, 0)" />
 	</polygon_renderer>
 	
 	<!-- CircleCollider Component -->

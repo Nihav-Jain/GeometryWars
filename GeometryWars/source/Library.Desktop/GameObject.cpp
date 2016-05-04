@@ -109,9 +109,10 @@ namespace Library
 		Entity::OnDestroy(worldState);
 	}
 
-	void GameObject::OnOverlapBegin(const GameObject & other, WorldState& worldState)
+	void GameObject::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState& worldState)
 	{
 		UNREFERENCED_PARAMETER(other);
+		UNREFERENCED_PARAMETER(channel);
 		UNREFERENCED_PARAMETER(worldState);
 	}
 

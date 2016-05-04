@@ -6,6 +6,8 @@
 #include "OpenGLRenderDevice.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemySquare.h"
+#include "Collectible.h"
 #include "Bullet.h"
 #include "ScoreHolder.h"
 #include "BloomPostProcessing.h"
@@ -29,8 +31,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	ActionDebugFactory adf;
 	PlayerFactory mPlayerFactory;
 	EnemyFactory mEnemyFactory;
+	EnemySquareFactory mEnemySquareFactory;
 	BulletFactory mBulletFactory;
 	ScoreHolderFactory shf;
+	CollectibleFactory mCollectibleFactory;
 
 	BloomPostProcessing bloom;
 

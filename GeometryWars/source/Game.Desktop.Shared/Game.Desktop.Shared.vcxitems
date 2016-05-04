@@ -16,7 +16,9 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BombManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bullet.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Collectible.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnemySquare.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LivesManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
@@ -28,7 +30,9 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BombManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bullet.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Collectible.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EnemySquare.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LivesManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionDebug.cpp" />
