@@ -17,7 +17,7 @@ namespace Library
 			/**
 			 *	Enumerated list of datatypes supported by Datum
 			 */
-			enum class DatumType
+			enum class DatumType : std::uint32_t
 			{
 				UNKNOWN,
 				INTEGER,
@@ -35,7 +35,7 @@ namespace Library
 			/**
 			 *	Enumerated list of storage types supported by Datum
 			 */
-			enum class DatumStorageType
+			enum class DatumStorageType : std::uint32_t
 			{
 				UNKNOWN,
 				INTERNAL,
