@@ -20,6 +20,27 @@
 		<integer name="width" value="1280"/>
 		<integer name="height" value="720" />
 
+		<!-- ==================== Event-Driven Player Connection =============== -->
+		<!-- Player Connected Reaction -->
+		<reaction class="ReactionAttributed" name="OnPlayerConnection">
+			<string name="subtype" value="PlayerConnected"/>
+			
+			<!-- Debug message to represent Event will fire -->
+			<action class="ActionDebug" name="Debug">
+				<string name="message" value="Player Connected!"/>
+			</action>
+		</reaction>
+		
+		<!-- Player Disconnected Reaction -->
+		<reaction class="ReactionAttributed" name="OnPlayerDisconnection">
+			<string name="subtype" value="PlayerDisconnected"/>
+			
+			<!-- Debug message to represent Event will fire -->
+			<action class="ActionDebug" name="Debug">
+				<string name="message" value="Player Disconnected!"/>
+			</action>
+		</reaction>
+		
 		<!-- XBoxControllerHandler: Handles XBox Controller Events -->
 		<action name="XBoxControllerManager" class="XBoxControllerHandler">
 			<scope name="ButtonMapping">	<!-- Done using the enumerated name (as given by XInput) for the XBox Controller buttons -->
@@ -65,30 +86,6 @@
 				<float name="volume" value="0.8" index="0"/>
 			</action>
 		</beginplay>
-
-		<!-- ==================== Event-Driven Player Connection =============== -->
-		<!-- Player Connected Reaction -->
-		<reaction class="ReactionAttributed" name="OnPlayerConnection">
-			<string name="subtype" value="PlayerConnected"/>
-			
-			<!-- Debug message to represent Event will fire -->
-			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Player Connected!"/>
-			</action>
-		</reaction>
-		
-		<!-- Player Disconnected Reaction -->
-		<reaction class="ReactionAttributed" name="OnPlayerDisconnection">
-			<string name="subtype" value="PlayerDisconnected"/>
-			
-			<!-- Debug message to represent Event will fire -->
-			<action class="ActionDebug" name="Debug">
-				<string name="message" value="Player Disconnected!"/>
-			</action>
-		</reaction>
-
-		<!-- TODO: Spawn enemies randomly on escalating intervals -->
-
 			
 	</world>
 </root>

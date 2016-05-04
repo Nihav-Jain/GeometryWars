@@ -18,6 +18,7 @@ namespace Library
 		static const std::string ATTRIBUTE_ATTACKSPEED;
 		static const std::string ATTRIBUTE_CANATTACK;
 		static const std::string ATTRIBUTE_LIVES;
+		static const std::string ATTRIBUTE_DEAD;
 		static const std::string ATTRIBUTE_MULTIPLIER;
 		static const std::string ATTRIBUTE_SHOOT;
 		static const std::string ATTRIBUTE_USEBOMB;
@@ -75,6 +76,7 @@ namespace Library
 		bool mShoot;
 
 		std::int32_t mLives;
+		bool mOutOfLives;
 		std::string mCollisionChannel;
 
 		std::int32_t mMultiplier;
