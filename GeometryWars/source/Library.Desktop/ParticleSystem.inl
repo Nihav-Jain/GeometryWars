@@ -108,7 +108,7 @@ namespace Library {
 			Init(device);
 		}
 
-		std::uint32_t cnt = mParticles.size();
+		std::uint32_t cnt = static_cast<std::uint32_t>(mParticles.size());
 
 		for (std::uint32_t i = 0; i < cnt; ++i) {
 
