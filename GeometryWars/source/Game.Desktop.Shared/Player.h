@@ -66,6 +66,8 @@ namespace Library
 
 	protected:
 
+		static bool sInitializedManagers;
+
 		void CreateSpriteManagers() const;
 		void InitSpriteManagers() const;
 

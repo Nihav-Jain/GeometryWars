@@ -37,6 +37,8 @@ namespace Library
 	const std::string Player::ATTRIBUTE_CHANNEL = "playerchannel";
 	const std::string Player::ATTRIBUTE_SCOREBASE = "scorebase";
 
+	bool Player::sInitializedManagers = false;
+
 	Player::Player()
 		: mPlayerNumber(), mAttackSpeed(), mShootTimer(0), mCanAttack(true), mShoot(false), mLives(), mOutOfLives(false),
 		  mMultiplier(1), mBombCount(), mUseBomb(false), mVelocity(), mHeading(), mCollisionChannel()
@@ -62,6 +64,10 @@ namespace Library
 	Player::~Player()
 	{
 		ScoreManager::DeleteInstance();
+		LivesManager::DeleteInstance();
+		BombManager::DeleteInstance();
+
+		sInitializedManagers = false;
 	}
 
 	Player::Player(const Player & rhs)
@@ -139,11 +145,19 @@ namespace Library
 	{
 		std::int32_t scoreWMultiplier = score * mMultiplier;
 		ScoreManager::GetInstance()->AddValue(scoreWMultiplier);
+
+		OutputDebugStringA("Score = ");
+		OutputDebugStringA(std::to_string(ScoreManager::GetInstance()->GetValue()).c_str());
+		OutputDebugStringA("\n");
 	}
 
 	void Player::SetScore(const std::int32_t & score)
 	{
 		ScoreManager::GetInstance()->SetValue(score);
+
+		OutputDebugStringA("Score = ");
+		OutputDebugStringA(std::to_string(ScoreManager::GetInstance()->GetValue()).c_str());
+		OutputDebugStringA("\n");
 	}
 
 	const std::int32_t Player::Multiplier() const
@@ -265,6 +279,8 @@ namespace Library
 
 	void Player::OnDestroy(WorldState & worldState)
 	{
+		sInitializedManagers = false;
+
 		ScoreManager::GetInstance()->CleanupSprites();
 		LivesManager::GetInstance()->CleanupSprites();
 		BombManager::GetInstance()->CleanupSprites();
@@ -281,21 +297,26 @@ namespace Library
 
 	void Player::InitSpriteManagers() const
 	{
-		ScoreManager* score = ScoreManager::GetInstance();
-		score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
-		score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
-		score->Init();
-		score->RefreshSprites();
+		if (!sInitializedManagers)
+		{
+			sInitializedManagers = true;
 
-		LivesManager* lives = LivesManager::GetInstance();
-		lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
-		lives->Init();
-		lives->RefreshSprites();
+			ScoreManager* score = ScoreManager::GetInstance();
+			score->SetData(0, 10, 40, 200, 315, 10, false, "Content//resource//", "digits//", ".png");
+			score->SetNumberBase(Find(ATTRIBUTE_SCOREBASE)->Get<std::int32_t>());
+			score->Init();
+			score->RefreshSprites();
 
-		BombManager* bomb = BombManager::GetInstance();
-		bomb->SetData(mBombCount, mBombCount, 30, 30, 315, -5, true, "Content//resource//", "", ".png");
-		bomb->Init();
-		bomb->RefreshSprites();
+			LivesManager* lives = LivesManager::GetInstance();
+			lives->SetData(mLives, mLives, 30, -110, 315, -5, false, "Content//resource//", "", ".png");
+			lives->Init();
+			lives->RefreshSprites();
+
+			BombManager* bomb = BombManager::GetInstance();
+			bomb->SetData(mBombCount, mBombCount, 30, 30, 315, -5, true, "Content//resource//", "", ".png");
+			bomb->Init();
+			bomb->RefreshSprites();
+		}
 	}
 
 	void Player::ResetAttributePointers()
