@@ -16,13 +16,6 @@
 	<vector name="scale" value="vec4(15, 15, 1, 0)"/>
 	<float name="speed" value="0.4" />
 	
-	<!-- get Numbered name -->
-	<beginplay>
-		<expression name="GetEnemyCount">
-			<string name="expression">ownerEntity.name = ownerEntity.name + IncrementEnemyCount()</string>
-		</expression>		
-	</beginplay>
-  
 	<!-- Polygon Renderer Component -->
 	<polygon_renderer name="PolygonRenderer">
 		<float name="width" value="5" />

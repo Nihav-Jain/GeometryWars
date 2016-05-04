@@ -89,6 +89,12 @@ namespace Library {
 		Renderer::GetInstance()->AddRenderable(this);
 	}
 
+	void PolygonRenderer::OnDestroy(WorldState & worldState)
+	{
+		UNREFERENCED_PARAMETER(worldState);
+		Renderer::GetInstance()->RemoveRenderable(this);
+	}
+
 	Scope * PolygonRenderer::Clone(const Scope & rhs) const
 	{
 		PolygonRenderer& action = *rhs.AssertiveAs<PolygonRenderer>();

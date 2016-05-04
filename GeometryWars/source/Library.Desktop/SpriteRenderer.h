@@ -32,8 +32,9 @@ namespace Library {
 
 		virtual void Render(RenderDevice * device) override;
 		virtual void BeginPlay(WorldState & worldState) override;
-
+		virtual void OnDestroy(WorldState& worldState) override;
 		virtual Scope* Clone(const Scope& rhs) const override;
+
 
 	private:
 		void Init(RenderDevice * device);

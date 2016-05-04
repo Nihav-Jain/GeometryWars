@@ -10,8 +10,6 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Enemy, GameObject);
 
-	std::int32_t Enemy::sEnemyCount = 0;
-
 	const std::string Enemy::ATTRIBUTE_VELOCITY = "velocity";
 	const std::string Enemy::ATTRIBUTE_ISDEAD = "isdead";
 	const std::string Enemy::ATTRIBUTE_CANSPAWNCOLLECTIBLE = "canspawncollectible";
@@ -26,16 +24,6 @@ namespace Library
 		AddExternalAttribute(ATTRIBUTE_CANSPAWNCOLLECTIBLE, 1, &mCanSpawnCollectible);
 		AddExternalAttribute(ATTRIBUTE_CHANNEL, 1, &mCollisionChannel);
 		AddExternalAttribute(ATTRIBUTE_SCORE, 1, &mScore);
-
-		ActionExpression::AddFunction("IncrementEnemyCount", ActionExpression::FunctionDefinition(0, [](const Vector<Datum*>& params)
-		{
-			assert(params.Size() >= 0);
-			Datum result;
-			result = std::to_string(sEnemyCount++);
-			if (sEnemyCount < 0)
-				sEnemyCount = 0;
-			return result;
-		}));
 	}
 
 	Enemy::Enemy(const Enemy & rhs)
