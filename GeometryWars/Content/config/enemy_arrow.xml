@@ -4,7 +4,7 @@
 	<bool name="isdead" value="false" />
 	<bool name="canspawncollectible" value="true" />
 	<string name="enemychannel" value="collideplayers" />
-	<integer name="score" value="1" />
+	<integer name="score" value="75" />
   
 	<!-- GameObject Class Attributes -->
 	<vector name="position" value="vec4(-250, -250, 0, 0)"/>

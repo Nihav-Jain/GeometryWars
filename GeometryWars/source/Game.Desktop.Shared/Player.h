@@ -91,6 +91,7 @@ namespace Library
 		std::chrono::milliseconds mShootTimer;
 
 		void ResetAttributePointers();
+		void DestroyAllEnemies(WorldState& worldState);
 
 	};
 

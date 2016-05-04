@@ -119,9 +119,9 @@ namespace Library
 		ResetMultiplier();
 		OutputDebugStringA("Player Hit!");
 		
-		// TODO: Kill all enemies on screen
-		//++mBombCount;
-		//UseBomb(worldState);
+		// Destroy all active enemies
+		DestroyAllEnemies(worldState);
+		ResetMultiplier();
 
 		// Check for gameover
 		if (mLives <= 0)
@@ -178,19 +178,7 @@ namespace Library
 
 		if (mBombCount > 0)
 		{
-			Sector* mySector = GetSector();
-			Vector<Entity*> enemies = mySector->GetAllEntitiesOfType(Enemy::TypeIdClass());
-			std::int32_t numEnemies = enemies.Size();
-
-			// Destroy all active enemies
-			for (std::int32_t i = 0; i < numEnemies; ++i)
-			{
-				Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
-				if (enemy->Name() != "EnemySpawner")
-				{
-					enemy->EnemyDeath(worldState, true);
-				}
-			}
+			DestroyAllEnemies(worldState);
 
 			--mBombCount;
 			BombManager::GetInstance()->SetValue(mBombCount);
@@ -324,6 +312,23 @@ namespace Library
 		(*this)[ATTRIBUTE_VELOCITY].SetStorage(&mVelocity, 1);
 		(*this)[ATTRIBUTE_HEADING].SetStorage(&mHeading, 1);
 		(*this)[ATTRIBUTE_CHANNEL].SetStorage(&mCollisionChannel, 1);
+	}
+
+	void Player::DestroyAllEnemies(WorldState& worldState)
+	{
+		Sector* mySector = GetSector();
+		Vector<Entity*> enemies = mySector->GetAllEntitiesOfType(Enemy::TypeIdClass());
+		std::int32_t numEnemies = enemies.Size();
+
+		// Destroy all active enemies
+		for (std::int32_t i = 0; i < numEnemies; ++i)
+		{
+			Enemy* enemy = enemies[i]->AssertiveAs<Enemy>();
+			if (enemy->Name() != "EnemySpawner")
+			{
+				enemy->EnemyDeath(worldState, true);
+			}
+		}
 	}
 
 }
