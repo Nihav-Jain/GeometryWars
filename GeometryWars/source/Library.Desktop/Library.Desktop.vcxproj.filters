@@ -153,9 +153,6 @@
     <ClInclude Include="RenderDevice.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="Viewport.h">
-      <Filter>Kernel\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="ActionTogglePauseMusic.h">
       <Filter>Kernel\Actions</Filter>
     </ClInclude>
@@ -168,9 +165,6 @@
     </ClInclude>
     <ClInclude Include="ActionStopMusic.h">
       <Filter>Kernel\Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLRenderDevice.h">
-      <Filter>Kernel\Graphic\opengl</Filter>
     </ClInclude>
     <ClInclude Include="XmlParseHelperBeginPlay.h">
       <Filter>XmlParseHelpers</Filter>
@@ -263,6 +257,12 @@
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="BloomPostProcessing.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Kernel\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="LineParticle.h">
       <Filter>Kernel\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
@@ -416,7 +416,6 @@
     <ClCompile Include="XmlParseHelperPolygon.cpp">
       <Filter>XmlParseHelpers</Filter>
     </ClCompile>
-
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="ActionLoadMusic.cpp">
       <Filter>Kernel\Actions</Filter>
@@ -430,7 +429,6 @@
     <ClCompile Include="ActionTogglePauseMusic.cpp">
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
-
     <ClCompile Include="ActionCreateEntity.cpp">
       <Filter>Kernel\Actions</Filter>
     </ClCompile>
@@ -452,9 +450,6 @@
     </ClCompile>
     <ClCompile Include="XmlParseHelperDefine.cpp">
       <Filter>XmlParseHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="PolygonRenderer.cpp">
-      <Filter>Kernel\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Kernel\Graphic</Filter>
@@ -483,6 +478,12 @@
     <ClCompile Include="BloomPostProcessing.cpp">
       <Filter>Kernel\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="LineParticle.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonRenderer.cpp">
+      <Filter>Kernel\Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -503,6 +504,9 @@
     </None>
     <None Include="Event.inl">
       <Filter>Kernel\Event</Filter>
+    </None>
+    <None Include="ParticleSystem.inl">
+      <Filter>Kernel\Graphic</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

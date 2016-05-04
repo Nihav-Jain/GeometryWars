@@ -1,5 +1,5 @@
 #version 330 core
-layout (location = 0) in vec3 vertex; // vec2 position
+layout (location = 0) in vec2 vertex; // vec2 position
 
 void main()
 {
