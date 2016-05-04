@@ -60,6 +60,11 @@
 			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
+		<!-- Update rotation -->
+		<expression name="movement">
+			<string name="expression">rotation = rotateZ(velocity)</string>
+		</expression>
+		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
 			<condition>
@@ -103,7 +108,11 @@
 						<string name="expression">isparent</string>
 					</condition>
 					<then>
-						<!-- Spawn Children
+						<expression name="SetPosition">
+							<string name="expression">numberOfEnemies = numberOfEnemies - {1}</string>
+						</expression>
+				
+						<!-- Spawn Children -->
 						<action class="ActionCreateEntityFromFile" name="BabyCube1">
 							<string name="filePath" value="Content/config/enemy_cube.xml" index="0" />
 							<string name="className" value="CubeEnemy" index="0" />
@@ -116,7 +125,7 @@
 							<string name="expression">BabyCube1.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube1.newEntity.position = perpindicular(position, {true}) * {10.0f}</string>
+							<string name="expression">BabyCube1.newEntity.position = perpindicular(velocity, {true}) * {10.0f}</string>
 						</expression>
 						
 						<action class="ActionCreateEntityFromFile" name="BabyCube2">
@@ -131,8 +140,8 @@
 							<string name="expression">BabyCube2.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube2.newEntity.position = perpindicular(position, {false}) * {10.0f}</string>
-						</expression> -->
+							<string name="expression">BabyCube2.newEntity.position = perpindicular(velocity, {false}) * {10.0f}</string>
+						</expression>
 					</then>
 				</if>
 			</then>

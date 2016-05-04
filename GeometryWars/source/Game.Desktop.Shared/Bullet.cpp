@@ -65,13 +65,11 @@ namespace Library
 
 		worldState.entity = worldStateEntityCache;
 
-		//mPlayerOwner = worldState.entity->AssertiveAs<Player>();
 		Player* player = worldState.entity->As<Player>();
 		if (player != nullptr)
 		{
 			mPlayerOwner = player;
 		}
-		mRotation.z = atan2(mVelocity.y, mVelocity.x) - 1.571f;
 	}
 
 	void Bullet::Update(WorldState & worldState)
