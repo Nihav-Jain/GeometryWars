@@ -109,14 +109,15 @@ namespace Library
 
 	void Enemy::OnDestroy(WorldState & worldState)
 	{
-
-		if (this->FindAction("PolygonRenderer") != nullptr)
+		if (HasComponent(PolygonRenderer::TypeName()))
 		{
-			ParticleSystem<LineParticle> * p = ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
-				mPosition, mScale, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
+			ParticleSystem<LineParticle> *p = ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
+				mPosition, mScale * 0.25f, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
 			p->SetEnalbe(true);
 		}
+
 		GameObject::OnDestroy(worldState);
+
 	}
 
 	void Enemy::OnOverlapBegin(const GameObject & other, const std::string& channel, WorldState & worldState)

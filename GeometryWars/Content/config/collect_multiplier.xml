@@ -64,7 +64,7 @@
 			<action class="ActionPlayMusic" name="playMusic">
 				<string name="musicName" value="Multiplier.mp3"/>
 				<integer name="loop" value="1"  index="0"/>
-				<float name="volume" value="1.0" index="0"/>
+				<float name="volume" value="0.5" index="0"/>
 			</action>
 
 			<action class="ActionDestroyEntity" name="destroySelf">

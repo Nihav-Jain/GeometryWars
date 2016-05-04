@@ -10,8 +10,8 @@
 #include "Bullet.h"
 #include "EnemySquare.h"
 #include "Collectible.h"
+#include "BloomPostProcessing.h"
 
-//#include "BloomPostProcessing.h"
 
 #include <fstream>
 
@@ -42,11 +42,11 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previousInstance, LPSTR command
 	ActionDebugFactory adf;
 	PlayerFactory mPlayerFactory;
 	EnemyFactory mEnemyFactory;
-	BulletFactory mBulletFactory;	
 	EnemySquareFactory mEnemySquareFactory;
+	BulletFactory mBulletFactory;
 	CollectibleFactory mCollectibleFactory;
 
-
+	BloomPostProcessing bloom;
 	std::wstring windowClassName = L"RenderingClass";
 
 

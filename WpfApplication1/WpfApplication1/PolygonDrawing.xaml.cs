@@ -93,6 +93,8 @@ namespace WpfApplication1
             {
                 ComboBoxItem cItem = new ComboBoxItem();
                 cItem.Content = colorsTypePropertyInfo.Name;
+                SolidColorBrush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorsTypePropertyInfo.Name));
+                cItem.Background = brush;
                 Colorsbox.Items.Add(cItem);
             }
             Colorsbox.SelectedIndex = 7;
