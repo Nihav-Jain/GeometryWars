@@ -157,6 +157,41 @@ namespace Library
 			return result;
 		}));
 
+		ActionExpression::AddFunction("perpindicular", ActionExpression::FunctionDefinition(2, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 2);
+			Datum result;
+
+			glm::vec4 perp;
+			glm::vec4 vec = (*params[0]).Get<glm::vec4>();
+
+			if ((*params[1]).Get<bool>())
+			{
+				perp.x = -vec.y;
+				perp.y = vec.x;
+			}
+			else
+			{
+				perp.x = vec.y;
+				perp.y = -vec.x;
+			}
+
+			result = perp;
+			return result;
+		}));
+
+		ActionExpression::AddFunction("rotateZ", ActionExpression::FunctionDefinition(1, [] (const Vector<Datum*>& params)
+		{
+			assert(params.Size() == 1);
+			Datum result;
+
+			glm::vec4 rotated;
+			rotated.z = atan2((*params[0]).Get<glm::vec4>().y, (*params[0]).Get<glm::vec4>().x) - 1.571f;
+
+			result = rotated;
+			return result;
+		}));
+
 		/*mDefinedFunctions["max"].NumParams = 2;
 		mDefinedFunctions["min"].NumParams = 2;
 		mDefinedFunctions["sin"].NumParams = 1;

@@ -66,6 +66,11 @@
 			<string name="expression">position = position + velocity * ownerWorld.deltaTime * speed</string>
 		</expression>
 		
+		<!-- Update rotation -->
+		<expression name="movement">
+			<string name="expression">rotation = rotateZ(velocity)</string>
+		</expression>
+		
 		<!-- Destroy self if dead -->
 		<if name="CheckIfDead">
 			<condition>

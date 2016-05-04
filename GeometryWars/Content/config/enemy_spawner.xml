@@ -15,12 +15,12 @@
 	<integer name="frequency" value="2000"/>
 	<float name="time" value="0" />
 	<integer name="currentEnemy" value="0" />
-	<integer name="enemyTeir" value="1" />
-	<integer name="currentTeir" value="1" />
+	<integer name="enemyTier" value="1" />
+	<integer name="currentTier" value="5" />
 	<integer name="currentFrequency" value="1" />
 	<bool name="CanSpawn" value="true" />
 	<integer name="MaxNumberOfEnemies" value="10" />
-	<integer name="NumberOfEnemyTypes" value="4" />
+	<integer name="NumberOfEnemyTypes" value="5" />
 	
 	<!-- Begin Play, Get a random velocity, get Numbered name -->
 	<beginplay>
@@ -62,24 +62,24 @@
 		
 		<if name="TeirCondition">
 			<condition>
-				<string name="expression">Player1.multiplier &gt; currentTeir</string>
+				<string name="expression">Player1.multiplier &gt; currentTier</string>
 			</condition>
 			<then>
 				<expression name="incrementTeir">
-					<string name="expression">enemyTeir = enemyTeir + {1}</string>
+					<string name="expression">enemyTier = enemyTier + {1}</string>
 				</expression>
 				<if name="TeirCondition">
 					<condition>
-						<string name="expression">enemyTeir &gt; NumberOfEnemyTypes</string>
+						<string name="expression">enemyTier &gt; NumberOfEnemyTypes</string>
 					</condition>
 					<then>
 						<expression name="incrementTeir">
-							<string name="expression">enemyTeir = NumberOfEnemyTypes</string>
+							<string name="expression">enemyTier = NumberOfEnemyTypes</string>
 						</expression>
 					</then>
 				</if>
 				<expression name="incrementMultiplier">
-					<string name="expression">currentTeir = currentTeir + {2}</string>
+					<string name="expression">currentTier = currentTier + {10}</string>
 				</expression>
 			</then>	
 		</if>
@@ -93,7 +93,7 @@
 					<string name="expression">frequency = frequency / {2}</string>
 				</expression>
 				<expression name="incrementFrequency">
-					<string name="expression">currentFrequency = currentFrequency + {2}</string>
+					<string name="expression">currentFrequency = currentFrequency + {1.25f}</string>
 				</expression>
 			</then>	
 		</if>
@@ -130,10 +130,10 @@
 					<string name="expression">time = {0}</string>
 				</expression>
 				<expression name="ResetTime">
-					<string name="expression">currentEnemy = RandomInt(enemyTeir)</string>
+					<string name="expression">currentEnemy = RandomInt(enemyTier)</string>
 				</expression>
 				<switch name="EnemySwitch" switchValue="currentEnemy">
-					<case name="case1" caseValue="2" break="true">
+					<case name="case1" caseValue="3" break="true">
 						<action class="ActionCreateEntityFromFile" name="SpawnSquare" break="true">
 							<string name="filePath" value="Content/config/enemy_square.xml" index="0" />
 							<string name="className" value="SquareEnemy" index="0" />
@@ -165,7 +165,7 @@
 							<string name="expression">SpawnDiamond.newEntity.position = position</string>
 						</expression>
 					</case>
-					<case name="case1" caseValue="3" break="true">
+					<case name="case1" caseValue="2" break="true">
 						<action class="ActionCreateEntityFromFile" name="SpawnArrow" break="true">
 							<string name="filePath" value="Content/config/enemy_arrow.xml" index="0" />
 							<string name="className" value="ArrowEnemy" index="0" />
@@ -195,6 +195,16 @@
 						
 						<expression name="SetPosition">
 							<string name="expression">SpawnPinwheel.newEntity.position = position</string>
+						</expression>
+					</case>
+					<case name="case1" caseValue="4" break="true">
+						<action class="ActionCreateEntityFromFile" name="SpawnCube">
+							<string name="filePath" value="Content/config/enemy_cube.xml" index="0" />
+							<string name="className" value="CubeEnemy" index="0" />
+							<string name="instanceName" value="CubeEnemy" index="0" />
+						</action>
+						<expression name="SetPosition">
+							<string name="expression">SpawnCube.newEntity.position = position</string>
 						</expression>
 					</case>
 				</switch>

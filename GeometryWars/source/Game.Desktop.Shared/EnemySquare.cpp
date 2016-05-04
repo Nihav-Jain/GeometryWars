@@ -21,7 +21,7 @@ namespace Library
 	{
 		AddExternalAttribute(ATTRIBUTE_DODGE_CHANNEL, 1, &mDodgeChannel);
 		AddExternalAttribute(ATTRIBUTE_DODGE_ANGLE, 1, &mDodgeAngle);
-		AddExternalAttribute(ATTRIBUTE_DODGING, 1, &mIsDodging);
+		AddExternalAttribute(ATTRIBUTE_DODGING, 1, &mIsDodging);	
 	}
 
 	EnemySquare::EnemySquare(const EnemySquare & rhs)
@@ -92,15 +92,6 @@ namespace Library
 				{
 					mVelocity = perpB;
 				}
-
-				//if (glm::distance(newA, mPosition) > glm::distance(newB, mPosition))
-				//{
-				//	mVelocity = perpB;
-				//}
-				//else
-				//{
-				//	mVelocity = perpA;
-				//}
 			}	
 		}
 	}
