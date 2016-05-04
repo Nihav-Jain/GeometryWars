@@ -4,18 +4,43 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="GameException.cpp" />
-    <ClCompile Include="PolygonRenderer.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="OldPolygonRenderer.cpp" />
+    <ClCompile Include="D3DRenderBuffer.cpp" />
+    <ClCompile Include="D3DRenderDevice.cpp" />
+    <ClCompile Include="D3DShader.cpp" />
+    <ClCompile Include="D3DTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameException.h" />
-    <ClInclude Include="PolygonRenderer.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="OldPolygonRenderer.h" />
+    <ClInclude Include="D3DRenderBuffer.h" />
+    <ClInclude Include="D3DRenderDevice.h" />
+    <ClInclude Include="D3DShader.h" />
+    <ClInclude Include="D3DTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl" />
-    <FxCompile Include="VertexShader.hlsl" />
-    <FxCompile Include="GeometryShader.hlsl" />
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="GeometryShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="SpriteVertexShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="SpritePixelShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{29aa3ed5-ceb6-4481-9047-a3e0e6a37ff6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

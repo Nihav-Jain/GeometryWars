@@ -93,7 +93,7 @@ namespace OpenGLImplmentation {
 		return texture;
 	}
 
-	void OpenGLRenderDevice::Invalid()
+	void OpenGLRenderDevice::ClearScreen()
 	{
 		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
@@ -109,8 +109,9 @@ namespace OpenGLImplmentation {
 		return shader;
 	}
 
-	void OpenGLRenderDevice::Draw(DrawMode mode, std::uint32_t counts)
+	void OpenGLRenderDevice::Draw(DrawMode mode, std::uint32_t counts, bool useIndices)
 	{
+		UNREFERENCED_PARAMETER(useIndices);
 		switch (mode) {
 		case DrawMode::TRIANGLES:
 			glDrawArrays(GL_TRIANGLES, 0, counts);
