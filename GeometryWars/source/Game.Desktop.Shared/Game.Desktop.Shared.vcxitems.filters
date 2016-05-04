@@ -8,6 +8,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionDebug.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ScoreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpriteManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BombManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Collectible.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bullet.h" />
@@ -18,6 +20,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionDebug.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ScoreManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BombManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Collectible.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds.xml">

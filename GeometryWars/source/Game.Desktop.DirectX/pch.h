@@ -19,11 +19,14 @@
 #include <memory>
 #include <iostream>
 #include <fstream>
+#include <locale>
+#include <codecvt>
 
 #include <d3d11_1.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #include <Shlwapi.h>
+#include <WICTextureLoader.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
