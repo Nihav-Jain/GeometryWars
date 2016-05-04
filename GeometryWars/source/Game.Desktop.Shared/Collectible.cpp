@@ -10,7 +10,6 @@ namespace Library
 
 	const std::string Collectible::ATTRIBUTE_ISCOLLECTED = "iscollected";
 	const std::string Collectible::ATTRIBUTE_CHANNEL = "collectiblechannel";
-	const CollectibleFactory Collectible::cf;
 
 	Collectible::Collectible()
 		: mIsCollected(false), mCollisionChannel()

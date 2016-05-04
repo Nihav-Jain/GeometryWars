@@ -30,7 +30,6 @@ namespace Library
 	private:
 
 		void ResetAttributePointers();
-		static const class CollectibleFactory cf;
 	};
 
 	CONCRETE_ENTITY_FACTORY(Collectible);
