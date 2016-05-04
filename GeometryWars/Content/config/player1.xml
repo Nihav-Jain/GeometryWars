@@ -118,7 +118,7 @@
 		<reaction class="ReactionAttributed" name="OnUseBomb">
 			<string name="subtype" value="Bomb"/>
 			
-			<if name="CheckButtonPressed">
+			<if name="CheckIsButtonPressed">
 				<condition><string name="expression">IsButtonPressed</string></condition>
 				<then>
 					<expression name="enablebomb">
