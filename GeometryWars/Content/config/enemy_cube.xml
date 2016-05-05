@@ -1,5 +1,6 @@
 <gameobject class="Enemy" name="CubeEnemy">
 	<bool name="isparent" value="true" />
+  <float name="childSpawnOffset" value="25.0" />
 
 	<!-- Enemy Class Attributes -->
 	<vector name="direction" value="vec4(0, 0, 0, 0)"/>
@@ -124,7 +125,7 @@
 							<string name="expression">BabyCube1.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube1.newEntity.position = perpindicular(direction, {true}) * {50.0f}</string>
+							<string name="expression">BabyCube1.newEntity.position = position + perpindicular(direction, {true}) * childSpawnOffset</string>
 						</expression>
 						<expression name="SetScore">
 							<string name="expression">BabyCube1.newEntity.score = score / {2}</string>
@@ -142,7 +143,7 @@
 							<string name="expression">BabyCube2.newEntity.scale = scale * {0.5f}</string>
 						</expression>
 						<expression name="SetPosition">
-							<string name="expression">BabyCube2.newEntity.position = perpindicular(direction, {false}) * {50.0f}</string>
+							<string name="expression">BabyCube2.newEntity.position = position + perpindicular(direction, {false}) * childSpawnOffset</string>
 						</expression>
 						<expression name="SetScore">
 							<string name="expression">BabyCube1.newEntity.score = score / {2}</string>

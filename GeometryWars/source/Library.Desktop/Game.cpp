@@ -58,6 +58,7 @@ namespace Library
 		mWorld.Update();
 		if (mRenderer != nullptr)
 			mRenderer->Update();
+		mAudioManager.Update();
 	}
 
 	void Game::SetRenderer(Renderer* renderer)

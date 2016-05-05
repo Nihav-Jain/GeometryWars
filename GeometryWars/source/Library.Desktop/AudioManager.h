@@ -77,6 +77,8 @@ namespace Library
 		*	@param channel	the channel whose priority is to be changed
 		*/
 		void PutChannel(FMOD::Channel & channel);
+
+		void Update();
 	
 	private:
 

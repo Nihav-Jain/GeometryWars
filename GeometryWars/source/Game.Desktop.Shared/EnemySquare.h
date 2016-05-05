@@ -31,7 +31,6 @@ namespace Library
 
 	private:
 
-		static bool mInit;
 		void ResetAttributePointers();
 	};
 

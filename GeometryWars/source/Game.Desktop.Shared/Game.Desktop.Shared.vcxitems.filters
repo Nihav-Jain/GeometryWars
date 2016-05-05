@@ -192,6 +192,12 @@
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\xmltabletest.xml">
       <Filter>Content\Examples</Filter>
     </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_spawner.xml">
+      <Filter>Content\Assets</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_cube.xml">
+      <Filter>Content\Assets</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds.xml" />

@@ -48,7 +48,7 @@
 	
 	<!-- CircleCollider Component (collideplayers) -->
 	<component class="CircleColliderComponent" name="CircleColliderComponent">
-		<float name="radius" value="2.0" />
+		<float name="radius" value="5.0" />
 		<bool name="enabled" value="true" />
 		<string name="channel" value="collideplayers" />
 	</component>
@@ -70,7 +70,7 @@
 			<then>
 				<!-- Update position to dodge -->
 				<expression name="movement">
-					<string name="expression">position = position + direction * ownerWorld.deltaTime * {3.0f} * speed</string>
+					<string name="expression">position = position + direction * ownerWorld.deltaTime * {5.0f} * speed</string>
 				</expression>
 			</then>
 			<else>

@@ -108,7 +108,7 @@ namespace Library
 	{
 		if (HasComponent(PolygonRenderer::TypeName()))
 		{
-			ParticleSystem<LineParticle> *p = ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 10,
+			ParticleSystem<LineParticle> *p = ParticleSystem<LineParticle>::CreateParticleSystem(GetSector(), 6,
 				mPosition, mScale * 0.25f, this->FindAction("PolygonRenderer")->Find("color")->Get<glm::vec4>());
 			p->SetEnalbe(true);
 		}

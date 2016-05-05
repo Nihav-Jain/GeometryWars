@@ -1,6 +1,7 @@
 <gameobject class="Bullet" name="Bullet">
+  <float name="spawnoffset" value="30.0" />
 
-	<!-- Bullet Class Attributes -->
+  <!-- Bullet Class Attributes -->
 	<vector name="scale" value="vec4(15, 15, 15, 0)"/>
 	<float name="speed" value="0.9" />
 	<bool name="isdead" value="false" />
@@ -12,7 +13,7 @@
 			<string name="expression">direction = Player1.heading</string>
 		</expression>
 		<expression name="spawn_position">
-			<string name="expression">position = Player1.position</string>
+			<string name="expression">position = Player1.position + direction * spawnoffset</string>
 		</expression>
 		
 	</beginplay>

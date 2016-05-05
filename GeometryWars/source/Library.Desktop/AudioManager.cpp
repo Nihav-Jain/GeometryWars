@@ -191,4 +191,9 @@ namespace Library
 		mChannels[index] = &channel;
 	}
 
+	void AudioManager::Update()
+	{
+		mFmodSystem->update();
+	}
+
 }

@@ -58,6 +58,7 @@ namespace Library
 	{
 		if (mEnabled && mCollidableEntities != nullptr)
 		{
+			// TODO: Optimize this and/or allow option for searching for closest collision
 			GameObject *closestCollidee = nullptr;
 			std::float_t closestDist = std::numeric_limits<std::float_t>::max();
 			for (Entity* entity : *mCollidableEntities)

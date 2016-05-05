@@ -44,9 +44,15 @@
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\angrybirds_small_include.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\bullet.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_arrow.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_cube.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_diamond.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_pinwheel.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_square.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_spawner.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\enemy_square.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\GameOver.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\geometrywars_test.xml" />
     <Xml Include="$(MSBuildThisFileDirectory)..\..\Content\config\InGameSector.xml" />

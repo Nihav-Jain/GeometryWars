@@ -14,7 +14,6 @@ namespace Library
 	const std::string EnemySquare::ATTRIBUTE_DODGE_CHANNEL = "dodgechannel";
 	const std::string EnemySquare::ATTRIBUTE_DODGE_ANGLE = "dodgeangle";
 	const std::string EnemySquare::ATTRIBUTE_DODGING = "isdodging";
-	bool EnemySquare::mInit = false;
 
 	EnemySquare::EnemySquare()
 		: mDodgeChannel(), mDodgeAngle(), mIsDodging(false)
@@ -37,15 +36,7 @@ namespace Library
 	}
 
 	void EnemySquare::BeginPlay(WorldState & worldState)
-	{
-		//if (!mInit)
-		//{
-		//	Bullet *bullet = GetSector()->CreateEntity(Bullet::TypeName(), "deadBullet").AssertiveAs<Bullet>();
-		//	bullet->SetPosition(glm::vec4(99999.0f, 99999.0f, 99999.0f, 99999.0f));
-		//	GetSector()->AdoptEntity(*bullet, bullet->Name());
-		//	mInit = true;
-		//}
-		
+	{		
 		CircleColliderComponent::sCollidableEntitiesByChannel.Insert(mDodgeChannel, Bullet::TypeIdClass());
 
 		Enemy::BeginPlay(worldState);
@@ -88,7 +79,8 @@ namespace Library
 				glm::vec4 newB = mPosition + perpB * MoveSpeed();
 
 				// Set direction along path that is closest
-				if (glm::distance(newA, other.Position()) > glm::distance(newB, other.Position()))
+				if (glm::distance(newA, mPosition) > glm::distance(newB, mPosition))
+				//if (glm::distance(newA, other.Position()) > glm::distance(newB, other.Position()))
 				{
 					SetDirection(perpA);
 				}
