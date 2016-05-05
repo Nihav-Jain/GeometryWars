@@ -281,3 +281,6 @@ GeometryWars/build/GeometryWars.VC.db
 !GeometryWars/external/soil/lib/x64/*
 !GeometryWars/external/soil/lib/x64/Debug/*
 !GeometryWars/external/soil/lib/x64/Release/*
+
+GeometryWars/docs/*
+
